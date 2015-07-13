@@ -84,3 +84,16 @@ define('EXIT_USER_INPUT', 7); // invalid user input
 define('EXIT_DATABASE', 8); // database error
 define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+/*
+ |--------------------------------------------------------------------------
+ | Creating Custom Specfic Constants
+ |--------------------------------------------------------------------------
+ |
+ | If set to TRUE, a backtrace will be displayed along with php errors. If
+ | error_reporting is disabled, the backtrace will not display, regardless
+ | of this setting
+ |
+ */
+  define('BASE_URL','http://localhost/workspace/sebastian-admin-panel');
+  
