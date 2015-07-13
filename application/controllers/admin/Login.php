@@ -13,10 +13,8 @@ class Login extends CI_Controller {
 	}
 
 	public function index()
-	{	
-		die('inside login');	
-		//$this->load->view('welcome_message');
-		
+	{		
+		$this->load->view('login_vw');
 	}
 }
 
