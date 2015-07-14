@@ -5,16 +5,23 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Login extends CI_Controller {
+class Login extends CI_Controller 
+{
+	public $data = array();
 	
 	public function __construct()
 	{
 		parent::__construct();
 	}
-
+	
+	/* Index method render
+	 * login page
+	 * @param void
+	 * return void
+	 */
 	public function index()
 	{		
-		$this->load->view('login_vw');
+		$this->template->load('login_tpl', 'login_vw',$this->data);
 	}
 }
 
