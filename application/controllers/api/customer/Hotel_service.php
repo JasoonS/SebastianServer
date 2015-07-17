@@ -1,22 +1,14 @@
 <?php 
 if( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class User extends CI_Controller
+class Hotel_service extends CI_Controller
 {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('api/customer/User_model');
+		$this->load->model('api/customer/Hotel_service_model');
 	}
 
-	/**
-	 * This function will take reference id and device token etc. check for reference id updates
-	 * device token and return User details as well as hotel's services list etc
-	 * return type- 
-	 * created on - 17th July 2015;
-	 * updated on - 
-	 * created by - Akshay Patil;
-	 */
 	function login()
 	{
 		$sb_guest_reference_id = 	$this->input->post('sb_guest_reference_id');
@@ -46,14 +38,6 @@ class User extends CI_Controller
 		}
 	}
 
-	/**
-	 * This function will take reference id, check for reference id 
-	 * and return User details etc
-	 * return type- 
-	 * created on - 17th July 2015;
-	 * updated on - 
-	 * created by - Akshay Patil;
-	 */
 	function get_userDetails()
 	{
 		$sb_guest_reference_id = $this->input->post('sb_guest_reference_id');
@@ -78,18 +62,5 @@ class User extends CI_Controller
 			}
 		}
 
-	}
-
-	/**
-	 * This function will take reference id and device token etc. check for reference id updates
-	 * device token and return User details as well as hotel's services list etc
-	 * return type- 
-	 * created on - 17th July 2015;
-	 * updated on - 
-	 * created by - Akshay Patil;
-	 */
-	function forgot()
-	{
-		
 	}
 }	

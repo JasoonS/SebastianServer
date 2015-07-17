@@ -1,5 +1,5 @@
 <?php if( ! defined('BASEPATH')) exit('No direct script access allowed');
-class User_model extends CI_Model
+class Hotel_service_model extends CI_Model
 {
 
 	function get_userDetails($sb_guest_reference_id)
