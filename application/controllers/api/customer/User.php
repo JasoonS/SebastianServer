@@ -10,15 +10,13 @@ class User extends CI_Controller
 	}
 
 	function login()
-	{ 
-		//$customer_firstname 	= 	$this->input->post('customer_firstname');
-		//$customer_lastname 		=  	$this->input->post('customer_lastname');
+	{
 		$sb_guest_reference_id = 	$this->input->post('sb_guest_reference_id');
 		$cdt_token				= 	$this->input->post('cdt_token');
 		$cdt_deviceType		    =   $this->input->post('cdt_deviceType');
 		$cdt_macid 				= 	$this->input->post('cdt_macid');
 				
-		if($customer_firstname == '' || $customer_lastname == '' ||   $sb_guest_reference_id == '' ||  $cdt_token == '' ||   $cdt_deviceType == ''|| $cdt_macid=='' )
+		if($sb_guest_reference_id == '' ||  $cdt_token == '' ||   $cdt_deviceType == ''|| $cdt_macid=='' )
 		{
 			response_fail("Please Insert All data correctly");
 
