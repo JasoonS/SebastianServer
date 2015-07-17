@@ -30,3 +30,9 @@ ALTER TABLE `sb_hotel_child_services` ADD `sb_child_servcie_detail` TEXT NOT NUL
 
 ALTER TABLE `sb_hotel_child_services` CHANGE `sb_child_servcie_name` `sb_child_servcie_name` VARCHAR(150) NOT NULL COMMENT 'Child Service Name';
 
+ALTER TABLE `sb_hotel_guest_bookings` CHANGE `sb_guest_reference_id` `sb_guest_reservation_code` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'Reservation code';
+
+ALTER TABLE `sb_hotel_guest_reservation_attributes` CHANGE `sb_guest_reference_id` `sb_guest_reservation_code` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'FK(sb_hotel_guest_bookings)';
+
+
+

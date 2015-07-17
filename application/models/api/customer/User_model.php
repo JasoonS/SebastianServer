@@ -2,22 +2,22 @@
 class User_model extends CI_Model
 {
 
-	function get_userDetails($sb_guest_reference_id)
+	function get_userDetails($sb_guest_reservation_code)
 	{
 		$qry = "SELECT h.sb_hotel_name, gba.sb_guest_firstName, gba.sb_guest_lastName FROM `sb_hotel_guest_bookings` as gb 
 				JOIN sb_hotels as h on gb.`sb_hotel_id` = h.sb_hotel_id 
-				JOIN sb_hotel_guest_reservation_attributes as gba on gba.`sb_guest_reference_id` = gb.`sb_guest_reference_id` 
-				where gb.`sb_guest_reference_id` = '$sb_guest_reference_id'";
+				JOIN sb_hotel_guest_reservation_attributes as gba on gba.`sb_guest_reservation_code` = gb.`sb_guest_reservation_code` 
+				where gb.`sb_guest_reservation_code` = '$sb_guest_reservation_code'";
 		$query = $this->db->query($qry);
 		return $query->result_array();
 	}
 	
-	function login($sb_guest_reference_id , $cdt_token, $cdt_deviceType ,$cdt_macid)
+	function login($sb_guest_reservation_code , $cdt_token, $cdt_deviceType ,$cdt_macid)
 	{
 		$qry = "SELECT * FROM `sb_hotel_guest_bookings` 
 				JOIN `sb_hotel_guest_reservation_attributes`
-				ON `sb_hotel_guest_reservation_attributes`.`sb_guest_reference_id` = `sb_hotel_guest_bookings`.`sb_guest_reference_id`
-				where `sb_hotel_guest_bookings`.`sb_guest_reference_id` = '$sb_guest_reference_id'";
+				ON `sb_hotel_guest_reservation_attributes`.`sb_guest_reservation_code` = `sb_hotel_guest_bookings`.`sb_guest_reservation_code`
+				where `sb_hotel_guest_bookings`.`sb_guest_reservation_code` = '$sb_guest_reservation_code'";
 		$query = $this->db->query($qry);
 		$custData = $query->result_array();
 		if(count($custData)>0)

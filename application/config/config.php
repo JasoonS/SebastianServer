@@ -17,7 +17,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = '';
+$host = "bizmoapps.com";
+$config['base_url'] = 'http://'.$host.'/sebastian/';
 
 /*
 |--------------------------------------------------------------------------
@@ -305,7 +306,7 @@ $config['cache_query_string'] = FALSE;
 | http://codeigniter.com/user_guide/libraries/encryption.html
 |
 */
-$config['encryption_key'] = '';
+$config['encryption_key'] = 'HKe9bg56Vk9RufyPe6SR87tqJgs5X73d';
 
 /*
 |--------------------------------------------------------------------------
