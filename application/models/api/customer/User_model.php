@@ -4,7 +4,7 @@ class User_model extends CI_Model
 
 	function get_userDetails($sb_guest_reservation_code)
 	{
-		$qry = "SELECT h.sb_hotel_name, gba.sb_guest_firstName, gba.sb_guest_lastName FROM `sb_hotel_guest_bookings` as gb 
+		$qry = "SELECT h.sb_hotel_name, gb.sb_guest_firstName, gb.sb_guest_lastName FROM `sb_hotel_guest_bookings` as gb 
 				JOIN sb_hotels as h on gb.`sb_hotel_id` = h.sb_hotel_id 
 				JOIN sb_hotel_guest_reservation_attributes as gba on gba.`sb_guest_reservation_code` = gb.`sb_guest_reservation_code` 
 				where gb.`sb_guest_reservation_code` = '$sb_guest_reservation_code'";

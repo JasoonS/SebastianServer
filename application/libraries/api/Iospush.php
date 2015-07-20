@@ -11,13 +11,22 @@ class Iospush {
 	*/
     public function iospush_notification($iospushdata)
     {
+		$server = "dev"
+
+		if($server == 'dev')
+			$url = "ssl://gateway.sandbox.push.apple.com:2195";
+		else
+			$url = "ssl://gateway.push.apple.com:2195";
 		//this this password set for .pem file
 		$passphrase = 'venoo';
 		// Put your alert message here:
 		$message = $iospushdata['message'];
 		$deviceToken = $iospushdata['deviceToken'];
 		////////////////////////////////////////////////////////////////////////////////
-		$pemPath = 'push/ck.pem';
+		if($iospushdata['user'] == 'customer')
+			$pemPath = 'push/customer_ck.pem';
+		else
+			$pemPath = 'push/staff_ck.pem';
 		//echo $pemPath; die;
 		$arrContextOptions=array(
 		    "ssl"=>array(
@@ -31,7 +40,7 @@ class Iospush {
 		
 		// Open a connection to the APNS server
 		$fp = stream_socket_client(
-			'ssl://gateway.sandbox.push.apple.com:2195', $err,
+			$url, $err,
 			$errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
 		
 		if (!$fp)
