@@ -69,6 +69,13 @@ class User extends CI_Controller {
 		}
 	}
 
+	/**
+	 * This function will mail user with new password
+	 * return type- 
+	 * created on - 20th July 2015;
+	 * updated on - 
+	 * created by - Akshay Patil;
+	 */
 	public function forgot_password()
 	{
 		$sb_hotel_useremail =	$this->input->post('sb_hotel_useremail');
@@ -82,31 +89,29 @@ class User extends CI_Controller {
 		{
 			$arr1['sb_hotel_userpasswd']= $newpassword;
 			$user_info1 = $this->User_model->update_user($arr1,$arr);
-			$config = Array(
-			    'protocol' => 'smtp',
-			    'smtp_host' => 'smtp.mailgun.org',
-			    'smtp_port' => 25,
-			    'smtp_user' => 'postmaster@eeshana.com',
-			    'smtp_pass' => '045b85d175e5f3e1289b84c355774ccc',
-			    'mailtype'  => 'html', 
-			    'charset'   => 'iso-8859-1'
-			);
-			$this->load->library('email', $config);
-
-			$this->email->from('no-reply@sebastian.com', 'Sebastian');
-	        $this->email->to($sb_hotel_useremail); 
-	        $this->email->subject('Sebastian App');
-
-	        $msg = "<div style='font-family: Arial, Helvetica, sans-serif;'>
+	        $body = "<div style='font-family: Arial, Helvetica, sans-serif;'>
 	        		Hi there,<br><br>
 	        		We got forgot password request from <b>$sb_hotel_useremail</b>. Please note your updated password for 'Sebastian App'.<br>
 	        		Password :- '<b>$newpassword</b>' (please skip quotes).<br><br>
 	        		Sebastian Team</div>
 	        		";
-	        
-	        $this->email->message($msg);  
-	        $this->email->send();
-	        //echo $this->email->print_debugger();
+	        include '../../library.php'; // include the library file
+        	include "../../classes/class.phpmailer.php"; // include the class name
+        	$mail	= new PHPMailer; // call the class 
+			$mail->IsSMTP(); 
+			$mail->Host = SMTP_HOST; //Hostname of the mail server
+			$mail->Port = SMTP_PORT; //Port of the SMTP like to be 25, 80, 465 or 587
+			$mail->SMTPAuth = true; //Whether to use SMTP authentication
+			$mail->Username = SMTP_UNAME; //Username for SMTP authentication any valid email created in your domain
+			$mail->Password = SMTP_PWORD; //Password for SMTP authentication
+			$mail->AddReplyTo($sb_hotel_useremail); //reply-to address
+			$mail->SetFrom("no-reply@sebastian.com", "Sebastian"); //From address of the mail
+			// put your while loop here like below,
+			$mail->Subject = 'Sebastian App'; //Subject od your mail
+			$mail->AddAddress($email, ""); //To address who will receive this email
+			$mail->MsgHTML( $body); //Put your body of the message you can place html code here
+			//$mail->AddAttachment("images/asif18-logo.png"); //Attach a file here if any or comment this line, 
+			$send = $mail->Send(); //Send the mails
 	        response_ok();
 		}
 		else
@@ -115,6 +120,13 @@ class User extends CI_Controller {
 		}
 	}
 
+	/**
+	 * This function will change password
+	 * return type- 
+	 * created on - 20th July 2015;
+	 * updated on - 
+	 * created by - Akshay Patil;
+	 */
 	public function change_password()
 	{
 		$sb_hotel_useremail =	$this->input->post('sb_hotel_useremail');
