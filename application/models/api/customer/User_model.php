@@ -20,6 +20,10 @@ class User_model extends CI_Model
 				where `sb_hotel_guest_bookings`.`sb_guest_reservation_code` = '$sb_guest_reservation_code'";
 		$query = $this->db->query($qry);
 		$custData = $query->result_array();
+		$roomNumbers = array();
+		for ($i=0; $i < count($custData); $i++) { 
+			array_push($roomNumbers,$custData[$i]['sb_guest_allocated_room_no']);
+		}
 		if(count($custData)>0)
 		{
 			$sb_hotel_id =$custData[0]['sb_hotel_id'];
@@ -38,6 +42,7 @@ class User_model extends CI_Model
 			}
 			$this->guest_deviceToken($cdt_token, $cdt_deviceType ,$cdt_macid, $custData[0]['sb_hotel_guest_booking_id']);
 			unset($custData[0]['sb_guest_terms']);
+			$custData[0]['sb_guest_allocated_room_no'] = $roomNumbers;
 			$result = array(
 				"userInfo" => $custData[0],
 				"services" => $service

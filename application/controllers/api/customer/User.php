@@ -10,7 +10,7 @@ class User extends CI_Controller
 	}
 
 	/**
-	 * This function will take reference id and device token etc. check for reference id updates
+	 * This function will take reservation id and device token etc. check for reservation id updates
 	 * device token and return User details as well as hotel's services list etc
 	 * return type- 
 	 * created on - 17th July 2015;
@@ -47,7 +47,7 @@ class User extends CI_Controller
 	}
 
 	/**
-	 * This function will take reference id, check for reference id 
+	 * This function will take reservation id, check for reservation id 
 	 * and return User details etc
 	 * return type- 
 	 * created on - 17th July 2015;
@@ -81,7 +81,7 @@ class User extends CI_Controller
 	}
 
 	/**
-	 * This function will take reference id and device token etc. check for reference id updates
+	 * This function will take reservation id and device token etc. check for reservation id updates
 	 * device token and return User details as well as hotel's services list etc
 	 * return type- 
 	 * created on - 17th July 2015;
