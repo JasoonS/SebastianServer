@@ -7,7 +7,7 @@
      * created by - Akshay
      */
 
-header('Content-type:applicatin/json'); 
+//header('Content-type:applicatin/json'); 
 function response_ok($data = array()) {
     response(true, $data);
 }
@@ -35,5 +35,6 @@ function response($status, $data = array(), $error = '') {
         }
     }
 
+    header('Content-type:applicatin/json'); 
     exit(json_encode($response));
 }
