@@ -95,6 +95,7 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  | of this setting
  |
  */
-  define('BASE_URL','http://localhost/workspace/sebastian-admin-panel/');
+  define('BASE_URL','http://localhost/sebastian-admin-panel/');
   define('THEME_ASSETS',BASE_URL.'assets/');
+ 
   

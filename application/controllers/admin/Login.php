@@ -12,11 +12,14 @@ class Login extends CI_Controller
 	public	$login_flag				= FALSE;
 	private $logged_in_user_meta 	= array();
 	private $user_name 				= '';
+	private $start_chk_admin 		= FALSE;
+	private $start_chk_user			= FALSE;
 	
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model('User_model');
+		$this->load->library('session');
 	}
 	
 	/* Method render login page
@@ -55,18 +58,87 @@ class Login extends CI_Controller
 			// if admin switch to admin dashboard
 			//2. Else it is hotel user and check for its hotel credentials
 			
-			//$query = $this->db->get_where('mytable', array('id' => $id), $limit, $offset);
-			$this->password_salt	= $this->User_model->authenticate_user('admin_password_salt','sb_admin',array('admin_uname'=>$this->input->post('username')));
 			
-			if($this->password_salt == TRUE)
+
+			$password_salt = $this->get_password_salt();
+
+			if($password_salt['hashed_salt'] == TRUE)
 			{
-				die('if');
-			}else 
+				$this->authenticate_user_login($password_salt);
+			} else
 			{
-				$this->password_salt	= $this->User_model->authenticate_user('admin_password_salt','sb_admin',array('admin_uname'=>$this->input->post('username')));
+				redirect();
 			}
+		}		
+	}
+
+	/* Method return password salt
+	 * after verifying user name in both 
+	 * tables
+	 * @param void
+	 * return array
+	 */	
+	public function get_password_salt()
+	{
+		$admin_password_salt 		= $this->User_model->authenticate_user_salt('admin_password_salt','sb_admin',array('admin_uname'=>$this->input->post('username')));
+
+		if($admin_password_salt === FALSE)
+		{
+			$hoteleir_password_salt = $this->User_model->authenticate_user_salt('sb_hotel_userpasswd','sb_hotel_users',array('sb_hotel_username'=>$this->input->post('username')));
+
+			return array('start_chk_hoteleir'=>TRUE,'hashed_salt'=>$hoteleir_password_salt);
 		}
-			
-	}	
+
+		return array('start_chk_admin'=>TRUE,'hashed_salt'=>$admin_password_salt);
+	}
+
+	/* Method authenticate user 
+	 * after verifying user name and
+	 * provided password
+	 * @param array
+	 * return array
+	 */
+	private function authenticate_user_login($password_salt_n_type = null)
+	{
+
+		if($password_salt_n_type['start_chk_admin'] === TRUE)
+		{
+			$user_type				  = 'A';
+			$logged_in_user 		  =  $this->User_model->authenticated_admin_records($this->input->post('username'),$password_salt_n_type['hashed_salt']->admin_password_salt);
+		}else
+		{
+			$user_type 				  = 'H';
+			$logged_in_user 		  = $this->User_model->authenticated_hoteleir_records($this->input->post('username'),$password_salt_n_type['hashed_salt']->admin_password_salt);
+		}
+
+		$this->register_user_session($user_type,$logged_in_user);
+	}
+
+	/* Method start login session by assigning
+	 * session variables 
+	 * @param string,array
+	 * return void
+	 */
+	private function register_user_session($user_type,$logged_in_user)
+	{
+
+		//Creating custom array to store in sessions
+		if($user_type === 'A')
+		{
+			$user_session_records = array('user_name' 			=> $logged_in_user->admin_uname,
+										  'user_email' 			=>	$logged_in_user->admin_email,
+										  'user_type'	 		=>  $logged_in_user->admin_type,
+										  'user_last_logged_in'	=>  $logged_in_user->admin_last_logged_in,
+										  'logged_in_type'		=> $user_type );
+		}else
+		{
+			$user_session_records = array('user_name'    		=> $logged_in_user->admin_uname,
+										  'user_email' 			=>	$logged_in_user->admin_email,
+										  'user_type'	 		=>  $logged_in_user->admin_type,
+										  'user_last_logged_in'	=>  $logged_in_user->admin_last_logged_in);
+		}
+
+		$this->session->set_userdata($user_session_records);
+	}
 }
 
