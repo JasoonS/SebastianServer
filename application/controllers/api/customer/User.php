@@ -97,7 +97,7 @@ class User extends CI_Controller
 
 		if ($sb_guest_firstName == '' || $sb_guest_lastName == '' || $sb_guest_email == '' || $sb_hotel_id == '' || $sb_guest_contact_no == '' ) 
 		{
-				response_fail("Please insert all the fields");
+			response_fail("Please insert all the fields");
 		}
 		else
 		{

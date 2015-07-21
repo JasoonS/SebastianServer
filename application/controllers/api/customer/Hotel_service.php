@@ -33,7 +33,7 @@ class Hotel_service extends CI_Controller
 			{
 				$result = array(
 					'result'=> $data
-					);
+				);
 				response_ok($result);
 			}
 			else
