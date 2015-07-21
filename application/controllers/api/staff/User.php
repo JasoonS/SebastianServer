@@ -129,17 +129,17 @@ class User extends CI_Controller {
 	 */
 	public function change_password()
 	{
-		$sb_hotel_useremail =	$this->input->post('sb_hotel_useremail');
+		$sb_hotel_user_id =	$this->input->post('sb_hotel_user_id');
 		$sb_hotel_userpasswd =	$this->input->post('old_password');
 		$newpassword =	$this->input->post('newpassword');
-		if($sb_hotel_useremail == '' || $sb_hotel_userpasswd == '' || $newpassword == '')
+		if($sb_hotel_user_id == '' || $sb_hotel_userpasswd == '' || $newpassword == '')
 		{
 			response_fail("Input may be empty");
 		}
 		else
 		{
 			$arr = array();
-			$arr['sb_hotel_useremail']= $sb_hotel_useremail;
+			$arr['sb_hotel_user_id']= $sb_hotel_user_id;
 			$arr['sb_hotel_userpasswd']= $sb_hotel_userpasswd;
 			$user_info = $this->User_model->check_user($arr);
 			if($user_info ==1)
