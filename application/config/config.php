@@ -17,8 +17,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$host = "bizmoapps.com";
-$config['base_url'] = 'http://'.$host.'/sebastian/';
+//$host = "bizmoapps.com";
+if($_SERVER['HTTP_HOST'] === 'bizmoapps.com')
+{
+	$config['base_url'] = 'http://'.$host.'/sebastian/';
+}
 
 /*
 |--------------------------------------------------------------------------
