@@ -11,10 +11,12 @@ class Login extends CI_Controller
 	public	$validation_rules 		= array();
 	public	$login_flag				= FALSE;
 	private $logged_in_user_meta 	= array();
+	private $user_name 				= '';
 	
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('User_model');
 	}
 	
 	/* Method render login page
@@ -53,7 +55,16 @@ class Login extends CI_Controller
 			// if admin switch to admin dashboard
 			//2. Else it is hotel user and check for its hotel credentials
 			
-			die('process forms');
+			//$query = $this->db->get_where('mytable', array('id' => $id), $limit, $offset);
+			$this->password_salt	= $this->User_model->authenticate_user('admin_password_salt','sb_admin',array('admin_uname'=>$this->input->post('username')));
+			
+			if($this->password_salt == TRUE)
+			{
+				die('if');
+			}else 
+			{
+				$this->password_salt	= $this->User_model->authenticate_user('admin_password_salt','sb_admin',array('admin_uname'=>$this->input->post('username')));
+			}
 		}
 			
 	}	
