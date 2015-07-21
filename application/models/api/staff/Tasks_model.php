@@ -41,5 +41,22 @@ class Tasks_model extends CI_Model
 
 		return $data;
 	}
+
+	public function completed_tasks($sb_staff_cat_id ,$weekdates, $sb_hotel_id)
+	{
+		$qry = "SELECT gs.sb_guest_services_id, gs.guest_room_number, gb.sb_guest_firstName, gb.sb_guest_lastName,
+				gs.service_due_date,gs.service_due_time,gs.service_done_date,gs.service_done_time,
+				gs.service_type, gs.sb_hotel_user_id, hu.sb_hotel_username 
+				FROM sb_guest_services as gs 
+				JOIN sb_hotel_guest_bookings as gb 
+				ON gs.sb_hotel_guest_booking_id = gb.sb_hotel_guest_booking_id
+				JOIN sb_hotel_users as hu
+				ON gs.sb_hotel_user_id = hu.sb_hotel_user_id
+				WHERE gs.service_status = 'completed'
+				AND gs.sb_hotel_id = '$sb_hotel_id' AND gs.sb_staff_cat_id ='$sb_staff_cat_id'
+				AND  gs.service_due_date BETWEEN '$weekdates[0]' AND '$weekdates[1]';";
+		$query = $this->db->query($qry);
+		return $query->result_array();
+	}
 }
 ?>	

@@ -9,58 +9,37 @@ class Hotel_service extends CI_Controller
 		$this->load->model('api/customer/Hotel_service_model');
 	}
 
-	function login()
+	/**
+	 * This function will fetch the submenus after the user clicks on the specific menu button
+	 * return type- 
+	 * created on - 20th July 2015;
+	 * updated on - 
+	 * created by - Samrat Aher;
+	 */
+
+	function get_sub_menu()
 	{
-		$sb_guest_reservation_code = 	$this->input->post('sb_guest_reservation_code');
-		$cdt_token				= 	$this->input->post('cdt_token');
-		$cdt_deviceType		    =   $this->input->post('cdt_deviceType');
-		$cdt_macid 				= 	$this->input->post('cdt_macid');
-				
-		if($sb_guest_reservation_code == '' ||  $cdt_token == '' ||   $cdt_deviceType == ''|| $cdt_macid=='' )
-		{
-			response_fail("Please Insert All data correctly");
-
-		}
-		else
-		{
-			$user_info = $this->User_model->login($sb_guest_reservation_code , $cdt_token, $cdt_deviceType ,$cdt_macid);
-			if($user_info == 0)
-			{
-				response_fail("User Not Found");
-			}
-			else
-			{
-				// $resp = array(
-	   			// 'result' =>$user_info
-		  		//);
-	        	response_ok($user_info);
-			}
-		}
-	}
-
-	function get_userDetails()
-	{
-		$sb_guest_reservation_code = $this->input->post('sb_guest_reservation_code');
-
-		if($sb_guest_reservation_code == '')
+		$sb_hotel_id = $this->input->post('sb_hotel_id');
+		$sb_parent_service_id = $this->input->post('sb_parent_service_id');
+		if ($sb_hotel_id == ''  || $sb_parent_service_id == '') 
 		{
 			response_fail("Please Insert Reservation Id");
 		}
+
 		else
 		{
-			$userDetails = $this->User_model->get_userDetails($sb_guest_reservation_code);
-			if(count($userDetails) == 0)
+			$data = $this->Hotel_service_model->get_sub_menu($sb_hotel_id , $sb_parent_service_id);
+			if (!empty($data))
 			{
-				response_fail("Please Check Reservation Id");
+				$result = array(
+					'result'=> $data
+				);
+				response_ok($result);
 			}
 			else
 			{
-				$resp = array(
-	    	        'result' =>$userDetails[0]
-		        );
-				response_ok($resp);
+				response_fail("No such service exists");
 			}
 		}
-
 	}
 }	

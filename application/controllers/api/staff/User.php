@@ -95,8 +95,8 @@ class User extends CI_Controller {
 	        		Password :- '<b>$newpassword</b>' (please skip quotes).<br><br>
 	        		Sebastian Team</div>
 	        		";
-	        include '../../library.php'; // include the library file
-        	include "../../classes/class.phpmailer.php"; // include the class name
+	        include 'email_library.php'; // include the library file
+        	include "classes/class.phpmailer.php"; // include the class name
         	$mail	= new PHPMailer; // call the class 
 			$mail->IsSMTP(); 
 			$mail->Host = SMTP_HOST; //Hostname of the mail server
@@ -108,7 +108,7 @@ class User extends CI_Controller {
 			$mail->SetFrom("no-reply@sebastian.com", "Sebastian"); //From address of the mail
 			// put your while loop here like below,
 			$mail->Subject = 'Sebastian App'; //Subject od your mail
-			$mail->AddAddress($email, ""); //To address who will receive this email
+			$mail->AddAddress($sb_hotel_useremail, ""); //To address who will receive this email
 			$mail->MsgHTML( $body); //Put your body of the message you can place html code here
 			//$mail->AddAttachment("images/asif18-logo.png"); //Attach a file here if any or comment this line, 
 			$send = $mail->Send(); //Send the mails
@@ -129,17 +129,17 @@ class User extends CI_Controller {
 	 */
 	public function change_password()
 	{
-		$sb_hotel_useremail =	$this->input->post('sb_hotel_useremail');
+		$sb_hotel_user_id =	$this->input->post('sb_hotel_user_id');
 		$sb_hotel_userpasswd =	$this->input->post('old_password');
 		$newpassword =	$this->input->post('newpassword');
-		if($sb_hotel_useremail == '' || $sb_hotel_userpasswd == '' || $newpassword == '')
+		if($sb_hotel_user_id == '' || $sb_hotel_userpasswd == '' || $newpassword == '')
 		{
 			response_fail("Input may be empty");
 		}
 		else
 		{
 			$arr = array();
-			$arr['sb_hotel_useremail']= $sb_hotel_useremail;
+			$arr['sb_hotel_user_id']= $sb_hotel_user_id;
 			$arr['sb_hotel_userpasswd']= $sb_hotel_userpasswd;
 			$user_info = $this->User_model->check_user($arr);
 			if($user_info ==1)

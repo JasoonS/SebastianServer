@@ -35,5 +35,6 @@ function response($status, $data = array(), $error = '') {
         }
     }
 
+    header('Content-type:applicatin/json'); 
     exit(json_encode($response));
 }
