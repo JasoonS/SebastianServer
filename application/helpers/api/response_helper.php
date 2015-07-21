@@ -7,7 +7,7 @@
      * created by - Akshay
      */
 
-header('Content-type:applicatin/json'); 
+//header('Content-type:applicatin/json'); 
 function response_ok($data = array()) {
     response(true, $data);
 }
