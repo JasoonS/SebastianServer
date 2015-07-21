@@ -92,16 +92,16 @@ class User extends CI_Controller
 		$sb_guest_firstName = $this->input->post('sb_guest_firstName');
 		$sb_guest_lastName = $this->input->post('sb_guest_lastName');
 		$sb_guest_email = $this->input->post('sb_guest_email');
-		$sb_hotel_id = $this->input->post('sb_hotel_id');
+		$sb_hotel_name = $this->input->post('sb_hotel_name');
 		$sb_guest_contact_no = $this->input->post('sb_guest_contact_no');
 
-		if ($sb_guest_firstName == '' || $sb_guest_lastName == '' || $sb_guest_email == '' || $sb_hotel_id == '' || $sb_guest_contact_no == '' ) 
+		if ($sb_guest_firstName == '' || $sb_guest_lastName == '' || $sb_guest_email == '' || $sb_hotel_name == '' || $sb_guest_contact_no == '' ) 
 		{
 			response_fail("Please insert all the fields");
 		}
 		else
 		{
-			$resp = $this->User_model->get_reservation($sb_guest_firstName, $sb_guest_lastName , $sb_guest_email, $sb_hotel_id , $sb_guest_contact_no);
+			$resp = $this->User_model->get_reservation($sb_guest_firstName, $sb_guest_lastName , $sb_guest_email, $sb_hotel_name , $sb_guest_contact_no);
 			
 			if (empty($resp))
 			{
@@ -112,7 +112,7 @@ class User extends CI_Controller
 				$reservation_code = $resp[0]['sb_guest_reservation_code'];
 		        $body = "<div style='font-family: Arial, Helvetica, sans-serif;'>
 				        		Hi there,<br><br>
-				        		We got forgot reservation request from <b></b>. Please note your updated reservation code for 'Sebastian App'.<br>
+				        		We got forgot reservation request from <b>$sb_guest_email</b>. Please note your reservation code for 'Sebastian App'.<br>
 				        		Reservation code:- '<b>$reservation_code</b>' <br><br>
 				        		Sebastian Team</div>
 				        		";
@@ -125,7 +125,7 @@ class User extends CI_Controller
 				$mail->SMTPAuth = true; //Whether to use SMTP authentication
 				$mail->Username = SMTP_UNAME; //Username for SMTP authentication any valid email created in your domain
 				$mail->Password = SMTP_PWORD; //Password for SMTP authentication
-				$mail->AddReplyTo($sb_hotel_useremail); //reply-to address
+				$mail->AddReplyTo($sb_guest_email); //reply-to address
 				$mail->SetFrom("no-reply@sebastian.com", "Sebastian"); //From address of the mail
 				// put your while loop here like below,
 				$mail->Subject = 'Sebastian App'; //Subject od your mail

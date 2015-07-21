@@ -17,7 +17,7 @@ class Hotel_service extends CI_Controller
 	 * created by - Samrat Aher;
 	 */
 
-	function get_sub_menu()
+	function get_submenu()
 	{
 		$sb_hotel_id = $this->input->post('sb_hotel_id');
 		$sb_parent_service_id = $this->input->post('sb_parent_service_id');
@@ -25,10 +25,9 @@ class Hotel_service extends CI_Controller
 		{
 			response_fail("Please Insert Reservation Id");
 		}
-
 		else
 		{
-			$data = $this->Hotel_service_model->get_sub_menu($sb_hotel_id , $sb_parent_service_id);
+			$data = $this->Hotel_service_model->get_submenu($sb_hotel_id , $sb_parent_service_id);
 			if (!empty($data))
 			{
 				$result = array(
