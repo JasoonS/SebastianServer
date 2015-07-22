@@ -57,8 +57,7 @@ class Login extends CI_Controller
 			//1. check if he is admin by checking user name and password
 			// if admin switch to admin dashboard
 			//2. Else it is hotel user and check for its hotel credentials
-			
-			
+
 
 			$password_salt = $this->get_password_salt();
 

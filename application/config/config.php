@@ -17,11 +17,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-//$host = "bizmoapps.com";
-if($_SERVER['HTTP_HOST'] === 'bizmoapps.com')
-{
-	$config['base_url'] = 'http://'.$host.'/sebastian/';
-}
+
+$config['base_url'] = 'http://localhost/sebastian-admin-panel/';
+
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +32,7 @@ if($_SERVER['HTTP_HOST'] === 'bizmoapps.com')
 |
 */
 $config['index_page'] = '';
+
 
 /*
 |--------------------------------------------------------------------------
