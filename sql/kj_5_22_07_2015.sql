@@ -1,0 +1,1 @@
+ALTER TABLE `sb_hotel_users` DROP `sb_staff_cat_id`;
