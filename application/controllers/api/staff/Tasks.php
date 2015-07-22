@@ -45,15 +45,15 @@ class Tasks extends CI_Controller {
 	 */
 	public function get_weekly_tasks()
 	{
-		$sb_staff_cat_id 	= 	$this->input->post('sb_staff_cat_id');
+		$sb_parent_service_id 	= 	$this->input->post('sb_parent_service_id');
 		$service_due_date	= 	$this->input->post('date');
 		$sb_hotel_id 		= 	$this->input->post('sb_hotel_id');
 
 		$weekdates = $this->x_week_range($service_due_date);
 		
-		if($sb_staff_cat_id != '' || $service_due_date !='' || $sb_hotel_id != '')
+		if($sb_parent_service_id != '' || $service_due_date !='' || $sb_hotel_id != '')
 		{
-			$tasks = $this->Tasks_model->weekly_tasks($sb_staff_cat_id ,$weekdates, $sb_hotel_id);
+			$tasks = $this->Tasks_model->weekly_tasks($sb_parent_service_id ,$weekdates, $sb_hotel_id);
 
 			$resp = array(
 		   			'result' =>$tasks
@@ -82,15 +82,15 @@ class Tasks extends CI_Controller {
 	 */
 	public function get_completed_tasks()
 	{
-		$sb_staff_cat_id 	= 	$this->input->post('sb_staff_cat_id');
+		$sb_parent_service_id 	= 	$this->input->post('sb_parent_service_id');
 		$service_due_date	= 	$this->input->post('date');
 		$sb_hotel_id 		= 	$this->input->post('sb_hotel_id');
 
 		$weekdates = $this->x_week_range($service_due_date);
 		
-		if($sb_staff_cat_id != '' || $service_due_date !='' || $sb_hotel_id != '')
+		if($sb_parent_service_id != '' || $service_due_date !='' || $sb_hotel_id != '')
 		{
-			$tasks = $this->Tasks_model->completed_tasks($sb_staff_cat_id ,$weekdates, $sb_hotel_id);
+			$tasks = $this->Tasks_model->completed_tasks($sb_parent_service_id ,$weekdates, $sb_hotel_id);
 
 			$resp = array(
 		   			'result' =>$tasks

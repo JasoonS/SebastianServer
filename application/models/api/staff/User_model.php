@@ -3,10 +3,12 @@ class User_model extends CI_Model
 {
 	public function login($sb_hotel_useremail,$sb_hotel_userpasswd, $sdt_token, $sdt_deviceType ,$sdt_macid)
 	{
-		$qry = "SELECT hu.sb_hotel_user_id,hu.sb_hotel_id,hu.sb_hotel_username,hu.sb_staff_cat_id, hu.sb_hotel_user_pic,
-				 hu.sb_hotel_user_shift_from,hu.sb_hotel_user_shift_to,s.sb_staff_cat_name FROM `sb_hotel_users` as hu
-				JOIN `sb_hotel_staff_cat` as s
-				ON s.`sb_staff_cat_id` = hu.`sb_staff_cat_id`
+		$qry = "SELECT hu.sb_hotel_user_id,hu.sb_hotel_id,hu.sb_hotel_username,usam.sb_parent_service_id, hu.sb_hotel_user_pic,
+				 hu.sb_hotel_user_shift_from,hu.sb_hotel_user_shift_to,d.sb_staff_designation_name FROM `sb_hotel_users` as hu
+				JOIN `sb_hotel_staff_designation` as d
+				ON d.`sb_staff_designation_id` = hu.`sb_staff_designation_id`
+				JOIN sb_hotel_user_service_access_map as usam
+				ON hu.sb_hotel_user_id = usam.sb_hotel_user_id
 				WHERE hu.sb_hotel_useremail = '$sb_hotel_useremail' AND hu.sb_hotel_userpasswd = '$sb_hotel_userpasswd'
 				AND hu.sb_hotel_user_status = '1' AND hu.sb_hotel_user_type != 'a'
 				";
