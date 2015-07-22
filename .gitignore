@@ -41,5 +41,7 @@ local.properties
 # programmers notepad
 *.pnproj
 
+#ignoring some specific files
+application/config/database.php
 
 
