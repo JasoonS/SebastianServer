@@ -1,0 +1,1 @@
+ALTER TABLE `sb_hotels` CHANGE `sb_hotel_category` `sb_hotel_category` ENUM('Hotel','Resort','','') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'Hotel Category';
