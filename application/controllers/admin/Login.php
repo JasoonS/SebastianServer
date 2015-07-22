@@ -52,7 +52,7 @@ class Login extends CI_Controller
 			//1. check if he is admin by checking user name and password
 			// if admin switch to admin dashboard
 			//2. Else it is hotel user and check for its hotel credentials
-			
+			//3. If it is not a hotel User then throw error that it is an Invalid User.	
 			die('process forms');
 		}
 			
