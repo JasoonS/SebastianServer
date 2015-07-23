@@ -51,6 +51,41 @@ Class Utility_model extends CI_Model
 			return FALSE;
 	} 
 	
-
+	/* 
+	Returns List Of Hotels
+	 */
+	function get_all_hotels()
+	{
+		$this->db->select('sb_hotel_id ,sb_hotel_name');
+		$query = $this->db->get('sb_hotels');
+		if($query->num_rows() > 0)
+			return $row = $query->result_array();
+		else
+			return FALSE;
+	} 
+	
+	/* 
+	Returns List Of all Designations of Hotel Users
+	 */
+	function get_all_designations()
+	{
+		$this->db->select('sb_staff_designation_id as designation_id,sb_staff_designation_name as designation_name');
+        $query = $this->db->get('sb_hotel_staff_designation');
+		if($query->num_rows() > 0)
+			return $row = $query->result_array();
+		else
+			return FALSE;
+	}
+	
+	/*
+	Returns List Of Enum values Passed
+	*/
+    function get_enum_values( $table, $field )
+	{
+		$type = $this->db->query( "SHOW COLUMNS FROM {$table} WHERE Field = '{$field}'" )->row( 0 )->Type;
+		preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
+		$enum = explode("','", $matches[1]);
+		return $enum;
+	} 
 	
 }

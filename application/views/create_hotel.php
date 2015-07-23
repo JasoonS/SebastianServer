@@ -10,7 +10,7 @@
     <div class="alert alert-danger"> <?= $this->session->flashdata('category_error') ?> </div>
 	<?php } ?>
 	
-	<form class="form-horizontal" action="<?php echo base_url().$action?>" method="post" >
+	<form class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data">
 		<fieldset>
 		<!-- Form Name -->
 		<legend>Create Hotel</legend>
@@ -37,7 +37,7 @@
 		  <label class="control-label" for="sb_hotel_star">Hotel Star</label>
 		  <div class="controls">
 			 <!-- <input id="sb_hotel_star" name="sb-hotel-star" data-min="1" data-max="7" data-step="1">-->
-			 <input id="sb_hotel_star" name="sb_hotel_star" value="0" type="number" class="rating" data-stars=7 min=0 max=7 step=1 data-size="xs" >
+			 <input id="sb_hotel_star" name="sb_hotel_star" value="0" type="number" class="rating" data-stars=7 min=0 max=7 step=1 data-size="xs" data-glyphicon="false">
 		  </div>
 		</div>
 
@@ -115,7 +115,6 @@ $(document).ready(function () {
 		}
    });
     loadStates('sb_hotel_country','sb_hotel_state','1','sb_hotel_city'); 
-	//loadCities('sb_hotel_state','sb_hotel_city');
 });
 
 </script>
