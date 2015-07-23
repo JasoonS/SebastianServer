@@ -110,11 +110,12 @@ class User extends CI_Controller
 			else
 			{
 				$reservation_code = $resp[0]['sb_guest_reservation_code'];
-		        $body = "<div style='font-family: Arial, Helvetica, sans-serif;'>
+		        $body = "<div  style='padding-left:20px;font: \"MisoRegular\";letter-spacing: 2px;font-size:12px;'>
 				        		Hi there,<br><br>
 				        		We got forgot reservation request from <b>$sb_guest_email</b>. Please note your reservation code for 'Sebastian App'.<br>
 				        		Reservation code:- '<b>$reservation_code</b>' <br><br>
-				        		Sebastian Team</div>
+				        		Sebastian Team
+				        </div>
 				        		";
 				include 'email_library.php'; // include the library file
 			    include "classes/class.phpmailer.php"; // include the class name
