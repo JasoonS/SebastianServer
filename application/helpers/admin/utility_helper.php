@@ -62,3 +62,40 @@ function getStateCities($state_id,$format='array')
 		return json_encode($citylist);
 	}
 }
+
+/* Function check for password hash
+ * @param string
+ * return TRUE on success FALSE if fails
+ */
+function verifyPasswordHash($password,$hash_and_salt)
+{
+	
+	/*$options = [
+		'cost' => 11,
+		'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+	];
+
+	$hash = password_hash($password, PASSWORD_BCRYPT,$options);*/
+
+	if (password_verify($password, $hash_and_salt)) 
+		return TRUE;
+	else
+
+		return FALSE;
+}
+
+/* Function create hash and salt password
+ * @param string
+ * return string 
+ */
+function createHashAndSalt($user_provided_password)
+{
+	$options = [
+		'cost' => 11,
+		'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+	];
+
+	$hash = password_hash($$user_provided_password, PASSWORD_BCRYPT,$options);
+
+	return $hash;
+}
