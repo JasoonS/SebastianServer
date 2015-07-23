@@ -43,39 +43,6 @@ class Hotel_service extends CI_Controller
 	}
 
 	/**
-	 * This function will fetch the submenus after the user clicks on the specific menu button
-	 * return type- 
-	 * created on - 20th July 2015;
-	 * updated on - 
-	 * created by - Samrat Aher;
-	 */
-
-	function get_submenu()
-	{
-		$sb_hotel_id = $this->input->post('sb_hotel_id');
-		$sb_parent_service_id = $this->input->post('sb_parent_service_id');
-		if ($sb_hotel_id == ''  || $sb_parent_service_id == '') 
-		{
-			response_fail("Please Insert Reservation Id");
-		}
-		else
-		{
-			$data = $this->Hotel_service_model->get_submenu($sb_hotel_id , $sb_parent_service_id);
-			if (!empty($data))
-			{
-				$result = array(
-					'result'=> $data
-				);
-				response_ok($result);
-			}
-			else
-			{
-				response_fail("No such service exists");
-			}
-		}
-	}
-
-	/**
 	 * This function will allow all types of service requests
 	 * return type- 
 	 * created on - 22nd July 2015;
@@ -85,34 +52,90 @@ class Hotel_service extends CI_Controller
 
 	function place_service()
 	{
-		$sb_hotel_user_id = $this->input->post('sb_hotel_user_id');
-		$sb_hotel_id = $this->input->post('sb_hotel_id');
-		$sb_hotel_guest_booking_id = $this->input->post('sb_hotel_guest_booking_id');
-		$guest_room_number = $this->input->post('guest_room_number');
-
-		$service_due_date = $this->input->post('service_due_date');
-		$service_due_time = $this->input->post('service_due_time');
-		
-		$sb_child_service_id = $this->input->post('sb_child_service_id');
-		$sb_parent_service_id = $this->input->post('sb_parent_service_id');
-		if ($sb_hotel_id == ''  || $sb_parent_service_id == '') 
+		$inputArray = $this->input->post();
+		$rooms = $this->Hotel_service_model->get_guest_rooms($inputArray['sb_hotel_guest_booking_id']);
+		if (!in_array($inputArray['guest_room_number'], $rooms))
 		{
-			response_fail("Please Insert Reservation Id");
+			$result = array(
+				'result' => $rooms
+				);
+			response_fail("Wrong Room Number",$result);
+		}
+
+		$hrs = array();
+		$hrscnt = 0;
+		$hss = array();
+		$hsscnt = 0;
+		if((array_key_exists("sb_parent_service_id",$inputArray)) AND (array_key_exists("sb_child_service_id",$inputArray)) AND (array_key_exists("sb_hotel_id",$inputArray)))
+		{
+			$hrs['sb_hotel_service_map_id'] = $this->Hotel_service_model->get_service_map($inputArray['sb_parent_service_id'], $inputArray['sb_child_service_id'], $inputArray['sb_hotel_id']);
+			unset($inputArray['sb_child_service_id']);
+			$hrscnt++;
+		}
+		if(array_key_exists("sb_hotel_id",$inputArray))
+		{
+			$hrs['sb_hotel_id'] = $inputArray['sb_hotel_id'];
+			unset($inputArray['sb_hotel_id']);
+			$hrscnt++;
+		}
+		if(array_key_exists("sb_parent_service_id",$inputArray))
+		{
+			$hrs['sb_parent_service_id'] = $inputArray['sb_parent_service_id'];
+			unset($inputArray['sb_parent_service_id']);
+			$hrscnt++;
+		}
+		if(array_key_exists("sb_hotel_guest_booking_id",$inputArray))
+		{
+			$hrs['sb_hotel_guest_booking_id'] = $inputArray['sb_hotel_guest_booking_id'];
+			unset($inputArray['sb_hotel_guest_booking_id']);
+			$hrscnt++;
+		}
+		if(array_key_exists("guest_room_number",$inputArray))
+		{
+			$hrs['sb_guest_allocated_room_no'] = $inputArray['guest_room_number'];
+			unset($inputArray['guest_room_number']);
+			$hrscnt++;
+		}
+		
+		if(array_key_exists("service_due_date",$inputArray))
+		{
+			$hss['sb_hotel_ser_start_date'] = $inputArray['service_due_date'];
+			unset($inputArray['service_due_date']);
+			$hsscnt++;
 		}
 		else
 		{
-			$data = $this->Hotel_service_model->get_submenu($sb_hotel_id , $sb_parent_service_id);
-			if (!empty($data))
-			{
-				$result = array(
-					'result'=> $data
-				);
-				response_ok($result);
-			}
-			else
-			{
-				response_fail("No such service exists");
-			}
+			$hss['sb_hotel_ser_start_date'] = date("Y-m-d");
+			$hsscnt++;
+		}
+		if(array_key_exists("service_due_time",$inputArray))
+		{
+			$hss['sb_hotel_ser_start_time'] = $inputArray['service_due_time'];
+			unset($inputArray['service_due_time']);
+			$hsscnt++;
+		}
+		else
+		{
+			$hss['sb_hotel_ser_start_time'] = date("h:i:s");
+			$hsscnt++;
+		}
+
+		if($hrscnt<5 || $hsscnt < 2)
+		{
+			response_fail("Some input is missing");
+		}
+
+		$hrs['sb_service_log'] = json_encode($inputArray);
+
+
+		$data = $this->Hotel_service_model->place_service($hrs, $hss);
+		if ($data != 0)
+		{
+			response_ok();
+		}
+		else
+		{
+			response_fail("Sorry, Unable to place your service request. Please try again after some time.");
 		}
 	}
 }	

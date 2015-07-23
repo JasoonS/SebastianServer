@@ -1,0 +1,20 @@
+ALTER TABLE `sb_hotel_child_services` ADD PRIMARY KEY(`sb_child_service_id`);
+ALTER TABLE `sb_hotel_child_services` CHANGE `sb_child_service_id` `sb_child_service_id` INT(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key';
+ALTER TABLE `sb_hotel_guest_bookings` ADD PRIMARY KEY(`sb_hotel_guest_booking_id`);
+ALTER TABLE `sb_hotel_guest_bookings` CHANGE `sb_hotel_guest_booking_id` `sb_hotel_guest_booking_id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key';
+ALTER TABLE `sb_hotel_guest_reservation_attributes` ADD PRIMARY KEY(`sb_guest_res_attr_id`);
+ALTER TABLE `sb_hotel_guest_reservation_attributes` CHANGE `sb_guest_res_attr_id` `sb_guest_res_attr_id` INT(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key';
+ALTER TABLE `sb_hotel_manager_cat` ADD PRIMARY KEY(`sb_manager_cat_id`);
+ALTER TABLE `sb_hotel_manager_cat` CHANGE `sb_manager_cat_id` `sb_manager_cat_id` INT(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key';
+ALTER TABLE `sb_hotel_parent_services` ADD PRIMARY KEY(`sb_parentALTER TABLE `sb_hotel_services_status` CHANGE `sb_service_status_id` `sb_service_status_id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key';_service_id`);
+ALTER TABLE `sb_hotel_parent_services` CHANGE `sb_parent_service_id` `sb_parent_service_id` INT(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key';
+ALTER TABLE `sb_hotel_request_service` ADD PRIMARY KEY(`sb_hotel_requst_ser_id`);
+ALTER TABLE `sb_hotel_request_service` CHANGE `sb_hotel_requst_ser_id` `sb_hotel_requst_ser_id` INT(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key';
+ALTER TABLE `sb_hotel_services_status` ADD PRIMARY KEY(`sb_service_status_id`);
+ALTER TABLE `sb_hotel_service_map` ADD PRIMARY KEY(`sb_hotel_service_map_id`);
+ALTER TABLE `sb_hotel_service_map` CHANGE `sb_hotel_service_map_id` `sb_hotel_service_map_id` INT(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key';
+ALTER TABLE `sb_hotel_staff_cat` ADD PRIMARY KEY(`sb_staff_cat_id`);
+ALTER TABLE `sb_hotel_staff_cat` CHANGE `sb_staff_cat_id` `sb_staff_cat_id` INT(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key';
+ALTER TABLE `sb_hotel_user_service_access_map` ADD PRIMARY KEY(`sb_hotel_user_ser_map_id`);
+ALTER TABLE `sb_hotel_user_service_access_map` CHANGE `sb_hotel_user_ser_map_id` `sb_hotel_user_ser_map_id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key';
+

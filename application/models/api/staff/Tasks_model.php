@@ -38,7 +38,7 @@ class Tasks_model extends CI_Model
 		
 		for ($i=0; $i < count($data); $i++) { 
 			$data[$i]['accepted_by'] = '';
-			if ($data[$i]['sb_hotel_service_status'] == 'accepted') {
+			if ($data[$i]['sb_hotel_service_status'] == 'accepted' || $data[$i]['sb_hotel_service_status'] == 'completed') {
 				$id =  $data[$i]['sb_hotel_ser_assgnd_to_user_id'];
 				$qry = "SELECT `sb_hotel_username` FROM `sb_hotel_users` WHERE `sb_hotel_user_id` = '$id';";
 				$query = $this->db->query($qry);

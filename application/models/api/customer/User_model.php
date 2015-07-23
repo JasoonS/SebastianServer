@@ -74,11 +74,16 @@ class User_model extends CI_Model
 		return 1;
 	}
 
-	function get_reservation($sb_guest_firstName, $sb_guest_lastName , $sb_guest_email, $sb_hotel_id , $sb_guest_contact_no)
+	function get_reservation($sb_guest_firstName, $sb_guest_lastName , $sb_guest_email, $sb_hotel_name , $sb_guest_contact_no)
 	{
-		$qry = "Select sb_guest_reservation_code from sb_hotel_guest_bookings where sb_guest_firstName = '$sb_guest_firstName' AND
-				 sb_guest_lastName = '$sb_guest_lastName' AND sb_guest_email = '$sb_guest_email' AND  sb_hotel_id = '$sb_hotel_id' AND 
-				 sb_guest_contact_no = '$sb_guest_contact_no'";
+		$qry = "Select b.sb_guest_reservation_code 
+				from sb_hotel_guest_bookings as b
+				JOIN sb_hotels as h on b.sb_hotel_id = h.sb_hotel_id
+				where b.sb_guest_firstName = '$sb_guest_firstName'
+				AND b. sb_guest_lastName = '$sb_guest_lastName' 
+				AND b.sb_guest_email = '$sb_guest_email' 
+				AND h.sb_hotel_name = '$sb_hotel_name'
+				AND b.sb_guest_contact_no = '$sb_guest_contact_no'";
 		$query = $this->db->query($qry);
 		return $query->result_array();
 	}
