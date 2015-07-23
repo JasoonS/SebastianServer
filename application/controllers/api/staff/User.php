@@ -7,6 +7,7 @@ class User extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('api/staff/User_model');
+		$this->load->helper('admin/utility_helper');
 	}
 
 	/**
@@ -23,25 +24,40 @@ class User extends CI_Controller {
 		$sdt_token				= 	$this->input->post('sdt_token');
 		$sdt_deviceType		    =   $this->input->post('sdt_deviceType');
 		$sdt_macid 				= 	$this->input->post('sdt_macid');
-				
+		
 		if($sb_hotel_useremail == '' || $sb_hotel_userpasswd == '' ||  $sdt_token == '' ||   $sdt_deviceType == ''|| $sdt_macid=='' )
 		{
 			response_fail("Please Insert All data correctly");
-
 		}
 		else
 		{
-			$user_info = $this->User_model->login($sb_hotel_useremail,$sb_hotel_userpasswd, $sdt_token, $sdt_deviceType ,$sdt_macid);
-			if(count($user_info) <=0)
+			$password =  $this->User_model->checkPassword($sb_hotel_useremail);
+			//print_r(count($password));die;
+			if(count($password) <= 0)
 			{
-				response_fail("Email or Password is wrong");
+				response_fail("Email is wrong");
 			}
 			else
 			{
-				$resp = array(
-	   			'result' =>$user_info[0]
-		  		);
-	        	response_ok($resp);
+				if(verifyPasswordHash($sb_hotel_userpasswd,$password[0]['sb_hotel_userpasswd']) == TRUE)
+				{
+					$user_info = $this->User_model->login($sb_hotel_useremail,$sdt_token, $sdt_deviceType ,$sdt_macid);
+					if(count($user_info) <=0)
+					{
+						response_fail("Email or Password is wrong");
+					}
+					else
+					{
+						$resp = array(
+			   			'result' =>$user_info[0]
+				  		);
+			        	response_ok($resp);
+					}
+				}
+				else
+				{
+					response_fail("Password is wrong");
+				}
 			}
 		}
 	}
@@ -57,14 +73,15 @@ class User extends CI_Controller {
 	public function logout()
 	{
 		$sb_hotel_user_id =	$this->input->post('sb_hotel_user_id');
+		$sdt_macid = $this->input->post('sdt_macid');
 
-		if($sb_hotel_user_id == '')
+		if($sb_hotel_user_id == '' || $sdt_macid = '')
 		{
 			response_fail("Please Insert All data correctly");
 		}
 		else
 		{
-			$user_info = $this->User_model->logout($sb_hotel_user_id);
+			$user_info = $this->User_model->logout($sb_hotel_user_id,$sdt_macid);
 			response_ok();
 		}
 	}
@@ -80,14 +97,14 @@ class User extends CI_Controller {
 	{
 		$sb_hotel_useremail =	$this->input->post('sb_hotel_useremail');
 		$newpassword = $this->random_password();
-
+		$hash = createHashAndSalt($newpassword);
 		$arr = array();
 		$arr['sb_hotel_useremail']= $sb_hotel_useremail;
 		$user_info = $this->User_model->check_user($arr);
 		
 		if($user_info == 1)
 		{
-			$arr1['sb_hotel_userpasswd']= $newpassword;
+			$arr1['sb_hotel_userpasswd']= $hash;
 			$user_info1 = $this->User_model->update_user($arr1,$arr);
 	        $body = "<div style='padding-left:20px;font: \"MisoRegular\";letter-spacing: 2px;font-size:12px;'>
 	        		Hi there,<br><br>
@@ -132,7 +149,7 @@ class User extends CI_Controller {
 	{
 		$sb_hotel_user_id =	$this->input->post('sb_hotel_user_id');
 		$sb_hotel_userpasswd =	$this->input->post('old_password');
-		$newpassword =	$this->input->post('newpassword');
+		$newpassword =	$this->input->post('new_password');
 		if($sb_hotel_user_id == '' || $sb_hotel_userpasswd == '' || $newpassword == '')
 		{
 			response_fail("Input may be empty");
@@ -141,17 +158,28 @@ class User extends CI_Controller {
 		{
 			$arr = array();
 			$arr['sb_hotel_user_id']= $sb_hotel_user_id;
-			$arr['sb_hotel_userpasswd']= $sb_hotel_userpasswd;
-			$user_info = $this->User_model->check_user($arr);
-			if($user_info ==1)
+			//$arr['sb_hotel_userpasswd']= $sb_hotel_userpasswd;
+			//$user_info = $this->User_model->check_user($arr);
+			$password =  $this->User_model->check_user($sb_hotel_user_id);
+			//print_r(count($password));die;
+			if(count($password) <= 0)
 			{
-				$arr1['sb_hotel_userpasswd']= $newpassword;
-				$user_info1 = $this->User_model->update_user($arr1,$arr);
-				response_ok();
+				response_fail("Email is wrong");
 			}
 			else
 			{
-				response_fail("Something is wrong");
+				if(verifyPasswordHash($sb_hotel_userpasswd,$password[0]['sb_hotel_userpasswd']) == TRUE)
+				{
+				//if($user_info ==1)
+				//{
+					$arr1['sb_hotel_userpasswd']= createHashAndSalt($newpassword);
+					$user_info1 = $this->User_model->update_user($arr1,$arr);
+					response_ok();
+				}
+				else
+				{
+					response_fail("Something is wrong");
+				}
 			}
 		}
 	}

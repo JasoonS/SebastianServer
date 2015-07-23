@@ -95,7 +95,7 @@ function createHashAndSalt($user_provided_password)
 		'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
 	];
 
-	$hash = password_hash($$user_provided_password, PASSWORD_BCRYPT,$options);
+	$hash = password_hash($user_provided_password, PASSWORD_BCRYPT,$options);
 
 	return $hash;
 }
