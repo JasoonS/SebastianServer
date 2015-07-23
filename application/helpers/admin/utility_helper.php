@@ -63,6 +63,98 @@ function getStateCities($state_id,$format='array')
 	}
 }
 
+/* 
+	This function gives all available designation 
+*/
+function getAllDesignations($format='array')
+{
+	$CI =& get_instance();
+    $CI->load->model('Utility_model');
+	$designationlist=$CI->Utility_model->get_all_designations();
+	if($format == 'array')
+	{
+		return $designationlist;
+	}
+	else
+	{
+		return json_encode($designationlist);
+	}
+	
+}
+
+
+/* 
+	This function gives list of all available hotels 
+*/
+function getAllHotels($format='array')
+{
+	$CI =& get_instance();
+    $CI->load->model('Utility_model');
+	$hotellist=$CI->Utility_model->get_all_hotels();
+	if($format == 'array')
+	{
+		return $hotellist;
+	}
+	else
+	{
+		return json_encode($hotellist);
+	}
+	
+}
+
+
+
+/*
+	This function gives available User Types according to Logged in User Type.
+	If He is Super administrator He cannot see staff type(cannot add staff)
+*/
+function getAvailableHotelUserTypes($format='array')
+{
+   $CI = & get_instance();  //get instance, access the CI superobject
+   $CI->load->model('Utility_model');
+   $hotel_user_types=$CI->Utility_model->get_enum_values( 'sb_hotel_users', 'sb_hotel_user_type' );
+   if($format == 'array')
+			{
+				return  $hotel_user_types;
+			}
+			else
+			{
+				return json_encode( $hotel_user_types);
+			}	
+
+}
+
+/*
+	This function is used to Upload Image
+*/
+function upload_image($folderName)
+	{
+	   
+		$CI = & get_instance(); 
+		$file_ext = substr(strrchr($_FILES[$folderName]['name'],'.'),1);
+		$name= time();
+		$config = array(
+				'upload_path' => "./user_data/$folderName",
+				'allowed_types' => "jpeg|jpg|png|gif",
+				'overwrite' => TRUE,
+				'file_name' => $name.".".$file_ext
+			);
+		$CI->load->helper('file');
+		$CI->load->library('upload', $config);
+		
+		if($CI->upload->do_upload($folderName))
+		{
+		    //echo $CI->upload->data();
+			$data = array('upload_data' => $CI->upload->data());
+			return $data['upload_data']['file_name'];
+			//return $data['upload_data']['file_name'];
+		}
+		else
+		{
+			$error = $_FILES;
+			return $error;
+		}
+	}
 /* Function check for password hash
  * @param string
  * return TRUE on success FALSE if fails
@@ -99,3 +191,37 @@ function createHashAndSalt($user_provided_password)
 
 	return $hash;
 }
+
+/*Function To Send An Email To User
+*/
+	function sendMail($from,$to,$subject,$message)
+	{
+		
+        include 'email_library.php'; // include the library file
+        include "classes/class.phpmailer.php"; // include the class name
+        $mail	= new PHPMailer; // call the class 
+		$mail->IsSMTP(); 
+		$mail->Host = SMTP_HOST; //Hostname of the mail server
+		$mail->Port = SMTP_PORT; //Port of the SMTP like to be 25, 80, 465 or 587
+		$mail->SMTPAuth = true; //Whether to use SMTP authentication
+		$mail->Username = SMTP_UNAME; //Username for SMTP authentication any valid email created in your domain
+		$mail->Password = SMTP_PWORD; //Password for SMTP authentication
+		$mail->AddReplyTo($from); //reply-to address
+		$mail->SetFrom($from, "Sebastian"); //From address of the mail
+			// put your while loop here like below,
+		$mail->Subject = $subject; //Subject od your mail
+		$mail->AddAddress($to, ""); //To address who will receive this email
+		$mail->MsgHTML( $message); //Put your body of the message you can place html code here
+			//$mail->AddAttachment("images/asif18-logo.png"); //Attach a file here if any or comment this line, 
+		$send = $mail->Send();
+        if($send)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
+	}
+
