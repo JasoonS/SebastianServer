@@ -20,6 +20,7 @@ class Login extends CI_Controller
 		parent::__construct();
 		$this->load->model('User_model');
 		$this->load->library('session');
+		$this->load->helper('admin/utility_helper');
 	}
 	
 	/* Method render login page
@@ -81,6 +82,7 @@ class Login extends CI_Controller
 	{
 		$admin_password_salt 		= $this->User_model->authenticate_user_salt('admin_password_salt','sb_admin',array('admin_uname'=>$this->input->post('username')));
 
+
 		if($admin_password_salt === FALSE)
 		{
 			$hoteleir_password_salt = $this->User_model->authenticate_user_salt('sb_hotel_userpasswd','sb_hotel_users',array('sb_hotel_username'=>$this->input->post('username')));
@@ -100,14 +102,29 @@ class Login extends CI_Controller
 	private function authenticate_user_login($password_salt_n_type = null)
 	{
 
+		// Admin password authentication
 		if($password_salt_n_type['start_chk_admin'] === TRUE)
 		{
-			$user_type				  = 'A';
-			$logged_in_user 		  =  $this->User_model->authenticated_admin_records($this->input->post('username'),$password_salt_n_type['hashed_salt']->admin_password_salt);
-		}else
+			if(verifyPasswordHash($this->input->post('password'),$password_salt_n_type['hashed_salt']->admin_password_salt) == TRUE)
+			{
+				$user_type				  = 'A';
+				$logged_in_user 		  =  $this->User_model->authenticated_admin_records($this->input->post('username'),$password_salt_n_type['hashed_salt']->admin_password_salt);
+				die('password correct for admin');
+			}else
+			{
+				die('wrong password for admin');
+			}
+		}else // Hotelier password verification
 		{
-			$user_type 				  = 'H';
-			$logged_in_user 		  = $this->User_model->authenticated_hoteleir_records($this->input->post('username'),$password_salt_n_type['hashed_salt']->admin_password_salt);
+			if(verifyPasswordHash($this->input->post('password'),$password_salt_n_type['hashed_salt']->admin_password_salt) == TRUE)
+			{
+				$user_type 				  = 'H';
+				$logged_in_user 		  = $this->User_model->authenticated_hoteleir_records($this->input->post('username'),$password_salt_n_type['hashed_salt']->admin_password_salt);
+				die('password correct for hotelier');
+			}else
+			{
+				die('wrong password for hotel');
+			}
 		}
 
 		$this->register_user_session($user_type,$logged_in_user);

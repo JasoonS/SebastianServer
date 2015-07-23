@@ -129,6 +129,8 @@ function getAvailableHotelUserTypes($format='array')
 */
 function upload_image($folderName)
 	{
+	   
+		$CI = & get_instance(); 
 		$file_ext = substr(strrchr($_FILES[$folderName]['name'],'.'),1);
 		$name= time();
 		$config = array(
@@ -137,15 +139,89 @@ function upload_image($folderName)
 				'overwrite' => TRUE,
 				'file_name' => $name.".".$file_ext
 			);
-		$this->load->library('upload', $config);
-		if($this->upload->do_upload($folderName))
+		$CI->load->helper('file');
+		$CI->load->library('upload', $config);
+		
+		if($CI->upload->do_upload($folderName))
 		{
-			$data = array('upload_data' => $this->upload->data());
+		    //echo $CI->upload->data();
+			$data = array('upload_data' => $CI->upload->data());
 			return $data['upload_data']['file_name'];
+			//return $data['upload_data']['file_name'];
 		}
 		else
 		{
-			$error = array('error' => $this->upload->display_errors());
+			$error = $_FILES;
 			return $error;
 		}
 	}
+/* Function check for password hash
+ * @param string
+ * return TRUE on success FALSE if fails
+ */
+function verifyPasswordHash($password,$hash_and_salt)
+{
+	
+	/*$options = [
+		'cost' => 11,
+		'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+	];
+
+	$hash = password_hash($password, PASSWORD_BCRYPT,$options);*/
+
+	if (password_verify($password, $hash_and_salt)) 
+		return TRUE;
+	else
+
+		return FALSE;
+}
+
+/* Function create hash and salt password
+ * @param string
+ * return string 
+ */
+function createHashAndSalt($user_provided_password)
+{
+	$options = [
+		'cost' => 11,
+		'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+	];
+
+	$hash = password_hash($user_provided_password, PASSWORD_BCRYPT,$options);
+
+	return $hash;
+}
+
+/*Function To Send An Email To User
+*/
+	function sendMail($from,$to,$subject,$message)
+	{
+		
+        include 'email_library.php'; // include the library file
+        include "classes/class.phpmailer.php"; // include the class name
+        $mail	= new PHPMailer; // call the class 
+		$mail->IsSMTP(); 
+		$mail->Host = SMTP_HOST; //Hostname of the mail server
+		$mail->Port = SMTP_PORT; //Port of the SMTP like to be 25, 80, 465 or 587
+		$mail->SMTPAuth = true; //Whether to use SMTP authentication
+		$mail->Username = SMTP_UNAME; //Username for SMTP authentication any valid email created in your domain
+		$mail->Password = SMTP_PWORD; //Password for SMTP authentication
+		$mail->AddReplyTo($from); //reply-to address
+		$mail->SetFrom($from, "Sebastian"); //From address of the mail
+			// put your while loop here like below,
+		$mail->Subject = $subject; //Subject od your mail
+		$mail->AddAddress($to, ""); //To address who will receive this email
+		$mail->MsgHTML( $message); //Put your body of the message you can place html code here
+			//$mail->AddAttachment("images/asif18-logo.png"); //Attach a file here if any or comment this line, 
+		$send = $mail->Send();
+        if($send)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
+	}
+
