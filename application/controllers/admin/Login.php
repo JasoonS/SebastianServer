@@ -80,10 +80,6 @@ class Login extends CI_Controller
 	 */	
 	public function get_password_salt()
 	{
-
-		//verifyPasswordHash($this->input->post('password'));
-
-		//exit;
 		$admin_password_salt 		= $this->User_model->authenticate_user_salt('admin_password_salt','sb_admin',array('admin_uname'=>$this->input->post('username')));
 
 
