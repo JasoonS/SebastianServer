@@ -1,7 +1,16 @@
 <?php if( ! defined('BASEPATH')) exit('No direct script access allowed');
 class User_model extends CI_Model
 {
-	public function login($sb_hotel_useremail,$sb_hotel_userpasswd, $sdt_token, $sdt_deviceType ,$sdt_macid)
+	public function checkPassword($sb_hotel_useremail)
+	{
+		$qry = "SELECT sb_hotel_userpasswd FROM `sb_hotel_users`
+				WHERE sb_hotel_useremail = '$sb_hotel_useremail'
+				AND sb_hotel_user_status = '1' AND sb_hotel_user_type != 'a'
+				";
+		$query = $this->db->query($qry);
+		return $query->result_array();
+	}
+	public function login($sb_hotel_useremail, $sdt_token, $sdt_deviceType ,$sdt_macid)
 	{
 		$qry = "SELECT hu.sb_hotel_user_id,hu.sb_hotel_id,hu.sb_hotel_username,usam.sb_parent_service_id, hu.sb_hotel_user_pic,
 				 hu.sb_hotel_user_shift_from,hu.sb_hotel_user_shift_to,d.sb_staff_designation_name FROM `sb_hotel_users` as hu
@@ -9,7 +18,7 @@ class User_model extends CI_Model
 				ON d.`sb_staff_designation_id` = hu.`sb_staff_designation_id`
 				JOIN sb_hotel_user_service_access_map as usam
 				ON hu.sb_hotel_user_id = usam.sb_hotel_user_id
-				WHERE hu.sb_hotel_useremail = '$sb_hotel_useremail' AND hu.sb_hotel_userpasswd = '$sb_hotel_userpasswd'
+				WHERE hu.sb_hotel_useremail = '$sb_hotel_useremail' 
 				AND hu.sb_hotel_user_status = '1' AND hu.sb_hotel_user_type != 'a'
 				";
 		$query = $this->db->query($qry);
@@ -21,9 +30,10 @@ class User_model extends CI_Model
 		return $result_array;
 	}
 
-	public function logout($sb_hotel_user_id)
+	public function logout($sb_hotel_user_id,$sdt_macid)
 	{
-		$qry = "UPDATE `sb_staff_devicetoken` SET `sdt_token`= '' WHERE `sb_hotel_user_id` = '$sb_hotel_user_id'";
+		$qry = "UPDATE `sb_staff_devicetoken` SET `sdt_token`= '' WHERE `sb_hotel_user_id` = '$sb_hotel_user_id'
+				AND `sdt_macid` = '$sdt_macid'";
 		$query = $this->db->query($qry);
 		return 1;
 	}
@@ -47,20 +57,14 @@ class User_model extends CI_Model
 		return 1;
 	}
 
-	public function check_user($arr)
+	public function check_user($sb_hotel_user_id)
 	{
-		$this->db->select('*');
-		$this->db->from('sb_hotel_users');
-		$this->db->where($arr);
-		$query = $this->db->get();
-		if(count($query->result_array()) > 0)
-		{
-			return 1;
-		}
-		else
-		{
-			return 0;
-		}
+		$qry = "SELECT sb_hotel_userpasswd FROM `sb_hotel_users`
+				WHERE sb_hotel_user_id = '$sb_hotel_user_id'
+				AND sb_hotel_user_status = '1' AND sb_hotel_user_type != 'a'
+				";
+		$query = $this->db->query($qry);
+		return $query->result_array();
 	}
 
 	public function update_user($arr1,$arr)
