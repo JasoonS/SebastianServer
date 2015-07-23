@@ -102,7 +102,7 @@ class User extends CI_Controller {
 		$arr['sb_hotel_useremail']= $sb_hotel_useremail;
 		$user_info = $this->User_model->check_user($arr);
 		
-		if($user_info == 1)
+		if(count($user_info)>0)
 		{
 			$arr1['sb_hotel_userpasswd']= $hash;
 			$user_info1 = $this->User_model->update_user($arr1,$arr);
@@ -160,7 +160,7 @@ class User extends CI_Controller {
 			$arr['sb_hotel_user_id']= $sb_hotel_user_id;
 			//$arr['sb_hotel_userpasswd']= $sb_hotel_userpasswd;
 			//$user_info = $this->User_model->check_user($arr);
-			$password =  $this->User_model->check_user($sb_hotel_user_id);
+			$password =  $this->User_model->check_user($arr);
 			//print_r(count($password));die;
 			if(count($password) <= 0)
 			{
