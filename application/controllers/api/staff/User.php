@@ -89,11 +89,12 @@ class User extends CI_Controller {
 		{
 			$arr1['sb_hotel_userpasswd']= $newpassword;
 			$user_info1 = $this->User_model->update_user($arr1,$arr);
-	        $body = "<div style='font-family: Arial, Helvetica, sans-serif;'>
+	        $body = "<div style='padding-left:20px;font: \"MisoRegular\";letter-spacing: 2px;font-size:12px;'>
 	        		Hi there,<br><br>
 	        		We got forgot password request from <b>$sb_hotel_useremail</b>. Please note your updated password for 'Sebastian App'.<br>
 	        		Password :- '<b>$newpassword</b>' (please skip quotes).<br><br>
-	        		Sebastian Team</div>
+	        		Sebastian Team
+	        		</div>
 	        		";
 	        include 'email_library.php'; // include the library file
         	include "classes/class.phpmailer.php"; // include the class name
