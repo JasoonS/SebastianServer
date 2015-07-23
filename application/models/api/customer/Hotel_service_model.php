@@ -12,6 +12,4 @@ class Hotel_service_model extends CI_Model
 		return $query->result_array();
 	}
 }
-?>	
-
-/*ALTER TABLE  `sb_hotel_request_service` CHANGE  `sb_hotel_requst_ser_id`  `sb_hotel_requst_ser_id` INT( 10 ) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key';*/
+?>

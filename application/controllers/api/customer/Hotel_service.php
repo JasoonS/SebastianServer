@@ -52,7 +52,8 @@ class Hotel_service extends CI_Controller
 
 	function place_service()
 	{
-		$sb_hotel_user_id = $this->input->post('sb_hotel_user_id');
+		$inputArray = $this->input->post();
+		print_r($inputArray);die;
 		$sb_hotel_id = $this->input->post('sb_hotel_id');
 		$sb_hotel_guest_booking_id = $this->input->post('sb_hotel_guest_booking_id');
 		$guest_room_number = $this->input->post('guest_room_number');
@@ -62,6 +63,7 @@ class Hotel_service extends CI_Controller
 		
 		$sb_child_service_id = $this->input->post('sb_child_service_id');
 		$sb_parent_service_id = $this->input->post('sb_parent_service_id');
+
 		if ($sb_hotel_id == ''  || $sb_parent_service_id == '') 
 		{
 			response_fail("Please Insert Reservation Id");
