@@ -70,8 +70,7 @@ class Login extends CI_Controller
 				$this->authenticate_user_login($password_salt);
 			} else
 			{
-				$this->session->set_flashdata('AuthMsg', ERR_MSG_LEVEL_1);
-				redirect('admin/login');
+				$this->redirectWithErr(ERR_MSG_LEVEL_1);
 			}
 		}		
 	}
@@ -116,7 +115,9 @@ class Login extends CI_Controller
 				//die('password correct for admin');
 			}else
 			{
-				//die('wrong password for admin');
+
+				$this->redirectWithErr(ERR_MSG_LEVEL_1);
+
 			}
 		}else // Hotelier password verification
 		{
@@ -131,7 +132,8 @@ class Login extends CI_Controller
 				//die('password correct for hotelier');
 			}else
 			{
-				//die('wrong password for hotel');
+
+				$this->redirectWithErr(ERR_MSG_LEVEL_1);
 
 			}
 		}
@@ -168,6 +170,17 @@ class Login extends CI_Controller
 		echo '<pre>';
 		print_r($this->session->all_userdata());
 		exit;
+	}
+
+	/* Method redirect user if auhorization
+	 * fails during login activity
+	 * @param void
+	 * return void
+	 */
+	private function redirectWithErr($err_level)
+	{
+		$this->session->set_flashdata('AuthMsg', $err_level);
+		redirect('admin/login');
 	}
 }
 
