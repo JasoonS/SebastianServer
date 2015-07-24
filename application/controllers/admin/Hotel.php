@@ -99,8 +99,7 @@ class Hotel extends CI_Controller
 			
 			$this->data['hotelusertypes'] = getAvailableHotelUserTypes();
 			$this->data['hotellist']=getAllHotels();	
-			if($this->session->userdata('user_type')!= false || $this->session->userdata('user_type')!= null)
-			{
+			
 				
 				if (($key = array_search('s',$this->data['hotelusertypes'])) !== false) {
 						unset($this->data['hotelusertypes'][$key]);
@@ -109,7 +108,7 @@ class Hotel extends CI_Controller
 						unset($this->data['hotelusertypes'][$key]);
 				}
 				
-			}
+			
 			$this->template->load('create_hotel_tpl', 'create_hotel_admin_user',$this->data);
 	}
 	/*
@@ -137,6 +136,12 @@ class Hotel extends CI_Controller
 			
 			$this->data['hotelusertypes'] = getAvailableHotelUserTypes();
 			$this->data['hotellist']=getAllHotels();	
+			    if (($key = array_search('s',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+				}
+				if (($key = array_search('m',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+				}
 			$this->template->load('create_hotel_tpl', 'create_hotel_admin_user',$this->data);
 		}else{
 		        
@@ -179,12 +184,12 @@ class Hotel extends CI_Controller
 				if($result == '1')
 				{
 					$this->session->set_flashdata('category_success', 'Hotel Administrator Created Successfully.');
-					redirect('admin/hotel/create_hotel_admin_user');
+					redirect('admin/hotel/add_hotel_admin_user');
 				}
 				else
 				{
 					$this->session->set_flashdata('category_error', 'Error in Hotel Administrator Creation.');
-					redirect('admin/hotel/create_hotel_admin_user');
+					redirect('admin/hotel/add_hotel_admin_user');
 				}
 			}
 		
