@@ -8,6 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Hotel extends CI_Controller 
 {
 	
+	
 	public function __construct()
 	{
 		parent::__construct();
@@ -72,10 +73,9 @@ class Hotel extends CI_Controller
 			}
 	}	
 	
-	/* This method returns Whether Hotel With The particular name Already Exists
-	 * @param string
-	 * return boolean	
-	 */
+	/*
+	This method returns Whether Hotel With The particular name Already Exists
+	*/
     function validate_hotel($field_value)
 	{
 	   $result=$this->Hotel_model->find_hotel($field_value);

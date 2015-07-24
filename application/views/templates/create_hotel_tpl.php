@@ -17,6 +17,7 @@
 	<link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo THEME_ASSETS; ?>css/bootstrap-toggle.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo THEME_ASSETS; ?>css/fileinput.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo THEME_ASSETS; ?>css/jquery-checktree.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -28,6 +29,7 @@
 <script src="<?php echo THEME_ASSETS ?>js/bootstrap-toggle.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
 </body>
 
 </html>

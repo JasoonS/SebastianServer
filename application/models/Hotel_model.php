@@ -17,7 +17,8 @@ Class Hotel_model extends CI_Model
 	 */
 	function create_hotel($hotel_data)
 	{
-		return $this->db->insert('sb_hotels',$hotel_data);
+		$this->db->insert('sb_hotels',$hotel_data);
+		return $this->db->insert_id();
 	}
 	
 	/* Method Return If Hotel Present  
@@ -79,5 +80,21 @@ Class Hotel_model extends CI_Model
 		$query=$this->db->get('sb_hotels');
 		return $query->result_array();
 	}
+	
+	/* Method get Hotel Id from Hotel admin email
+	 * inside system 
+	 * @param @string
+	 * return @string on success and False on Fail
+	 */
+	function get_hotel_id($adminemail)
+	{
+		$this->db->select('sb_hotel_id');
+		$this->db->where('sb_hotel_useremail',$adminemail);
+		$query=$this->db->get('sb_hotel_users');
+		$result= $query->result_array();
+		return $result[0]['sb_hotel_id'];
+	}
+	
+	
 
 }
