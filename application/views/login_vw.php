@@ -1,42 +1,42 @@
-<div class="account-container">
-	
-	<div class="content clearfix">
-		<form action="<?php echo base_url().$action?>" method="post">
-		
-			<h1>User Login</h1>		
-			
-			<div class="login-fields" id="idLoginFields">
-				
-				<p>Please provide your details</p>
-				
-				<div class="field" id="idFields">
-					<label for="username">Username</label>
-					<input type="text" id="idUsername" name="username" value="<?php echo set_value('username');?>" placeholder="Username" class="login username-field" />
-					<?php echo form_error('username'); ?>
-				</div> <!-- /field -->
-				
-				<div class="field">
-					<label for="password">Password:</label>
-					<input type="password" id="idPassword" name="password" value="<?php echo set_value('password');?>" placeholder="Password" class="login password-field"/>
-					<p class="text-danger"><?php echo form_error('password'); ?></p>
-				</div> <!-- /password -->
-				
-			</div> <!-- /login-fields -->
-			
-			<div class="login-actions">
-				
-				<span class="login-checkbox" id="idLoginChkbox">
-					<input id="idRememberMe" name="Field" type="checkbox" class="field login-checkbox" value="First Choice" tabindex="4" />
-					<label class="choice" for="Field">Keep me signed in</label>
-				</span>
-									
-				<input type="submit" class="button btn btn-success btn-large" id="idSignIn" value="Sign In">
-				
-			</div> <!-- .actions -->
-			
-		</form>
-		
-	</div> <!-- /content -->
-	
-</div> <!-- /account-container -->
+<div class="">
+    <a class="hiddenanchor" id="toregister"></a>
+    <a class="hiddenanchor" id="tologin"></a>
 
+    <div id="wrapper">
+    <div id="login" class="animate form">
+        <section class="login_content">
+            <form action="<?php echo base_url().$action?>" method="post">
+                <h1>User Login</h1>
+                <p class="bg-danger"><?php if($this->session->flashdata('AuthMsg')) echo $this->session->flashdata('AuthMsg'); ?></p>
+
+                <div class="classLoginFrmFields" id="idLoginFields">
+                    <input type="text" class="form-control" placeholder="Username" id="idUsername" name="username" value="<?php echo set_value('username');?>" required="" />
+                    <?php echo form_error('username'); ?>
+                </div>
+
+                <div class="classLoginFrmFields" id="idPasswordFields">
+                    <input type="password" class="form-control" id="idPassword" name="password" value="<?php echo set_value('password');?>" placeholder="Password" required="" />
+                    <?php echo form_error('password'); ?>
+                </div>
+
+                <div class="classLoginFrmFields">
+                    <input type="submit" id="idSignIn" value="Sign In" name="sign_in" class="btn btn-dark">                    
+                    <a class="reset_pass" href="#">Lost your password?</a>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="separator">  
+                    <div class="clearfix"></div>
+                    <br />
+                    <div>
+                        <h1><i class="fa fa-paw"></i> Sebastian Admin</h1>
+
+                        <p>©2015 All Rights Reserved. Privacy and Terms</p>
+                    </div>
+                </div>
+            </form>
+            <!-- form -->
+        </section>
+        <!-- content -->
+    </div>            
+</div>
