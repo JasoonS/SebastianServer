@@ -97,5 +97,20 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  */
   define('BASE_URL','http://localhost/sebastian-admin-panel/');
   define('THEME_ASSETS',BASE_URL.'assets/');
+
+ /*
+ |--------------------------------------------------------------------------
+ | Creating System Message Constants
+ |--------------------------------------------------------------------------
+ |
+ | If set to TRUE, a backtrace will be displayed along with php errors. If
+ | error_reporting is disabled, the backtrace will not display, regardless
+ | of this setting
+ |
+ */
+ define('ERR_MSG_LEVEL_1','Authentication Falied');
+
+
+
  
   
