@@ -44,7 +44,7 @@ class Login extends CI_Controller
 		array('field'=>'username','label'=>'Username','rules'=>'required','class'=>'text-danger'),
 		array('field'=>'password','label'=>'Password','rules'=>'required','class'=>'text-danger')
 		);
-		$this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
+		$this->form_validation->set_error_delimiters('<div class="bg-danger">', '</div>');
 		$this->form_validation->set_rules($this->validation_rules);
 		
 		
@@ -67,7 +67,8 @@ class Login extends CI_Controller
 				$this->authenticate_user_login($password_salt);
 			} else
 			{
-				redirect();
+				$this->session->set_flashdata('AuthMsg', ERR_MSG_LEVEL_1);
+				redirect('admin/login');
 			}
 		}		
 	}
@@ -109,10 +110,8 @@ class Login extends CI_Controller
 			{
 				$user_type				  = 'A';
 				$logged_in_user 		  =  $this->User_model->authenticated_admin_records($this->input->post('username'),$password_salt_n_type['hashed_salt']->admin_password_salt);
-				die('password correct for admin');
 			}else
 			{
-				die('wrong password for admin');
 			}
 		}else // Hotelier password verification
 		{
@@ -120,10 +119,8 @@ class Login extends CI_Controller
 			{
 				$user_type 				  = 'H';
 				$logged_in_user 		  = $this->User_model->authenticated_hoteleir_records($this->input->post('username'),$password_salt_n_type['hashed_salt']->admin_password_salt);
-				die('password correct for hotelier');
 			}else
 			{
-				die('wrong password for hotel');
 			}
 		}
 
