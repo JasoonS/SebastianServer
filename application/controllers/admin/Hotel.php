@@ -7,18 +7,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Hotel extends CI_Controller 
 {
-	public	$data 					= array();
-	public	$validation_rules 		= array();
-	public	$login_flag				= FALSE;
-	private $logged_in_user_meta 	= array();
-	private $user_name 				= '';
-	private $start_chk_admin 		= FALSE;
-	private $start_chk_user			= FALSE;
+	
 	
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('session');
+		//$this->load->library('session');
 		$this->load->model('Hotel_model');
 		$this->load->helper('admin/utility_helper');
 	}
@@ -31,23 +25,11 @@ class Hotel extends CI_Controller
 	public function add_hotel()
 	{	
 		//Check If User is logged in otherwise redirect to login page.
-		if($this->session->userdata('user_type')!= false || $this->session->userdata('user_type')!= null)
-		{
-			if($this->session->userdata('user_type')=='1')
-			{
-				$this->data['action']	= "admin/hotel/create_hotel";
-				$this->data['countrylist'] = getCountryList();
-				$this->template->load('create_hotel_tpl', 'create_hotel',$this->data);
-			}
-			else
-			{
-				echo "You are not authorized person to view this page.";
-			}
-		}
-		else
-		{
-			redirect('admin/Login');
-		}	
+	
+		$this->data['action']	= "admin/hotel/create_hotel";
+		$this->data['countrylist'] = getCountryList();
+		$this->template->load('create_hotel_tpl', 'create_hotel',$this->data);
+			
 	}
 	
 	/* Method render create Hotel After submission Of add_hotel_form is super administrator
@@ -56,6 +38,8 @@ class Hotel extends CI_Controller
 	 */
 	public function create_hotel()
     {
+		
+		
 		$data = $this->input->post();
 		//Verify Hotel Data
 		$this->validation_rules = array(
@@ -117,15 +101,14 @@ class Hotel extends CI_Controller
 			$this->data['hotellist']=getAllHotels();	
 			if($this->session->userdata('user_type')!= false || $this->session->userdata('user_type')!= null)
 			{
-				if($this->session->userdata('user_type')=='1')
-				{
-					if (($key = array_search('s',$this->data['hotelusertypes'])) !== false) {
+				
+				if (($key = array_search('s',$this->data['hotelusertypes'])) !== false) {
 						unset($this->data['hotelusertypes'][$key]);
-					}
-					if (($key = array_search('m',$this->data['hotelusertypes'])) !== false) {
-						unset($this->data['hotelusertypes'][$key]);
-					}
 				}
+				if (($key = array_search('m',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+				}
+				
 			}
 			$this->template->load('create_hotel_tpl', 'create_hotel_admin_user',$this->data);
 	}
