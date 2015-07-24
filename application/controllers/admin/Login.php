@@ -21,6 +21,8 @@ class Login extends CI_Controller
 		$this->load->model('User_model');
 		$this->load->library('session');
 		$this->load->helper('admin/utility_helper');
+		
+		
 	}
 	
 	/* Method render login page
@@ -64,6 +66,7 @@ class Login extends CI_Controller
 
 			if($password_salt['hashed_salt'] == TRUE)
 			{
+			    
 				$this->authenticate_user_login($password_salt);
 			} else
 			{
@@ -101,29 +104,32 @@ class Login extends CI_Controller
 	 */
 	private function authenticate_user_login($password_salt_n_type = null)
 	{
-
+		
 		// Admin password authentication
-		if($password_salt_n_type['start_chk_admin'] === TRUE)
+		if(isset($password_salt_n_type['start_chk_admin'])&&($password_salt_n_type['start_chk_admin'] === TRUE))
 		{
 			if(verifyPasswordHash($this->input->post('password'),$password_salt_n_type['hashed_salt']->admin_password_salt) == TRUE)
 			{
 				$user_type				  = 'A';
 				$logged_in_user 		  =  $this->User_model->authenticated_admin_records($this->input->post('username'),$password_salt_n_type['hashed_salt']->admin_password_salt);
-				die('password correct for admin');
+				//die('password correct for admin');
 			}else
 			{
-				die('wrong password for admin');
+				//die('wrong password for admin');
 			}
 		}else // Hotelier password verification
 		{
-			if(verifyPasswordHash($this->input->post('password'),$password_salt_n_type['hashed_salt']->admin_password_salt) == TRUE)
+		      
+			 
+			if(verifyPasswordHash($this->input->post('password'),$password_salt_n_type['hashed_salt']->sb_hotel_userpasswd) == TRUE)
 			{
+			 
 				$user_type 				  = 'H';
-				$logged_in_user 		  = $this->User_model->authenticated_hoteleir_records($this->input->post('username'),$password_salt_n_type['hashed_salt']->admin_password_salt);
-				die('password correct for hotelier');
+				$logged_in_user 		  = $this->User_model->authenticated_hoteleir_records($this->input->post('username'),$password_salt_n_type['hashed_salt']->sb_hotel_userpasswd);
+				//die('password correct for hotelier');
 			}else
 			{
-				die('wrong password for hotel');
+				//die('wrong password for hotel');
 			}
 		}
 
@@ -148,13 +154,17 @@ class Login extends CI_Controller
 										  'logged_in_type'		=> $user_type );
 		}else
 		{
-			$user_session_records = array('user_name'    		=> $logged_in_user->admin_uname,
-										  'user_email' 			=>	$logged_in_user->admin_email,
-										  'user_type'	 		=>  $logged_in_user->admin_type,
-										  'user_last_logged_in'	=>  $logged_in_user->admin_last_logged_in);
+			
+			$user_session_records = array('user_name'    		=> $logged_in_user->sb_hotel_username,
+										  'user_email' 			=>	$logged_in_user->sb_hotel_useremail,
+										  'user_type'	 		=>  $logged_in_user->sb_hotel_user_type
+										  );
 		}
 
 		$this->session->set_userdata($user_session_records);
+		echo '<pre>';
+		print_r($this->session->all_userdata());
+		exit;
 	}
 }
 

@@ -14,6 +14,7 @@ class Hotel extends CI_Controller
 		parent::__construct();
 		//$this->load->library('session');
 		$this->load->model('Hotel_model');
+		$this->load->model('Services_model');
 		$this->load->helper('admin/utility_helper');
 	}
 
@@ -28,6 +29,7 @@ class Hotel extends CI_Controller
 	
 		$this->data['action']	= "admin/hotel/create_hotel";
 		$this->data['countrylist'] = getCountryList();
+	
 		$this->template->load('create_hotel_tpl', 'create_hotel',$this->data);
 			
 	}
@@ -57,11 +59,15 @@ class Hotel extends CI_Controller
 		{
 			$this->data['action']	= "admin/hotel/create_hotel";	
 			$this->data['countrylist'] = getCountryList();
+			
 			$this->template->load('create_hotel_tpl', 'create_hotel',$this->data);
 		}else{
 				$result=$this->Hotel_model->create_hotel($data);
-				if($result == '1')
+				$insertid=$result;
+				$this->Services_model->add_all_services_to_hotel($insertid);
+				if($result)
 				{
+				     
 					$this->session->set_flashdata('category_success', 'Hotel Created Successfully.');
 					redirect('admin/hotel/add_hotel');
 				}
@@ -151,7 +157,7 @@ class Hotel extends CI_Controller
 				{
 					$folderName="sb_hotel_user_pic";
 					$pic1 = upload_image($folderName);
-					
+				
 					if($pic1 != 0)
 					{
 						$data["sb_hotel_user_pic"] = $pic1;
@@ -164,12 +170,14 @@ class Hotel extends CI_Controller
 					}	
 		        $hotelname = $this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
 				$password =$hotelname[0]['sb_hotel_name'];
-				$password = str_replace(' ', '', $password);
 				$data['sb_hotel_userpasswd']=createHashAndSalt($password);
+				
 				$data['sb_hotel_user_shift_from']= date("H:i:s", strtotime($data['sb_hotel_user_shift_from']));
 				$data['sb_hotel_user_shift_to']= date("H:i:s", strtotime($data['sb_hotel_user_shift_to']));
 				
 				$result=$this->Hotel_model->create_hotel_admin($data);
+			
+				
 				
 				$hotelusername=$data['sb_hotel_username'];
 				$message="Hi ,
