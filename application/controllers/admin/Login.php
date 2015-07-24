@@ -140,19 +140,20 @@ class Login extends CI_Controller
 		if($user_type === 'A')
 		{
 			$user_session_records = array('user_name' 			=> $logged_in_user->admin_uname,
-										  'user_email' 			=>	$logged_in_user->admin_email,
-										  'user_type'	 		=>  $logged_in_user->admin_type,
-										  'user_last_logged_in'	=>  $logged_in_user->admin_last_logged_in,
+										  'user_email' 			=> $logged_in_user->admin_email,
+										  'user_type'	 		=> $logged_in_user->admin_type,
+										  'user_last_logged_in'	=> $logged_in_user->admin_last_logged_in,
 										  'logged_in_type'		=> $user_type );
 		}else
 		{
 			$user_session_records = array('user_name'    		=> $logged_in_user->admin_uname,
-										  'user_email' 			=>	$logged_in_user->admin_email,
-										  'user_type'	 		=>  $logged_in_user->admin_type,
-										  'user_last_logged_in'	=>  $logged_in_user->admin_last_logged_in);
+										  'user_email' 			=> $logged_in_user->admin_email,
+										  'user_type'	 		=> $logged_in_user->admin_type,
+										  'user_last_logged_in'	=> $logged_in_user->admin_last_logged_in);
 		}
 
 		$this->session->set_userdata($user_session_records);
+		$this->check_user_access_level();
 	}
 
 	/* Method redirect user if auhorization
@@ -164,6 +165,38 @@ class Login extends CI_Controller
 	{
 		$this->session->set_flashdata('AuthMsg', $err_level);
 		redirect('admin/login');
+	}
+
+	/* Method check user access level
+	 * granted by admin , to hotel admin
+	 * @param void
+	 * return void
+	 */
+	private function check_user_access_level()
+	{
+		//echo '<pre>';
+		//print_r($this->session->all_userdata());
+		//exit;
+
+		if($this->session->userdata('logged_in_type')=== 'A')
+		{
+			// Authorize admin to all modules
+			// Switch to admin dashboard
+		}else
+		{
+			// Authorize hoteleir for permitted modules
+			// Switch to hoteleir dashboard
+		}
+	}
+
+	/* Method destroy logged in
+	 * user session and redirect to page
+	 * @param void
+	 * return void
+	 */
+	public function logout()
+	{
+
 	}
 }
 
