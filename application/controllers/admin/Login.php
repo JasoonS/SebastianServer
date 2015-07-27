@@ -77,7 +77,7 @@ class Login extends CI_Controller
 		if($admin_password_salt === FALSE)
 		{
 
-			$this->redirectWithErr(ERR_MSG_LEVEL_1);
+			$this->redirectWithErrMsg(ERR_MSG_LEVEL_1);
 		}
 
 		return $admin_password_salt;
@@ -100,7 +100,7 @@ class Login extends CI_Controller
 			}
 			else
 			{
-				$this->redirectWithErr(ERR_MSG_LEVEL_1);
+				$this->redirectWithErrMsg(ERR_MSG_LEVEL_1);
 			}	
 		}
 		$this->register_user_session();
@@ -122,7 +122,7 @@ class Login extends CI_Controller
 	 * @param void
 	 * return void
 	 */
-	private function redirectWithErr($err_level)
+	private function redirectWithErrMsg($err_level)
 	{
 		$this->session->set_flashdata('AuthMsg', $err_level);
 		redirect('admin/login');
