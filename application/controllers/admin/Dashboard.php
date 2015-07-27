@@ -7,6 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class dashboard extends CI_Controller 
 {
 	public $user_acl = array();
+	public $data	 = array();
 
 	public function __construct()
 	{
@@ -28,10 +29,8 @@ class dashboard extends CI_Controller
 	}
 
 	public function index()
-	{
-		echo '<pre>';
-		print_r($this->acl);
-		exit;
+	{	
+		$this->template->load('page_tpl', 'dashboard_vw',$this->data);
 	}
 
 	/* Method check user access level
