@@ -269,5 +269,32 @@ class User extends CI_Controller
 	   }
 	}
 	
+	/* Method render Hotel Lising View If User is super administrator
+	 * @param void
+	 * return void
+	 */
+	public function view_hotels()
+	{	
+		//Check If User is logged in otherwise redirect to login page.
+		$this->template->load('create_hotel_tpl', 'hotel_list');		
+	}
+	
+	/* Method render edit Hotel View If User is super administrator/Hotel Administrator
+	 * @param int
+	 * return void
+	 */
+	public function edit_hotel($hotel_id)
+	{	
+		//Check If User is logged in otherwise redirect to login page.
+	
+		$this->data['action']	= "admin/user/edit_hotel/$hotel_id";
+		$this->data['hotel_id']	= $hotel_id;
+		$this->data['countrylist'] = getCountryList();
+		$this->data['languagelist']=getAllLanguages();
+		$this->template->load('create_hotel_tpl', 'create_hotel',$this->data);
+			
+	}
+	
+	
 }
 

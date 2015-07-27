@@ -19,6 +19,7 @@
 	<link href="<?php echo THEME_ASSETS; ?>css/fileinput.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo THEME_ASSETS; ?>css/jquery-checktree.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo THEME_ASSETS; ?>css/jquery.dataTables.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -32,6 +33,7 @@
 <script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
 </body>
 
 </html>
