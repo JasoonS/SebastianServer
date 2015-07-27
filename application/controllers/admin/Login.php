@@ -159,16 +159,7 @@ class Login extends CI_Controller
 										  'logged_in_type'		=> $user_type );
 		}else
 		{
-<<<<<<< HEAD
-			$user_session_records = array('user_name'    		=> $logged_in_user->admin_uname,
-										  'user_email' 			=> $logged_in_user->admin_email,
-										  'user_type'	 		=> $logged_in_user->admin_type,
-										  'user_last_logged_in'	=> $logged_in_user->admin_last_logged_in);
-		}
 
-		$this->session->set_userdata($user_session_records);
-		$this->check_user_access_level();
-=======
 			
 			$user_session_records = array('user_name'    		=> $logged_in_user->sb_hotel_username,
 										  'user_email' 			=>	$logged_in_user->sb_hotel_useremail,
@@ -177,10 +168,8 @@ class Login extends CI_Controller
 		}
 
 		$this->session->set_userdata($user_session_records);
-		echo '<pre>';
-		print_r($this->session->all_userdata());
-		exit;
->>>>>>> fbd56734d7d7b79ae17b291f3bf8a89abd9b6652
+		$this->check_user_access_level();
+
 	}
 
 	/* Method redirect user if auhorization
