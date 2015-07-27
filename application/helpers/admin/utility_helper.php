@@ -127,31 +127,32 @@ function getAvailableHotelUserTypes($format='array')
 /*
 	This function is used to Upload Image
 */
-function upload_image($folderName)
+function upload_image($folderName,$fieldName)
 	{
 	   
 		$CI = & get_instance(); 
-		$file_ext = substr(strrchr($_FILES[$folderName]['name'],'.'),1);
+		$file_ext = substr(strrchr($_FILES[$fieldName]['name'],'.'),1);
 		$name= time();
 		$config = array(
-				'upload_path' => "./user_data/$folderName",
+				'upload_path' => ".$folderName",
 				'allowed_types' => "jpeg|jpg|png|gif",
 				'overwrite' => TRUE,
 				'file_name' => $name.".".$file_ext
 			);
 		$CI->load->helper('file');
 		$CI->load->library('upload', $config);
-		
-		if($CI->upload->do_upload($folderName))
+	   
+		if($CI->upload->do_upload($fieldName))
 		{
-		    //echo $CI->upload->data();
+		  
 			$data = array('upload_data' => $CI->upload->data());
 			return $data['upload_data']['file_name'];
 			//return $data['upload_data']['file_name'];
 		}
 		else
 		{
-			$error = $_FILES;
+			$error = array('error' => $CI->upload->display_errors());
+			print_r($error);exit;
 			return $error;
 		}
 	}
@@ -161,6 +162,11 @@ function upload_image($folderName)
  */
 function verifyPasswordHash($password,$hash_and_salt)
 {
+	//echo $password;
+	
+	//echo $hash_and_salt;
+	
+	//exit;
 	
 	/*$options = [
 		'cost' => 11,
@@ -169,11 +175,16 @@ function verifyPasswordHash($password,$hash_and_salt)
 
 	$hash = password_hash($password, PASSWORD_BCRYPT,$options);*/
 
-	if (password_verify($password, $hash_and_salt)) 
+	if (password_verify($password, $hash_and_salt))
+	{
+		
 		return TRUE;
-	else
-
+	}else
+	{
+		
 		return FALSE;
+	}
+		
 }
 
 /* Function create hash and salt password
@@ -194,9 +205,10 @@ function createHashAndSalt($user_provided_password)
 
 /*Function To Send An Email To User
 */
-	function sendMail($from,$to,$subject,$message)
+	function sendMail($from = '',$to,$subject,$message)
 	{
-		
+		if($from='')
+			$from = 'no-reply@sebastian.com';
         include 'email_library.php'; // include the library file
         include "classes/class.phpmailer.php"; // include the class name
         $mail	= new PHPMailer; // call the class 
@@ -221,7 +233,6 @@ function createHashAndSalt($user_provided_password)
 		else
 		{
 			return false;
-		}
-		
+		}		
 	}
 

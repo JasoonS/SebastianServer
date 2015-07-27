@@ -71,7 +71,7 @@ Class User_model extends CI_Model
 	{
 		$this->db->select('sb_hotel_user_id,sb_hotel_id,sb_hotel_username');
 		$this->db->select('sb_hotel_useremail,sb_hotel_user_pic,sb_hotel_user_type');
-		$this->db->select('sb_staff_cat_id,sb_hotel_user_shift_from,sb_hotel_user_shift_to');
+		$this->db->select('sb_hotel_user_shift_from,sb_hotel_user_shift_to');
 		$this->db->from('sb_hotel_users');
 		$this->db->where('sb_hotel_username',$hoteleir_user_name);
 		$this->db->where('sb_hotel_userpasswd',$hoteleir_passwd_salt);
