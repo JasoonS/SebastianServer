@@ -4,7 +4,7 @@ class Android_push
 {
 	function push_notification($pushdata)
 	{
-		$apiKey = "AIzaSyAccqNeulAAiGmp99GU5s9utvZdgQdNMpY";
+		$apiKey = "AIzaSyCIn_XQi6ErlAt8HYh55BMYxYUPq_z4G3k";
 
 		$message = $pushdata['message'];
 		$registrationIDs = $pushdata['deviceTokens'];//array("e8S6EFp98lc:APA91bFC6zLebQu6KCtbjSEeVJph-6wPJlJV6FdPALoVeGcJxdfpcXOD3to406swyJoeYsfUmxFQIY5GFIJUC5ntnmhvtDHclxNmMNTyKpg0h1QSoPT5jWuGS-GfVMP4LURoMtFE4tgv");
@@ -27,7 +27,8 @@ class Android_push
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode( $fields ));
-		$result = curl_exec($ch); 	// Execute post	
+		$result = curl_exec($ch);
+		// print_r($result); 	// Execute post	;
 
 	 //    if($result === false)
 	 //        die('Curl failed ' . curl_error());
