@@ -109,7 +109,18 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  |
  */
  define('ERR_MSG_LEVEL_1','Authentication Falied');
-
+ define('HOTEL_SELECT_SERVICES_SUCCESS','Hotel Services Updated Successfully.');
+ define('HOTEL_CREATION_SUCCESS','Hotel Created Successfully.');
+ define('HOTEL_CREATION_FAIL','Error in Hotel Creation.');
+ define('HOTEL_ADMIN_CREATION_SUCCESS','Hotel Administrator Created Successfully.');
+ define('HOTEL_ADMIN_CREATION_ERROR','Error in Hotel Administrator Creation.');
+ 
+ 
+ 
+ 
+ //FOLDER NAMES FOR IMAGE UPLOAD
+ define('HOTEL_USER_PIC',"/user_data/hotel_user_pic");
+ define('HOTEL_USER_PIC_COLUMN',"sb_hotel_user_pic");
 
 
  

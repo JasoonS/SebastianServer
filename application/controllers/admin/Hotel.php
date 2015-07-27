@@ -1,5 +1,5 @@
 <?php
-/* Login controller class 
+/* User controller class 
  * perform checks for valid authorization and
  * all login and logout activities
  */
@@ -7,12 +7,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Hotel extends CI_Controller 
 {
-	
-	
+
 	public function __construct()
 	{
 		parent::__construct();
-		//$this->load->library('session');
 		$this->load->model('Hotel_model');
 		$this->load->model('Services_model');
 		$this->load->helper('admin/utility_helper');
@@ -40,8 +38,7 @@ class Hotel extends CI_Controller
 	 */
 	public function create_hotel()
     {
-		
-		
+
 		$data = $this->input->post();
 		//Verify Hotel Data
 		$this->validation_rules = array(
@@ -68,12 +65,12 @@ class Hotel extends CI_Controller
 				if($result)
 				{
 				     
-					$this->session->set_flashdata('category_success', 'Hotel Created Successfully.');
+					$this->session->set_flashdata('category_success', HOTEL_CREATION_SUCCESS);
 					redirect('admin/hotel/add_hotel');
 				}
 				else
 				{
-					$this->session->set_flashdata('category_error', 'Error in Hotel Creation.');
+					$this->session->set_flashdata('category_error', HOTEL_CREATION_FAIL);
 					redirect('admin/hotel/add_hotel');
 				}
 			}
@@ -102,11 +99,8 @@ class Hotel extends CI_Controller
 	function add_hotel_admin_user()
 	{
 			$this->data['action']	= "admin/hotel/create_hotel_admin_user";
-			
 			$this->data['hotelusertypes'] = getAvailableHotelUserTypes();
 			$this->data['hotellist']=getAllHotels();	
-			
-				
 				if (($key = array_search('s',$this->data['hotelusertypes'])) !== false) {
 						unset($this->data['hotelusertypes'][$key]);
 				}
@@ -114,7 +108,6 @@ class Hotel extends CI_Controller
 						unset($this->data['hotelusertypes'][$key]);
 				}
 				
-			
 			$this->template->load('create_hotel_tpl', 'create_hotel_admin_user',$this->data);
 	}
 	/*
@@ -155,8 +148,8 @@ class Hotel extends CI_Controller
 				
 		        if(!empty($_FILES['sb_hotel_user_pic']['name']))
 				{
-					$folderName="sb_hotel_user_pic";
-					$pic1 = upload_image($folderName);
+					$folderName=HOTEL_USER_PIC;
+					$pic1 = upload_image($folderName,HOTEL_USER_PIC_COLUMN);
 				
 					if($pic1 != 0)
 					{
@@ -176,9 +169,6 @@ class Hotel extends CI_Controller
 				$data['sb_hotel_user_shift_to']= date("H:i:s", strtotime($data['sb_hotel_user_shift_to']));
 				
 				$result=$this->Hotel_model->create_hotel_admin($data);
-			
-				
-				
 				$hotelusername=$data['sb_hotel_username'];
 				$message="Hi ,
 							Congratulations Your administrator account is created on sebastian.
@@ -191,7 +181,7 @@ class Hotel extends CI_Controller
 				sendMail('no-reply@sebastian.com',$data[sb_hotel_useremail],"Administrator Account Creation",$message);
 				if($result == '1')
 				{
-					$this->session->set_flashdata('category_success', 'Hotel Administrator Created Successfully.');
+					$this->session->set_flashdata('category_success', HOTEL_ADMIN_CREATION_SUCCESS);
 					redirect('admin/hotel/add_hotel_admin_user');
 				}
 				else
@@ -200,8 +190,6 @@ class Hotel extends CI_Controller
 					redirect('admin/hotel/add_hotel_admin_user');
 				}
 			}
-		
-		
 	}
 	
 	/*

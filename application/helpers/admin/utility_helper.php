@@ -127,31 +127,32 @@ function getAvailableHotelUserTypes($format='array')
 /*
 	This function is used to Upload Image
 */
-function upload_image($folderName)
+function upload_image($folderName,$fieldName)
 	{
 	   
 		$CI = & get_instance(); 
-		$file_ext = substr(strrchr($_FILES[$folderName]['name'],'.'),1);
+		$file_ext = substr(strrchr($_FILES[$fieldName]['name'],'.'),1);
 		$name= time();
 		$config = array(
-				'upload_path' => "./user_data/$folderName",
+				'upload_path' => ".$folderName",
 				'allowed_types' => "jpeg|jpg|png|gif",
 				'overwrite' => TRUE,
 				'file_name' => $name.".".$file_ext
 			);
 		$CI->load->helper('file');
 		$CI->load->library('upload', $config);
-		
-		if($CI->upload->do_upload($folderName))
+	   
+		if($CI->upload->do_upload($fieldName))
 		{
-		    //echo $CI->upload->data();
+		  
 			$data = array('upload_data' => $CI->upload->data());
 			return $data['upload_data']['file_name'];
 			//return $data['upload_data']['file_name'];
 		}
 		else
 		{
-			$error = $_FILES;
+			$error = array('error' => $CI->upload->display_errors());
+			print_r($error);exit;
 			return $error;
 		}
 	}
