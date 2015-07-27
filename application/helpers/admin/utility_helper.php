@@ -99,9 +99,7 @@ function getAllHotels($format='array')
 	{
 		return json_encode($hotellist);
 	}
-	
 }
-
 
 
 /*
@@ -162,18 +160,6 @@ function upload_image($folderName,$fieldName)
  */
 function verifyPasswordHash($password,$hash_and_salt)
 {
-	//echo $password;
-	
-	//echo $hash_and_salt;
-	
-	//exit;
-	
-	/*$options = [
-		'cost' => 11,
-		'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
-	];
-
-	$hash = password_hash($password, PASSWORD_BCRYPT,$options);*/
 
 	if (password_verify($password, $hash_and_salt))
 	{
@@ -205,34 +191,34 @@ function createHashAndSalt($user_provided_password)
 
 /*Function To Send An Email To User
 */
-	function sendMail($from = '',$to,$subject,$message)
+function sendMail($from = '',$to,$subject,$message)
+{
+	if($from='')
+		$from = 'no-reply@sebastian.com';
+    include 'email_library.php'; // include the library file
+    include "classes/class.phpmailer.php"; // include the class name
+    $mail	= new PHPMailer; // call the class 
+	$mail->IsSMTP(); 
+	$mail->Host = SMTP_HOST; //Hostname of the mail server
+	$mail->Port = SMTP_PORT; //Port of the SMTP like to be 25, 80, 465 or 587
+	$mail->SMTPAuth = true; //Whether to use SMTP authentication
+	$mail->Username = SMTP_UNAME; //Username for SMTP authentication any valid email created in your domain
+	$mail->Password = SMTP_PWORD; //Password for SMTP authentication
+	$mail->AddReplyTo($from); //reply-to address
+	$mail->SetFrom($from, "Sebastian"); //From address of the mail
+		// put your while loop here like below,
+	$mail->Subject = $subject; //Subject od your mail
+	$mail->AddAddress($to, ""); //To address who will receive this email
+	$mail->MsgHTML( $message); //Put your body of the message you can place html code here
+		//$mail->AddAttachment("images/asif18-logo.png"); //Attach a file here if any or comment this line, 
+	$send = $mail->Send();
+    if($send)
 	{
-		if($from='')
-			$from = 'no-reply@sebastian.com';
-        include 'email_library.php'; // include the library file
-        include "classes/class.phpmailer.php"; // include the class name
-        $mail	= new PHPMailer; // call the class 
-		$mail->IsSMTP(); 
-		$mail->Host = SMTP_HOST; //Hostname of the mail server
-		$mail->Port = SMTP_PORT; //Port of the SMTP like to be 25, 80, 465 or 587
-		$mail->SMTPAuth = true; //Whether to use SMTP authentication
-		$mail->Username = SMTP_UNAME; //Username for SMTP authentication any valid email created in your domain
-		$mail->Password = SMTP_PWORD; //Password for SMTP authentication
-		$mail->AddReplyTo($from); //reply-to address
-		$mail->SetFrom($from, "Sebastian"); //From address of the mail
-			// put your while loop here like below,
-		$mail->Subject = $subject; //Subject od your mail
-		$mail->AddAddress($to, ""); //To address who will receive this email
-		$mail->MsgHTML( $message); //Put your body of the message you can place html code here
-			//$mail->AddAttachment("images/asif18-logo.png"); //Attach a file here if any or comment this line, 
-		$send = $mail->Send();
-        if($send)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}		
+		return true;
 	}
+	else
+	{
+		return false;
+	}		
+}
 

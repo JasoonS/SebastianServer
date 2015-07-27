@@ -18,7 +18,7 @@ class Login extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('User_model');
-		$this->load->library('session');
+		//$this->load->library('session');
 		$this->load->helper('admin/utility_helper');
 	}
 	
@@ -115,11 +115,7 @@ class Login extends CI_Controller
 	{
 
 		$this->session->set_userdata('logged_in_user',$this->logged_in_user_meta);
-		//$this->check_user_access_level();
-
-		echo '<pre>';
-		print_r($this->session->all_userdata());
-		exit;
+		redirect('admin/dashboard');
 	}
 
 	/* Method redirect user if auhorization
@@ -131,28 +127,6 @@ class Login extends CI_Controller
 	{
 		$this->session->set_flashdata('AuthMsg', $err_level);
 		redirect('admin/login');
-	}
-
-	/* Method check user access level
-	 * granted by admin , to hotel admin
-	 * @param void
-	 * return void
-	 */
-	private function check_user_access_level()
-	{
-		//echo '<pre>';
-		//print_r($this->session->all_userdata());
-		//exit;
-
-		if($this->session->userdata('logged_in_type')=== 'A')
-		{
-			// Authorize admin to all modules
-			// Switch to admin dashboard
-		}else
-		{
-			// Authorize hoteleir for permitted modules
-			// Switch to hoteleir dashboard
-		}
 	}
 
 	/* Method destroy logged in
