@@ -194,9 +194,10 @@ function createHashAndSalt($user_provided_password)
 
 /*Function To Send An Email To User
 */
-	function sendMail($from,$to,$subject,$message)
+	function sendMail($from = '',$to,$subject,$message)
 	{
-		
+		if($from='')
+			$from = 'no-reply@sebastian.com';
         include 'email_library.php'; // include the library file
         include "classes/class.phpmailer.php"; // include the class name
         $mail	= new PHPMailer; // call the class 
@@ -221,7 +222,6 @@ function createHashAndSalt($user_provided_password)
 		else
 		{
 			return false;
-		}
-		
+		}		
 	}
 
