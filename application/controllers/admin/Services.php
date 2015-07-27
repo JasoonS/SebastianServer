@@ -1,32 +1,27 @@
 <?php
-/* Login controller class 
- * perform checks for valid authorization and
- * all login and logout activities
+/* Services controller class 
+ * 1.Shows All Avaliable Services Checkbox List View For Hotel
+ * 2.Allow Hotel Admin To Select Services For Hotel.
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class services extends CI_Controller 
 {
-	
-	
 	public function __construct()
 	{
 		parent::__construct();
-		//$this->load->library('session');
 		$this->load->model('Hotel_model');
 		$this->load->model('Services_model');
 		$this->load->helper('admin/utility_helper');
 	}
 
 
-	/* Method render add Hotel View If User is super administrator
+	/* Render Hotel Checkbox Tree View If User is Hotel administrator to change services available for hotel.     
 	 * @param void
 	 * return void
 	 */
 	public function select_services()
 	{	
-		//Check If User is logged in otherwise redirect to login page.
-	
 		$this->data['action']	= "admin/services/add_hotel_services";
 		$this->data['user_email']=$this->session->userdata('user_email');
 		$this->data['hotel_id']=$this->Hotel_model->get_hotel_id($this->data['user_email']);
@@ -39,14 +34,12 @@ class services extends CI_Controller
 			
 	}
 	
-	/* Method render add Hotel View If User is super administrator
+	/* Method Actual Selection of services available for hotel.
 	 * @param void
 	 * return void
 	 */
 	public function add_hotel_services()
 	{	
-		//Check If User is logged in otherwise redirect to login page.
-	   
 		$postdata=array();
 		$this->data['action']	= "admin/services/add_hotel_services";
 		$this->data['user_email']=$this->session->userdata('user_email');
@@ -59,21 +52,23 @@ class services extends CI_Controller
 	    foreach($_POST as $key => $value) {
 			if (strpos($key, 'cservice') === 0) {
 				$valuearray=explode("_",$key);
-				$singlearray=array("sb_parent_service_id"=>$valuearray[3],
-							 "sb_child_service_id"=>$valuearray[1],
-                             "sb_hotel_id"=>$this->data['hotel_id']							 
-				);
+				$singlearray=array(
+									"sb_parent_service_id"=>$valuearray[3],
+									"sb_child_service_id"=>$valuearray[1],
+									"sb_hotel_id"=>$this->data['hotel_id']							 
+								);
 				array_push($postdata,$singlearray);
 			}
 		}
 		$this->data['serviceslist'] =$this->Services_model->update_hotel_services($postdata,$this->data['hotel_id']);
-		$this->session->set_flashdata('category_success', 'Hotel Services Updated Successfully.');
+		$this->session->set_flashdata('category_success',HOTEL_SELECT_SERVICES_SUCCESS);
 		redirect('admin/services/select_services');
-			
 	}
 	/*
-	This Function Creates Hotel Services Checkbox Tree View
-	*/
+	   This Function Creates Hotel Actual Services Checkbox Tree View html
+	 *  @param 1.Object Array Of all available services 2.Object Array of hotel selected services 
+	 * return html  
+	 */
 	function createservicestree($serviceslist,$hotelserviceslist)
 	{
 		$count =0 ;$cnt =0;
@@ -181,7 +176,6 @@ class services extends CI_Controller
 		$html .="</ul>";
 		return $html;
 	}
-	
-	
+
 }
 

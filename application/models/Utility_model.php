@@ -86,6 +86,19 @@ Class Utility_model extends CI_Model
 		preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
 		$enum = explode("','", $matches[1]);
 		return $enum;
-	} 
+	}
+
+	/* 
+	Returns List Of all Languages
+	 */
+	function get_all_languages()
+	{
+		$this->db->select('lang_id,lang_name');
+        $query = $this->db->get('sb_languages');
+		if($query->num_rows() > 0)
+			return $row = $query->result_array();
+		else
+			return FALSE;
+	}	
 	
 }

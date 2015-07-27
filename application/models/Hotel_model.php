@@ -18,6 +18,7 @@ Class Hotel_model extends CI_Model
 	function create_hotel($hotel_data)
 	{
 		$this->db->insert('sb_hotels',$hotel_data);
+	
 		return $this->db->insert_id();
 	}
 	
@@ -93,6 +94,28 @@ Class Hotel_model extends CI_Model
 		$query=$this->db->get('sb_hotel_users');
 		$result= $query->result_array();
 		return $result[0]['sb_hotel_id'];
+	}
+	
+	/* Method set languages For Hotel
+	 * inside system 
+	 * @param @int,@array
+	 * return @string on success and False on Fail
+	 */
+	function set_hotel_languages($hotel_id,$languages)
+	{
+	    $i=0;
+		$data=array();
+		while($i<count($languages))
+		{
+			$singleArray=array(
+								'lang_id'=>$languages[$i],
+								'sb_hotel_id'=>$hotel_id
+							);
+			array_push($data,$singleArray);
+			$i++;
+		}
+		$this->db->insert_batch('sb_hotel_lang_map',$data);
+		return true;
 	}
 	
 	

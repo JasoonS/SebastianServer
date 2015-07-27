@@ -162,18 +162,7 @@ function upload_image($folderName,$fieldName)
  */
 function verifyPasswordHash($password,$hash_and_salt)
 {
-	//echo $password;
 	
-	//echo $hash_and_salt;
-	
-	//exit;
-	
-	/*$options = [
-		'cost' => 11,
-		'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
-	];
-
-	$hash = password_hash($password, PASSWORD_BCRYPT,$options);*/
 
 	if (password_verify($password, $hash_and_salt))
 	{
@@ -234,5 +223,22 @@ function createHashAndSalt($user_provided_password)
 		{
 			return false;
 		}		
+	}
+	
+/*Function To Get All Languages List
+*/
+	function getAllLanguages($format='array')
+	{
+		$CI = & get_instance(); 
+		$CI->load->model('Utility_model');
+        $languagelist=$CI->Utility_model->get_all_languages();
+        if($format == 'array')
+			{
+				return  $languagelist;
+			}
+			else
+			{
+				return json_encode( $languagelist);
+			}			
 	}
 
