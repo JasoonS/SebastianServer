@@ -120,7 +120,8 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  
  //FOLDER NAMES FOR IMAGE UPLOAD
  define('HOTEL_USER_PIC',"/user_data/hotel_user_pic");
- define('HOTEL_USER_PIC_COLUMN',"sb_hotel_user_pic");
+ define('HOTEL_PIC',"/user_data/hotel_pic");
+
 
 
  

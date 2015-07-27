@@ -160,7 +160,6 @@ function upload_image($folderName,$fieldName)
  */
 function verifyPasswordHash($password,$hash_and_salt)
 {
-
 	if (password_verify($password, $hash_and_salt))
 	{
 		
@@ -216,9 +215,29 @@ function sendMail($from = '',$to,$subject,$message)
 	{
 		return true;
 	}
+
 	else
 	{
 		return false;
 	}		
 }
+
+	
+/*Function To Get All Languages List
+*/
+function getAllLanguages($format='array')
+{
+	$CI = & get_instance(); 
+	$CI->load->model('Utility_model');
+	$languagelist=$CI->Utility_model->get_all_languages();
+	if($format == 'array')
+	{
+		return  $languagelist;
+	}
+	else
+	{
+		return json_encode( $languagelist);
+	}			
+}
+
 

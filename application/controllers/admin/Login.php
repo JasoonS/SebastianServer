@@ -113,7 +113,6 @@ class Login extends CI_Controller
 	 */
 	private function register_user_session()
 	{
-
 		$this->session->set_userdata('logged_in_user',$this->logged_in_user_meta);
 		redirect('admin/dashboard');
 	}
