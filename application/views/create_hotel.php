@@ -5,6 +5,7 @@
 
 
 </style>
+
 <div class="account-container">	
 	<div class="content clearfix">
 	<!-- This is for Success Message.-->
