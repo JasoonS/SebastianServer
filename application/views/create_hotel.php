@@ -9,7 +9,32 @@
 	<?php if ($this->session->flashdata('category_error')) { ?>
     <div class="alert alert-danger"> <?= $this->session->flashdata('category_error') ?> </div>
 	<?php } ?>
+	<?php
+	//echo "<pre>";
+	//print_r($serviceslist);
+	/*$count =0 ;
+	while($count<count($serviceslist))
+	{
+	    if($count -1 !=-1){
+	    if($serviceslist[$count]['sb_parent_service_id'] == $serviceslist[$count-1]['sb_parent_service_id'])
+		{
+			echo "-".$serviceslist[$count]['sb_child_service_name']."<br>";
+		}
+		else
+		{
+			echo $serviceslist[$count]['sb_parent_service_name']."<br>";
+			echo "-".$serviceslist[$count]['sb_child_service_name']."<br>";
+		}
+		}
+		else
+		{
+			echo $serviceslist[$count]['sb_parent_service_name']."<br>";
+			echo "-".$serviceslist[$count]['sb_child_service_name']."<br>";
+		}
+		$count++;
+	}*/
 	
+	?>
 	<form class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data">
 		<fieldset>
 		<!-- Form Name -->

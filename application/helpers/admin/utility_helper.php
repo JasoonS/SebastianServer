@@ -161,6 +161,11 @@ function upload_image($folderName)
  */
 function verifyPasswordHash($password,$hash_and_salt)
 {
+	//echo $password;
+	
+	//echo $hash_and_salt;
+	
+	//exit;
 	
 	/*$options = [
 		'cost' => 11,
@@ -169,11 +174,16 @@ function verifyPasswordHash($password,$hash_and_salt)
 
 	$hash = password_hash($password, PASSWORD_BCRYPT,$options);*/
 
-	if (password_verify($password, $hash_and_salt)) 
+	if (password_verify($password, $hash_and_salt))
+	{
+		
 		return TRUE;
-	else
-
+	}else
+	{
+		
 		return FALSE;
+	}
+		
 }
 
 /* Function create hash and salt password

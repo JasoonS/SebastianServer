@@ -17,9 +17,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-
-$config['base_url'] = 'http://localhost/sebastian-admin-panel/';
-
+$host = "localhost";
+$config['base_url'] = 'http://'.$host.'/sebastian-admin-panel/';
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +31,6 @@ $config['base_url'] = 'http://localhost/sebastian-admin-panel/';
 |
 */
 $config['index_page'] = '';
-
 
 /*
 |--------------------------------------------------------------------------

@@ -21,6 +21,8 @@ class Login extends CI_Controller
 		$this->load->model('User_model');
 		$this->load->library('session');
 		$this->load->helper('admin/utility_helper');
+		
+		
 	}
 	
 	/* Method render login page
@@ -44,7 +46,7 @@ class Login extends CI_Controller
 		array('field'=>'username','label'=>'Username','rules'=>'required','class'=>'text-danger'),
 		array('field'=>'password','label'=>'Password','rules'=>'required','class'=>'text-danger')
 		);
-		$this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
+		$this->form_validation->set_error_delimiters('<div class="bg-danger">', '</div>');
 		$this->form_validation->set_rules($this->validation_rules);
 		
 		
@@ -64,10 +66,11 @@ class Login extends CI_Controller
 
 			if($password_salt['hashed_salt'] == TRUE)
 			{
+			    
 				$this->authenticate_user_login($password_salt);
 			} else
 			{
-				redirect();
+				$this->redirectWithErr(ERR_MSG_LEVEL_1);
 			}
 		}		
 	}
@@ -101,29 +104,37 @@ class Login extends CI_Controller
 	 */
 	private function authenticate_user_login($password_salt_n_type = null)
 	{
-
+		
 		// Admin password authentication
-		if($password_salt_n_type['start_chk_admin'] === TRUE)
+		if(isset($password_salt_n_type['start_chk_admin'])&&($password_salt_n_type['start_chk_admin'] === TRUE))
 		{
 			if(verifyPasswordHash($this->input->post('password'),$password_salt_n_type['hashed_salt']->admin_password_salt) == TRUE)
 			{
 				$user_type				  = 'A';
 				$logged_in_user 		  =  $this->User_model->authenticated_admin_records($this->input->post('username'),$password_salt_n_type['hashed_salt']->admin_password_salt);
-				die('password correct for admin');
+				//die('password correct for admin');
 			}else
 			{
-				die('wrong password for admin');
+
+				$this->redirectWithErr(ERR_MSG_LEVEL_1);
+
 			}
 		}else // Hotelier password verification
 		{
-			if(verifyPasswordHash($this->input->post('password'),$password_salt_n_type['hashed_salt']->admin_password_salt) == TRUE)
+		      
+			 
+			if(verifyPasswordHash($this->input->post('password'),$password_salt_n_type['hashed_salt']->sb_hotel_userpasswd) == TRUE)
 			{
+			 
 				$user_type 				  = 'H';
-				$logged_in_user 		  = $this->User_model->authenticated_hoteleir_records($this->input->post('username'),$password_salt_n_type['hashed_salt']->admin_password_salt);
-				die('password correct for hotelier');
+
+				$logged_in_user 		  = $this->User_model->authenticated_hoteleir_records($this->input->post('username'),$password_salt_n_type['hashed_salt']->sb_hotel_userpasswd);
+				//die('password correct for hotelier');
 			}else
 			{
-				die('wrong password for hotel');
+
+				$this->redirectWithErr(ERR_MSG_LEVEL_1);
+
 			}
 		}
 
@@ -142,19 +153,77 @@ class Login extends CI_Controller
 		if($user_type === 'A')
 		{
 			$user_session_records = array('user_name' 			=> $logged_in_user->admin_uname,
-										  'user_email' 			=>	$logged_in_user->admin_email,
-										  'user_type'	 		=>  $logged_in_user->admin_type,
-										  'user_last_logged_in'	=>  $logged_in_user->admin_last_logged_in,
+										  'user_email' 			=> $logged_in_user->admin_email,
+										  'user_type'	 		=> $logged_in_user->admin_type,
+										  'user_last_logged_in'	=> $logged_in_user->admin_last_logged_in,
 										  'logged_in_type'		=> $user_type );
 		}else
 		{
+<<<<<<< HEAD
 			$user_session_records = array('user_name'    		=> $logged_in_user->admin_uname,
-										  'user_email' 			=>	$logged_in_user->admin_email,
-										  'user_type'	 		=>  $logged_in_user->admin_type,
-										  'user_last_logged_in'	=>  $logged_in_user->admin_last_logged_in);
+										  'user_email' 			=> $logged_in_user->admin_email,
+										  'user_type'	 		=> $logged_in_user->admin_type,
+										  'user_last_logged_in'	=> $logged_in_user->admin_last_logged_in);
 		}
 
 		$this->session->set_userdata($user_session_records);
+		$this->check_user_access_level();
+=======
+			
+			$user_session_records = array('user_name'    		=> $logged_in_user->sb_hotel_username,
+										  'user_email' 			=>	$logged_in_user->sb_hotel_useremail,
+										  'user_type'	 		=>  $logged_in_user->sb_hotel_user_type
+										  );
+		}
+
+		$this->session->set_userdata($user_session_records);
+		echo '<pre>';
+		print_r($this->session->all_userdata());
+		exit;
+>>>>>>> fbd56734d7d7b79ae17b291f3bf8a89abd9b6652
+	}
+
+	/* Method redirect user if auhorization
+	 * fails during login activity
+	 * @param void
+	 * return void
+	 */
+	private function redirectWithErr($err_level)
+	{
+		$this->session->set_flashdata('AuthMsg', $err_level);
+		redirect('admin/login');
+	}
+
+	/* Method check user access level
+	 * granted by admin , to hotel admin
+	 * @param void
+	 * return void
+	 */
+	private function check_user_access_level()
+	{
+		//echo '<pre>';
+		//print_r($this->session->all_userdata());
+		//exit;
+
+		if($this->session->userdata('logged_in_type')=== 'A')
+		{
+			// Authorize admin to all modules
+			// Switch to admin dashboard
+		}else
+		{
+			// Authorize hoteleir for permitted modules
+			// Switch to hoteleir dashboard
+		}
+	}
+
+	/* Method destroy logged in
+	 * user session and redirect to page
+	 * @param void
+	 * return void
+	 */
+	public function logout()
+	{
+
 	}
 }
 
