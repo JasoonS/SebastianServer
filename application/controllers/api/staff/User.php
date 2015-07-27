@@ -8,6 +8,8 @@ class User extends CI_Controller {
 		parent::__construct();
 		$this->load->model('api/staff/User_model');
 		$this->load->helper('admin/utility_helper');
+		$this->load->library('api/android_push');
+		$this->load->library('api/iospush');
 	}
 
 	/**
@@ -194,5 +196,56 @@ class User extends CI_Controller {
 	        $pass[] = $alphabet[$n];
 	    }
 	    return implode($pass); //turn the array into a string
+	}
+
+	public function notification()
+	{
+		$sdt_deviceType = $this->input->post('sdt_deviceType');
+		$token = $this->User_model->get_token($sdt_deviceType);
+		 // print_r($token); die();
+		$message = "Hi Everyone....";
+
+		$dev_token = array();
+		$ios_token = array();
+		for ($i=0; $i < count($token); $i++) 
+		{ 
+			if($sdt_deviceType == 'android')
+			{
+
+				array_push($dev_token,$token[$i]['sdt_token']);
+			}
+			else
+			{
+				if(strlen($token[$i]['sdt_token']) == 64 )
+				{
+					array_push($ios_token,$token[$i]['sdt_token']);
+				}	
+			}	
+		}
+		// print_r($ios_token); die();
+		
+		// array for ios
+		$ipushdata  = array('deviceToken'=> $ios_token,
+							'user'=> "customer",
+							'message' => $message
+							);
+
+		
+		// array for android
+		$pushdata = array(
+			'message'=> $message,
+			'deviceTokens'=> $dev_token
+			);
+		if($sdt_deviceType == 'android')
+		{
+			$val = $this->android_push->push_notification($pushdata);
+		}
+		else
+		{
+			$val = $this->iospush->iospush_notification($ipushdata);	
+		}	
+		if ($val == 1) {
+			echo("Notification send");
+		}
 	}
 }

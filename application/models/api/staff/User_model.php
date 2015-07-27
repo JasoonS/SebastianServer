@@ -87,5 +87,16 @@ class User_model extends CI_Model
 		$this->db->update('sb_hotel_users', $arr1);
 		return 1;
 	}
+
+
+	function get_token($sdt_deviceType)
+	{
+		
+
+		$sql = "SELECT sdt_token FROM sb_staff_devicetoken WHERE sdt_deviceType = '$sdt_deviceType'";
+		// echo($sql); die();
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}	
 }
 ?>	

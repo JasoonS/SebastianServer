@@ -47,7 +47,7 @@ Class User_model extends CI_Model
 	 * to admin type
 	 * @param string,string
 	 * return array on success , false on failure
-	 */
+	 *
 	function authenticated_admin_records($admin_user_name,$admin_passwd_salt)
 	{
 		$this->db->select('admin_uname,admin_email,admin_type,admin_last_logged_in');
@@ -60,7 +60,7 @@ Class User_model extends CI_Model
 			return $row = $query->row();
 		else
 			return FALSE;
-	}
+	}*/
 
 	/* Method return user records relative
 	 * to hotleir

@@ -11,23 +11,25 @@ class Iospush {
 	*/
     public function iospush_notification($iospushdata)
     {
-		$server = "dev"
+    	 // print_r($iospushdata); die();
+		$server = "dev";
 
 		if($server == 'dev')
 			$url = "ssl://gateway.sandbox.push.apple.com:2195";
 		else
 			$url = "ssl://gateway.push.apple.com:2195";
 		//this this password set for .pem file
-		$passphrase = 'venoo';
+		$passphrase = 'sebastian';
 		// Put your alert message here:
 		$message = $iospushdata['message'];
 		$deviceToken = $iospushdata['deviceToken'];
+		// print_r($deviceToken[0]); die();
 		////////////////////////////////////////////////////////////////////////////////
 		if($iospushdata['user'] == 'customer')
-			$pemPath = 'push/customer_ck.pem';
+			$pemPath = 'push/SebastianCustomerCK.pem';
 		else
 			$pemPath = 'push/staff_ck.pem';
-		//echo $pemPath; die;
+		// echo $pemPath; die;
 		$arrContextOptions=array(
 		    "ssl"=>array(
 		        "verify_peer"=>false,
