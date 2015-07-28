@@ -30,11 +30,13 @@ class dashboard extends CI_Controller
 
 	public function index()
 	{	
-		//echo '<pre>';
-		//print_r($this->session->userdata('logged_in_user'));
-		//exit;
-
-		$this->template->load('page_tpl', 'dashboard_vw',$this->data);
+		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'a')
+		{
+			$this->template->load('page_tpl', 'admin_dashboard_vw',$this->data);
+		}else
+		{
+			$this->template->load('page_tpl', 'hotelier_dashboard_vw',$this->data);
+		}	
 	}
 
 	/* Method check user access level
