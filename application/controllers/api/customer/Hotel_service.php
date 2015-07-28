@@ -47,7 +47,7 @@ class Hotel_service extends CI_Controller
 	 * return type- 
 	 * created on - 22nd July 2015;
 	 * updated on - 
-	 * created by - Akshay Patil; sandbox_sebastian
+	 * created by - Akshay Patil;
 	 */
 
 	function place_service()
@@ -137,7 +137,7 @@ class Hotel_service extends CI_Controller
 			$token = $sb_hotel_user = $this->Hotel_service_model->get_staff_ids($hrs['sb_hotel_id'],$hrs['sb_parent_service_id']);
 			if (count($token)>0)
 			{
-				$message = "Hi Everyone....";
+				$message = "कृपया, कार्य वर एक कटाक्ष टाका";
 				$android_token = array();
 				$ios_token = array();
 				for ($i=0; $i < count($token); $i++) 
