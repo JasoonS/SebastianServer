@@ -30,6 +30,10 @@ class dashboard extends CI_Controller
 
 	public function index()
 	{	
+		//echo '<pre>';
+		//print_r($this->session->userdata('logged_in_user'));
+		//exit;
+
 		$this->template->load('page_tpl', 'dashboard_vw',$this->data);
 	}
 

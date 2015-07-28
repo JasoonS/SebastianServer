@@ -88,13 +88,8 @@ Class Acl
             } else {
                 $hP = false;
             }
-            $assigned_mods[$pK] = array('module_key' => $pK,'inheritted' => true,'value' => $hP,'name' => $this->getPermNameFromID($row->sb_mod_id),'id' => $row->sb_mod_id);
+            $assigned_mods[$pK] = array('module_key' => $pK,'inheritted' => true,'value' => $hP,'name' => $this->getPermNameFromID($row->sb_mod_id),'id' => $row->sb_mod_id,'is_parent' => $this->getPermParentFlag($row->sb_mod_id),'parent_id'=> $this->getPermParentId($row->sb_mod_id));
         }
-
-        //echo '<pre>';
-        //print_r($assigned_mods);
-        //exit;
-
         return $assigned_mods;
     }
 
@@ -150,8 +145,93 @@ Class Acl
             } else {
                 $hP = false;
             }
-            $assigned_mods[$pK] = array('module_key' => $pK,'inheritted' => false,'value' => $hP,'name' => $this->getPermNameFromID($row->sb_mod_id),'id' => $row->sb_mod_id);
+            $assigned_mods[$pK] = array('module_key' => $pK,'inheritted' => false,'value' => $hP,'name' => $this->getPermNameFromID($row->sb_mod_id),'id' => $row->sb_mod_id,'is_parent' => $this->getPermParentFlag($row->sb_mod_id),'parent_id'=> $this->getPermParentId($row->sb_mod_id));
         }
         return $assigned_mods;
+    }
+
+    /* Method return parent flag for 
+     * module @pram int
+     * return string
+     */
+    function getPermParentFlag($permID)
+    {
+        $this->ci->db->select('sb_mod_is_parent');
+        $this->ci->db->where('sb_mod_id',$permID);
+        $sql = $this->ci->db->get('sb_modules',1);
+        $data = $sql->result();
+        return $data[0]->sb_mod_is_parent;
+    }
+
+    /* Method return parent id of any module
+     * if exist
+     * @param void
+     * return int
+     */
+    function getPermParentId($permID)
+    {
+        $this->ci->db->select('sb_mod_parent_id');
+        $this->ci->db->where('sb_mod_id',$permID);
+        $sql = $this->ci->db->get('sb_modules',1);
+        $data = $sql->result();
+        return $data[0]->sb_mod_parent_id;
+    }
+
+
+    /* Method return parent modules and their sub modules
+     * accessible to user permission
+     * @param void
+     * return array
+     */
+    function getPermittedParentChildMods()
+    {
+        foreach($this->perms as $key => $value)
+        {
+
+            if($value['is_parent']!== 'y' && $value['parent_id'] !== 0)
+            {
+                continue;
+            }
+
+            $subModules = $this->getSubModules($value['parent_id']);
+
+
+            if($subModules)
+            {
+                $value['subMods']   = $subModules;
+            }
+        }
+
+        //echo '<pre>';
+        //print_r();
+        //exit;
+
+        return $value;
+    }
+
+    /* Method return submodules for any
+     * respective parent id by checking $perms array
+     * @param void
+     * return array
+     */
+    public function getSubModules($parentId)
+    {
+
+        $Modules    = array();
+        foreach($this->perms as $key=>$value)
+        {
+            if($value['parent_id'] !== $parentId)
+            {
+                //$Modules[] = $value;
+                continue;
+            }
+
+            $Modules[] = $value;
+        }
+
+        if(!empty($Modules))
+            return $Modules;
+        else
+            return FALSE;  
     }
 }
