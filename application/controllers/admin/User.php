@@ -291,10 +291,7 @@ class User extends CI_Controller
 		$this->data['hotel_id']	= $hotel_id;
 		$this->data['countrylist'] = getCountryList();
 		$this->data['languagelist']=getAllLanguages();
-		$this->template->load('create_hotel_tpl', 'create_hotel',$this->data);
-			
+		$this->template->load('create_hotel_tpl', 'create_hotel',$this->data);		
 	}
-	
-	
 }
 
