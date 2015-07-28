@@ -68,5 +68,32 @@ class Hotel_service_model extends CI_Model
 		}
 		return $roomNumbers;
 	}
+
+	public function get_staff_ids($sb_hotel_id,$sb_parent_service_id)
+	{
+		$qry = "Select s.sb_hotel_user_id from sb_hotel_service_map h join sb_hotel_user_service_access_map s on
+				 h.sb_hotel_service_map_id = s.sb_hotel_service_map_id where h.sb_hotel_id = $sb_hotel_id AND
+				 h.sb_parent_service_id = $sb_parent_service_id"; 
+				 // echo($qry); die();
+			$query = $this->db->query($qry);
+			$data = $query->result_array();
+			$token = array();
+			if(count($data))
+			{
+				for ($i=0, $j=0; $i < count($data) ; $i++)
+				 { 
+					if($data[$i]['sb_hotel_user_id']!= '' && $data[$i]['sb_hotel_user_id'] != NULL)
+					{	
+						$token[$j++] = $data[$i]['sb_hotel_user_id'];
+					}	
+				 }	
+			}
+			$token1 = implode(",",$token);
+			$sql = "Select sdt_token , sdt_deviceType from sb_staff_devicetoken where sb_hotel_user_id IN ($token1)";
+			$query1 = $this->db->query($sql);
+			return $query1->result_array();
+			 // print_r($sql)	; die();
+
+	}
 }
 ?>

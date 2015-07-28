@@ -26,9 +26,9 @@ class Iospush {
 		// print_r($deviceToken[0]); die();
 		////////////////////////////////////////////////////////////////////////////////
 		if($iospushdata['user'] == 'customer')
-			$pemPath = 'push/SebastianCustomerCK.pem';
+			$pemPath = 'push/customer/SebastianCustomerCK.pem';
 		else
-			$pemPath = 'push/staff_ck.pem';
+			$pemPath = 'push/staff/SebastianStaffCK.pem';
 		// echo $pemPath; die;
 		$arrContextOptions=array(
 		    "ssl"=>array(
