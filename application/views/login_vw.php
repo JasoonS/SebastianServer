@@ -2,7 +2,7 @@
 	<div id="login" class="animate form">
 	    <section class="login_content">
 	        <form action="<?php echo base_url().$action?>" method="post">
-	            <h1>Login Form</h1>
+	            <h1>Login</h1>
 
 	            <p class="bg-danger"><?php if($this->session->flashdata('AuthMsg')) echo $this->session->flashdata('AuthMsg'); ?></p>
 
