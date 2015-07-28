@@ -89,11 +89,6 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  |--------------------------------------------------------------------------
  | Creating Custom Specfic Constants
  |--------------------------------------------------------------------------
- |
- | If set to TRUE, a backtrace will be displayed along with php errors. If
- | error_reporting is disabled, the backtrace will not display, regardless
- | of this setting
- |
  */
   define('BASE_URL','http://localhost/sebastian-admin-panel/');
   define('THEME_ASSETS',BASE_URL.'assets/');
@@ -102,11 +97,6 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  |--------------------------------------------------------------------------
  | Creating System Message Constants
  |--------------------------------------------------------------------------
- |
- | If set to TRUE, a backtrace will be displayed along with php errors. If
- | error_reporting is disabled, the backtrace will not display, regardless
- | of this setting
- |
  */
  define('ERR_MSG_LEVEL_1','Authentication Falied');
  define('ERR_MSG_LEVEL_2','Please log in to continue');
@@ -116,6 +106,15 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('HOTEL_CREATION_FAIL','Error in Hotel Creation.');
  define('HOTEL_ADMIN_CREATION_SUCCESS','Hotel Administrator Created Successfully.');
  define('HOTEL_ADMIN_CREATION_ERROR','Error in Hotel Administrator Creation.');
+
+ /*
+ |--------------------------------------------------------------------------
+ | Creating System Labels
+ |--------------------------------------------------------------------------
+ |
+ */
+ define('LABEL_1','Admin');
+ define('LABEL_2','Hotelier');
  
  
  
