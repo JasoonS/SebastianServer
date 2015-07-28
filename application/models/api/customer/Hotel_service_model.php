@@ -95,5 +95,56 @@ class Hotel_service_model extends CI_Model
 			 // print_r($sql)	; die();
 
 	}
+
+	function get_request_info($sb_hotel_guest_booking_id)
+	{
+		// $qry = "Select r.sb_hotel_requst_ser_id , c.sb_child_servcie_name ,h.sb_hotel_service_assigned ,u.sb_hotel_username,
+
+		// 		 h.sb_hotel_ser_start_date, h.sb_hotel_ser_start_time, h.sb_hotel_ser_finished_date , h.sb_hotel_ser_finished_time,
+
+		// 		 h.sb_hotel_service_status, r.sb_service_log from sb_hotel_request_service r
+
+		// 		 join sb_hotel_service_map m on r.sb_hotel_service_map_id = m.sb_hotel_service_map_id
+
+		// 		 join sb_hotel_child_services c on m.sb_child_service_id = c.sb_child_service_id
+
+		// 		 join sb_hotel_services_status h on r.sb_hotel_requst_ser_id = h.sb_hotel_requst_ser_id 
+
+		// 		 join sb_hotel_users u on h.sb_hotel_ser_assgnd_to_user_id  = u.sb_hotel_user_id 
+
+		// 		 where r.sb_hotel_guest_booking_id = '$sb_hotel_guest_booking_id' ";
+
+		$qry = "Select r.sb_hotel_requst_ser_id , h.sb_hotel_service_assigned, h.sb_hotel_ser_start_date, r.sb_hotel_ser_reqstd_on, 
+				h.sb_hotel_ser_start_time, h.sb_hotel_ser_finished_date , h.sb_hotel_ser_finished_time,h.sb_hotel_ser_assgnd_to_user_id,
+				h.sb_hotel_service_status, r.sb_service_log,c.sb_child_servcie_name, c.service_image
+				from sb_hotel_request_service r join sb_hotel_services_status h
+				ON r.sb_hotel_requst_ser_id = h.sb_hotel_requst_ser_id
+				join sb_hotel_service_map m ON r.sb_hotel_service_map_id = m.sb_hotel_service_map_id
+				join sb_hotel_child_services c ON m.sb_child_service_id = c.sb_child_service_id 
+				where r.sb_hotel_guest_booking_id = '$sb_hotel_guest_booking_id'";
+		$query = $this->db->query($qry);
+		$data = $query->result_array();		
+		// echo $qry; die();				 
+			if(count($data))
+			{
+				for ($i=0, $j=0; $i < count($data) ; $i++)
+				 { 
+					$data[$i]['sb_hotel_ser_assgnd_to_username'] = "";
+					if($data[$i]['sb_hotel_ser_assgnd_to_user_id']!= '' && $data[$i]['sb_hotel_ser_assgnd_to_user_id'] != NULL && $data[$i]['sb_hotel_ser_assgnd_to_user_id'] != 0)
+					{	
+						$sb_hotel_user_id = $data[$i]['sb_hotel_ser_assgnd_to_user_id'];
+						$qry1 = "Select sb_hotel_user_id,sb_hotel_username from sb_hotel_users where sb_hotel_user_id = '$sb_hotel_user_id'";
+						$query1 = $this->db->query($qry1);
+						$data1 = $query1->result_array();	
+						$data[$i]['sb_hotel_ser_assgnd_to_username'] = $data1[0]['sb_hotel_username'];
+
+					}
+				 }	
+			}
+			return $data;
+
+				 
+		 
+	}
 }
 ?>
