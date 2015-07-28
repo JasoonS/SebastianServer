@@ -47,7 +47,7 @@ class Hotel_service extends CI_Controller
 	 * return type- 
 	 * created on - 22nd July 2015;
 	 * updated on - 
-	 * created by - Akshay Patil;
+	 * created by - Akshay Patil; sandbox_sebastian
 	 */
 
 	function place_service()
@@ -131,7 +131,9 @@ class Hotel_service extends CI_Controller
 		$data = $this->Hotel_service_model->place_service($hrs, $hss);
 		if ($data != 0)
 		{
-			// print_r($hrs['sb_hotel_id']); print_r($hrs['sb_parent_service_id']); die();	
+			
+ 			//code for push notification	
+
 			$token = $sb_hotel_user = $this->Hotel_service_model->get_staff_ids($hrs['sb_hotel_id'],$hrs['sb_parent_service_id']);
 			if (count($token)>0)
 			{
@@ -173,13 +175,36 @@ class Hotel_service extends CI_Controller
 					$this->load->library('api/Android_push');
 					$val1 = $this->android_push->push_notification($pushdata);
 				}
-				# code...
+				
 			}
+			
 			response_ok();
 		}
 		else
 		{
 			response_fail("Sorry, Unable to place your service request. Please try again after some time.");
 		}
+	}
+
+	function get_request()
+	{
+		$sb_hotel_guest_booking_id	 = $this->input->post('sb_hotel_guest_booking_id');
+		if ($sb_hotel_guest_booking_id == '') 
+		{
+			response_fail("Please send the valid Guest Bookin Id, Guest Bookin Id  is empty");
+		}
+		else
+		{
+			$service = $this->Hotel_service_model->get_request_info($sb_hotel_guest_booking_id);
+			if ($service != 0)
+			{	
+				response_ok($service);
+			}
+			else
+			{
+				response_fail("Sorry, No request from you.");
+			}
+
+		}	
 	}
 }	
