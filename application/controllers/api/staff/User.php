@@ -27,7 +27,7 @@ class User extends CI_Controller {
 		$sdt_deviceType		    =   $this->input->post('sdt_deviceType');
 		$sdt_macid 				= 	$this->input->post('sdt_macid');
 		
-		if($sb_hotel_useremail == '' || $sb_hotel_userpasswd == '' ||  $sdt_token == '' ||   $sdt_deviceType == ''|| $sdt_macid=='' )
+		if($sb_hotel_useremail == '' || $sb_hotel_userpasswd == '' ||  $sdt_deviceType == ''|| $sdt_macid=='' )
 		{
 			response_fail("Please Insert All data correctly");
 		}
