@@ -24,7 +24,7 @@ class User extends CI_Controller
 		$cdt_deviceType		    =   $this->input->post('cdt_deviceType');
 		$cdt_macid 				= 	$this->input->post('cdt_macid');
 				
-		if($sb_guest_reservation_code == '' ||  $cdt_token == '' ||   $cdt_deviceType == ''|| $cdt_macid=='' )
+		if($sb_guest_reservation_code == '' ||  $cdt_deviceType == ''|| $cdt_macid=='' )
 		{
 			response_fail("Please Insert All data correctly");
 
