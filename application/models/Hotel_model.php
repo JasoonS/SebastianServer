@@ -18,6 +18,7 @@ Class Hotel_model extends CI_Model
 	function create_hotel($hotel_data)
 	{
 		$this->db->insert('sb_hotels',$hotel_data);
+	
 		return $this->db->insert_id();
 	}
 	
@@ -95,6 +96,130 @@ Class Hotel_model extends CI_Model
 		return $result[0]['sb_hotel_id'];
 	}
 	
+	/* Method set languages For Hotel
+	 * inside system 
+	 * @param @int,@array
+	 * return @string on success and False on Fail
+	 */
+	function set_hotel_languages($hotel_id,$languages)
+	{
+	    $i=0;
+		$data=array();
+		while($i<count($languages))
+		{
+			$singleArray=array(
+								'lang_id'=>$languages[$i],
+								'sb_hotel_id'=>$hotel_id
+							);
+			array_push($data,$singleArray);
+			$i++;
+		}
+		$this->db->insert_batch('sb_hotel_lang_map',$data);
+		return true;
+	}
 	
+	/* Method get listing of hotels
+	 * inside system 
+	 * @param 	 
+	 * return @array on success and False on Fail
+	 */
+	
+	function get_hotels($sTable, $sWhere, $sOrder, $sLimit, $aColumns,$sIndexColumn,$sEcho)
+	{
+	 
+         $sQuery = "
+         SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."
+         FROM   $sTable
+         $sWhere
+         $sOrder
+         $sLimit
+         ";
+        
+        $rResult = $this->db->query($sQuery);
+        $rResult_array=$rResult->result_array();
+        $iFilteredTotal = count($rResult_array);
+
+        /* Total data set length */
+        $sQuery_TR = "
+        SELECT COUNT(".$sIndexColumn.") AS TotalRecords
+        FROM   $sTable
+        ";
+        $rResult_TR = $this->db->query($sQuery_TR);
+        $rResult_array_TR=$rResult_TR->result_array();
+        $iTotal = $rResult_array_TR[0]['TotalRecords'];
+        
+        $output = array(
+            "sEcho" => intval($sEcho),
+            "iTotalRecords" => intval($iTotal),
+            "iTotalDisplayRecords" => intval($iTotal), //$iFilteredTotal,
+            "aaData" => array()
+            );
+        
+        foreach($rResult_array as $aRow){
+
+            $row = array();
+             
+            foreach($aColumns as $col)
+            {
+				$row[] = $aRow[$col];              
+            }
+           // array_push($row, '<a href="'.base_url().'admin/broker/edit_broker/'.$aRow['broker_id'].'" class="editRcords btn btn-default btn-sm btn-icon icon-left"><i class="entypo-pencil"></i> Edit</a> <a href="javascript:void(0)" id="brkr_'.$aRow['broker_id'].'" class="removeRcords btn btn-danger btn-sm btn-icon icon-left"><i class="entypo-cancel"></i> Remove</a>');
+
+            $output['aaData'][] = $row;
+        }
+      
+        return $output;
+  	
+	}
+	   /*  function broker_listing($sTable, $sWhere, $sOrder, $sLimit, $aColumns,$sIndexColumn,$sEcho) {
+         
+         $sQuery = "
+         SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."
+         FROM   $sTable
+         $sWhere
+         $sOrder
+         $sLimit
+         ";
+        
+        $rResult = $this->db->query($sQuery);
+        $rResult_array=$rResult->result_array();
+        $iFilteredTotal = count($rResult_array);
+
+       
+        $sQuery_TR = "
+        SELECT COUNT(".$sIndexColumn.") AS TotalRecords
+        FROM   $sTable
+        ";
+        $rResult_TR = $this->db->query($sQuery_TR);
+        $rResult_array_TR=$rResult_TR->result_array();
+        $iTotal = $rResult_array_TR[0]['TotalRecords'];
+        
+        $output = array(
+            "sEcho" => intval($sEcho),
+            "iTotalRecords" => intval($iTotal),
+            "iTotalDisplayRecords" => intval($iTotal), //$iFilteredTotal,
+            "aaData" => array()
+            );
+        
+        foreach($rResult_array as $aRow){
+
+            $row = array();
+             
+            foreach($aColumns as $col)
+            {
+                
+                if($aRow[$col]=='D'){
+                    $row[] = 'Disable';    
+                }else{
+                      $row[] = $aRow[$col];    
+                }          
+            }
+            array_push($row, '<a href="'.base_url().'admin/broker/edit_broker/'.$aRow['broker_id'].'" class="editRcords btn btn-default btn-sm btn-icon icon-left"><i class="entypo-pencil"></i> Edit</a> <a href="javascript:void(0)" id="brkr_'.$aRow['broker_id'].'" class="removeRcords btn btn-danger btn-sm btn-icon icon-left"><i class="entypo-cancel"></i> Remove</a>');
+
+            $output['aaData'][] = $row;
+        }
+        
+        return $output;
+    }*/
 
 }

@@ -1,3 +1,10 @@
+<style>
+.ui-datepicker-calendar,.ui-datepicker-month {
+    display: none;
+}​
+
+
+</style>
 
 <div class="account-container">	
 	<div class="content clearfix">
@@ -10,29 +17,6 @@
     <div class="alert alert-danger"> <?= $this->session->flashdata('category_error') ?> </div>
 	<?php } ?>
 	<?php
-	//echo "<pre>";
-	//print_r($serviceslist);
-	/*$count =0 ;
-	while($count<count($serviceslist))
-	{
-	    if($count -1 !=-1){
-	    if($serviceslist[$count]['sb_parent_service_id'] == $serviceslist[$count-1]['sb_parent_service_id'])
-		{
-			echo "-".$serviceslist[$count]['sb_child_service_name']."<br>";
-		}
-		else
-		{
-			echo $serviceslist[$count]['sb_parent_service_name']."<br>";
-			echo "-".$serviceslist[$count]['sb_child_service_name']."<br>";
-		}
-		}
-		else
-		{
-			echo $serviceslist[$count]['sb_parent_service_name']."<br>";
-			echo "-".$serviceslist[$count]['sb_child_service_name']."<br>";
-		}
-		$count++;
-	}*/
 	
 	?>
 	<form class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data">
@@ -66,6 +50,77 @@
 		  </div>
 		</div>
 
+		
+		<div class="control-group">
+			<label class="control-label" for="sb_hotel_pic">Hotel Picture</label>
+			<div class="controls">
+				<input id="sb_hotel_pic" name="sb_hotel_pic" type="file"  class="input-large" >
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="sb_hotel_email">Hotel Email</label>
+			<div class="controls">
+			<input id="sb_hotel_email" name="sb_hotel_email" type="text" placeholder="Type Hotel Email Here ..." class="input-large" >
+			<?php echo form_error('sb_hotel_email'); ?>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="sb_hotel_website">Hotel Website</label>
+			<div class="controls">
+			<input id="sb_hotel_website" name="sb_hotel_website" type="text" placeholder="Type Hotel Website Url Here ..." class="input-large" >
+			<?php echo form_error('sb_hotel_website'); ?>
+			</div>
+		</div>
+		
+		
+		<div class="control-group">
+			<label class="control-label" for="sb_hotel_owner">Hotel Owner</label>
+			<div class="controls">
+			<input id="sb_hotel_owner" name="sb_hotel_owner" type="text" placeholder="Type Hotel Owner Name Here ..." class="input-large" >
+			<?php echo form_error('sb_hotel_owner'); ?>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="sb_property_built_month">Hotel Property Built Month</label>
+			<div class="controls">
+				<select id="sb_property_built_month" name="sb_property_built_month" class="input-large">
+					<option value='1'>January</option>
+					<option value='2'>February</option>
+					<option value='3'>March</option>
+					<option value='4'>April</option>
+					<option value='5'>May</option>
+					<option value='6'>June</option>
+					<option value='7'>July</option>
+					<option value='8'>August</option>
+					<option value='9'>September</option>
+					<option value='10'>October</option>
+					<option value='11'>November</option>
+					<option value='12'>December</option>
+				</select>
+			</div>
+		</div>
+		
+	
+		
+		<div class="control-group">
+			<label class="control-label" for="sb_property_built_year">Hotel Property Built Year</label>
+			<div class="controls">
+			<input id="sb_property_built_year" name="sb_property_built_year" type="text"  class="input-large" >
+			<?php echo form_error('sb_property_built_year'); ?>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="sb_property_open_year">Hotel Property Opened Year</label>
+			<div class="controls">
+			<input id="sb_property_open_year" name="sb_property_open_year" type="text"  class="input-large" >
+			<?php echo form_error('sb_property_open_year'); ?>
+			</div>
+		</div>
+		
+		
 		<!-- Select Basic -->
 		<div class="control-group">
 		  <label class="control-label" for="sb_hotel_country">Country</label>
@@ -101,6 +156,8 @@
 			<?php echo form_error('sb_hotel_city'); ?>
 		  </div>
 		</div>
+		
+		
 
 		<!-- Textarea -->
 		<div class="control-group">
@@ -120,12 +177,28 @@
 		  </div>
 		</div>
 		
-		<div class="control-group">
+		
+		</fieldset>
+		<fieldset>
+			<?php //print_r($languagelist);?>
+			<?php
+					$i=0;
+					while($i<count($languagelist))
+					{
+					    echo '<div class="checkbox">';
+						echo '<label><input type="checkbox" name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'" checked>'.$languagelist[$i]['lang_name'].'</label>';
+						echo '</div>';
+						$i++;
+					}
+			?>
+		
+
+        <div class="control-group">
 		  <label class="control-label" for="submit"></label>
 		  <div class="controls">
 			<button id="submit"  class="btn btn-primary">Create Hotel</button>
 		  </div>
-		</div>
+		</div>		
 		</fieldset>
 	</form>
 </div>
@@ -140,8 +213,72 @@ $(document).ready(function () {
 		}
    });
     loadStates('sb_hotel_country','sb_hotel_state','1','sb_hotel_city'); 
+	$("#sb_hotel_pic").fileinput({
+		showUpload: false,
+		showCaption: false,
+		browseClass: "btn btn-primary btn-lg",
+		fileType: "any",
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
+	});
+	
+	  $('#sb_property_built_year').datepicker({
+			changeYear: true,
+			dateFormat: 'yy',
+			yearRange: "-100:+0",
+			onClose: function() {
+					 //var iMonth = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+					  var iYear = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                      $(this).datepicker('setDate', new Date(iYear, 1, 1));
+            },
+			beforeShow: function() {
+					if ((selDate = $(this).val()).length > 0) 
+					{
+						iYear = selDate.substring(selDate.length - 4, selDate.length);
+						// iMonth = jQuery.inArray(selDate.substring(0, selDate.length - 5), 
+						// $(this).datepicker('option', 'monthNames'));
+						//$(this).datepicker('option', 'defaultDate', new Date(iYear, iMonth, 1));
+						$(this).datepicker('setDate', new Date(iYear, 1, 1));
+					}
+			}
+		});
+		
+		  $('#sb_property_open_year').datepicker({
+			changeYear: true,
+			dateFormat: 'yy',
+			yearRange: "-100:+0",
+			onClose: function() {
+					 //var iMonth = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+					  var iYear = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                      $(this).datepicker('setDate', new Date(iYear, 1, 1));
+            },
+			beforeShow: function() {
+					if ((selDate = $(this).val()).length > 0) 
+					{
+						iYear = selDate.substring(selDate.length - 4, selDate.length);
+						// iMonth = jQuery.inArray(selDate.substring(0, selDate.length - 5), 
+						// $(this).datepicker('option', 'monthNames'));
+						//$(this).datepicker('option', 'defaultDate', new Date(iYear, iMonth, 1));
+						$(this).datepicker('setDate', new Date(iYear, 1, 1));
+					}
+			}
+		});
+		
+		$('input[type="checkbox"][name="sb_languages"]').on('change',function(){
+				var getArrVal = $('input[type="checkbox"][name="sb_languages"]:checked').map(function(){
+				return this.value;
+			}).toArray();
+  
+			if(getArrVal.length){
+					//execute the code
+			} else {
+				$(this).prop("checked",true);
+				return false;
+    
+			};
+		});
+	
+	
 });
-
 </script>
 
 
