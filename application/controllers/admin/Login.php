@@ -49,7 +49,7 @@ class Login extends CI_Controller
 		
 		if ($this->form_validation->run() == FALSE)
 		{
-			$this->data['action']	= "admin/login/verify_user";	
+			$this->data['action']	= "/login/verify_user";	
 			$this->template->load('login_tpl', 'login_vw',$this->data);
 		}else
 		{
@@ -135,7 +135,9 @@ class Login extends CI_Controller
 	 */
 	public function logout()
 	{
-
+		$this->session->unset_userdata('logged_in_user');
+		$this->session->set_flashdata('SuccMsg',SUC_MSG_LEVEL_1);
+		redirect('admin/login');
 	}
 }
 
