@@ -43,7 +43,7 @@
 
         <div class="page-title">
             <div class="title_left">
-                <h3>System Stastics</h3>
+                <h3>System Stastiscs</h3>
             </div>
 
             <div class="title_right">
@@ -164,8 +164,8 @@
         </div>
         <footer>
             <div class="">
-                <p class="pull-right">Sebastian admin from<a>Eeshana</a>. |
-                    <span class="lead"> <i class="fa fa-paw"></i> Sebastian Admin!</span>
+                <p class="pull-right"><?php echo $title ?> from<a>Eeshana</a>. |
+                    <span class="lead"> <i class="fa fa-paw"></i> <?php echo $title ?></span>
                 </p>
             </div>
             <div class="clearfix"></div>
