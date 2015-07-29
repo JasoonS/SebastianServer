@@ -25,13 +25,14 @@ class dashboard extends CI_Controller
 
 			// Load the ACL library and pas it the config array
 			$this->load->library('acl',$config);
+
 		}
 	}
 
 	public function index()
 	{	
 
-		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'x')
+		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
 		{
 			$this->data['title'] = LABEL_1;
 			$this->template->load('page_tpl','admin_dashboard_vw',$this->data);
