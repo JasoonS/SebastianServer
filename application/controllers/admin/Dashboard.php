@@ -43,6 +43,11 @@ class Dashboard extends CI_Controller
 		}	
 	}
 
+	public function permission()
+	{
+		$this->index();
+	}
+
 	/* Method check user access level
 	 * granted by admin , to hotel admin
 	 * @param void

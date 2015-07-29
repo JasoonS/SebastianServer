@@ -1,36 +1,21 @@
 <?php
-/* Dashboard display user dashboard
- * according to inheriated/assigned access levels
+/* User controller class 
+ * perform checks for valid authorization and
+ * all login and logout activities
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Hotel extends CI_Controller 
+class User extends CI_Controller 
 {
-	public $data	 = array();
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('User_model');
-        $this->load->model('Hotel_model');
-		if(!$this->session->userdata('logged_in_user'))
-		{
-			redirectWithErr(ERR_MSG_LEVEL_2,'login');
-		}else
-		{
-			// Get the user's ID and add it to the config array
-			$config = array('userID'=>$this->session->userdata('logged_in_user')->sb_hotel_user_id);
-
-			// Load the ACL library and pas it the config array
-			$this->load->library('acl',$config);
-		}
+		$this->load->model('Hotel_model');
+		$this->load->helper('admin/utility_helper');
 	}
 
-	public function index()
-	{
-		
-		$this->template->load('page_tpl', 'hotel_list_vw',$this->data);
-	}
+
 	/* Method render add Hotel View If User is super administrator
 	 * @param void
 	 * return void
@@ -39,14 +24,10 @@ class Hotel extends CI_Controller
 	{	
 		//Check If User is logged in otherwise redirect to login page.
 	
-		$this->data['action']	= "admin/hotel/create_hotel";
+		$this->data['action']	= "admin/user/create_hotel";
 		$this->data['countrylist'] = getCountryList();
 		$this->data['languagelist']=getAllLanguages();
-		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
-		{
-			$this->data['title'] = LABEL_1;
-		    $this->template->load('page_tpl', 'create_hotel',$this->data);
-		}
+		$this->template->load('create_hotel_tpl', 'create_hotel',$this->data);
 			
 	}
 	
@@ -75,14 +56,10 @@ class Hotel extends CI_Controller
 		$this->form_validation->set_message('validate_hotel','This hotel already Exists.');
 		if ($this->form_validation->run() == FALSE)
 		{
-			$this->data['action']	= "admin/hotel/create_hotel";	
+			$this->data['action']	= "admin/user/create_hotel";	
 			$this->data['countrylist'] = getCountryList();
 			$this->data['languagelist']=getAllLanguages();
-			if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
-		    {
-				$this->data['title'] = LABEL_1;
-				$this->template->load('page_tpl', 'create_hotel',$this->data);
-			}
+			$this->template->load('create_hotel_tpl', 'create_hotel',$this->data);
 		}else{
 				$data["sb_hotel_pic"] = "";
 				
@@ -148,6 +125,153 @@ class Hotel extends CI_Controller
 	   }
 	}
 	
+	/*
+	This method is used to create Hotel administrator view
+	*/
+	function add_hotel_admin_user()
+	{
+			$this->data['action']	= "admin/user/create_hotel_admin_user";
+			$this->data['hotelusertypes'] = getAvailableHotelUserTypes();
+			$this->data['hotellist']=getAllHotels();	
+				if (($key = array_search('s',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+				}
+				if (($key = array_search('m',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+				}
+				if (($key = array_search('u',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+				}	
+				
+			$this->template->load('create_hotel_tpl', 'create_hotel_admin_user',$this->data);
+	}
+	/*
+	This method is used to create Hotel administrator/manager
+	*/
+	
+	function  create_hotel_admin_user()
+	{
+		$data = $this->input->post();
+		//Verify Hotel Data
+		$this->validation_rules = array(
+		    array('field'=>'sb_hotel_username','label'=>'Hotel User','rules'=>'required|callback_validate_hoteluser','class'=>'text-danger'),
+		    array('field'=>'sb_hotel_useremail','label'=>'Hotel User Email','rules'=>'required|valid_email|callback_validate_hoteluseremail','class'=>'text-danger'),
+		    array('field'=>'sb_hotel_user_shift_from','label'=>'Hotel User Shift From','rules'=>'required','class'=>'text-danger'),
+		    array('field'=>'sb_hotel_user_shift_to','label'=>'Hotel User Shift To','rules'=>'required','class'=>'text-danger'),
+			
+		);
+		$this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
+		$this->form_validation->set_rules($this->validation_rules);
+		$this->form_validation->set_message('validate_hoteluser','Hotel User with this name is already Exists.');
+		$this->form_validation->set_message('validate_hoteluseremail','Hotel User with this email is already Exists.');
+		$this->form_validation->set_message('valid_email','Please Enter Valid Email.');
+		if ($this->form_validation->run() == FALSE)
+		{
+			$this->data['action']	= "admin/user/create_hotel_admin_user";
+			
+			$this->data['hotelusertypes'] = getAvailableHotelUserTypes();
+			$this->data['hotellist']=getAllHotels();
+            if (($key = array_search('u',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+				}			
+			if (($key = array_search('s',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+				}
+			if (($key = array_search('m',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+				}
+			$this->template->load('create_hotel_tpl', 'create_hotel_admin_user',$this->data);
+		}else{
+		        
+				$data["sb_hotel_user_pic"] = "";
+				
+		        if(!empty($_FILES['sb_hotel_user_pic']['name']))
+				{
+
+					$folderName=HOTEL_USER_PIC;
+					$pic1 = upload_image($folderName,"sb_hotel_user_pic");
+				
+
+					if($pic1 != 0)
+					{
+						$data["sb_hotel_user_pic"] = $pic1;
+					}	
+				} 
+				$data['sb_hotel_user_status']='0';
+				if(isset($data['sb_hotel_user_status']))
+					{
+						$data['sb_hotel_user_status']='1';
+					}	
+		        $hotelname = $this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
+				$password =$hotelname[0]['sb_hotel_name'];
+				$password = str_replace(' ', '', $password);
+				$data['sb_hotel_userpasswd']=createHashAndSalt($password);
+				$data['sb_hotel_user_shift_from']= date("H:i:s", strtotime($data['sb_hotel_user_shift_from']));
+				$data['sb_hotel_user_shift_to']= date("H:i:s", strtotime($data['sb_hotel_user_shift_to']));
+				
+				$result=$this->Hotel_model->create_hotel_admin($data);
+
+				$hotelusername=$data['sb_hotel_username'];
+				$message="Hi ,
+							Congratulations Your administrator account is created on sebastian.
+							Account Details are
+							User Name =  $hotelusername
+							Password = $password
+							
+							Thanks
+						";
+				sendMail('no-reply@sebastian.com',$data[sb_hotel_useremail],"Administrator Account Creation",$message);
+				if($result == '1')
+				{
+					$this->session->set_flashdata('category_success', HOTEL_ADMIN_CREATION_SUCCESS);
+					redirect('admin/user/add_hotel_admin_user');
+				}
+				else
+				{
+					$this->session->set_flashdata('category_error', 'Error in Hotel Administrator Creation.');
+					redirect('admin/user/add_hotel_admin_user');
+				}
+			}
+	}
+	
+	/*
+	This method returns Whether Hotel User With The particular name Already Exists
+	*/
+	
+	function validate_hoteluser($field_value)
+	{
+	   
+	   $result=$this->Hotel_model->find_hotel_user_by_name($field_value);
+
+	   if($result[0]['hotelusercount'] == 0)
+	   {
+		 return TRUE;
+	   }
+	   else
+	   {
+		 return FALSE;
+	   }
+	}
+	
+	/*
+	This method returns Whether Hotel User With The particular email Already Exists
+	*/
+	
+	function validate_hoteluseremail($field_value)
+	{
+	   
+	   $result=$this->Hotel_model->find_hotel_user_by_email($field_value);
+
+	   if($result[0]['hotelusercount'] == 0)
+	   {
+		 return TRUE;
+	   }
+	   else
+	   {
+		 return FALSE;
+	   }
+	}
+	
 	/* Method render Hotel Lising View If User is super administrator
 	 * @param void
 	 * return void
@@ -155,11 +279,7 @@ class Hotel extends CI_Controller
 	public function view_hotels()
 	{	
 		//Check If User is logged in otherwise redirect to login page.
-		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
-		    {
-				$this->data['title'] = LABEL_1;
-				$this->template->load('page_tpl', 'hotel_list');
-            }		
+		$this->template->load('create_hotel_tpl', 'hotel_list');		
 	}
 	
 	/* Method render edit Hotel View If User is super administrator/Hotel Administrator
@@ -170,16 +290,13 @@ class Hotel extends CI_Controller
 	{	
 		//Check If User is logged in otherwise redirect to login page.
 	
-		$this->data['action']	= "admin/hotel/edit_hotel_action/$hotel_id";
+		$this->data['action']	= "admin/user/edit_hotel_action/$hotel_id";
 		$this->data['hotel_id']	= $hotel_id;
 		$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
 		$this->data['countrylist'] = getCountryList();
 		$this->data['languagelist']=getAllLanguages();
-		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
-		    {
-				$this->data['title'] = LABEL_1;
-		$this->template->load('page_tpl', 'edit_hotel',$this->data);
-		}
+
+		$this->template->load('create_hotel_tpl', 'edit_hotel',$this->data);
 			
 	}
 	
@@ -207,11 +324,11 @@ class Hotel extends CI_Controller
 		$this->form_validation->set_rules($this->validation_rules);
 		if ($this->form_validation->run() == FALSE)
 		{
-			$this->data['action']	= "admin/hotel/edit_hotel_action/$hotel_id";	
+			$this->data['action']	= "admin/user/edit_hotel_action/$hotel_id";	
 			$this->data['countrylist'] = getCountryList();
 			$this->data['languagelist']=getAllLanguages();
 			$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
-			$this->template->load('page_tpl', 'edit_hotel',$this->data);
+			$this->template->load('create_hotel_tpl', 'edit_hotel',$this->data);
 		}else{
 		        $this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
 		        
@@ -252,12 +369,12 @@ class Hotel extends CI_Controller
 				{
 					$languageresult =$this->Hotel_model->set_hotel_languages($hotel_id,$data['sb_languages']);
 					$this->session->set_flashdata('category_success', HOTEL_UPDATION_SUCCESS);
-					redirect("admin/hotel/edit_hotel/$hotel_id");
+					redirect("admin/user/edit_hotel/$hotel_id");
 				}
 				else
 				{
 					$this->session->set_flashdata('category_error', HOTEL_UPDATION_FAIL);
-					redirect("admin/hotel/edit_hotel/$hotel_id");
+					redirect("admin/user/edit_hotel/$hotel_id");
 				}
 			}
 		
@@ -271,39 +388,24 @@ class Hotel extends CI_Controller
 	public function view_hotel($hotel_id)
 	{	
 		
-		$this->data['action']	= "admin/hotel/view_hotel/$hotel_id";
+		$this->data['action']	= "admin/user/view_hotel/$hotel_id";
 		$this->data['hotel_id']	= $hotel_id;
 		$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
 		$this->data['languagelist']=getAllLanguages();
-		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
-		    {
-				$this->data['title'] = LABEL_1;
-				$this->template->load('page_tpl', 'view_hotel',$this->data);
-			}
+		$this->template->load('create_hotel_tpl', 'view_hotel',$this->data);
 			
 	}
-	/* Method Deactivates/Activates hotel
+	/* Method Deactivates hotel
 	 * @param int
 	 * return void
 	 */
-	public function change_hotel_status()
+	public function delete_hotel($hotel_id)
 	{	
-		$hotel_id=$this->input->post('hotel_id');
-		$hotel_status=$this->input->post('hotelstatus');
-		if($hotel_status == 1)
-		{
-			$status=0;
-		}
-		else
-		{
-			$status =1;
-		}
-		$data=array(
-					'sb_hotel_id'=>$hotel_id,
-					'is_active'=>$status	
-				);
-		$this->Hotel_model->edit_hotel($data,$hotel_id);		
-		echo json_encode(array('status'=>'1','message'=>'Hotel Status Changed'));
+		
+		print_r($hotel_id);exit;
 			
 	}
+	
+
 }
+
