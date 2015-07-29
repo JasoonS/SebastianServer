@@ -84,9 +84,12 @@ class Ajax extends CI_Controller
 			$row[] = $hotel->sb_hotel_owner;
 			$row[] = $hotel->sb_hotel_email;
 			$row[] = $hotel->sb_hotel_website;
-			//$row[] = $hotel->sb_hotel_website;
-			$url =base_url("admin/user/edit_hotel/".$hotel->sb_hotel_id);
-			$row[] ='<a class="btn btn-sm btn-primary" href="'.$url.'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>';
+			$editurl =base_url("admin/user/edit_hotel/".$hotel->sb_hotel_id);
+			$viewurl =base_url("admin/user/view_hotel/".$hotel->sb_hotel_id);
+			$deleteurl =base_url("admin/user/delete_hotel/".$hotel->sb_hotel_id);
+			$row[] ='<a class="btn btn-sm btn-primary" href="'.$editurl.'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
+					'<a class="btn btn-sm btn-primary" href="'.$viewurl.'" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
+					'<a class="btn btn-sm btn-danger" id="delete" href="#" data-href="'.$deleteurl.'" onclick="deletehotel('.$hotel->sb_hotel_id.');" title="Delete" ><i class="glyphicon glyphicon-glyphicon-trash"></i> Delete</a>';
 			$data[] = $row;
 		}
 

@@ -113,8 +113,11 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('HOTEL_SELECT_SERVICES_SUCCESS','Hotel Services Updated Successfully.');
  define('HOTEL_CREATION_SUCCESS','Hotel Created Successfully.');
  define('HOTEL_CREATION_FAIL','Error in Hotel Creation.');
+ define('HOTEL_UPDATION_SUCCESS','Hotel Updated Successfully.');
+ define('HOTEL_UPDATION_FAIL','Error in Hotel Updation.');
  define('HOTEL_ADMIN_CREATION_SUCCESS','Hotel Administrator Created Successfully.');
  define('HOTEL_ADMIN_CREATION_ERROR','Error in Hotel Administrator Creation.');
+ define('FOLDER_BASE_URL','http://localhost/sebastian-admin-panel');
  
  
  
