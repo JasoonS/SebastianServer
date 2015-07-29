@@ -28,7 +28,7 @@ class User extends CI_Controller
 
 		}
 	}
-	
+
 	public function type($user_type = '')
 	{
 		$requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3).'/'.$this->uri->segment(4);
@@ -36,6 +36,7 @@ class User extends CI_Controller
 		if(!$this->acl->hasPermission($requested_mod))
 		{
 			//$this->session->set_flashdata('ErrorAcessMsg',ERR_MSG_LEVEL_3);
+
 			if(($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')&&($user_type == 'u'))
 		    {
 				$this->data['title'] = LABEL_1;
@@ -46,7 +47,8 @@ class User extends CI_Controller
 
 		$this->load->library('acl',$config);
 
-  }
+    }
+
  
 	/*
 	This method is used to create Hotel administrator view

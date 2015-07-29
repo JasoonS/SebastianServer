@@ -1,6 +1,7 @@
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
+        <?php //if(isset($this->session->flashdata('ErrorAcessMsg'))) { echo $this->session->flashdata('ErrorAcessMsg')} ?>
         <!-- top tiles -->
         <div class="row tile_count">
             <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">

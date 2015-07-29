@@ -25,7 +25,6 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `sb_hotels`
 --
-USE `sandbox_sebastian`;
 
 CREATE TABLE IF NOT EXISTS `sb_hotels` (
   `sb_hotel_id` int(10) NOT NULL COMMENT 'Primary Key',

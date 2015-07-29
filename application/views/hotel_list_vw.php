@@ -1,9 +1,11 @@
 <link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 <link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
 <link href="<?php echo THEME_ASSETS; ?>css/jquery.dataTables.css" rel="stylesheet" type="text/css">
 <link href="<?php echo THEME_ASSETS; ?>css/custom.css" rel="stylesheet" type="text/css">
+
 <script src="<?php echo THEME_ASSETS ?>js/bootstrap.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
@@ -40,7 +42,7 @@
                             </li>
                             <li><a href="#"><i class="fa fa-close"></i></a>
                             </li>-->
-							<a class="btn btn-sm btn-success" id="add_hotel" href="<?php echo site_url('/admin/hotel/add_hotel');?>"  title="Add Hotel"><i class="glyphicon glyphicon-plus"></i> Add Hotel</a>
+                            <a class="btn btn-sm btn-success" id="add_hotel" href="<?php echo site_url('/admin/hotel/add_hotel');?>"  title="Add Hotel"><i class="glyphicon glyphicon-plus"></i> Add Hotel</a>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
@@ -93,7 +95,7 @@
                 </div>
                 
                 <div class="modal-footer">
-					
+                    
                 </div>
             </div>
         </div>
@@ -128,11 +130,12 @@
 
       });
     }); 
-	$('#hotel-grid tbody').on( 'click', 'tr', function () {
+    $('#hotel-grid tbody').on( 'click', 'tr', function () {
         $(this).toggleClass('selected');
-		var chkbox =$(this).find('.icheckbox_flat-green');
+        var chkbox =$(this).find('.icheckbox_flat-green');
         chkbox.toggleClass('checked');
     } );
+
 	function changehotelstatus(id,hotelstatus)
 	{   
 		$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger" onclick=changestatus('+id+','+hotelstatus+');>Delete</button>');
@@ -173,6 +176,7 @@
 			}
 		});
 	}
+
 </script>
 
 
