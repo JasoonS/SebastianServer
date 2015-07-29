@@ -76,27 +76,16 @@ class Tasks_model extends CI_Model
 
 	public function check_status($sb_hotel_requst_ser_id)
 	{
-		$qry = "Select sb_hotel_service_status from sb_hotel_services_status where sb_hotel_requst_ser_id = '$sb_hotel_requst_ser_id'  "	;
+		$qry = "Select sb_hotel_service_status,sb_hotel_ser_assgnd_to_user_id from sb_hotel_services_status where sb_hotel_requst_ser_id = '$sb_hotel_requst_ser_id'  "	;
 		$query = $this->db->query($qry);
 		return $query->result_array();
 	}
 
-	public function update_status($sb_hotel_requst_ser_id,$sb_hotel_user_id)
+	public function update_status($sb_hotel_requst_ser_id,$data)
 	{
-		$date = date('Y-m-d' );
-		$time =  date('H:i:s');
-		$data = array(
-               'sb_hotel_service_assigned' => 'y',
-               'sb_hotel_ser_assgnd_to_user_id' => $sb_hotel_user_id,
-               'sb_hotel_ser_start_date' => $date,
-               'sb_hotel_ser_start_time'=>  $time,
-               'sb_hotel_service_status'=> 'accepted' ,
-
-            );
 		$this->db->where('sb_hotel_requst_ser_id', $sb_hotel_requst_ser_id);
 		$val = $this->db->update('sb_hotel_services_status', $data); 
 		return $val;
-
 	}
 }
 ?>	

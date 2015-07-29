@@ -119,7 +119,6 @@ class Tasks extends CI_Controller {
 	 */
 	public function accept_request()
 	{
-		// print_r($_POST); die();
 		$sb_hotel_requst_ser_id 	= 	$this->input->post('sb_hotel_requst_ser_id');
 		$sb_hotel_user_id 	= 	$this->input->post('sb_hotel_user_id');
 		$sb_hotel_service_status 	= 	$this->input->post('sb_hotel_service_status');
@@ -129,16 +128,25 @@ class Tasks extends CI_Controller {
 		}
 		else
 		{
+			$status = $this->Tasks_model->check_status($sb_hotel_requst_ser_id);
 			if($sb_hotel_service_status == 'accepted')
 			{
-				$status = $this->Tasks_model->check_status($sb_hotel_requst_ser_id);
-				 if($status[0]['sb_hotel_service_status'] == 'accepted' || $status[0]['sb_hotel_service_status'] ==  'completed')
-				 {
+				if($status[0]['sb_hotel_service_status'] == 'accepted' || $status[0]['sb_hotel_service_status'] ==  'completed')
+				{
 				 	response_fail("Request already accepted or completed");
-				 }
-				 else if($status[0]['sb_hotel_service_status'] == 'pending')
-				 {
-				 	$val = $this->Tasks_model->update_status($sb_hotel_requst_ser_id,$sb_hotel_user_id);
+				}
+				elseif($status[0]['sb_hotel_service_status'] == 'pending')
+				{
+				 	$date = date('Y-m-d' );
+					$time =  date('H:i:s');
+					$data = array(
+			               'sb_hotel_service_assigned' => 'y',
+			               'sb_hotel_ser_assgnd_to_user_id' => $sb_hotel_user_id,
+			               'sb_hotel_ser_start_date' => $date,
+			               'sb_hotel_ser_start_time'=>  $time,
+			               'sb_hotel_service_status'=> 'accepted',
+			            );
+				 	$val = $this->Tasks_model->update_status($sb_hotel_requst_ser_id,$data);
 				 	if($val)
 				 	{
 				 		response_ok();
@@ -147,16 +155,41 @@ class Tasks extends CI_Controller {
 				 	{
 				 		response_fail("Some problem occured.. Please try again");
 				 	}
-				 }
-				
+				}			
 			}
-			// else if($status[0]['sb_hotel_service_status'] == 'done')
-			// {
-				
-			// }
+			elseif($sb_hotel_service_status == 'completed')
+			{
+				if($status[0]['sb_hotel_service_status'] == 'pending' || $status[0]['sb_hotel_service_status'] ==  'completed')
+				{
+				 	response_fail("Request already pending or completed");
+				}
+				elseif($status[0]['sb_hotel_service_status'] == 'completed' || $status[0]['sb_hotel_ser_assgnd_to_user_id'] == $sb_hotel_user_id)
+				{
+				 	$date = date('Y-m-d' );
+					$time =  date('H:i:s');
+					$data = array(
+			               'sb_hotel_ser_finished_date' => $date,
+			               'sb_hotel_ser_finished_time'=>  $time,
+			               'sb_hotel_service_status'=> 'completed',
+			            );
+				 	$val = $this->Tasks_model->update_status($sb_hotel_requst_ser_id,$data);
+				 	if($val)
+				 	{
+				 		response_ok();
+				 	}
+				 	else
+				 	{
+				 		response_fail("Some problem occured.. Please try again");
+				 	}
+				}
+				else
+				{
+					response_fail("User Id miss match");
+				}
+			}
 			else
 			{
-				response_fail("Please enter valid response");
+				response_fail("Please enter valid request");
 			}	 
 		}	
 	}
