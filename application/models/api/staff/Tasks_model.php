@@ -16,7 +16,19 @@ class Tasks_model extends CI_Model
 				AND hss.sb_hotel_ser_assgnd_to_user_id ='$sb_hotel_user_id'
 				AND hss.sb_hotel_ser_start_date='$service_due_date';";
 		$query = $this->db->query($qry);
-		return $data = $query->result_array();
+		$data = $query->result_array();
+		if(count($data)>0)
+		{
+			for ($i=0; $i < count($data); $i++) { 
+				$child = $this->getChildServiceDetails($data[$i]['sb_hotel_requst_ser_id']);
+				$data[$i]['sb_child_servcie_name'] = '';
+				if(count($child)>0)
+				{
+					$data[$i]['sb_child_servcie_name'] = $child[0]['sb_child_servcie_name'];
+				}
+			}			
+		}
+		return $data;	
 	}
 
 	public function weekly_tasks($sb_parent_service_id ,$weekdates, $sb_hotel_id)
@@ -49,6 +61,18 @@ class Tasks_model extends CI_Model
 			}
 		}
 
+		if(count($data)>0)
+		{
+			for ($i=0; $i < count($data); $i++) { 
+				$child = $this->getChildServiceDetails($data[$i]['sb_hotel_requst_ser_id']);
+				$data[$i]['sb_child_servcie_name'] = '';
+				if(count($child)>0)
+				{
+					$data[$i]['sb_child_servcie_name'] = $child[0]['sb_child_servcie_name'];
+				}
+			}			
+		}
+
 		return $data;
 	}
 
@@ -70,6 +94,44 @@ class Tasks_model extends CI_Model
 				AND hrs.sb_hotel_id = '$sb_hotel_id'
 				AND hrs.sb_parent_service_id ='$sb_parent_service_id'
 				AND hss.sb_hotel_ser_start_date BETWEEN '$weekdates[0]' AND '$weekdates[1]';";
+		$query = $this->db->query($qry);
+		$data = $query->result_array();
+		if(count($data)>0)
+		{
+			for ($i=0; $i < count($data); $i++) { 
+				$child = $this->getChildServiceDetails($data[$i]['sb_hotel_requst_ser_id']);
+				$data[$i]['sb_child_servcie_name'] = '';
+				if(count($child)>0)
+				{
+					$data[$i]['sb_child_servcie_name'] = $child[0]['sb_child_servcie_name'];
+				}
+			}			
+		}
+		return $data;
+	}
+
+	public function check_status($sb_hotel_requst_ser_id)
+	{
+		$qry = "Select sb_hotel_service_status,sb_hotel_ser_assgnd_to_user_id from sb_hotel_services_status where sb_hotel_requst_ser_id = '$sb_hotel_requst_ser_id'  "	;
+		$query = $this->db->query($qry);
+		return $query->result_array();
+	}
+
+	public function update_status($sb_hotel_requst_ser_id,$data)
+	{
+		$this->db->where('sb_hotel_requst_ser_id', $sb_hotel_requst_ser_id);
+		$val = $this->db->update('sb_hotel_services_status', $data); 
+		return $val;
+	}
+
+	public function getChildServiceDetails($id)
+	{
+		$qry = "SELECT c.* FROM sb_hotel_request_service as a
+				JOIN sb_hotel_service_map as b
+				ON a.sb_hotel_service_map_id = b.sb_hotel_service_map_id
+				JOIN sb_hotel_child_services as c
+				on b.sb_child_service_id = c.sb_child_service_id
+				WHERE a.sb_hotel_requst_ser_id = '$id';";
 		$query = $this->db->query($qry);
 		return $query->result_array();
 	}

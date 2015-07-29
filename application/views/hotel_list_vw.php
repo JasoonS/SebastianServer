@@ -1,18 +1,23 @@
-<script src="<?php echo THEME_ASSETS;  ?>js/bootstrap.min.js"></script>
+<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo THEME_ASSETS; ?>css/bootstrap-toggle.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo THEME_ASSETS; ?>css/fileinput.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo THEME_ASSETS; ?>css/jquery-checktree.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo THEME_ASSETS; ?>css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo THEME_ASSETS; ?>css/custom.css" rel="stylesheet" type="text/css">
 
-<!-- chart js -->
-<script src="<?php echo THEME_ASSETS;  ?>js/chartjs/chart.min.js"></script>
-
-<!-- bootstrap progress js -->
-<script src="<?php echo THEME_ASSETS;  ?>js/progressbar/bootstrap-progressbar.min.js"></script>
-
-
-<script src="<?php echo THEME_ASSETS;  ?>js/nicescroll/jquery.nicescroll.min.js"></script>
-<!-- icheck -->
-<script src="<?php echo THEME_ASSETS;  ?>js/icheck/icheck.min.js"></script>
-
-<script src="<?php echo THEME_ASSETS;  ?>js/custom.js"></script>
-
+<script src="<?php echo THEME_ASSETS ?>js/jquery.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/star-rating.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-toggle.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
 
 <!-- page content -->
@@ -20,10 +25,10 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Invoice<small>Some examples to get you started</small></h3>
+                <h3>Hotel List</small></h3>
             </div>
 
-            <div class="title_right">
+            <!--<div class="title_right">
                 <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search for...">
@@ -32,109 +37,43 @@
                         </span>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
         <div class="clearfix"></div>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Daily active users <small>Sessions</small></h2>
+                        <h2></h2>
                         <ul class="nav navbar-right panel_toolbox">
-                            <li><a href="#"><i class="fa fa-chevron-up"></i></a></li>                            
+                           <!-- <li><a href="#"><i class="fa fa-chevron-up"></i></a></li>                            
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Settings 1</a></li>                                    
-                                    <li><a href="#">Settings 2</a></li>                                    
-                                </ul>
+                                
                             </li>
                             <li><a href="#"><i class="fa fa-close"></i></a>
-                            </li>
+                            </li>-->
+                            <a class="btn btn-sm btn-success" id="add_hotel" href="<?php echo site_url('/admin/hotel/add_hotel');?>"  title="Add Hotel"><i class="glyphicon glyphicon-plus"></i> Add Hotel</a>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                         <table id="hotel-grid" class="table table-striped responsive-utilities jambo_table">
-                            <thead>                                                      
-                                <!--<tr class="headings">
-                                    <th><input type="checkbox" class="tableflat">   </th>
-                                    <th>Hotel ID</th>
-                                    <th>Hotel Name</th>
-                                    <th>Hotel Owner</th>
-                                    <th>Hotel Email</th>
-                                    <th>Hotel Website</th>
-                                    <th>Action</th>                       
-                                </tr>!-->
-                                <tr class="headings">
-                                    <th>
-                                        <input type="checkbox" class="tableflat">
+                            <thead>
+                             
+                                <tr class="disableSorting">
+                                    <th aria-label=" " style="width: 40px;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled disableSorting">
+                                        <div style="position: relative;" class="icheckbox_flat-green"><input style="position: absolute; opacity: 0;" class="tableflat" type="checkbox"><ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;" class="iCheck-helper"></ins></div>
                                     </th>
-                                    <th><input type="checkbox" class="tableflat">   </th>
-                                    <th>Hotel ID</th>
-                                    <th>Hotel Name</th>
-                                    <th>Hotel Owner</th>
-                                    <th>Hotel Email</th>
-                                    <th>Hotel Website</th>
-                                    <th>Action</th>
+                                    <th class='disableSorting'>Hotel Name</th>
+                                    <th class='disableSorting'>Hotel Owner</th>
+                                    <th class='disableSorting'>Hotel Email</th>
+                                    <th class='disableSorting'>Hotel Website</th>
+                                    <th class='disableSorting'>Action</th>                       
                                 </tr>
                             </thead>
                             <tbody>
-                                <!--<tr class="even pointer">
-                                    <td class="a-center ">
-                                        <input type="checkbox" class="tableflat">
-                                    </td>
-                                    <td class=" ">121000040</td>
-                                    <td class=" ">May 23, 2014 11:47:56 PM </td>
-                                    <td class=" ">121000210 <i class="success fa fa-long-arrow-up"></i>
-                                    </td>
-                                    <td class=" ">John Blank L</td>
-                                    <td class=" ">Paid</td>
-                                    <td class="a-right a-right ">$7.45</td>
-                                    <td class=" last"><a href="#">View</a>
-                                    </td>
-                                </tr>
-                                <tr class="odd pointer">
-                                    <td class="a-center ">
-                                        <input type="checkbox" class="tableflat">
-                                    </td>
-                                    <td class=" ">121000039</td>
-                                    <td class=" ">May 23, 2014 11:30:12 PM</td>
-                                    <td class=" ">121000208 <i class="success fa fa-long-arrow-up"></i>
-                                    </td>
-                                    <td class=" ">John Blank L</td>
-                                    <td class=" ">Paid</td>
-                                    <td class="a-right a-right ">$741.20</td>
-                                    <td class=" last"><a href="#">View</a>
-                                    </td>
-                                </tr>
-                                <tr class="even pointer selected">
-                                    <td class="a-center ">
-                                        <input type="checkbox" checked class="tableflat">
-                                    </td>
-                                    <td class=" ">121000038</td>
-                                    <td class=" ">May 24, 2014 10:55:33 PM</td>
-                                    <td class=" ">121000203 <i class="success fa fa-long-arrow-up"></i>
-                                    </td>
-                                    <td class=" ">Mike Smith</td>
-                                    <td class=" ">Paid</td>
-                                    <td class="a-right a-right ">$432.26</td>
-                                    <td class=" last"><a href="#">View</a>
-                                    </td>
-                                </tr>
-                                <tr class="odd pointer">
-                                    <td class="a-center ">
-                                        <input type="checkbox" class="tableflat">
-                                    </td>
-                                    <td class=" ">121000037</td>
-                                    <td class=" ">May 24, 2014 10:52:44 PM</td>
-                                    <td class=" ">121000204</td>
-                                    <td class=" ">Mike Smith</td>
-                                    <td class=" ">Paid</td>
-                                    <td class="a-right a-right ">$333.21</td>
-                                    <td class=" last"><a href="#">View</a>
-                                    </td>
-                                </tr>!-->
+                              
                             </tbody>
                         </table>
                     </div>
@@ -146,8 +85,8 @@
     <!-- footer content -->
     <footer>
         <div class="">
-            <p class="pull-right">Gentelella Alela! a Bootstrap 3 template by <a>Kimlabs</a>. |
-                <span class="lead"> <i class="fa fa-paw"></i> Gentelella Alela!</span>
+            <p class="pull-right">Sebastian Admin |
+                <span class="lead"> <i class="fa fa-paw"></i></span>
             </p>
         </div>
         <div class="clearfix"></div>
@@ -155,90 +94,110 @@
     <!-- /footer content -->
 </div>
 
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Change Status</h4>
+                </div>
+            
+                <div class="modal-body">
+                    <p>You are about to change status of one hotel.</p>
+                    <p>Do you want to proceed?</p>
+                    <p class="debug-url"></p>
+                </div>
+                
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
 
 <script>
-var table;
+    var table;
 
-/*$(document).ready(function () {
- var columnnames=['sb_hotel_id','sb_hotel_id','sb_hotel_name','sb_hotel_owner','sb_hotel_email','sb_hotel_website','sb_hotel_website'];
- table = $('#hotel-grid').DataTable({ 
-    "processing": true, //Feature control the processing indicator.
-    "serverSide": true, //Feature control DataTables' server-side processing mode.
+    $(document).ready(function () {
     
-    // Load data for the table's content from an Ajax source
-    "ajax": {
-        "url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
-        "data":{flag:'3',tablename:'sb_hotels',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:columnnames},
-        "type": "POST"
-    },
-
-    //Set column definition initialisation properties.
-    "columnDefs": [
-    { 
-      "targets": [ -1 ], //last column
-      "orderable": false, //set not orderable
-    },
-    ],
-     "order": [[ 1, "desc" ],[2,'desc']]
-
-  });
-});*/
-
-$(document).ready(function () {
-    $('input.tableflat').iCheck({
-        checkboxClass: 'icheckbox_flat-green',
-        radioClass: 'iradio_flat-green'
-    });
-});
-
-var asInitVals = new Array();
-var columnnames=['sb_hotel_id','sb_hotel_id','sb_hotel_name','sb_hotel_owner','sb_hotel_email','sb_hotel_website','sb_hotel_website'];
-
-$(document).ready(function () {
-    var table = $('#examples').dataTable({
+     table = $('#hotel-grid').DataTable({ 
         "processing": true, //Feature control the processing indicator.
         "serverSide": true, //Feature control DataTables' server-side processing mode.
-    
+        
         // Load data for the table's content from an Ajax source
         "ajax": {
             "url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
-            "data":{flag:'3',tablename:'sb_hotels',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:columnnames},
+            "data":{flag:'3',tablename:'tbname',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:''},
             "type": "POST"
         },
 
-        "oLanguage": {
-            "sSearch": "Search all columns:"
+        //Set column definition initialisation properties.
+        "columnDefs": [
+        { 
+          "targets": [ -1,4], //last column
+          "orderable": false, //set not orderable
         },
-        "aoColumnDefs": [
-            {
-                'bSortable': false,
-                'aTargets': [0]
-            } //disables sorting for column one
-],
-        'iDisplayLength': 12,
-        "sPaginationType": "full_numbers",
-        "dom": 'T<"clear">lfrtip',
-    });
-    $("tfoot input").keyup(function () {
-        /* Filter on the column based on the index of this element's parent <th> */
-        oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
-    });
-    $("tfoot input").each(function (i) {
-        asInitVals[i] = this.value;
-    });
-    $("tfoot input").focus(function () {
-        if (this.className == "search_init") {
-            this.className = "";
-            this.value = "";
-        }
-    });
-    $("tfoot input").blur(function (i) {
-        if (this.value == "") {
-            this.className = "search_init";
-            this.value = asInitVals[$("tfoot input").index(this)];
-        }
-    });
-});
+        ],
+         "order": [[ 0, "desc" ]]
+
+      });
+    }); 
+    $('#hotel-grid tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+        var chkbox =$(this).find('.icheckbox_flat-green');
+        chkbox.toggleClass('checked');
+    } );
+    function changehotelstatus(id,hotelstatus)
+    {   
+        $(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger" onclick=changestatus('+id+','+hotelstatus+');>Delete</button>');
+        $("#confirm-delete").modal('show');
+    }
+    function changestatus(id,hotelstatus)
+    {
+        
+        var base_url = '<?php echo site_url('admin/hotel/change_hotel_status')?>';
+        $.ajax({
+            url: base_url,
+            type:"post",
+            data:{"hotel_id":id,"hotelstatus":hotelstatus},
+            dataType:"json",
+            success:function(msg){
+                        $('#confirm-delete').modal('hide');
+                        table.destroy();
+                        table = $('#hotel-grid').DataTable({ 
+                                            "processing": true, //Feature control the processing indicator.
+                                            "serverSide": true, //Feature control DataTables' server-side processing mode.
+                                            
+                                            // Load data for the table's content from an Ajax source
+                                            "ajax": {
+                                                "url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
+                                                "data":{flag:'3',tablename:'tbname',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:''},
+                                                "type": "POST"
+                                            },
+
+                                            //Set column definition initialisation properties.
+                                            "columnDefs": [
+                                            { 
+                                              "targets": [ -1,4], //last column
+                                              "orderable": false, //set not orderable
+                                            },
+                                            ],
+                                             "order": [[ 0, "desc" ]]
+                                                });
+                                            },
+                                                error:function(){
+                                                    alert("Error");
+                                        }
+        });
+    }
+
+
+        
+    
 </script>
 
 

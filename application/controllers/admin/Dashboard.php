@@ -25,6 +25,7 @@ class Dashboard extends CI_Controller
 
 			// Load the ACL library and pas it the config array
 			$this->load->library('acl',$config);
+
 		}
 	}
 

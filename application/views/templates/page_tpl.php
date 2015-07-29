@@ -7,7 +7,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	 
-	<title><?php if(isset($title)) {echo $title;} ?></title>
+
+	<title><?php //echo $title; ?></title>
+
 	 
 	<!-- Bootstrap core CSS -->
 	 
