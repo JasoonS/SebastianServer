@@ -4,7 +4,7 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class dashboard extends CI_Controller 
+class Dashboard extends CI_Controller 
 {
 	public $user_acl = array();
 	public $data	 = array();

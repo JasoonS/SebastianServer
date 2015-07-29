@@ -7,12 +7,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User extends CI_Controller 
 {
-
+	public $user_acl = array();
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model('Hotel_model');
+		$this->load->model('User_model');
 		$this->load->helper('admin/utility_helper');
+	
+		if(!$this->session->userdata('logged_in_user'))
+		{
+			redirectWithErr(ERR_MSG_LEVEL_2,'login');
+		}else
+		{
+			// Get the user's ID and add it to the config array
+			$config = array('userID'=>$this->session->userdata('logged_in_user')->sb_hotel_user_id);
+
+			// Load the ACL library and pas it the config array
+			$this->load->library('acl',$config);
+
+		}
 	}
 
 
@@ -27,7 +41,11 @@ class User extends CI_Controller
 		$this->data['action']	= "admin/user/create_hotel";
 		$this->data['countrylist'] = getCountryList();
 		$this->data['languagelist']=getAllLanguages();
-		$this->template->load('create_hotel_tpl', 'create_hotel',$this->data);
+		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
+		{
+			$this->data['title'] = LABEL_1;
+		    $this->template->load('page_tpl', 'create_hotel',$this->data);
+		}
 			
 	}
 	
@@ -59,7 +77,11 @@ class User extends CI_Controller
 			$this->data['action']	= "admin/user/create_hotel";	
 			$this->data['countrylist'] = getCountryList();
 			$this->data['languagelist']=getAllLanguages();
-			$this->template->load('create_hotel_tpl', 'create_hotel',$this->data);
+			if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
+		    {
+				$this->data['title'] = LABEL_1;
+				$this->template->load('page_tpl', 'create_hotel',$this->data);
+			}
 		}else{
 				$data["sb_hotel_pic"] = "";
 				
@@ -142,8 +164,11 @@ class User extends CI_Controller
 				if (($key = array_search('u',$this->data['hotelusertypes'])) !== false) {
 						unset($this->data['hotelusertypes'][$key]);
 				}	
-				
-			$this->template->load('create_hotel_tpl', 'create_hotel_admin_user',$this->data);
+			if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
+		    {
+				$this->data['title'] = LABEL_1;	
+			    $this->template->load('page_tpl', 'create_hotel_admin_user',$this->data);
+			}
 	}
 	/*
 	This method is used to create Hotel administrator/manager
@@ -180,7 +205,7 @@ class User extends CI_Controller
 			if (($key = array_search('m',$this->data['hotelusertypes'])) !== false) {
 						unset($this->data['hotelusertypes'][$key]);
 				}
-			$this->template->load('create_hotel_tpl', 'create_hotel_admin_user',$this->data);
+			$this->template->load('page_tpl', 'create_hotel_admin_user',$this->data);
 		}else{
 		        
 				$data["sb_hotel_user_pic"] = "";
@@ -279,7 +304,11 @@ class User extends CI_Controller
 	public function view_hotels()
 	{	
 		//Check If User is logged in otherwise redirect to login page.
-		$this->template->load('create_hotel_tpl', 'hotel_list');		
+		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
+		    {
+				$this->data['title'] = LABEL_1;
+				$this->template->load('page_tpl', 'hotel_list');
+            }		
 	}
 	
 	/* Method render edit Hotel View If User is super administrator/Hotel Administrator
@@ -295,8 +324,11 @@ class User extends CI_Controller
 		$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
 		$this->data['countrylist'] = getCountryList();
 		$this->data['languagelist']=getAllLanguages();
-
-		$this->template->load('create_hotel_tpl', 'edit_hotel',$this->data);
+		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
+		    {
+				$this->data['title'] = LABEL_1;
+		$this->template->load('page_tpl', 'edit_hotel',$this->data);
+		}
 			
 	}
 	
@@ -328,7 +360,7 @@ class User extends CI_Controller
 			$this->data['countrylist'] = getCountryList();
 			$this->data['languagelist']=getAllLanguages();
 			$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
-			$this->template->load('create_hotel_tpl', 'edit_hotel',$this->data);
+			$this->template->load('page_tpl', 'edit_hotel',$this->data);
 		}else{
 		        $this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
 		        
@@ -392,7 +424,11 @@ class User extends CI_Controller
 		$this->data['hotel_id']	= $hotel_id;
 		$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
 		$this->data['languagelist']=getAllLanguages();
-		$this->template->load('create_hotel_tpl', 'view_hotel',$this->data);
+		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
+		    {
+				$this->data['title'] = LABEL_1;
+				$this->template->load('page_tpl', 'view_hotel',$this->data);
+			}
 			
 	}
 	/* Method Deactivates hotel
@@ -403,6 +439,41 @@ class User extends CI_Controller
 	{	
 		
 		print_r($hotel_id);exit;
+			
+	}
+	
+	/* Method render User Listing If User is super administrator
+	 * @param int
+	 * return void
+	 */
+	public function view_hotel_users()
+	{	
+		
+		$this->data['action']	= "admin/user/view_hotel_users";
+	
+		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
+		    {
+				$this->data['title'] = LABEL_1;
+				$this->template->load('page_tpl', 'hotel_user_list',$this->data);
+			}
+			
+	}
+	
+	/* Method render User Information 
+	 * @param int
+	 * return void
+	 */
+	public function view_hotel_user($user_id)
+	{	
+		
+		$this->data['action']	= "admin/user/view_hotel_users";
+	
+		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
+		    {
+				$this->data['title'] = LABEL_1;
+				$this->data['userinfo']=$this->User_model->get_user_info($user_id);
+				$this->template->load('page_tpl', 'view_hotel_user',$this->data);
+			}
 			
 	}
 	

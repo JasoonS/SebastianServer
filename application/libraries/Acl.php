@@ -234,4 +234,25 @@ Class Acl
         else
             return FALSE;  
     }
+
+    /* Method will check if user has rights to access
+     * this module
+     * @param int
+     * return TRUE/FALSE
+     */
+    function hasPermission($permKey) 
+    {
+        $permKey = strtolower($permKey);
+        if (array_key_exists($permKey,$this->perms))
+        {
+            if ($this->perms[$permKey]['value'] === '1' || $this->perms[$permKey]['value'] === true)
+            {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }
