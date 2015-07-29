@@ -3,7 +3,6 @@
     display: none;
 }​
 
-
 </style>
 
 <div class="account-container">	
@@ -22,12 +21,12 @@
 	<form class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data">
 		<fieldset>
 		<!-- Form Name -->
-		<legend>Create Hotel</legend>
+		<legend>Update Hotel</legend>
 		<!-- Text input-->
 		<div class="control-group">
 			<label class="control-label" for="sb_hotel_name">Hotel Name</label>
 			<div class="controls">
-			<input id="sb_hotel_name" name="sb_hotel_name" type="text" placeholder="Type Hotel Name Here ..." class="input-large" >
+			<input id="sb_hotel_name" name="sb_hotel_name" type="text" placeholder="Type Hotel Name Here ..." class="input-large" value="<?php echo $hoteldata['sb_hotel_name']?>" disabled>
 			<?php echo form_error('sb_hotel_name'); ?>
 			</div>
 		</div>
@@ -36,8 +35,18 @@
 			<label class="control-label" for="sb_hotel_category">Hotel Category</label>
 			<div class="controls">
 				<select id="sb_hotel_category" name="sb_hotel_category" class="input-large">
-					<option>Hotel</option>
-					<option>Resort</option>
+				   <?php
+						if($hoteldata['sb_hotel_category']=='Hotel')
+						{
+							echo "<option checked>Hotel</option>";
+							echo "<option>Resort</option>";
+						}
+						else
+						{
+							echo "<option>Hotel</option>";
+							echo "<option checked>Resort</option>";
+						}	
+				   ?>	
 				</select>
 			</div>
 		</div>
@@ -46,7 +55,7 @@
 		  <label class="control-label" for="sb_hotel_star">Hotel Star</label>
 		  <div class="controls">
 			 <!-- <input id="sb_hotel_star" name="sb-hotel-star" data-min="1" data-max="7" data-step="1">-->
-			 <input id="sb_hotel_star" name="sb_hotel_star" value="0" type="number" class="rating" data-stars=7 min=0 max=7 step=1 data-size="xs" data-glyphicon="false">
+			 <input id="sb_hotel_star" name="sb_hotel_star" value="<?php echo $hoteldata['sb_hotel_star'];?>" type="number" class="rating" data-stars=7 min=0 max=7 step=1 data-size="xs" data-glyphicon="false">
 		  </div>
 		</div>
 
@@ -61,14 +70,14 @@
 		<div class="control-group">
 			<label class="control-label" for="sb_hotel_email">Hotel Email</label>
 			<div class="controls">
-			<input id="sb_hotel_email" name="sb_hotel_email" type="text" placeholder="Type Hotel Email Here ..." class="input-large" >
+			<input id="sb_hotel_email" name="sb_hotel_email" type="text" placeholder="Type Hotel Email Here ..." class="input-large" value="<?php echo $hoteldata['sb_hotel_email'];?>" >
 			<?php echo form_error('sb_hotel_email'); ?>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label" for="sb_hotel_website">Hotel Website</label>
 			<div class="controls">
-			<input id="sb_hotel_website" name="sb_hotel_website" type="text" placeholder="Type Hotel Website Url Here ..." class="input-large" >
+			<input id="sb_hotel_website" name="sb_hotel_website" type="text" placeholder="Type Hotel Website Url Here ..." class="input-large" value="<?php echo $hoteldata['sb_hotel_website']?>">
 			<?php echo form_error('sb_hotel_website'); ?>
 			</div>
 		</div>
@@ -77,7 +86,7 @@
 		<div class="control-group">
 			<label class="control-label" for="sb_hotel_owner">Hotel Owner</label>
 			<div class="controls">
-			<input id="sb_hotel_owner" name="sb_hotel_owner" type="text" placeholder="Type Hotel Owner Name Here ..." class="input-large" >
+			<input id="sb_hotel_owner" name="sb_hotel_owner" type="text" placeholder="Type Hotel Owner Name Here ..." class="input-large" value="<?php echo $hoteldata['sb_hotel_owner']?>">
 			<?php echo form_error('sb_hotel_owner'); ?>
 			</div>
 		</div>
@@ -86,18 +95,21 @@
 			<label class="control-label" for="sb_property_built_month">Hotel Property Built Month</label>
 			<div class="controls">
 				<select id="sb_property_built_month" name="sb_property_built_month" class="input-large">
-					<option value='1'>January</option>
-					<option value='2'>February</option>
-					<option value='3'>March</option>
-					<option value='4'>April</option>
-					<option value='5'>May</option>
-					<option value='6'>June</option>
-					<option value='7'>July</option>
-					<option value='8'>August</option>
-					<option value='9'>September</option>
-					<option value='10'>October</option>
-					<option value='11'>November</option>
-					<option value='12'>December</option>
+				<?php 
+					$monthArray = array('January','February','March','April','May','June','July','August','September','October','November','December');
+					$i=0;
+					while($i<count($monthArray))
+				    {
+						if($i==$hoteldata['sb_property_built_month'])
+						{
+							echo "<option value='".$i."' checked>".$monthArray[$i]."</option>";	
+						}
+						else{
+							echo "<option value='".$i."'>".$monthArray[$i]."</option>";
+						}
+						$i++;
+					} 
+				?>	
 				</select>
 			</div>
 		</div>
@@ -107,7 +119,7 @@
 		<div class="control-group">
 			<label class="control-label" for="sb_property_built_year">Hotel Property Built Year</label>
 			<div class="controls">
-			<input id="sb_property_built_year" name="sb_property_built_year" type="text"  class="input-large" >
+			<input id="sb_property_built_year" name="sb_property_built_year" type="text"  class="input-large" value="<?php echo $hoteldata['sb_property_built_year']?>">
 			<?php echo form_error('sb_property_built_year'); ?>
 			</div>
 		</div>
@@ -115,7 +127,7 @@
 		<div class="control-group">
 			<label class="control-label" for="sb_property_open_year">Hotel Property Opened Year</label>
 			<div class="controls">
-			<input id="sb_property_open_year" name="sb_property_open_year" type="text"  class="input-large" >
+			<input id="sb_property_open_year" name="sb_property_open_year" type="text"  class="input-large" value="<?php echo $hoteldata['sb_property_open_year']?>">
 			<?php echo form_error('sb_property_open_year'); ?>
 			</div>
 		</div>
@@ -125,11 +137,20 @@
 		<div class="control-group">
 		  <label class="control-label" for="sb_hotel_country">Country</label>
 		  <div class="controls">
+		  
 			<select id="sb_hotel_country" name="sb_hotel_country" class="input-large" required="" onchange="loadStates('sb_hotel_country','sb_hotel_state','1','sb_hotel_city','0','0','0')">
 				<?php
 				    foreach($countrylist as $key=>$country)
-					echo "<option value='".$country['country_id']."'>".$country['country_name']."</option>";
-                ?>   				
+					{
+						if($country['country_id'] == $hoteldata['sb_hotel_country']){
+							echo "<option value='".$country['country_id']."' checked>".$country['country_name']."</option>";
+						}
+						else
+						{
+							echo "<option value='".$country['country_id']."'>".$country['country_name']."</option>";
+						}
+					}
+				?>   				
 			</select>
 			<?php echo form_error('sb_hotel_country'); ?>
 		  </div>
@@ -163,7 +184,7 @@
 		<div class="control-group">
 		  <label class="control-label" for="sb_hotel_address">Hotel Address</label>
 		  <div class="controls">                     
-			<textarea id="sb_hotel_address" name="sb_hotel_address" required=""></textarea>
+			<textarea id="sb_hotel_address" name="sb_hotel_address" required=""><?php echo $hoteldata['sb_hotel_address']?></textarea>
 			<?php echo form_error('sb_hotel_address'); ?>
 		  </div>
 		</div>
@@ -172,7 +193,7 @@
 		<div class="control-group">
 		  <label class="control-label" for="sb_hotel_zipcode">Postal Code</label>
 		  <div class="controls">
-			<input id="sb_hotel_zipcode" name="sb_hotel_zipcode" type="text"  placeholder="Type Postal Code Here" class="input-large"  maxlength="5">
+			<input id="sb_hotel_zipcode" name="sb_hotel_zipcode" type="text"  placeholder="Type Postal Code Here" class="input-large"  maxlength="5" value="<?php echo $hoteldata['sb_hotel_zipcode']?>">
 				<?php echo form_error('sb_hotel_zipcode'); ?>
 		  </div>
 		</div>
@@ -180,14 +201,21 @@
 		
 		</fieldset>
 		<fieldset>
-			<?php //print_r($languagelist);?>
-			<?php
-					$i=0;
-					while($i<count($languagelist))
+			<?php 
+				$selectedlanguages =explode(',',$hoteldata['lang_id']);
+				$i=0;
+				while($i<count($languagelist))
 					{
-					    echo '<div class="checkbox">';
-						echo '<label><input type="checkbox" name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'" checked>'.$languagelist[$i]['lang_name'].'</label>';
-						echo '</div>';
+					    if (in_array($languagelist[$i]['lang_id'], $selectedlanguages)) {
+								 echo '<div class="checkbox">';
+								 echo '<label><input type="checkbox" name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'" checked>'.$languagelist[$i]['lang_name'].'</label>';
+						         echo '</div>';
+						}
+						else{
+								echo '<div class="checkbox">';
+								echo '<label><input type="checkbox" name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'">'.$languagelist[$i]['lang_name'].'</label>';
+								echo '</div>';
+						}
 						$i++;
 					}
 			?>
@@ -196,7 +224,7 @@
         <div class="control-group">
 		  <label class="control-label" for="submit"></label>
 		  <div class="controls">
-			<button id="submit"  class="btn btn-primary">Create Hotel</button>
+			<button id="submit"  class="btn btn-primary">Update Hotel</button>
 		  </div>
 		</div>		
 		</fieldset>
@@ -212,8 +240,12 @@ $(document).ready(function () {
                return false;
 		}
    });
-    loadStates('sb_hotel_country','sb_hotel_state','1','sb_hotel_city','0','0','0'); 
+    $("#sb_hotel_country").val("<?php echo $hoteldata['sb_hotel_country'];?>");
+    loadStates('sb_hotel_country','sb_hotel_state','1','sb_hotel_city','1','<?php echo $hoteldata['sb_hotel_state']?>','<?php echo $hoteldata['sb_hotel_city']?>');
 	$("#sb_hotel_pic").fileinput({
+	     initialPreview: [
+			"<img src='<?php echo FOLDER_BASE_URL.HOTEL_PIC."/".$hoteldata['sb_hotel_pic'];?>' class='file-preview-image' alt='Hotel Image' title='HotelImage'>",
+        ],
 		showUpload: false,
 		showCaption: false,
 		browseClass: "btn btn-primary btn-lg",

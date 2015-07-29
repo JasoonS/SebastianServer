@@ -19,6 +19,32 @@
 			</table>
 		</div>
 </div>
+
+<!--Confirmation Dialog For Delete Hotel -->
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                </div>
+            
+                <div class="modal-body">
+                    <p>You are about to delete one hotel.</p>
+                    <p>Do you want to proceed?</p>
+                    <p class="debug-url"></p>
+                </div>
+                
+                <div class="modal-footer">
+					
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 <script type="text/javascript">
 var table;
 
@@ -48,6 +74,12 @@ $(document).ready(function () {
 	
 	
 });
+function deletehotel(id)
+{   
+	$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger" onclick=alert('+id+');>Delete</button>');
+    $("#confirm-delete").modal('show');
+}
+
 </script>
 
 
