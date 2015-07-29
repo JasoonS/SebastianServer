@@ -7,7 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	 
-	<title>Sebastian Admin</title>
+	<title><?php echo $title; ?></title>
 	 
 	<!-- Bootstrap core CSS -->
 	 
@@ -50,29 +50,6 @@
         </div>
     </div>
 
-    <div id="custom_notifications" class="custom-notifications dsp_none">
-	    <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
-	    </ul>
-	    <div class="clearfix"></div>
-	    <div id="notif-group" class="tabbed_notifications"></div>
-	</div>
-
-	<script src="<?php echo THEME_ASSETS;  ?>js/bootstrap.min.js"></script>
-
-	<!-- chart js -->
-	<script src="js/chartjs/chart.min.js"></script>
-	<!-- bootstrap progress js -->
-	<script src="js/progressbar/bootstrap-progressbar.min.js"></script>
-	<script src="<?php echo THEME_ASSETS;  ?>js/nicescroll/jquery.nicescroll.min.js"></script>
-	<!-- icheck -->
-	<script src="<?php echo THEME_ASSETS;  ?>js/icheck/icheck.min.js"></script>
-
-	<script src="<?php echo THEME_ASSETS;  ?>js/custom.js"></script>
-
-	<!-- moris js -->
-	<script src="js/moris/raphael-min.js"></script>
-	<script src="js/moris/morris.js"></script>
-	<script src="js/moris/example.js"></script>
 </body>
 <html/>
 

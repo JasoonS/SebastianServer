@@ -30,14 +30,23 @@ class dashboard extends CI_Controller
 
 	public function index()
 	{	
-		$this->template->load('page_tpl', 'dashboard_vw',$this->data);
+
+		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'x')
+		{
+			$this->data['title'] = LABEL_1;
+			$this->template->load('page_tpl','admin_dashboard_vw',$this->data);
+		}else
+		{
+			$this->data['title'] = LABEL_2;
+			$this->template->load('page_tpl','hotelier_dashboard_vw',$this->data);
+		}	
 	}
 
 	/* Method check user access level
 	 * granted by admin , to hotel admin
 	 * @param void
 	 * return void
-	 */
+	 *
 	private function check_user_access_level()
 	{
 		// Get the user's ID and add it to the config array
@@ -45,6 +54,6 @@ class dashboard extends CI_Controller
 
 		// Load the ACL library and pas it the config array
 		$this->load->library('acl',$config);
-	}
+	}*/
 
 }

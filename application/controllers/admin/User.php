@@ -295,6 +295,7 @@ class User extends CI_Controller
 		$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
 		$this->data['countrylist'] = getCountryList();
 		$this->data['languagelist']=getAllLanguages();
+
 		$this->template->load('create_hotel_tpl', 'edit_hotel',$this->data);
 			
 	}
@@ -405,5 +406,6 @@ class User extends CI_Controller
 			
 	}
 	
+
 }
 

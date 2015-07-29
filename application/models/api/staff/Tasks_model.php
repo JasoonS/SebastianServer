@@ -4,8 +4,8 @@ class Tasks_model extends CI_Model
 	public function todays_tasks($sb_hotel_user_id,$service_due_date)
 	{
 		$qry = "SELECT hrs.sb_hotel_requst_ser_id, hrs.sb_guest_allocated_room_no, hrs.sb_service_log,
-				hss.sb_hotel_ser_start_date as service_due_date, hss.sb_hotel_ser_start_time as service_due_time,
-				b.sb_guest_firstName, b.sb_guest_lastName,
+				hss.sb_hotel_ser_start_date as service_due_date,  DATE_FORMAT(hss.sb_hotel_ser_start_time,'%l:%i %p') as service_due_time,
+				b.sb_guest_firstName, b.sb_guest_lastName,hrs.sb_hotel_guest_booking_id,
 				IF(hrs.sb_hotel_requst_ser_id != '','request', 'request') as service_type
 				FROM `sb_hotel_request_service` as hrs
 				JOIN sb_hotel_services_status as hss
@@ -21,9 +21,11 @@ class Tasks_model extends CI_Model
 
 	public function weekly_tasks($sb_parent_service_id ,$weekdates, $sb_hotel_id)
 	{
-		$qry = "SELECT hrs.sb_hotel_requst_ser_id,hrs.sb_guest_allocated_room_no,hrs.sb_hotel_ser_reqstd_on, hss.sb_hotel_ser_assgnd_to_user_id,
+		$qry = "SELECT hrs.sb_hotel_requst_ser_id,hrs.sb_guest_allocated_room_no,hrs.sb_hotel_ser_reqstd_on, 
+				hss.sb_hotel_ser_assgnd_to_user_id, hss.sb_hotel_ser_start_date as service_due_date,  DATE_FORMAT(hss.sb_hotel_ser_start_time,'%l:%i %p') as service_due_time,
+				hss.sb_hotel_ser_finished_date as service_done_date,  DATE_FORMAT(hss.sb_hotel_ser_finished_time,'%l:%i %p') as service_done_time,
 				hss.sb_hotel_service_status, IF(hrs.sb_hotel_requst_ser_id != '','request', 'request') as service_type,
-				b.sb_guest_firstName,b.sb_guest_lastName,hrs.sb_service_log
+				b.sb_guest_firstName,b.sb_guest_lastName,hrs.sb_service_log,hrs.sb_hotel_guest_booking_id
 				FROM `sb_hotel_request_service` as hrs
 				JOIN sb_hotel_services_status as hss
 				ON hrs.`sb_hotel_requst_ser_id` = hss.sb_hotel_requst_ser_id
@@ -53,9 +55,9 @@ class Tasks_model extends CI_Model
 	public function completed_tasks($sb_parent_service_id ,$weekdates, $sb_hotel_id)
 	{
 		$qry = "SELECT hrs.sb_hotel_requst_ser_id,hrs.sb_guest_allocated_room_no,gb.sb_guest_firstName, gb.sb_guest_lastName,
-				hss.sb_hotel_ser_start_date as service_due_date, hss.sb_hotel_ser_start_time as service_due_time,
-				hss.sb_hotel_ser_finished_date as service_done_date, hss.sb_hotel_ser_finished_time as service_done_time,
-				hu.sb_hotel_user_id, hu.sb_hotel_username, hrs.sb_service_log,
+				hss.sb_hotel_ser_start_date as service_due_date,  DATE_FORMAT(hss.sb_hotel_ser_start_time,'%l:%i %p') as service_due_time,
+				hss.sb_hotel_ser_finished_date as service_done_date,  DATE_FORMAT(hss.sb_hotel_ser_finished_time,'%l:%i %p') as service_done_time,
+				hu.sb_hotel_user_id, hu.sb_hotel_username, hrs.sb_service_log,hrs.sb_hotel_guest_booking_id,
 				IF(hrs.sb_hotel_requst_ser_id != '','request', 'request') as service_type
 				FROM `sb_hotel_request_service` as hrs
 				JOIN sb_hotel_services_status as hss
