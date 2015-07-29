@@ -245,6 +245,7 @@ Class Acl
         $permKey = strtolower($permKey);
         if (array_key_exists($permKey,$this->perms))
         {
+
             if ($this->perms[$permKey]['value'] === '1' || $this->perms[$permKey]['value'] === true)
             {
                 return true;
