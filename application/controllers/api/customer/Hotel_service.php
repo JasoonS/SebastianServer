@@ -47,7 +47,7 @@ class Hotel_service extends CI_Controller
 	 * return type- 
 	 * created on - 22nd July 2015;
 	 * updated on - 
-	 * created by - Akshay Patil; sandbox_sebastian
+	 * created by - Akshay Patil;
 	 */
 
 	function place_service()
@@ -132,47 +132,52 @@ class Hotel_service extends CI_Controller
 		if ($data != 0)
 		{
 			
-		/* code for push notification	
+ 			//code for push notification	
 
 			$token = $sb_hotel_user = $this->Hotel_service_model->get_staff_ids($hrs['sb_hotel_id'],$hrs['sb_parent_service_id']);
-			$message = "Hi Everyone....";
-			$dev_token = array();
-			$ios_token = array();
-			for ($i=0; $i < count($token); $i++) 
-			{ 
-				if($token[$i]['sdt_deviceType'] == 'android')
-				{
-
-					array_push($dev_token,$token[$i]['sdt_token']);
-				}
-
-
-				else
-				{
-					if(strlen($token[$i]['sdt_token']) == 64 )
+			if (count($token)>0)
+			{
+				$message = "कृपया, कार्य वर एक कटाक्ष टाका";
+				$android_token = array();
+				$ios_token = array();
+				for ($i=0; $i < count($token); $i++) 
+				{ 
+					if($token[$i]['sdt_deviceType'] == 'android')
 					{
-						array_push($ios_token,$token[$i]['sdt_token']);
+						array_push($android_token,$token[$i]['sdt_token']);
+					}
+					else
+					{
+						if($token[$i]['sdt_token'] != "")
+						{
+							array_push($ios_token,$token[$i]['sdt_token']);
+						}	
 					}	
-				}	
+				}
+				if(count($ios_token)>0)
+				{
+					$ipushdata  = array('deviceToken'=> $ios_token,
+								'user'=> "staff",
+								'message' => $message
+								);
+					$this->load->library('api/Iospush');
+					$val = $this->iospush->iospush_notification($ipushdata);
+				}
+							
+				// array for android
+				if(count($android_token)>0)
+				{
+					$pushdata = array(
+						'message'=> $message,
+						'deviceTokens'=> $android_token,
+						'user'=> "staff"
+						);
+					$this->load->library('api/Android_push');
+					$val1 = $this->android_push->push_notification($pushdata);
+				}
+				
 			}
-			// print_r($ios_token); die();
-
-			$ipushdata  = array('deviceToken'=> $ios_token,
-							'user'=> "staff",
-							'message' => $message
-							);
-			$val = $this->iospush->iospush_notification($ipushdata);
-		
-		// array for android
-		$pushdata = array(
-			'message'=> $message,
-			'deviceTokens'=> $dev_token,
-			'user'=> "staff"
-			);
-		// print_r($pushdata); print_r($ipushdata); die();
-		// $val1 = $this->android_push->push_notification($pushdata);
-			*/
-
+			
 			response_ok();
 		}
 		else

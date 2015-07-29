@@ -6343,3 +6343,10 @@ ul.notifications {
     float: right;
     opacity: 1;
 }
+
+/******* Custom css ****/
+.classNav{
+    max-height: 500px;
+    overflow-y:scroll; 
+}
+

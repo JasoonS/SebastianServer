@@ -1,7 +1,7 @@
-
-function loadStates(inputelementname,outputelementname,populatecities,cityelement)
+var proj_url=location.protocol + "//" + location.host;
+function loadStates(inputelementname,outputelementname,populatecities,cityelement,haveDefaultStateAndCity,state,city)
 {
-	var base_url = '../ajax/get_ajax_data';
+	var base_url = proj_url+'/sebastian-admin-panel/admin/ajax/get_ajax_data';
 	var country_id = $("#"+inputelementname).val();
 	$.ajax({
 			url: base_url,
@@ -19,15 +19,19 @@ function loadStates(inputelementname,outputelementname,populatecities,cityelemen
 				alert("failure");
 			}
 		}).done(function (){
-		if(populatecities = 1){
-			loadCities(outputelementname,cityelement);
+		if(haveDefaultStateAndCity ==1)
+		{
+			$("#"+outputelementname).val(state);
+		}
+		if(populatecities == 1){
+			loadCities(outputelementname,cityelement,haveDefaultStateAndCity,city);
 		}
 	});
 }
 
-function loadCities(inputelementname,outputelementname)
+function loadCities(inputelementname,outputelementname,haveDefaultStateAndCity,city)
 {
-	var base_url = '../ajax/get_ajax_data';
+	var base_url = proj_url+'/sebastian-admin-panel/admin/ajax/get_ajax_data';
 	var state_id = $("#"+inputelementname).val();
 	$.ajax({
 			url: base_url,
@@ -45,5 +49,11 @@ function loadCities(inputelementname,outputelementname)
 			error:function(){
 				alert("failure");
 			}
-		});
+		}).done(function (){
+		if(haveDefaultStateAndCity ==1)
+		{
+			$("#"+outputelementname).val(city);
+		}
+		
+	});
 }

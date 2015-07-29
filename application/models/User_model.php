@@ -83,4 +83,25 @@ Class User_model extends CI_Model
 			return FALSE;
 	}
 	
+	/* Method return user info
+	 * to hotleir
+	 * @param int
+	 * return array on success , false on failure
+	 */
+	function get_user_info($user_id)
+	{
+		$this->db->select('sb_hotel_user_id,sb_hotels.sb_hotel_id,sb_hotel_username,sb_hotel_name');
+		$this->db->select('sb_hotel_useremail,sb_hotel_user_pic,sb_hotel_user_type');
+		$this->db->select('sb_hotel_user_shift_from,sb_hotel_user_shift_to');
+		$this->db->from('sb_hotel_users');
+		$this->db->join('sb_hotels','sb_hotels.sb_hotel_id=sb_hotel_users.sb_hotel_id');
+		$this->db->where('sb_hotel_user_id',$user_id);
+		$query = $this->db->get();
+
+		if($query->num_rows() > 0)
+			return $row = $query->row();
+		else
+			return FALSE;
+	}
+	
 }

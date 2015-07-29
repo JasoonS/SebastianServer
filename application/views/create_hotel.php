@@ -125,7 +125,7 @@
 		<div class="control-group">
 		  <label class="control-label" for="sb_hotel_country">Country</label>
 		  <div class="controls">
-			<select id="sb_hotel_country" name="sb_hotel_country" class="input-large" required="" onchange="loadStates('sb_hotel_country','sb_hotel_state','1','sb_hotel_city')">
+			<select id="sb_hotel_country" name="sb_hotel_country" class="input-large" required="" onchange="loadStates('sb_hotel_country','sb_hotel_state','1','sb_hotel_city','0','0','0')">
 				<?php
 				    foreach($countrylist as $key=>$country)
 					echo "<option value='".$country['country_id']."'>".$country['country_name']."</option>";
@@ -139,7 +139,7 @@
 		<div class="control-group">
 		  <label class="control-label" for="sb_hotel_state">State</label>
 		  <div class="controls">
-			<select id="sb_hotel_state" name="sb_hotel_state" class="input-large" required="" onchange="loadCities('sb_hotel_state','sb_hotel_city')">
+			<select id="sb_hotel_state" name="sb_hotel_state" class="input-large" required="" onchange="loadCities('sb_hotel_state','sb_hotel_city','0','0')">
 			  
 			</select>
 			<?php echo form_error('sb_hotel_state'); ?>
@@ -212,7 +212,7 @@ $(document).ready(function () {
                return false;
 		}
    });
-    loadStates('sb_hotel_country','sb_hotel_state','1','sb_hotel_city'); 
+    loadStates('sb_hotel_country','sb_hotel_state','1','sb_hotel_city','0','0','0'); 
 	$("#sb_hotel_pic").fileinput({
 		showUpload: false,
 		showCaption: false,

@@ -74,46 +74,30 @@ class Hotel_service_model extends CI_Model
 		$qry = "Select s.sb_hotel_user_id from sb_hotel_service_map h join sb_hotel_user_service_access_map s on
 				 h.sb_hotel_service_map_id = s.sb_hotel_service_map_id where h.sb_hotel_id = $sb_hotel_id AND
 				 h.sb_parent_service_id = $sb_parent_service_id"; 
-				 // echo($qry); die();
-			$query = $this->db->query($qry);
-			$data = $query->result_array();
-			$token = array();
-			if(count($data))
-			{
-				for ($i=0, $j=0; $i < count($data) ; $i++)
-				 { 
-					if($data[$i]['sb_hotel_user_id']!= '' && $data[$i]['sb_hotel_user_id'] != NULL)
-					{	
-						$token[$j++] = $data[$i]['sb_hotel_user_id'];
-					}	
-				 }	
+				
+		$query = $this->db->query($qry);
+		$data = $query->result_array();
+		$token = array();
+		if(count($data)>0)
+		{
+			for ($i=0; $i < count($data) ; $i++)
+			{ 
+				if($data[$i]['sb_hotel_user_id']!= '' && $data[$i]['sb_hotel_user_id'] != NULL)
+				{
+					array_push($token,$data[$i]['sb_hotel_user_id']);
+				}	
 			}
 			$token1 = implode(",",$token);
 			$sql = "Select sdt_token , sdt_deviceType from sb_staff_devicetoken where sb_hotel_user_id IN ($token1)";
 			$query1 = $this->db->query($sql);
 			return $query1->result_array();
-			 // print_r($sql)	; die();
-
+		}
+		else
+			return array();
 	}
 
 	function get_request_info($sb_hotel_guest_booking_id)
 	{
-		// $qry = "Select r.sb_hotel_requst_ser_id , c.sb_child_servcie_name ,h.sb_hotel_service_assigned ,u.sb_hotel_username,
-
-		// 		 h.sb_hotel_ser_start_date, h.sb_hotel_ser_start_time, h.sb_hotel_ser_finished_date , h.sb_hotel_ser_finished_time,
-
-		// 		 h.sb_hotel_service_status, r.sb_service_log from sb_hotel_request_service r
-
-		// 		 join sb_hotel_service_map m on r.sb_hotel_service_map_id = m.sb_hotel_service_map_id
-
-		// 		 join sb_hotel_child_services c on m.sb_child_service_id = c.sb_child_service_id
-
-		// 		 join sb_hotel_services_status h on r.sb_hotel_requst_ser_id = h.sb_hotel_requst_ser_id 
-
-		// 		 join sb_hotel_users u on h.sb_hotel_ser_assgnd_to_user_id  = u.sb_hotel_user_id 
-
-		// 		 where r.sb_hotel_guest_booking_id = '$sb_hotel_guest_booking_id' ";
-
 		$qry = "Select r.sb_hotel_requst_ser_id , h.sb_hotel_service_assigned, h.sb_hotel_ser_start_date, r.sb_hotel_ser_reqstd_on, 
 				h.sb_hotel_ser_start_time, h.sb_hotel_ser_finished_date , h.sb_hotel_ser_finished_time,h.sb_hotel_ser_assgnd_to_user_id,
 				h.sb_hotel_service_status, r.sb_service_log,c.sb_child_servcie_name, c.service_image
@@ -142,9 +126,6 @@ class Hotel_service_model extends CI_Model
 				 }	
 			}
 			return $data;
-
-				 
-		 
 	}
 }
 ?>

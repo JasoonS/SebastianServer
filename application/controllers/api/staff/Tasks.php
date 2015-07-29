@@ -50,7 +50,7 @@ class Tasks extends CI_Controller {
 		$sb_hotel_id 		= 	$this->input->post('sb_hotel_id');
 
 		$weekdates = $this->x_week_range($service_due_date);
-		
+		//print_r($weekdates);die;
 		if($sb_parent_service_id != '' || $service_due_date !='' || $sb_hotel_id != '')
 		{
 			$tasks = $this->Tasks_model->weekly_tasks($sb_parent_service_id ,$weekdates, $sb_hotel_id);
@@ -66,8 +66,16 @@ class Tasks extends CI_Controller {
 		}
 	}
 
-	public function x_week_range($date) {
-    	$ts = strtotime($date);
+	public function x_week_range($date1) {
+    	/*$date = new DateTime($date1);
+  		//add one week to date
+  		$ds = $date->add(new DateInterval('P1W'))->format('Y-m-d');
+    	$weekdate = array();
+    	array_push($weekdate, $date1);
+    	array_push($weekdate, $ds);
+    	return $weekdate;*/
+
+    	$ts = strtotime($date1);
     	$start = (date('w', $ts) == 0) ? $ts : strtotime('last sunday', $ts);
     	return array(date('Y-m-d', $start),
         date('Y-m-d', strtotime('next saturday', $start)));

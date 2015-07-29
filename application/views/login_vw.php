@@ -4,7 +4,17 @@
 	        <form action="<?php echo base_url().$action?>" method="post">
 	            <h1>Login</h1>
 
-	            <p class="bg-danger"><?php if($this->session->flashdata('AuthMsg')) echo $this->session->flashdata('AuthMsg'); ?></p>
+	            <?php if($this->session->flashdata('AuthMsg')) { ?>
+		            <p class="bg-danger">
+		            	<?php echo $this->session->flashdata('AuthMsg');  ?>
+		            </p>
+	            <?php } ?>
+
+	            <?php if($this->session->flashdata('SuccMsg')) { ?>
+					<p class="bg-success">
+						<?php echo $this->session->flashdata('SuccMsg');  ?>
+					</p>
+	            <?php } ?>
 
 	            <div class="classLoginFrmFields" id="idLoginFields">
 					<input type="text" class="form-control" placeholder="Username" id="idUsername" name="username" value="<?php echo set_value('username');?>" required="" />
