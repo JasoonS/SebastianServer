@@ -1,14 +1,14 @@
-<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">
-<link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+<link href="<?php echo THEME_ASSETS; ?>css/datatables/tools/css/dataTables.tableTools.css" rel="stylesheet">
 <link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
 <link href="<?php echo THEME_ASSETS; ?>css/jquery.dataTables.css" rel="stylesheet" type="text/css">
-<link href="<?php echo THEME_ASSETS; ?>css/custom.css" rel="stylesheet" type="text/css">
+
 
 <script src="<?php echo THEME_ASSETS ?>js/bootstrap.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/datatables/tools/js/dataTables.tableTools.js"></script>
+ <!-- icheck -->
+<script src="<?php echo THEME_ASSETS?>js/icheck/icheck.min.js"></script>
 
 <!-- page content -->
 <div class="right_col" role="main">
@@ -17,16 +17,6 @@
             <div class="title_left">
                 <h3>Hotel List</small></h3>
             </div>
-            <!--<div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
-                        </span>
-                    </div>
-                </div>
-            </div>-->
         </div>
         <div class="clearfix"></div>
         <div class="row">
@@ -35,29 +25,22 @@
                     <div class="x_title">
                         <h2></h2>
                         <ul class="nav navbar-right panel_toolbox">
-                           <!-- <li><a href="#"><i class="fa fa-chevron-up"></i></a></li>                            
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                
-                            </li>
-                            <li><a href="#"><i class="fa fa-close"></i></a>
-                            </li>-->
                             <a class="btn btn-sm btn-success" id="add_hotel" href="<?php echo site_url('/admin/hotel/add_hotel');?>"  title="Add Hotel"><i class="glyphicon glyphicon-plus"></i> Add Hotel</a>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <table id="hotel-grid" class="table table-striped responsive-utilities jambo_table">
+                        <table id="example" class="table table-striped responsive-utilities jambo_table">
                             <thead>
-                                <tr class="disableSorting">
-                                    <th aria-label=" " style="width: 40px;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled disableSorting">
-                                        <div style="position: relative;" class="icheckbox_flat-green"><input style="position: absolute; opacity: 0;" class="tableflat" type="checkbox"><ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;" class="iCheck-helper"></ins></div>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" class="tableflat">
                                     </th>
-                                    <th class='disableSorting'>Hotel Name</th>
-                                    <th class='disableSorting'>Hotel Owner</th>
-                                    <th class='disableSorting'>Hotel Email</th>
-                                    <th class='disableSorting'>Hotel Website</th>
-                                    <th class='disableSorting'>Action</th>                       
+                                    <th>Hotel Name</th>
+                                    <th>Hotel Owner</th>
+                                    <th>Hotel Email</th>
+                                    <th>Hotel Website</th>
+                                    <th>Action</th>                       
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,33 +63,87 @@
     </footer>
     <!-- /footer content -->
 </div>
-	<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Confirm Change Status</h4>
-                </div>
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Confirm Change Status</h4>
+            </div>
+        
+            <div class="modal-body">
+                <p>You are about to change status of one hotel.</p>
+                <p>Do you want to proceed?</p>
+                <p class="debug-url"></p>
+            </div>
             
-                <div class="modal-body">
-                    <p>You are about to change status of one hotel.</p>
-                    <p>Do you want to proceed?</p>
-                    <p class="debug-url"></p>
-                </div>
+            <div class="modal-footer">
                 
-                <div class="modal-footer">
-                    
-                </div>
             </div>
         </div>
     </div>
-
-
-
+</div>
 <script>
-    var table;
+    //var table;
+
+    var asInitVals = new Array();
 
     $(document).ready(function () {
+        $('input.tableflat').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
+    });
+
+    $(document).ready(function () {
+        var oTable = $('#example').dataTable({
+
+            "processing": true, //Feature control the processing indicator.
+            "serverSide": true, //Feature control DataTables' server-side processing mode.
+        
+            // Load data for the table's content from an Ajax source
+            "ajax": {
+                "url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
+                "data":{flag:'3',tablename:'tbname',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:''},
+                "type": "POST"
+            },
+
+            "oLanguage": {
+                "sSearch": "Search all columns:"
+            },
+            "aoColumnDefs": [
+                {
+                    'bSortable': false,
+                    'aTargets': [0]
+                } //disables sorting for column one
+            ],
+            'iDisplayLength': 12,
+            "sPaginationType": "full_numbers",
+            "dom": 'T<"clear">lfrtip',
+        });
+        $("tfoot input").keyup(function () {
+            /* Filter on the column based on the index of this element's parent <th> */
+            oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
+        });
+        $("tfoot input").each(function (i) {
+            asInitVals[i] = this.value;
+        });
+        $("tfoot input").focus(function () {
+            if (this.className == "search_init") {
+                this.className = "";
+                this.value = "";
+            }
+        });
+        $("tfoot input").blur(function (i) {
+            if (this.value == "") {
+                this.className = "search_init";
+                this.value = asInitVals[$("tfoot input").index(this)];
+            }
+        });
+    });
+
+
+    /*$(document).ready(function () {
     
      table = $('#hotel-grid').DataTable({ 
         "processing": true, //Feature control the processing indicator.
@@ -152,31 +189,31 @@
 			success:function(msg){
 				$('#confirm-delete').modal('hide');
 				table.destroy();
-				table = $('#hotel-grid').DataTable({ 
-											"processing": true, //Feature control the processing indicator.
-											"serverSide": true, //Feature control DataTables' server-side processing mode.
-											// Load data for the table's content from an Ajax source
-											"ajax": {
-												"url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
-												"data":{flag:'3',tablename:'tbname',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:''},
-												"type": "POST"
-											},
-											//Set column definition initialisation properties.
-											"columnDefs": [
-															{ 
-																"targets": [ -1,4], //last column
-																"orderable": false, //set not orderable
-															},
-														],
-											"order": [[ 0, "desc" ]]
-										});
+				table = $('#hotel-grid').DataTable({
+
+					"processing": true, //Feature control the processing indicator.
+					"serverSide": true, //Feature control DataTables' server-side processing mode.
+					// Load data for the table's content from an Ajax source
+					"ajax": {
+						"url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
+						"data":{flag:'3',tablename:'tbname',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:''},
+						"type": "POST"
+					},
+					//Set column definition initialisation properties.
+					"columnDefs": [
+									{ 
+										"targets": [ -1,4], //last column
+										"orderable": false, //set not orderable
 									},
+								],
+					"order": [[ 0, "desc" ]]
+									});
+			},
 			error:function(){
 					alert("Error");
 			}
 		});
-	}
-
+	}*/
 </script>
 
 
