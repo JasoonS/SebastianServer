@@ -111,7 +111,7 @@ class Tasks extends CI_Controller {
 		}
 	}
 	/**
-	 * This API allow staff to accept the request
+	 * This API allow staff to accept/reject/complete the request
 	 * return type- 
 	 * created on - 29th July 2015;
 	 * updated on - 
