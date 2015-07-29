@@ -1,75 +1,20 @@
-<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">
-    
-    <link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">
-    <link href="<?php echo THEME_ASSETS; ?>css/bootstrap-toggle.css" rel="stylesheet" type="text/css">
-    <link href="<?php echo THEME_ASSETS; ?>css/fileinput.css" rel="stylesheet" type="text/css">
-    <link href="<?php echo THEME_ASSETS; ?>css/jquery-checktree.css" rel="stylesheet" type="text/css">
-    <link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
-    <link href="<?php echo THEME_ASSETS; ?>css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+<script src="<?php echo THEME_ASSETS;  ?>js/bootstrap.min.js"></script>
 
-<script src="<?php echo THEME_ASSETS ?>js/jquery.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/bootstrap.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/star-rating.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/bootstrap-toggle.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
+<!-- chart js -->
+<script src="<?php echo THEME_ASSETS;  ?>js/chartjs/chart.min.js"></script>
+
+<!-- bootstrap progress js -->
+<script src="<?php echo THEME_ASSETS;  ?>js/progressbar/bootstrap-progressbar.min.js"></script>
+
+
+<script src="<?php echo THEME_ASSETS;  ?>js/nicescroll/jquery.nicescroll.min.js"></script>
+<!-- icheck -->
+<script src="<?php echo THEME_ASSETS;  ?>js/icheck/icheck.min.js"></script>
+
+<script src="<?php echo THEME_ASSETS;  ?>js/custom.js"></script>
+
 <script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
-<!--<div class="account-container">	
-        <legend>Hotels List </legend>
-		<div class="container">
-			<table id="hotel-grid"  class="table table-striped table-bordered" >
-					<thead>
-                        <tr>
-                            <th>Hotel ID</th>
-                            <th>Hotel Name</th>
-                            <th>Hotel Owner</th>
-							<th>Hotel Email</th>
-							<th>Hotel Website</th>
-							<th>Action</th>
-                        </tr>
-                    </thead>
 
-                    <tbody>
-
-                    </tbody>
-			</table>
-		</div>
-</div>
-<script type="text/javascript">
-var table;
-
-$(document).ready(function () {
-     var columnnames=['sb_hotel_id','sb_hotel_name','sb_hotel_owner','sb_hotel_email','sb_hotel_website','sb_hotel_website'];
-     table = $('#hotel-grid').DataTable({ 
-        "processing": true, //Feature control the processing indicator.
-        "serverSide": true, //Feature control DataTables' server-side processing mode.
-        
-        // Load data for the table's content from an Ajax source
-        "ajax": {
-            "url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
-			"data":{flag:'3',tablename:'sb_hotels',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:columnnames},
-            "type": "POST"
-        },
-
-        //Set column definition initialisation properties.
-        "columnDefs": [
-        { 
-          "targets": [ -1 ], //last column
-          "orderable": false, //set not orderable
-        },
-        ],
-		 "order": [[ 0, "desc" ]]
-
-      });
-	
-	
-});
-</script>!-->
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
@@ -111,28 +56,27 @@ $(document).ready(function () {
                     </div>
                     <div class="x_content">
                         <table id="hotel-grid" class="table table-striped responsive-utilities jambo_table">
-                            <thead>
+                            <thead>                                                      
                                 <!--<tr class="headings">
-                                    <th>
-                                        <input type="checkbox" class="tableflat">
-                                    </th>
-                                    <th>Invoice </th>
-                                    <th>Invoice Date </th>
-                                    <th>Order </th>
-                                    <th>Bill to Name </th>
-                                    <th>Status </th>
-                                    <th>Amount </th>
-                                    <th class=" no-link last"><span class="nobr">Action</span>
-                                    </th>
-                                </tr>!-->
-                               
-                                <tr>
+                                    <th><input type="checkbox" class="tableflat">   </th>
                                     <th>Hotel ID</th>
                                     <th>Hotel Name</th>
                                     <th>Hotel Owner</th>
                                     <th>Hotel Email</th>
                                     <th>Hotel Website</th>
                                     <th>Action</th>                       
+                                </tr>!-->
+                                <tr class="headings">
+                                    <th>
+                                        <input type="checkbox" class="tableflat">
+                                    </th>
+                                    <th><input type="checkbox" class="tableflat">   </th>
+                                    <th>Hotel ID</th>
+                                    <th>Hotel Name</th>
+                                    <th>Hotel Owner</th>
+                                    <th>Hotel Email</th>
+                                    <th>Hotel Website</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -163,6 +107,33 @@ $(document).ready(function () {
                                     <td class="a-right a-right ">$741.20</td>
                                     <td class=" last"><a href="#">View</a>
                                     </td>
+                                </tr>
+                                <tr class="even pointer selected">
+                                    <td class="a-center ">
+                                        <input type="checkbox" checked class="tableflat">
+                                    </td>
+                                    <td class=" ">121000038</td>
+                                    <td class=" ">May 24, 2014 10:55:33 PM</td>
+                                    <td class=" ">121000203 <i class="success fa fa-long-arrow-up"></i>
+                                    </td>
+                                    <td class=" ">Mike Smith</td>
+                                    <td class=" ">Paid</td>
+                                    <td class="a-right a-right ">$432.26</td>
+                                    <td class=" last"><a href="#">View</a>
+                                    </td>
+                                </tr>
+                                <tr class="odd pointer">
+                                    <td class="a-center ">
+                                        <input type="checkbox" class="tableflat">
+                                    </td>
+                                    <td class=" ">121000037</td>
+                                    <td class=" ">May 24, 2014 10:52:44 PM</td>
+                                    <td class=" ">121000204</td>
+                                    <td class=" ">Mike Smith</td>
+                                    <td class=" ">Paid</td>
+                                    <td class="a-right a-right ">$333.21</td>
+                                    <td class=" last"><a href="#">View</a>
+                                    </td>
                                 </tr>!-->
                             </tbody>
                         </table>
@@ -186,57 +157,48 @@ $(document).ready(function () {
 
 
 <script>
-    /*$(document).ready(function () {
-        $('input.tableflat').iCheck({
-            checkboxClass: 'icheckbox_flat-green',
-            radioClass: 'iradio_flat-green'
-        });
-    });
+var table;
 
-    var asInitVals = new Array();
-    $(document).ready(function () {
-        var oTable = $('#example').dataTable({
-            "oLanguage": {
-                "sSearch": "Search all columns:"
-            },
-            "aoColumnDefs": [
-                {
-                    'bSortable': false,
-                    'aTargets': [0]
-                } //disables sorting for column one
+/*$(document).ready(function () {
+ var columnnames=['sb_hotel_id','sb_hotel_id','sb_hotel_name','sb_hotel_owner','sb_hotel_email','sb_hotel_website','sb_hotel_website'];
+ table = $('#hotel-grid').DataTable({ 
+    "processing": true, //Feature control the processing indicator.
+    "serverSide": true, //Feature control DataTables' server-side processing mode.
+    
+    // Load data for the table's content from an Ajax source
+    "ajax": {
+        "url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
+        "data":{flag:'3',tablename:'sb_hotels',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:columnnames},
+        "type": "POST"
+    },
+
+    //Set column definition initialisation properties.
+    "columnDefs": [
+    { 
+      "targets": [ -1 ], //last column
+      "orderable": false, //set not orderable
+    },
     ],
-            'iDisplayLength': 12,
-            "sPaginationType": "full_numbers",
-            "dom": 'T<"clear">lfrtip',
-        });
-        $("tfoot input").keyup(function () {
-            
-            oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
-        });
-        $("tfoot input").each(function (i) {
-            asInitVals[i] = this.value;
-        });
-        $("tfoot input").focus(function () {
-            if (this.className == "search_init") {
-                this.className = "";
-                this.value = "";
-            }
-        });
-        $("tfoot input").blur(function (i) {
-            if (this.value == "") {
-                this.className = "search_init";
-                this.value = asInitVals[$("tfoot input").index(this)];
-            }
-        });
-    });*/
-    var table;
+     "order": [[ 1, "desc" ],[2,'desc']]
 
-    $(document).ready(function () {
-     var columnnames=['sb_hotel_id','sb_hotel_name','sb_hotel_owner','sb_hotel_email','sb_hotel_website','sb_hotel_website'];
-     table = $('#hotel-grid').DataTable({ 
+  });
+});*/
+
+$(document).ready(function () {
+    $('input.tableflat').iCheck({
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'iradio_flat-green'
+    });
+});
+
+var asInitVals = new Array();
+var columnnames=['sb_hotel_id','sb_hotel_id','sb_hotel_name','sb_hotel_owner','sb_hotel_email','sb_hotel_website','sb_hotel_website'];
+
+$(document).ready(function () {
+    var table = $('#examples').dataTable({
         "processing": true, //Feature control the processing indicator.
         "serverSide": true, //Feature control DataTables' server-side processing mode.
-        
+    
         // Load data for the table's content from an Ajax source
         "ajax": {
             "url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
@@ -244,17 +206,39 @@ $(document).ready(function () {
             "type": "POST"
         },
 
-        //Set column definition initialisation properties.
-        "columnDefs": [
-        { 
-          "targets": [ -1 ], //last column
-          "orderable": false, //set not orderable
+        "oLanguage": {
+            "sSearch": "Search all columns:"
         },
-        ],
-         "order": [[ 0, "desc" ]]
-
-      });
+        "aoColumnDefs": [
+            {
+                'bSortable': false,
+                'aTargets': [0]
+            } //disables sorting for column one
+],
+        'iDisplayLength': 12,
+        "sPaginationType": "full_numbers",
+        "dom": 'T<"clear">lfrtip',
     });
+    $("tfoot input").keyup(function () {
+        /* Filter on the column based on the index of this element's parent <th> */
+        oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
+    });
+    $("tfoot input").each(function (i) {
+        asInitVals[i] = this.value;
+    });
+    $("tfoot input").focus(function () {
+        if (this.className == "search_init") {
+            this.className = "";
+            this.value = "";
+        }
+    });
+    $("tfoot input").blur(function (i) {
+        if (this.value == "") {
+            this.className = "search_init";
+            this.value = asInitVals[$("tfoot input").index(this)];
+        }
+    });
+});
 </script>
 
 
