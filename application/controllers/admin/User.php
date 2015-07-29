@@ -1,7 +1,7 @@
 <?php
 /* User controller class 
- * perform checks for valid authorization and
- * all login and logout activities
+ * perform crud of hotel userss
+ * all user related
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -28,10 +28,26 @@ class User extends CI_Controller
 
 		}
 	}
-
-
 	
-	
+	public function type($user_type = '')
+	{
+		$requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3).'/'.$this->uri->segment(4);
+
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			//$this->session->set_flashdata('ErrorAcessMsg',ERR_MSG_LEVEL_3);
+			if(($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')&&($user_type == 'u'))
+		    {
+				$this->data['title'] = LABEL_1;
+				$this->template->load('page_tpl', 'hotel_user_list',$this->data);
+			}
+			
+		}
+
+		$this->load->library('acl',$config);
+
+  }
+ 
 	/*
 	This method is used to create Hotel administrator view
 	*/
@@ -180,25 +196,6 @@ class User extends CI_Controller
 	   {
 		 return FALSE;
 	   }
-	}
-	
-	
-	
-	/* Method render User Listing If User is super administrator
-	 * @param int
-	 * return void
-	 */
-	public function view_hotel_users()
-	{	
-		
-		$this->data['action']	= "admin/user/view_hotel_users";
-	
-		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
-		    {
-				$this->data['title'] = LABEL_1;
-				$this->template->load('page_tpl', 'hotel_user_list',$this->data);
-			}
-			
 	}
 	
 	/* Method render User Information 
