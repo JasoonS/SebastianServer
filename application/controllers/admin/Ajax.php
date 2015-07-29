@@ -78,7 +78,8 @@ class Ajax extends CI_Controller
 		$no =$this->input->post('start');
 		foreach ($list as $hotel) {
 			$no++;
-			$row = array();
+			$row   = array();
+			$row[] = '<input type="checkbox" class="tableflat">';
 			$row[] = $hotel->sb_hotel_id;
 			$row[] = $hotel->sb_hotel_name;
 			$row[] = $hotel->sb_hotel_owner;
