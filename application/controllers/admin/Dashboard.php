@@ -4,7 +4,7 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class dashboard extends CI_Controller 
+class Dashboard extends CI_Controller 
 {
 	public $user_acl = array();
 	public $data	 = array();
@@ -31,7 +31,7 @@ class dashboard extends CI_Controller
 	public function index()
 	{	
 
-		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'x')
+		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
 		{
 			$this->data['title'] = LABEL_1;
 			$this->template->load('page_tpl','admin_dashboard_vw',$this->data);
