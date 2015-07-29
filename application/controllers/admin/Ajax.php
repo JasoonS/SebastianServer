@@ -100,10 +100,10 @@ class Ajax extends CI_Controller
 		}
 
 		$output = array(
-						"draw" => $this->input->post("draw"),
-						"recordsTotal" => $this->Common_model->count_all($tablename,$orderkey,$orderdir,$columns),
-						"recordsFiltered" => $this->Common_model->count_filtered($tablename,$orderkey,$orderdir,$columns),
-						"data" => $data,
+					"draw" => $this->input->post("draw"),
+					"recordsTotal" => $this->Common_model->count_all($tablename,$orderkey,$orderdir,$columns),
+					"recordsFiltered" => $this->Common_model->count_filtered($tablename,$orderkey,$orderdir,$columns),
+					"data" => $data,
 				);
 		//output to json format
 		echo json_encode($output);
@@ -137,9 +137,9 @@ class Ajax extends CI_Controller
 					//'<a class="btn btn-sm btn-warning" href="'.$viewurl.'" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>';
 					if($hotel->is_active == '1'){
 					$row[] =
-							'<a class="btn btn-sm btn-primary" href="'.$editurl.'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
-							'<a class="btn btn-sm btn-warning" href="'.$viewurl.'" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
-							'<a class="btn btn-sm btn-danger" id="delete" href="#" data-href="'.$deleteurl.'" onclick="changehotelstatus('.$hotel->sb_hotel_id.','.$hotel->is_active.');" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+						'<a class="btn btn-sm btn-primary" href="'.$editurl.'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
+						'<a class="btn btn-sm btn-warning" href="'.$viewurl.'" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
+						'<a class="btn btn-sm btn-danger" id="delete" href="#" data-href="'.$deleteurl.'" onclick="changehotelstatus('.$hotel->sb_hotel_id.','.$hotel->is_active.');" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>';
 			        }
 					else
 					{

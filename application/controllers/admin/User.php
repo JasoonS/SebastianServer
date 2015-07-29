@@ -204,12 +204,10 @@ class User extends CI_Controller
 		$this->data['action']	= "admin/user/view_hotel_users";
 	
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
-		    {
-				$this->data['title'] = LABEL_1;
-				$this->template->load('page_tpl', 'hotel_user_list',$this->data);
-			}
-		if
-			
+	    {
+			$this->data['title'] = LABEL_1;
+			$this->template->load('page_tpl', 'hotel_user_list',$this->data);
+		}
 	}
 	
 	/* Method render User Information 
