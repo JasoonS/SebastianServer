@@ -290,8 +290,20 @@ class Hotel extends CI_Controller
 	{	
 		$hotel_id=$this->input->post('hotel_id');
 		$hotel_status=$this->input->post('hotelstatus');
-		
-		echo json_encode($_POST);
+		if($hotel_status == 1)
+		{
+			$status=0;
+		}
+		else
+		{
+			$status =1;
+		}
+		$data=array(
+					'sb_hotel_id'=>$hotel_id,
+					'is_active'=>$status	
+				);
+		$this->Hotel_model->edit_hotel($data,$hotel_id);		
+		echo json_encode(array('status'=>'1','message'=>'Hotel Status Changed'));
 			
 	}
 }

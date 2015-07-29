@@ -1,7 +1,7 @@
 <?php
 /* User controller class 
- * perform checks for valid authorization and
- * all login and logout activities
+ * perform crud of hotel userss
+ * all user related
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -28,6 +28,7 @@ class User extends CI_Controller
 
 		}
 	}
+
 	public function type($user_type = '')
 	{
 		$requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3).'/'.$this->uri->segment(4);
@@ -35,12 +36,19 @@ class User extends CI_Controller
 		if(!$this->acl->hasPermission($requested_mod))
 		{
 			//$this->session->set_flashdata('ErrorAcessMsg',ERR_MSG_LEVEL_3);
-			redirect('admin/dashboard/');
+
+			if(($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')&&($user_type == 'u'))
+		    {
+				$this->data['title'] = LABEL_1;
+				$this->template->load('page_tpl', 'hotel_user_list',$this->data);
+			}
+			
 		}
 
-	   // Load the ACL library and pas it the config array
-	   $this->load->library('acl',$config);
+		$this->load->library('acl',$config);
+
     }
+
  
 	/*
 	This method is used to create Hotel administrator view
@@ -192,8 +200,6 @@ class User extends CI_Controller
 	   }
 	}
 	
-	
-	
 	/* Method render User Listing of User
 	 * @param int
 	 * return void
@@ -220,14 +226,12 @@ class User extends CI_Controller
 		$this->data['action']	= "admin/user/view_hotel_users";
 	
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
-		    {
-				$this->data['title'] = LABEL_1;
-				$this->data['userinfo']=$this->User_model->get_user_info($user_id);
-				$this->template->load('page_tpl', 'view_hotel_user',$this->data);
-			}
+	    {
+			$this->data['title'] = LABEL_1;
+			$this->data['userinfo']=$this->User_model->get_user_info($user_id);
+			$this->template->load('page_tpl', 'view_hotel_user',$this->data);
+		}
 			
 	}
-	
-
 }
 
