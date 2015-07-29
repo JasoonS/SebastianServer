@@ -6349,4 +6349,10 @@ ul.notifications {
     max-height: 500px;
     overflow-y:scroll; 
 }
+/* To Remove Sorting Arrows**/
 
+#hotel-grid.dataTable thead .sorting, 
+#hotel-grid.dataTable thead .sorting_asc, 
+#hotel-grid.dataTable thead .sorting_desc {
+    background : none !important;
+}

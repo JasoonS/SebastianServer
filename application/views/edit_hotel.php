@@ -1,9 +1,6 @@
-	<link href="<?php echo THEME_ASSETS; ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-
 	<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">
-    
 	<link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo THEME_ASSETS; ?>css/bootstrap-toggle.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo THEME_ASSETS; ?>css/fileinput.css" rel="stylesheet" type="text/css">
@@ -19,14 +16,13 @@
 	<script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
 	<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 	<script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
-<style>
-.ui-datepicker-calendar,.ui-datepicker-month {
-    display: none;
-}​
+	<style>
+	.ui-datepicker-calendar,.ui-datepicker-month {
+		display: none;
+	}	​
+	</style>
 
-</style>
-
-<div class="account-container">	
+<div class="right_col">	
 	<div class="content clearfix">
 	<!-- This is for Success Message.-->
 	<?php if ($this->session->flashdata('category_success')) { ?>
