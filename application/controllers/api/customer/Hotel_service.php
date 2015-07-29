@@ -198,7 +198,10 @@ class Hotel_service extends CI_Controller
 			$service = $this->Hotel_service_model->get_request_info($sb_hotel_guest_booking_id);
 			if ($service != 0)
 			{	
-				response_ok($service);
+				$result = array(
+				'result' => $service
+				);
+				response_ok($result);
 			}
 			else
 			{

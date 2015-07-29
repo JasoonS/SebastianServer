@@ -5,7 +5,7 @@ class Tasks_model extends CI_Model
 	{
 		$qry = "SELECT hrs.sb_hotel_requst_ser_id, hrs.sb_guest_allocated_room_no, hrs.sb_service_log,
 				hss.sb_hotel_ser_start_date as service_due_date,  DATE_FORMAT(hss.sb_hotel_ser_start_time,'%l:%i %p') as service_due_time,
-				b.sb_guest_firstName, b.sb_guest_lastName,hrs.sb_hotel_guest_booking_id,
+				b.sb_guest_firstName,hss.sb_hotel_service_status, b.sb_guest_lastName,hrs.sb_hotel_guest_booking_id,
 				IF(hrs.sb_hotel_requst_ser_id != '','request', 'request') as service_type
 				FROM `sb_hotel_request_service` as hrs
 				JOIN sb_hotel_services_status as hss
@@ -44,6 +44,7 @@ class Tasks_model extends CI_Model
 				JOIN `sb_hotel_guest_bookings` as b
 				ON hrs.sb_hotel_guest_booking_id = b.sb_hotel_guest_booking_id
 				WHERE hrs.sb_hotel_id = '$sb_hotel_id'
+				AND hss.sb_hotel_service_status != 'completed'
 				AND hrs.sb_parent_service_id ='$sb_parent_service_id'
 				AND hss.sb_hotel_ser_start_date BETWEEN '$weekdates[0]' AND '$weekdates[1]';";
 		
@@ -52,7 +53,7 @@ class Tasks_model extends CI_Model
 		
 		for ($i=0; $i < count($data); $i++) { 
 			$data[$i]['accepted_by'] = '';
-			if ($data[$i]['sb_hotel_service_status'] == 'accepted' || $data[$i]['sb_hotel_service_status'] == 'completed') {
+			if ($data[$i]['sb_hotel_service_status'] == 'accepted' || $data[$i]['sb_hotel_service_status'] == 'completed'|| $data[$i]['sb_hotel_service_status'] == 'rejected') {
 				$id =  $data[$i]['sb_hotel_ser_assgnd_to_user_id'];
 				$qry = "SELECT `sb_hotel_username` FROM `sb_hotel_users` WHERE `sb_hotel_user_id` = '$id';";
 				$query = $this->db->query($qry);
