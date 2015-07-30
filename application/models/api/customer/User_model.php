@@ -40,12 +40,24 @@ class User_model extends CI_Model
 			{
 				$service = $services;
 			}
+			$sql1 = "SELECT * FROM sb_hotels WHERE `sb_hotel_id` = '$sb_hotel_id';";
+			$query = $this->db->query($sql1);
+			$hotel = $query->result_array();
+			if(count($hotel) == 0)
+			{
+				$hotelInfo =array();
+			}
+			else
+			{
+				$hotelInfo = $hotel[0];
+			}
 			$this->guest_deviceToken($cdt_token, $cdt_deviceType ,$cdt_macid, $custData[0]['sb_hotel_guest_booking_id']);
 			unset($custData[0]['sb_guest_terms']);
 			$custData[0]['sb_guest_allocated_room_no'] = $roomNumbers;
 			$result = array(
 				"userInfo" => $custData[0],
-				"services" => $service
+				"services" => $service,
+				"hotelInfo" => $hotelInfo
 				);
 			return $result;
 		}
