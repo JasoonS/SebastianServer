@@ -18,13 +18,17 @@
 	<link href="<?php echo THEME_ASSETS;  ?>font-awesome/css/font-awesome.min.css" rel="stylesheet">
 	<link href="<?php echo THEME_ASSETS;  ?>css/animate.min.css" rel="stylesheet">
 	 
-	<!-- Theme styling -->
-	 
+	<!-- Custom styling plus plugins -->
 	<link href="<?php echo THEME_ASSETS;  ?>css/custom.css" rel="stylesheet">
 	<link href="<?php echo THEME_ASSETS;  ?>css/icheck/flat/green.css" rel="stylesheet">
+	<!--<link href="<?php echo THEME_ASSETS;  ?>css/datatables/tools/css/dataTables.tableTools.css" rel="stylesheet">!-->
+	
 
 
-	<script src="<?php echo THEME_ASSETS;  ?>js/jquery.js"></script>
+	<script src="<?php echo THEME_ASSETS;  ?>js/jquery.min.js"></script>
+
+	<!--<script src="<?php echo THEME_ASSETS;  ?>js/jquery.js"></script>!-->
+
 	 
 	<!--[if lt IE 9]>
 	<script src="../assets/js/ie8-responsive-file-warning.js"></script>
