@@ -51,7 +51,7 @@
                             </li>
                             <li><a href="#"><i class="fa fa-close"></i></a>
                             </li>-->
-                            <a class="btn btn-sm btn-success" id="add_hotel" href="<?php echo site_url('/admin/hotel/add_hotel');?>"  title="Add Hotel"><i class="glyphicon glyphicon-plus"></i> Add Hotel</a>
+                            <a class="btn btn-sm btn-success" id="add_hotel_user" href="<?php echo site_url('/admin/user/add_hotel_user');?>"  title="Add Hotel User"><i class="glyphicon glyphicon-plus"></i> Add Hotel User</a>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
@@ -152,7 +152,6 @@ function deletehotel(id)
 function recreateTable()
 {
 	table.destroy();
-	
 	create_hotel_grid();
 }
 

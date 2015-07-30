@@ -41,6 +41,10 @@ Class Hoteluser_model extends CI_Model
 		{
 			$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='m')", NULL, FALSE);
 		}
+		if($type == 'm')
+		{
+			$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='s')", NULL, FALSE);
+		}
 		
 		$searchArray =$this->input->post('search');
 		
@@ -77,9 +81,7 @@ Class Hoteluser_model extends CI_Model
 	/*Get No Of Filtered Records in Datatable*/
     function count_filtered($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type)
 	{
-		
 		$this->_get_datatables_query($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type);
-		
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
@@ -94,6 +96,10 @@ Class Hoteluser_model extends CI_Model
 		if($type == 'a')
 		{
 			$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='m')", NULL, FALSE);
+		}
+		if($type == 'm')
+		{
+			$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='s')", NULL, FALSE);
 		}
 		$this->db->from($tablename);
 		
