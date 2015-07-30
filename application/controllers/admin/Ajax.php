@@ -14,6 +14,7 @@ class Ajax extends CI_Controller
 		$this->load->helper('admin/utility');
 		$this->load->model('Hotel_model');
 		$this->load->model('Common_model');
+		$this->load->model('Hoteluser_model');
 	}
 	/*
 		This function decides which function to call after ajax call
@@ -40,7 +41,7 @@ class Ajax extends CI_Controller
 			}
 			case 4:{
 			    
-				 $this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$this->input->post('columns'));
+				 $this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$this->input->post('columns'),$this->input->post('hotel_id'),$this->input->post('user_type'));
 				 break;
 			}
 			default:{
@@ -75,9 +76,9 @@ class Ajax extends CI_Controller
 	 * @param void
 	 * return void
 	 */
-	public function ajax_user_list($tablename,$orderkey,$orderdir,$columns)
+	public function ajax_user_list($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type)
 	{
-		$list = $this->Common_model->get_datatables($tablename,$orderkey,$orderdir,$columns);
+		$list = $this->Hoteluser_model->get_datatables($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type);
 	
 		$data = array();
 		
@@ -89,19 +90,19 @@ class Ajax extends CI_Controller
 			$row[] = $hotel->sb_hotel_username;
 			$row[] = $hotel->sb_hotel_useremail;
 			$row[] = $hotel->sb_hotel_user_type;
-			
+			$row[]=$hotel->sb_hotel_user_type;
 			$editurl =base_url("admin/user/edit_hotel_user/".$hotel->sb_hotel_user_id);
 			$viewurl =base_url("admin/user/view_hotel_user/".$hotel->sb_hotel_user_id);
 			$deleteurl =base_url("admin/user/delete_hotel_user/".$hotel->sb_hotel_user_id);
-			$row[] ='<a class="btn btn-sm btn-primary" href="'.$editurl.'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
+			/*$row[] ='<a class="btn btn-sm btn-primary" href="'.$editurl.'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
 					'<a class="btn btn-sm btn-warning" href="'.$viewurl.'" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
-					'<a class="btn btn-sm btn-danger" id="delete" href="#" data-href="'.$deleteurl.'" onclick="deletehoteluser('.$hotel->sb_hotel_user_id.');" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+					'<a class="btn btn-sm btn-danger" id="delete" href="#" data-href="'.$deleteurl.'" onclick="deletehoteluser('.$hotel->sb_hotel_user_id.');" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>';*/
 			$data[] = $row;
 		}
 		$output = array(
 						"draw" => $this->input->post("draw"),
-						"recordsTotal" => $this->Common_model->count_all($tablename,$orderkey,$orderdir,$columns),
-						"recordsFiltered" => $this->Common_model->count_filtered($tablename,$orderkey,$orderdir,$columns),
+						"recordsTotal" => $this->Hoteluser_model->count_all($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type),
+						"recordsFiltered" => $this->Hoteluser_model->count_filtered($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type),
 						"data" => $data,
 				);
 		//output to json format

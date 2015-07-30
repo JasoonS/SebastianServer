@@ -14,6 +14,7 @@ class User extends CI_Controller
 		$this->load->model('Hotel_model');
 		$this->load->model('User_model');
 		$this->load->helper('admin/utility_helper');
+		
 	
 		if(!$this->session->userdata('logged_in_user'))
 		{
@@ -31,23 +32,41 @@ class User extends CI_Controller
 
 	public function type($user_type = '')
 	{
+		
 		$requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3).'/'.$this->uri->segment(4);
-
+		
 		if(!$this->acl->hasPermission($requested_mod))
 		{
-			//$this->session->set_flashdata('ErrorAcessMsg',ERR_MSG_LEVEL_3);
-
-			if(($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')&&($user_type == 'u'))
-		    {
-				$this->data['title'] = LABEL_1;
-				$this->template->load('page_tpl', 'hotel_user_list',$this->data);
-			}
-			
+			redirect('admin/dashboard');
 		}
+		
+		// If user is admin get hotel list and then after selection list out admins
+		
+		// If user is hotel admin , he can see all managers and staff
+		
+		// If manager then show him staff under him
+		
+		// Staff cant access this module
+		
 
-		$this->load->library('acl',$config);
-
-    }
+		if(($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u'))
+		{
+			$data['hotel_list'] = getAllHotels();
+			$data['user_type']= 'u';
+			$this->template->load('page_tpl', 'hotel_user_list',$data);
+		}
+		
+		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'a')
+		{
+			$data['user_type']= 'a';
+			$this->template->load('page_tpl', 'hotel_user_list',$data);
+		}
+		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'm')
+		{
+			$data['user_type']= 'm';
+			$this->template->load('page_tpl', 'hotel_user_list',$data);
+		}
+	}
 
  
 	/*
