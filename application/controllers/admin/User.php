@@ -34,7 +34,7 @@ class User extends CI_Controller
 	{
 		
 		$requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3).'/'.$this->uri->segment(4);
-		
+	
 		if(!$this->acl->hasPermission($requested_mod))
 		{
 			redirect('admin/dashboard');
@@ -59,11 +59,15 @@ class User extends CI_Controller
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'a')
 		{
 			$data['user_type']= 'a';
+			$data['sb_hotel_id']=$this->session->userdata('logged_in_user')->sb_hotel_id;
+			$data['sb_hotel_name']=$this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
 			$this->template->load('page_tpl', 'hotel_user_list',$data);
 		}
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'm')
 		{
 			$data['user_type']= 'm';
+			$data['sb_hotel_id']=$this->session->userdata('logged_in_user')->sb_hotel_id;
+			$data['sb_hotel_name']=$this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
 			$this->template->load('page_tpl', 'hotel_user_list',$data);
 		}
 	}
