@@ -1,4 +1,4 @@
-<link href="<?php echo THEME_ASSETS; ?>css/datatables/tools/css/dataTables.tableTools.css" rel="stylesheet">
+<!--<link href="<?php echo THEME_ASSETS; ?>css/datatables/tools/css/dataTables.tableTools.css" rel="stylesheet">
 <link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
 <link href="<?php echo THEME_ASSETS; ?>css/jquery.dataTables.css" rel="stylesheet" type="text/css">
 
@@ -7,8 +7,16 @@
 <script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
 <script src="<?php echo THEME_ASSETS?>js/datatables/tools/js/dataTables.tableTools.js"></script>
- <!-- icheck -->
+ 
 <script src="<?php echo THEME_ASSETS?>js/icheck/icheck.min.js"></script>
+
+<script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/chartjs/chart.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/progressbar/bootstrap-progressbar.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>!-->
+
+
 
 <!-- page content -->
 <div class="right_col" role="main">
@@ -32,7 +40,7 @@
                     <div class="x_content">
                         <table id="example" class="table table-striped responsive-utilities jambo_table">
                             <thead>
-                                <tr>
+                                <tr class="headings">
                                     <th>
                                         <input type="checkbox" class="tableflat">
                                     </th>
@@ -44,6 +52,34 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                 <!--<tr class="even pointer">
+                                    <td class="a-center ">
+                                        <input type="checkbox" class="tableflat">
+                                    </td>
+                                    <td class=" ">121000040</td>
+                                    <td class=" ">May 23, 2014 11:47:56 PM </td>
+                                    <td class=" ">121000210 <i class="success fa fa-long-arrow-up"></i>
+                                    </td>
+                                    <td class=" ">John Blank L</td>
+                                    <td class=" ">Paid</td>
+                                    <td class="a-right a-right ">$7.45</td>
+                                    <td class=" last"><a href="#">View</a>
+                                    </td>
+                                </tr>
+                                <tr class="odd pointer">
+                                    <td class="a-center ">
+                                        <input type="checkbox" class="tableflat">
+                                    </td>
+                                    <td class=" ">121000039</td>
+                                    <td class=" ">May 23, 2014 11:30:12 PM</td>
+                                    <td class=" ">121000208 <i class="success fa fa-long-arrow-up"></i>
+                                    </td>
+                                    <td class=" ">John Blank L</td>
+                                    <td class=" ">Paid</td>
+                                    <td class="a-right a-right ">$741.20</td>
+                                    <td class=" last"><a href="#">View</a>
+                                    </td>
+                                </tr>!-->
                               
                             </tbody>
                         </table>
@@ -83,19 +119,110 @@
         </div>
     </div>
 </div>
+
+<script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
+
+<!-- chart js -->
+<script src="<?php echo THEME_ASSETS?>js/chartjs/chart.min.js"></script>
+<!-- bootstrap progress js -->
+<script src="<?php echo THEME_ASSETS?>js/progressbar/bootstrap-progressbar.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/nicescroll/jquery.nicescroll.min.js"></script>
+<!-- icheck -->
+<script src="<?php echo THEME_ASSETS?>js/icheck/icheck.min.js"></script>
+
+
+<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
+
+<script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
+<!--<script src="<?php echo THEME_ASSETS ?>js/datatables/tools/js/dataTables.tableTools.js"></script>!-->
+
+
 <script>
     //var table;
 
     var asInitVals = new Array();
 
-    $(document).ready(function () {
+    /*$(document).ready(function () {
         $('input.tableflat').iCheck({
-            checkboxClass: 'icheckbox_flat-green',
-            radioClass: 'iradio_flat-green'
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'iradio_flat-green'
         });
-    });
+    });*/
+
+    
+
 
     $(document).ready(function () {
+        var oTable = $('#example').dataTable({
+
+            "order": [[ 1, "desc" ]],
+            
+            "processing": true, //Feature control the processing indicator.
+            "serverSide": true, //Feature control DataTables' server-side processing mode.
+            "bDestroy":   true,
+
+        
+            //Load data for the table's content from an Ajax source
+            "ajax": {
+                "url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
+                "data":{flag:'3',tablename:'tbname',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:''},
+                "type": "POST"
+            },
+
+            /*"createdRow": function ( row, data, index ) {
+                $('td', row).eq(0).iCheck({
+                    checkboxClass: 'icheckbox_flat-green',
+                    radioClass: 'iradio_flat-green'
+                })
+            },*/
+
+            "createdRow": function ( row, data, index ) {
+                 $('td', row).eq(3).addClass('highlight');
+            },
+
+            "oLanguage": {
+                "sSearch": "Search all columns:"
+            },
+            "aoColumnDefs": [
+                {
+                    'bSortable': false,
+                    'aTargets': [0]
+                } //disables sorting for column one
+            ],
+            'iDisplayLength': 12,
+            "sPaginationType": "full_numbers",
+            "dom": 'T<"clear">lfrtip',
+
+        });
+
+        $("tfoot input").keyup(function () {
+            /* Filter on the column based on the index of this element's parent <th> */
+            oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
+        });
+
+        $("tfoot input").each(function (i) {
+            asInitVals[i] = this.value;
+        });
+
+        $("tfoot input").focus(function () {
+            if (this.className == "search_init") {
+                this.className = "";
+                this.value = "";
+            }
+        });
+
+        $("tfoot input").blur(function (i) {
+            if (this.value == "") {
+                this.className = "search_init";
+                this.value = asInitVals[$("tfoot input").index(this)];
+            }
+        });
+        
+    });
+
+   
+
+    /*$(document).ready(function () {
         var oTable = $('#example').dataTable({
 
             "processing": true, //Feature control the processing indicator.
@@ -122,7 +249,7 @@
             "dom": 'T<"clear">lfrtip',
         });
         $("tfoot input").keyup(function () {
-            /* Filter on the column based on the index of this element's parent <th> */
+            
             oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
         });
         $("tfoot input").each(function (i) {
@@ -140,7 +267,7 @@
                 this.value = asInitVals[$("tfoot input").index(this)];
             }
         });
-    });
+    });*/
 
 
     /*$(document).ready(function () {
