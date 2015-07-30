@@ -1,29 +1,16 @@
 <!-- Adding CSS AND JS -->
-   
-   
-	<link href="<?php echo THEME_ASSETS; ?>css/fileinput.css" rel="stylesheet" type="text/css">
-    <link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">
-    
-	<link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	
-	<link href="<?php echo THEME_ASSETS; ?>css/bootstrap-toggle.css" rel="stylesheet" type="text/css">
-
-	
-	<link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
-
-	<script src="<?php echo THEME_ASSETS ?>js/bootstrap.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
-	
-	<script src="<?php echo THEME_ASSETS ?>js/bootstrap-toggle.js"></script>
-	
-	<script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
-
-	<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
-
-
-
+<link href="<?php echo THEME_ASSETS; ?>css/fileinput.css" rel="stylesheet" type="text/css">
+<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link href="<?php echo THEME_ASSETS; ?>css/bootstrap-toggle.css" rel="stylesheet" type="text/css">
+<link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-toggle.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
 
 <div class="right_col" role="main">
     <div class="">
@@ -37,7 +24,7 @@
     <div class="alert alert-danger"> <?= $this->session->flashdata('category_error') ?> </div>
 	<?php } ?>
 	<div>
-	<legend>Create Hotel Administrator</legend>
+	<legend>Create Hotel User</legend>
 	<div class="account-container">	
 	<div class="content clearfix">
 	<form  action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data" >
@@ -48,12 +35,16 @@
 				<div class="control-group">
 					<label class="control-label" for="sb_hotel_id">Hotel </label>
 					<div class="controls">
+					   <?php if($user_type == 'u'){?>
 						<select id="sb_hotel_id" name="sb_hotel_id" class="input-large">
 							<?php
 							foreach($hotellist as $key=>$hotel)
 							echo "<option value='".$hotel['sb_hotel_id']."'>".$hotel['sb_hotel_name']."</option>";
 						   ?> 
 						</select>
+						<?php }else{?>
+						<input type="text" value ="<?php echo $sb_hotel_name[0]['sb_hotel_name']?>" disabled class="input-large" />
+					    <?php }?>
 					</div>
 				</div>
 
@@ -124,6 +115,14 @@
 								if($usertype == 'a')
 								{
 									$label = "Hotel Admin";
+								}
+								if($usertype == 'm')
+								{
+									$label = "Hotel Manager";
+								}
+								if($usertype == 's')
+								{
+									$label = "Hotel Staff";
 								}
 			
 								echo "<option value='".$usertype."'>".$label."</option>";

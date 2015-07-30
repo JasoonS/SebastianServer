@@ -104,4 +104,24 @@ Class User_model extends CI_Model
 			return FALSE;
 	}
 	
+	/* Method insert User Role in Database
+	 * 
+	 * @param array
+	 * return true on success , false on failure
+	 */
+	function set_user_role($data)
+	{
+		$this->db->insert('sb_user_roles',$data);
+		return $this->db->insert_id();
+	}
+	/* Method insert User Module Permissions in Database
+	 * 
+	 * @param array
+	 * return true on success , false on failure
+	 */
+	function set_user_permissions($data)
+	{
+		$this->db->insert_batch('sb_user_modules',$data);
+		return $this->db->insert_id();
+	}
 }
