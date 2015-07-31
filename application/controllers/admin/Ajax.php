@@ -121,7 +121,7 @@ class Ajax extends CI_Controller
 			$row = array();
 			//$row[] = $hotel->sb_hotel_id;
 			//$row[]='<input style="" class="tableflat icheckbox_flat-green" type="checkbox">';
-			$row[]='<div style="position: relative;" class="icheckbox_flat-green"><input style="position: absolute; opacity: 0;" class="tableflat" type="checkbox"><ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;" class="iCheck-helper"></ins></div>';
+			$row[] ="<input type=checkbox class=tableflat>";
 			$row[] = $hotel->sb_hotel_name;
 			$row[] = $hotel->sb_hotel_owner;
 			$row[] = $hotel->sb_hotel_email;
@@ -150,6 +150,7 @@ class Ajax extends CI_Controller
 						"recordsFiltered" => $this->Common_model->count_filtered($tablename,$orderkey,$orderdir,$columns),
 						"data" => $data,
 				);
+
 		//output to json format
 		echo json_encode($output);
 		exit;
