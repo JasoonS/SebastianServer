@@ -28,9 +28,12 @@ class Hotel extends CI_Controller
 
 	public function index()
 	{
-		$this->data['Hotels'] = $this->Hotel_model->get_hotels();
+		//$this->data['Hotels'] = $this->Hotel_model->get_hotels();
 
-		$this->template->load('page_tpl','hotel_list_vw',$this->data);
+		//$this->template->load('page_tpl','hotel_list_vw',$this->data);
+
+		$this->template->load('page_tpl','test_hotel_list_view',$this->data);
+		//$this->template->load('page_tpl','test_page_modal',$this->data);
 	}
 	/* Method render add Hotel View If User is super administrator
 	 * @param void
