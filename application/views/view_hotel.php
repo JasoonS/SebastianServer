@@ -18,11 +18,11 @@
 	<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 	<script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
 	<div class="right_col">	
-	<div class="content clearfix">
-	
+	<div class="">
+	<legend>View Hotel</legend>
 	<form class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data">
 		<fieldset>
-			<legend>View Hotel</legend>
+			
 				<table id="hotel-table"  class="table  table-bordered" >
 					<tbody>
 						<tr>

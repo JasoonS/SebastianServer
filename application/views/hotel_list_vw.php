@@ -87,20 +87,20 @@
     //var table;
 
     var asInitVals = new Array();
-
+    var oTable;
     $(document).ready(function () {
         $('input.tableflat').iCheck({
             checkboxClass: 'icheckbox_flat-green',
             radioClass: 'iradio_flat-green'
         });
     });
-
+    
     $(document).ready(function () {
-        var oTable = $('#example').dataTable({
+         oTable = $('#example').dataTable({
 
             "processing": true, //Feature control the processing indicator.
             "serverSide": true, //Feature control DataTables' server-side processing mode.
-        
+            "bDestroy": true,
             // Load data for the table's content from an Ajax source
             "ajax": {
                 "url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
@@ -141,8 +141,72 @@
             }
         });
     });
+     function changehotelstatus(id,hotelstatus)
+	{   
+		$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger" onclick=changestatus('+id+','+hotelstatus+');>Change</button>');
+		$("#confirm-delete").modal('show');
+	}
+	function changestatus(id,hotelstatus)
+	{
+		var base_url = '<?php echo site_url('admin/hotel/change_hotel_status')?>';
+		$.ajax({
+			url: base_url,
+			type:"post",
+			data:{"hotel_id":id,"hotelstatus":hotelstatus},
+			dataType:"json",
+			success:function(msg){
+				$('#confirm-delete').modal('hide');
+				
+				oTable = $('#example').dataTable({
 
+											"processing": true, //Feature control the processing indicator.
+											"serverSide": true, //Feature control DataTables' server-side processing mode.
+										    "bDestroy": true, 
+											// Load data for the table's content from an Ajax source
+											"ajax": {
+												"url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
+												"data":{flag:'3',tablename:'tbname',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:''},
+												"type": "POST"
+											},
 
+											"oLanguage": {
+												"sSearch": "Search all columns:"
+											},
+											"aoColumnDefs": [
+												{
+													'bSortable': false,
+													'aTargets': [0]
+												} //disables sorting for column one
+											],
+											'iDisplayLength': 12,
+											"sPaginationType": "full_numbers",
+											"dom": 'T<"clear">lfrtip',
+									});
+        $("tfoot input").keyup(function () {
+            /* Filter on the column based on the index of this element's parent <th> */
+            oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
+        });
+        $("tfoot input").each(function (i) {
+            asInitVals[i] = this.value;
+        });
+        $("tfoot input").focus(function () {
+            if (this.className == "search_init") {
+                this.className = "";
+                this.value = "";
+            }
+        });
+        $("tfoot input").blur(function (i) {
+            if (this.value == "") {
+                this.className = "search_init";
+                this.value = asInitVals[$("tfoot input").index(this)];
+            }
+        });
+			},
+			error:function(){
+					alert("Error");
+			}
+		});
+    }
     /*$(document).ready(function () {
     
      table = $('#hotel-grid').DataTable({ 
@@ -173,46 +237,7 @@
         chkbox.toggleClass('checked');
     } );
 
-	function changehotelstatus(id,hotelstatus)
-	{   
-		$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger" onclick=changestatus('+id+','+hotelstatus+');>Delete</button>');
-		$("#confirm-delete").modal('show');
-	}
-	function changestatus(id,hotelstatus)
-	{
-		var base_url = '<?php echo site_url('admin/hotel/change_hotel_status')?>';
-		$.ajax({
-			url: base_url,
-			type:"post",
-			data:{"hotel_id":id,"hotelstatus":hotelstatus},
-			dataType:"json",
-			success:function(msg){
-				$('#confirm-delete').modal('hide');
-				table.destroy();
-				table = $('#hotel-grid').DataTable({
-
-					"processing": true, //Feature control the processing indicator.
-					"serverSide": true, //Feature control DataTables' server-side processing mode.
-					// Load data for the table's content from an Ajax source
-					"ajax": {
-						"url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
-						"data":{flag:'3',tablename:'tbname',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:''},
-						"type": "POST"
-					},
-					//Set column definition initialisation properties.
-					"columnDefs": [
-									{ 
-										"targets": [ -1,4], //last column
-										"orderable": false, //set not orderable
-									},
-								],
-					"order": [[ 0, "desc" ]]
-									});
-			},
-			error:function(){
-					alert("Error");
-			}
-		});
+	
 	}*/
 </script>
 

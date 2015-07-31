@@ -14,12 +14,13 @@ Class Hoteluser_model extends CI_Model
 	 * @param @string
 	 * return @string on success and False on Fail
 	 */
-	function get_datatables($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type)
+	function get_datatables($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type,$pagetype)
 	{
-		$this->_get_datatables_query($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type);
+		$this->_get_datatables_query($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type,$pagetype);
 		if($this->input->post('length') != -1)
 		$this->db->limit($this->input->post('length'), $this->input->post('start'));
 		$query = $this->db->get();
+	
 		return $query->result();
 	}
 	/* Method To Prepare Query To Get Resultset
@@ -27,7 +28,7 @@ Class Hoteluser_model extends CI_Model
 	 * @param @string
 	 * return @string on success and False on Fail
 	 */
-	private function _get_datatables_query($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type)
+	private function _get_datatables_query($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type,$pagetype)
 	{
 		
 		$this->db->from($tablename);
@@ -39,7 +40,14 @@ Class Hoteluser_model extends CI_Model
 		}
 		if($type == 'a')
 		{
-			$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='m')", NULL, FALSE);
+		    if($pagetype=='hotel-managers'){
+				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='m')", NULL, FALSE);
+			}
+			else
+			{
+				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='s')", NULL, FALSE);
+			}
+			
 		}
 		if($type == 'm')
 		{
@@ -79,15 +87,15 @@ Class Hoteluser_model extends CI_Model
 	  
 	}
 	/*Get No Of Filtered Records in Datatable*/
-    function count_filtered($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type)
+    function count_filtered($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type,$pagetype)
 	{
-		$this->_get_datatables_query($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type);
+		$this->_get_datatables_query($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type,$pagetype);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
     
 	/*Get Total No Of Records Present*/
-	public function count_all($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type)
+	public function count_all($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type,$pagetype)
 	{
 		if($type == 'u')
 		{
@@ -95,7 +103,13 @@ Class Hoteluser_model extends CI_Model
 		}
 		if($type == 'a')
 		{
-			$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='m')", NULL, FALSE);
+			if($pagetype=='hotel-managers'){
+				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='m')", NULL, FALSE);
+			}
+			else
+			{
+				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='s')", NULL, FALSE);
+			}
 		}
 		if($type == 'm')
 		{

@@ -169,7 +169,6 @@ class Hotel extends CI_Controller
 	public function edit_hotel($hotel_id)
 	{	
 		//Check If User is logged in otherwise redirect to login page.
-	
 		$this->data['action']	= "admin/hotel/edit_hotel_action/$hotel_id";
 		$this->data['hotel_id']	= $hotel_id;
 		$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
@@ -178,8 +177,8 @@ class Hotel extends CI_Controller
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
 		    {
 				$this->data['title'] = LABEL_1;
-		$this->template->load('page_tpl', 'edit_hotel',$this->data);
-		}
+				$this->template->load('page_tpl', 'edit_hotel',$this->data);
+		    }
 			
 	}
 	

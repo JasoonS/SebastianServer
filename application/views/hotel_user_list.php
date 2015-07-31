@@ -118,11 +118,11 @@ function create_hotel_grid(){
 	table = $('#hotel-grid').DataTable({ 
         "processing": true, //Feature control the processing indicator.
         "serverSide": true, //Feature control DataTables' server-side processing mode.
-        
+        "bDestroy":true,
         // Load data for the table's content from an Ajax source
         "ajax": {
             "url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
-			"data":{flag:'4',tablename:'sb_hotel_users',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:columnnames,hotel_id:hotel_id,user_type:'<?php echo $user_type;?>'},
+			"data":{flag:'4',tablename:'sb_hotel_users',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:columnnames,hotel_id:hotel_id,user_type:'<?php echo $user_type;?>',page_type:'<?php echo $page_type;?>'},
             "type": "POST"
         },
 
@@ -154,7 +154,23 @@ function recreateTable()
 	table.destroy();
 	create_hotel_grid();
 }
-
+function changehoteluserstatus(id,status)
+{
+	var base_url = '<?php echo site_url('admin/ajax/get_ajax_data')?>';
+	$.ajax({
+		url: base_url,
+		type:"post",
+		data:{"hotel_user_id":id,"sb_hotel_user_status":status,"flag":5},
+		dataType:"json",
+		success:function(msg){
+			$('#confirm-delete').modal('hide');
+			recreateTable();
+		},
+		error:function(){
+					alert("Error");
+			}
+		});		
+}
 </script>
 
 

@@ -34,7 +34,7 @@ class User extends CI_Controller
 	{
 		
 		$requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3).'/'.$this->uri->segment(4);
-	
+	    
 		if(!$this->acl->hasPermission($requested_mod))
 		{
 			redirect('admin/dashboard');
@@ -53,12 +53,14 @@ class User extends CI_Controller
 		{
 			$data['hotel_list'] = getAllHotels();
 			$data['user_type']= 'u';
+			$data['page_type']=$this->uri->segment(4);
 			$this->template->load('page_tpl', 'hotel_user_list',$data);
 		}
 		
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'a')
 		{
 			$data['user_type']= 'a';
+			$data['page_type']=$this->uri->segment(4);
 			$data['sb_hotel_id']=$this->session->userdata('logged_in_user')->sb_hotel_id;
 			$data['sb_hotel_name']=$this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
 			$this->template->load('page_tpl', 'hotel_user_list',$data);
@@ -66,6 +68,7 @@ class User extends CI_Controller
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'm')
 		{
 			$data['user_type']= 'm';
+			$data['page_type']=$this->uri->segment(4);
 			$data['sb_hotel_id']=$this->session->userdata('logged_in_user')->sb_hotel_id;
 			$data['sb_hotel_name']=$this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
 			$this->template->load('page_tpl', 'hotel_user_list',$data);
@@ -106,9 +109,7 @@ class User extends CI_Controller
 				$this->data['sb_hotel_name']=$this->Hotel_model->get_hotel_name( $this->data['hotel_id']);
 				$this->data['user_type']=$this->session->userdata('logged_in_user')->sb_hotel_user_type;
 				
-                if (($key = array_search('s',$this->data['hotelusertypes'])) !== false) {
-						unset($this->data['hotelusertypes'][$key]);
-				}
+              
 				if (($key = array_search('u',$this->data['hotelusertypes'])) !== false) {
 						unset($this->data['hotelusertypes'][$key]);
 				}
@@ -325,7 +326,6 @@ class User extends CI_Controller
 	   }
 	}
 	
-	
 	/* Method render User Information 
 	 * @param int
 	 * return void
@@ -342,6 +342,178 @@ class User extends CI_Controller
 			$this->template->load('page_tpl', 'view_hotel_user',$this->data);
 		}
 			
+	}
+	/*Method Check Edit user Permissions
+	*/
+	public function check_edit_user_permissions($user_id)
+	{
+	    
+		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
+	    {
+			$this->data['title'] = LABEL_1;
+			$this->data['userinfo']=$this->User_model->get_user_info($user_id);
+			$this->data['hotelusertypes'] = getAvailableHotelUserTypes();
+			$this->data['user_type']=$this->session->userdata('logged_in_user')->sb_hotel_user_type;
+            if (($key = array_search('s',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+		    }
+			if (($key = array_search('m',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+			}
+			if (($key = array_search('u',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+			}	
+		}
+		
+		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'a')
+	    {
+			$this->data['title'] = LABEL_1;
+			$this->data['userinfo']=$this->User_model->get_user_info($user_id);
+			$this->data['hotelusertypes'] = getAvailableHotelUserTypes();
+			if (($key = array_search('u',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+			}
+			if (($key = array_search('a',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+			}
+		}
+		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'm')
+	    {
+			$this->data['title'] = LABEL_1;
+			$this->data['userinfo']=$this->User_model->get_user_info($user_id);
+			$this->data['hotelusertypes'] = getAvailableHotelUserTypes();
+			if (($key = array_search('m',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+			}
+			if (($key = array_search('u',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+			}
+			if (($key = array_search('a',$this->data['hotelusertypes'])) !== false) {
+						unset($this->data['hotelusertypes'][$key]);
+			}	
+		}
+	}
+	
+	/* Method render edit hotel user view
+	 * @param int
+	 * return void
+	 */
+	public function edit_hotel_user($user_id)
+	{	
+		$this->data['action']	= "admin/user/edit_hotel_user_action/".$user_id;
+		$this->check_edit_user_permissions($user_id);
+		$this->template->load('page_tpl', 'edit_hotel_admin_user',$this->data);
+	}
+	/*Method performs actual logic of user edit and his permission edition
+	 *@param int
+ 	 * return void
+	 */
+	public function edit_hotel_user_action($user_id)
+	{
+		$data = $this->input->post();
+		$this->validation_rules = array(
+		    array('field'=>'sb_hotel_user_shift_from','label'=>'Hotel User Shift From','rules'=>'required','class'=>'text-danger'),
+		    array('field'=>'sb_hotel_user_shift_to','label'=>'Hotel User Shift To','rules'=>'required','class'=>'text-danger'),	
+		);
+		$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+		$this->form_validation->set_rules($this->validation_rules);
+		if ($this->form_validation->run() == FALSE)
+		{
+			
+			$this->check_edit_user_permissions($user_id);
+			//edirect('admin/user/edit_hotel_user/'.$user_id);
+			//
+		}else{
+				
+        		$this->check_edit_user_permissions($user_id);
+				$data["sb_hotel_user_pic"] = $this->data['userinfo']->sb_hotel_user_pic;
+				
+		        if(!empty($_FILES['sb_hotel_user_pic']['name']))
+				{
+
+					$folderName=HOTEL_USER_PIC;
+					$pic1 = upload_image($folderName,"sb_hotel_user_pic");
+				
+              
+					if($pic1 != 0)
+					{
+					   
+						$data["sb_hotel_user_pic"] = $pic1;
+					}	
+				
+				} 
+			
+				$data['sb_hotel_user_shift_from']= date("H:i:s", strtotime($data['sb_hotel_user_shift_from']));
+				$data['sb_hotel_user_shift_to']= date("H:i:s", strtotime($data['sb_hotel_user_shift_to']));
+				
+				$result=$this->Hotel_model->edit_hotel_user($data,$user_id);
+				//We need to Remove Previous Permissions//
+				$this->User_model->remove_user_role($user_id);
+				$this->User_model->remove_user_permissions($user_id);
+                //We need to Add User Permissions HERE in db //
+			    
+				if($data['sb_hotel_user_type'] == 'a')
+				{
+				    //Permissions For admins list
+					$useradminpermissions=array(
+										'sb_hotel_user_id'=>$user_id,
+										'sb_roleid'=>'2',
+										'sb_user_role_status'=>'1'
+									);
+                     									
+					$this->User_model->set_user_role($useradminpermissions);
+					$user_module_array=array();
+					$permarray=array('5','7');
+					$count=0;
+					while($count<count($permarray)){
+						$singlearray=array(
+										'sb_hotel_user_id'=>$user_id,
+										'sb_mod_id'=>$permarray[$count],
+										'sb_user_mod_val'=>'1'
+									);
+						array_push($user_module_array,$singlearray);
+						$count++;
+					}
+					$this->User_model->set_user_permissions($user_module_array);					
+				}
+				if($data['sb_hotel_user_type'] == 'm')
+				{
+				    
+				    //Permissions For admins list
+					$useradminpermissions=array(
+										'sb_hotel_user_id'=>$user_id,
+										'sb_roleid'=>'3',
+										'sb_user_role_status'=>'1'
+								
+									);
+					$this->User_model->set_user_role($useradminpermissions);
+					$user_module_array=array();
+					$permarray=array('7');
+					$count=0;
+					while($count<count($permarray)){
+						$singlearray=array(
+										'sb_hotel_user_id'=>$user_id,
+										'sb_mod_id'=>$permarray[$count],
+										'sb_user_mod_val'=>'1'
+									);
+						array_push($user_module_array,$singlearray);
+						$count++;
+					}
+					$this->User_model->set_user_permissions($user_module_array);	
+				}
+				
+				
+				if($result > '0')
+				{
+					$this->session->set_flashdata('category_success', HOTEL_ADMIN_UPDATION_SUCCESS);
+					redirect('admin/user/edit_hotel_user/'.$user_id);
+				}
+				else
+				{
+					$this->session->set_flashdata('category_error', 'Error in Hotel Administrator Creation.');
+					redirect('admin/user/edit_hotel_user/'.$user_id);
+				}
+			}
 	}
 }
 
