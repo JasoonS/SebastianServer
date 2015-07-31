@@ -81,6 +81,18 @@ Class Hotel_model extends CI_Model
 		$this->db->insert('sb_hotel_users',$hotel_user_data);
 		return $this->db->insert_id();
 	}
+	
+	/* Method edit Hotel Admin
+	 * inside system 
+	 * @param @string
+	 * return @string on success and False on Fail
+	 */
+	function edit_hotel_user($hotel_user_data,$user_id)
+	{
+	    $this->db->where('sb_hotel_user_id',$user_id);
+		$this->db->update('sb_hotel_users',$hotel_user_data);
+		return 1;
+	}
 	/* Method get Hotel Name
 	 * inside system 
 	 * @param @string

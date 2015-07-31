@@ -23,7 +23,7 @@
 	</style>
 
 <div class="right_col">	
-	<div class="content clearfix">
+	<div class="">
 	<!-- This is for Success Message.-->
 	<?php if ($this->session->flashdata('category_success')) { ?>
         <div class="alert alert-success"> <?= $this->session->flashdata('category_success') ?> </div>
@@ -35,10 +35,11 @@
 	<?php
 	
 	?>
+	<legend>Update Hotel</legend>
 	<form class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data">
 		<fieldset>
 		<!-- Form Name -->
-		<legend>Update Hotel</legend>
+		
 		<!-- Text input-->
 		<div class="control-group">
 			<label class="control-label" for="sb_hotel_name">Hotel Name</label>

@@ -124,4 +124,29 @@ Class User_model extends CI_Model
 		$this->db->insert_batch('sb_user_modules',$data);
 		return $this->db->insert_id();
 	}
+	
+	/* Method Remove User Role in Database
+	 * 
+	 * @param array
+	 * return true on success , false on failure
+	 */
+	function remove_user_role($user_id)
+	{
+	    $this->db->where('sb_hotel_user_id',$user_id);
+		$this->db->delete('sb_user_roles');
+		return 1;
+	}
+	/* Method Remove User Module Permissions in Database
+	 * 
+	 * @param array
+	 * return true on success , false on failure
+	 */
+	function remove_user_permissions($user_id)
+	{
+		$this->db->where('sb_hotel_user_id',$user_id);
+		$this->db->delete('sb_user_modules');
+		return 1;
+	}
+	
+	
 }

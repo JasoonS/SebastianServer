@@ -15,6 +15,7 @@ class Ajax extends CI_Controller
 		$this->load->model('Hotel_model');
 		$this->load->model('Common_model');
 		$this->load->model('Hoteluser_model');
+		$this->load->model('User_model');
 	}
 	/*
 		This function decides which function to call after ajax call
@@ -40,9 +41,26 @@ class Ajax extends CI_Controller
 				 break;
 			}
 			case 4:{
-			    
-				 $this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$this->input->post('columns'),$this->input->post('hotel_id'),$this->input->post('user_type'));
+			  
+				 $this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$this->input->post('columns'),$this->input->post('hotel_id'),$this->input->post('user_type'),$this->input->post('page_type'));
 				 break;
+			}
+			case 5:{
+				$hotel_user_id=$this->input->post('hotel_user_id');
+				$hotel_user_status=$this->input->post('sb_hotel_user_status');
+				if($hotel_user_status == 1)
+				{
+					$status=0;
+				}
+				else
+				{
+					$status =1;
+				}
+				$data=array(
+					'sb_hotel_user_status'=>$status	
+				);
+				$this->Hotel_model->edit_hotel_user($data,$hotel_user_id);		
+				echo json_encode(array('status'=>'1','message'=>'Hotel User Status Changed'));
 			}
 			default:{
 			}
@@ -74,9 +92,9 @@ class Ajax extends CI_Controller
 	 * @param void
 	 * return void
 	 */
-	public function ajax_user_list($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type)
+	public function ajax_user_list($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type,$pagetype)
 	{
-		$list = $this->Hoteluser_model->get_datatables($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type);
+		$list = $this->Hoteluser_model->get_datatables($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type,$pagetype);
 	
 		$data = array();
 		
@@ -87,20 +105,35 @@ class Ajax extends CI_Controller
 			$row[] = $hotel->sb_hotel_user_id;
 			$row[] = $hotel->sb_hotel_username;
 			$row[] = $hotel->sb_hotel_useremail;
-			$row[] = $hotel->sb_hotel_user_type;
-			$row[]=$hotel->sb_hotel_user_type;
+			
+			switch($hotel->sb_hotel_user_type)
+				{
+					case 'a':$row[] ="Hotel Admin";break;
+					case 'm':$row[] ="Hotel Manager";break;
+					case 's':$row[] ="Hotel Staff";break;
+			
+				}
+			
 			$editurl =base_url("admin/user/edit_hotel_user/".$hotel->sb_hotel_user_id);
 			$viewurl =base_url("admin/user/view_hotel_user/".$hotel->sb_hotel_user_id);
 			$deleteurl =base_url("admin/user/delete_hotel_user/".$hotel->sb_hotel_user_id);
-			/*$row[] ='<a class="btn btn-sm btn-primary" href="'.$editurl.'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
+			if($hotel->sb_hotel_user_status == '1'){
+			$row[] ='<a class="btn btn-sm btn-primary" href="'.$editurl.'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
 					'<a class="btn btn-sm btn-warning" href="'.$viewurl.'" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
-					'<a class="btn btn-sm btn-danger" id="delete" href="#" data-href="'.$deleteurl.'" onclick="deletehoteluser('.$hotel->sb_hotel_user_id.');" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>';*/
+					'<a class="btn btn-sm btn-danger" id="delete" href="#" data-href="'.$deleteurl.'" onclick="changehoteluserstatus('.$hotel->sb_hotel_user_id.','.$hotel->sb_hotel_user_status.');" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+			}
+			else{
+			$row[] ='<a class="btn btn-sm btn-primary" href="'.$editurl.'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
+					'<a class="btn btn-sm btn-warning" href="'.$viewurl.'" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
+					'<a class="btn btn-sm btn-success" id="restore" href="#" data-href="'.$deleteurl.'" onclick="changehoteluserstatus('.$hotel->sb_hotel_user_id.','.$hotel->sb_hotel_user_status.');" title="Restore" ><i class="glyphicon glyphicon-save-file"></i> Restore</a>';
+			
+			}
 			$data[] = $row;
 		}
 		$output = array(
 							"draw" => $this->input->post("draw"),
-							"recordsTotal" => $this->Hoteluser_model->count_all($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type),
-							"recordsFiltered" => $this->Hoteluser_model->count_filtered($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type),
+							"recordsTotal" => $this->Hoteluser_model->count_all($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type,$pagetype),
+							"recordsFiltered" => $this->Hoteluser_model->count_filtered($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type,$pagetype),
 							"data" => $data
 						);
 		//output to json format
@@ -140,7 +173,7 @@ class Ajax extends CI_Controller
 				$row[]=	'<a class="btn btn-sm btn-primary" href="'.$editurl.'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
 
 				        '<a class="btn btn-sm btn-warning" href="'.$viewurl.'" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
-						'<a class="btn btn-sm btn-success" id="restore" href="#" data-href="'.$deleteurl.'" onclick="changehotelstatus('.$hotel->sb_hotel_id.','.$hotel->is_active.');" title="Delete" ><i class="glyphicon glyphicon-save-file"></i>Restore</a>';
+						'<a class="btn btn-sm btn-success" id="restore" href="#" data-href="'.$deleteurl.'" onclick="changehotelstatus('.$hotel->sb_hotel_id.','.$hotel->is_active.');" title="Restore" ><i class="glyphicon glyphicon-save-file"></i>Restore</a>';
 			}
 			$data[] = $row;
 		}
