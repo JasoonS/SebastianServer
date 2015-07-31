@@ -125,9 +125,9 @@ class Ajax extends CI_Controller
 			else{
 			$row[] ='<a class="btn btn-sm btn-primary" href="'.$editurl.'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
 					'<a class="btn btn-sm btn-warning" href="'.$viewurl.'" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
-					'<a class="btn btn-sm btn-success" id="restore" href="#" data-href="'.$deleteurl.'" onclick="changehoteluserstatus('.$hotel->sb_hotel_user_id.','.$hotel->sb_hotel_user_status.');" title="Restore" ><i class="glyphicon glyphicon-save-file"></i> Restore</a>';
-			
+					'<a class="btn btn-sm btn-danger" id="delete" href="#" data-href="'.$deleteurl.'" onclick="changehoteluserstatus('.$hotel->sb_hotel_user_id.','.$hotel->sb_hotel_user_status.');" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>';
 			}
+			
 			$data[] = $row;
 		}
 		$output = array(
