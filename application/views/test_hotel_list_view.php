@@ -125,12 +125,31 @@ $(document).ready(function () {
 
         "order": [[ 1, "desc" ]],
 
-        "aoColumnDefs": [
+        /*"aoColumnDefs": [
             {
                 'bSortable': false,
                 'aTargets': [0]
             } //disables sorting for column one
-        ],
+        ],*/
+
+        "aoColumnDefs": [ {
+            "targets": [0],
+             "data":   "active",
+              render: function ( data, type, row ) {
+                if ( type === 'display' ) {
+                    return '<input type="checkbox" class="tableflat">';
+                }
+                return data;
+            },
+        } ],
+
+        "createdRow": function ( row, data ) {
+        
+            $('input.tableflat').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+            });
+        },
 
 
         "sPaginationType": "full_numbers",
