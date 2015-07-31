@@ -144,17 +144,19 @@ var table;
 $(document).ready(function () {
 		create_hotel_grid();
 	});
-function deletehotel(id)
-{   
-	$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger" onclick=alert('+id+');>Delete</button>');
-    $("#confirm-delete").modal('show');
-}
+
 function recreateTable()
 {
 	table.destroy();
 	create_hotel_grid();
 }
 function changehoteluserstatus(id,status)
+{
+    $(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger" onclick=changeuserstatus('+id+','+status+');>Change</button>');
+    $("#confirm-delete").modal('show');
+			
+}
+function changeuserstatus(id,status)
 {
 	var base_url = '<?php echo site_url('admin/ajax/get_ajax_data')?>';
 	$.ajax({
@@ -169,7 +171,7 @@ function changehoteluserstatus(id,status)
 		error:function(){
 					alert("Error");
 			}
-		});		
+		});
 }
 </script>
 
