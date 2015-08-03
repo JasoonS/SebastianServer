@@ -1,8 +1,6 @@
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
-       
-
         <div class="page-title">
             <div class="title_left">
                 <h3>Guest Requests</h3>
@@ -19,11 +17,8 @@
                 </div>
             </div>
         </div>
-
-
         <div class="row">
-
-            <div class="col-md-6 col-sm-6 col-xs-12">
+			<div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel classNav">
                     <div class="x_title">
                         <h2>Frontdesk<small>requests</small></h2>
@@ -74,8 +69,8 @@
                                     </div>
                                     <div class="block_content">
                                         <h2 class="title">
-                                <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                            </h2>
+											<a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
+										</h2>
                                         <div class="byline">
                                             <span>13 hours ago</span> by <a>Jane Smith</a>
                                         </div>
@@ -107,7 +102,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel classNav">
                     <div class="x_title">
@@ -193,11 +187,9 @@
                 </div>
             </div>
         </div>
-
         <div class="clearfix"></div>
 
         <div class="row">
-
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel classNav">
                     <div class="x_title">
@@ -282,7 +274,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel classNav">
                     <div class="x_title">
@@ -334,8 +325,8 @@
                                     </div>
                                     <div class="block_content">
                                         <h2 class="title">
-                                <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                            </h2>
+											<a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
+										</h2>
                                         <div class="byline">
                                             <span>13 hours ago</span> by <a>Jane Smith</a>
                                         </div>
@@ -353,8 +344,8 @@
                                     </div>
                                     <div class="block_content">
                                         <h2 class="title">
-                                <a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
-                            </h2>
+											<a>Who Needs Sundance When You’ve Got&nbsp;Crowdfunding?</a>
+										</h2>
                                         <div class="byline">
                                             <span>13 hours ago</span> by <a>Jane Smith</a>
                                         </div>
@@ -368,7 +359,6 @@
                 </div>
             </div>
         </div>
-
         <footer>
             <div class="">
                 <p class="pull-right"><?php echo $title; ?> from <a>Eeshana</a>. |
@@ -378,21 +368,14 @@
             <div class="clearfix"></div>
         </footer>
         <!-- /footer content -->
-
     </div>
 </div>
 <script src="<?php echo THEME_ASSETS;  ?>js/bootstrap.min.js"></script>
-
-
-
 <!-- bootstrap progress js -->
 <script src="<?php echo THEME_ASSETS;  ?>js/progressbar/bootstrap-progressbar.min.js"></script>
-
-
 <script src="<?php echo THEME_ASSETS;  ?>js/nicescroll/jquery.nicescroll.min.js"></script>
 <!-- icheck -->
 <script src="<?php echo THEME_ASSETS;  ?>js/icheck/icheck.min.js"></script>
-
 <script src="<?php echo THEME_ASSETS;  ?>js/custom.js"></script>
 
 

@@ -2,32 +2,26 @@
 .ui-datepicker-calendar,.ui-datepicker-month {
     display: none;
 }​
-
-
 </style>
   
-
-
-	<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">
-    
-	<link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	<link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo THEME_ASSETS; ?>css/bootstrap-toggle.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo THEME_ASSETS; ?>css/fileinput.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo THEME_ASSETS; ?>css/jquery-checktree.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo THEME_ASSETS; ?>css/jquery.dataTables.css" rel="stylesheet" type="text/css">
-	<script src="<?php echo THEME_ASSETS ?>js/bootstrap.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/star-rating.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/bootstrap-toggle.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
-
+<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">
+<link href="<?php echo THEME_ASSETS; ?>css/bootstrap-toggle.css" rel="stylesheet" type="text/css">
+<link href="<?php echo THEME_ASSETS; ?>css/fileinput.css" rel="stylesheet" type="text/css">
+<link href="<?php echo THEME_ASSETS; ?>css/jquery-checktree.css" rel="stylesheet" type="text/css">
+<link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
+<link href="<?php echo THEME_ASSETS; ?>css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/star-rating.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-toggle.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
 <div class="right_col">	
 	<div class="content clearfix">
 	<!-- This is for Success Message.-->
@@ -38,9 +32,6 @@
 	<?php if ($this->session->flashdata('category_error')) { ?>
     <div class="alert alert-danger"> <?= $this->session->flashdata('category_error') ?> </div>
 	<?php } ?>
-	<?php
-	
-	?>
 	<form class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data">
 		<fieldset>
 		<!-- Form Name -->
@@ -63,7 +54,6 @@
 				</select>
 			</div>
 		</div>
-
 		<div class="control-group">
 		  <label class="control-label" for="sb_hotel_star">Hotel Star</label>
 		  <div class="controls">
@@ -71,15 +61,12 @@
 			 <input id="sb_hotel_star" name="sb_hotel_star" value="0" type="number" class="rating" data-stars=7 min=0 max=7 step=1 data-size="xs" data-glyphicon="false">
 		  </div>
 		</div>
-
-		
 		<div class="control-group">
 			<label class="control-label" for="sb_hotel_pic">Hotel Picture</label>
 			<div class="controls">
 				<input id="sb_hotel_pic" name="sb_hotel_pic" type="file"  class="input-large" >
 			</div>
 		</div>
-		
 		<div class="control-group">
 			<label class="control-label" for="sb_hotel_email">Hotel Email</label>
 			<div class="controls">
@@ -94,8 +81,6 @@
 			<?php echo form_error('sb_hotel_website'); ?>
 			</div>
 		</div>
-		
-		
 		<div class="control-group">
 			<label class="control-label" for="sb_hotel_owner">Hotel Owner</label>
 			<div class="controls">
@@ -103,7 +88,6 @@
 			<?php echo form_error('sb_hotel_owner'); ?>
 			</div>
 		</div>
-		
 		<div class="control-group">
 			<label class="control-label" for="sb_property_built_month">Hotel Property Built Month</label>
 			<div class="controls">
@@ -123,9 +107,6 @@
 				</select>
 			</div>
 		</div>
-		
-	
-		
 		<div class="control-group">
 			<label class="control-label" for="sb_property_built_year">Hotel Property Built Year</label>
 			<div class="controls">
@@ -133,7 +114,6 @@
 			<?php echo form_error('sb_property_built_year'); ?>
 			</div>
 		</div>
-		
 		<div class="control-group">
 			<label class="control-label" for="sb_property_open_year">Hotel Property Opened Year</label>
 			<div class="controls">
@@ -141,8 +121,6 @@
 			<?php echo form_error('sb_property_open_year'); ?>
 			</div>
 		</div>
-		
-		
 		<!-- Select Basic -->
 		<div class="control-group">
 		  <label class="control-label" for="sb_hotel_country">Country</label>
@@ -156,7 +134,6 @@
 			<?php echo form_error('sb_hotel_country'); ?>
 		  </div>
 		</div>
-
 		<!-- Select Basic -->
 		<div class="control-group">
 		  <label class="control-label" for="sb_hotel_state">State</label>
@@ -167,20 +144,15 @@
 			<?php echo form_error('sb_hotel_state'); ?>
 		  </div>
 		</div>
-
 		<!-- Select Basic -->
 		<div class="control-group">
 		  <label class="control-label" for="sb_hotel_city">City</label>
 		  <div class="controls">
 			<select id="sb_hotel_city" name="sb_hotel_city" class="input-large" required="">
-			 
 			</select>
 			<?php echo form_error('sb_hotel_city'); ?>
 		  </div>
 		</div>
-		
-		
-
 		<!-- Textarea -->
 		<div class="control-group">
 		  <label class="control-label" for="sb_hotel_address">Hotel Address</label>
@@ -189,7 +161,6 @@
 			<?php echo form_error('sb_hotel_address'); ?>
 		  </div>
 		</div>
-
 		<!-- Text input-->
 		<div class="control-group">
 		  <label class="control-label" for="sb_hotel_zipcode">Postal Code</label>
@@ -198,11 +169,8 @@
 				<?php echo form_error('sb_hotel_zipcode'); ?>
 		  </div>
 		</div>
-		
-		
 		</fieldset>
 		<fieldset>
-			<?php //print_r($languagelist);?>
 			<?php
 					$i=0;
 					while($i<count($languagelist))
@@ -213,8 +181,6 @@
 						$i++;
 					}
 			?>
-		
-
         <div class="control-group">
 		  <label class="control-label" for="submit"></label>
 		  <div class="controls">

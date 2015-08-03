@@ -126,7 +126,6 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
-
 <!-- chart js -->
 <script src="<?php echo THEME_ASSETS?>js/chartjs/chart.min.js"></script>
 <!-- bootstrap progress js -->
@@ -134,13 +133,8 @@
 <script src="<?php echo THEME_ASSETS?>js/nicescroll/jquery.nicescroll.min.js"></script>
 <!-- icheck -->
 <script src="<?php echo THEME_ASSETS?>js/icheck/icheck.min.js"></script>
-
-
 <script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
-
 <script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
-
-
 <script>
 var asInitVals  = new Array();
 var action_url  = '';
@@ -188,31 +182,24 @@ $(document).ready(function () {
 
 function changehotelstatus(id,hotelstatus)
 {  
-
     $(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal" >OK</button>'+
 	                        '<button type="button" onclick="makeAlert();" id="changeS" class="btn btn-danger" >Change</button>');
-							
-   
     $("#confirm-delete").modal('show');
 }
 
 function changestatus(id,hotelstatus)
 {
-    alert(id);
     action_url = '<?php echo site_url('admin/hotel/change_hotel_status')?>';
-
-   /* $.ajax({
+	$.ajax({
         url: action_url,
         type:"post",
         data:{"hotel_id":id,"hotelstatus":hotelstatus},
         dataType:"json",
         success:function(msg)
         {
-            console.log(msg);
-			alert(id);
     		$('#confirm-delete').modal('hide');
 		}
-		});*/
+	});
 }           
 </script>
 

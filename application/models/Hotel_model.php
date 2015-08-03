@@ -1,7 +1,6 @@
 <?php
-/* Model handles user crud operations
- * user authentication , module permssions
- * by checking access rights
+/* Model handles hotel crud operations
+ * hotel searching operations
  */
 Class Hotel_model extends CI_Model
 {
@@ -9,7 +8,6 @@ Class Hotel_model extends CI_Model
 	{
 		parent::__construct();
 	}
-	
 	/* Method create Hotel 
 	 * inside system 
 	 * @param @string
@@ -33,7 +31,6 @@ Class Hotel_model extends CI_Model
 		echo $this->db->last_query();
 		return '1';
 	}
-	
 	/* Method Return If Hotel Present  
 	 * inside system 
 	 * @param @string
@@ -45,8 +42,7 @@ Class Hotel_model extends CI_Model
 		$this->db->where('sb_hotel_name',$hotel_name);
 		$query=$this->db->get('sb_hotels');
 		return $query->result_array();
-	}
-	
+	}	
 	/* Method Return If Hotel User is present by username 
 	 * inside system 
 	 * @param @string
@@ -59,7 +55,6 @@ Class Hotel_model extends CI_Model
 		$query=$this->db->get('sb_hotel_users');
 		return $query->result_array();
 	}
-	
 	/* Method Return If Hotel User is present by username 
 	 * inside system 
 	 * @param @string
@@ -82,8 +77,7 @@ Class Hotel_model extends CI_Model
 		$this->db->insert('sb_hotel_users',$hotel_user_data);
 		return $this->db->insert_id();
 	}
-	
-	/* Method edit Hotel Admin
+	/* Method edit Hotel Admin User
 	 * inside system 
 	 * @param @string
 	 * return @string on success and False on Fail
@@ -120,7 +114,6 @@ Class Hotel_model extends CI_Model
 		$result= $query->result_array();
 		return $result[0]['sb_hotel_id'];
 	}
-	
 	/* Method set languages For Hotel
 	 * inside system 
 	 * @param @int,@array
@@ -137,17 +130,15 @@ Class Hotel_model extends CI_Model
 		while($i<count($languages))
 		{
 			$singleArray=array(
-								'lang_id'=>$languages[$i],
-								'sb_hotel_id'=>$hotel_id
-							);
+							'lang_id'=>$languages[$i],
+							'sb_hotel_id'=>$hotel_id
+						);
 			array_push($data,$singleArray);
 			$i++;
 		}
 		$this->db->insert_batch('sb_hotel_lang_map',$data);
 		return true;
 	}
-	
-	
   	/* Method get Hotel data from Hotel id
 	 * inside system 
 	 * @param @int
@@ -170,7 +161,6 @@ Class Hotel_model extends CI_Model
 		$result= $query->result_array();
 		return $result[0];
 	}
-
 	/* Method return list of all hotel
 	 * @param void
 	 * return array
@@ -184,4 +174,4 @@ Class Hotel_model extends CI_Model
 		$result= $query->result_array();
 		return $result;
 	}
-}	
+}//End Of Hotel Model	

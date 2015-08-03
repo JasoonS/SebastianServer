@@ -101,9 +101,7 @@
                     <p>Do you want to proceed?</p>
                     <p class="debug-url"></p>
                 </div>
-                
                 <div class="modal-footer">
-					
                 </div>
             </div>
         </div>
@@ -116,31 +114,26 @@ function create_hotel_grid(){
     var columnnames=['sb_hotel_user_id','sb_hotel_username','sb_hotel_useremail','sb_hotel_user_type','sb_hotel_user_type'];
 	var hotel_id=$("#sb_hotel_id").val();
 	table = $('#hotel-grid').DataTable({ 
-        "processing": true, //Feature control the processing indicator.
-        "serverSide": true, //Feature control DataTables' server-side processing mode.
-        "bDestroy":true,
-        // Load data for the table's content from an Ajax source
-        "ajax": {
-            "url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
-			"data":{flag:'4',tablename:'sb_hotel_users',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:columnnames,hotel_id:hotel_id,user_type:'<?php echo $user_type;?>',page_type:'<?php echo $page_type;?>'},
-            "type": "POST"
-        },
-
-        //Set column definition initialisation properties.
-        "columnDefs": [
-        { 
-          "targets": [ -1 ], //last column
-          "orderable": false, //set not orderable
-        },
-        ],
-		 "order": [[ 0, "desc" ]]
-
+				"processing": true, //Feature control the processing indicator.
+				"serverSide": true, //Feature control DataTables' server-side processing mode.
+				"bDestroy":true,// Load data for the table's content from an Ajax source
+				"ajax": {
+					"url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
+					"data":{flag:'4',tablename:'sb_hotel_users',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:columnnames,hotel_id:hotel_id,user_type:'<?php echo $user_type;?>',page_type:'<?php echo $page_type;?>'},
+					"type": "POST"
+				},
+				//Set column definition initialisation properties.
+				"columnDefs": [
+					{ 
+						"targets": [ -1 ], //last column
+						"orderable": false, //set not orderable
+					},
+				],
+				"order": [[ 0, "desc" ]]
       });
-	
 }
 
 var table;
-
 $(document).ready(function () {
 		create_hotel_grid();
 	});

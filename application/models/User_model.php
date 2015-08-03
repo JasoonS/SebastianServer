@@ -97,15 +97,13 @@ Class User_model extends CI_Model
 		$this->db->join('sb_hotels','sb_hotels.sb_hotel_id=sb_hotel_users.sb_hotel_id');
 		$this->db->where('sb_hotel_user_id',$user_id);
 		$query = $this->db->get();
-
 		if($query->num_rows() > 0)
 			return $row = $query->row();
 		else
 			return FALSE;
 	}
 	
-	/* Method insert User Role in Database
-	 * 
+	/* Method insert User Role in Database 
 	 * @param array
 	 * return true on success , false on failure
 	 */
@@ -137,7 +135,6 @@ Class User_model extends CI_Model
 		return 1;
 	}
 	/* Method Remove User Module Permissions in Database
-	 * 
 	 * @param array
 	 * return true on success , false on failure
 	 */
@@ -147,6 +144,4 @@ Class User_model extends CI_Model
 		$this->db->delete('sb_user_modules');
 		return 1;
 	}
-	
-	
-}
+}//End Of Model

@@ -13,15 +13,12 @@ class Login extends CI_Controller
 	public  $password_salt 			= '';
 	private $logged_in_user_meta 	= array();
 	
-	
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model('User_model');
-		//$this->load->library('session');
 		$this->load->helper('admin/utility_helper');
 	}
-	
 	/* Method render login page
 	 * @param void
 	 * return void
@@ -45,8 +42,6 @@ class Login extends CI_Controller
 		);
 		$this->form_validation->set_error_delimiters('<div class="bg-danger">', '</div>');
 		$this->form_validation->set_rules($this->validation_rules);
-		
-		
 		if ($this->form_validation->run() == FALSE)
 		{
 			$this->data['action']	= "/login/verify_user";	
@@ -57,9 +52,7 @@ class Login extends CI_Controller
 			//1. check if he is admin by checking user name and password
 			// if admin switch to admin dashboard
 			//2. Else it is hotel user and check for its hotel credentials
-
 			$this->password_salt = $this->get_password_salt();
-
 			$this->authenticate_user_login();
 		}		
 	}
@@ -72,14 +65,11 @@ class Login extends CI_Controller
 	 */	
 	public function get_password_salt()
 	{
-		$admin_password_salt 		= $this->User_model->authenticate_user_salt('sb_hotel_userpasswd','sb_hotel_users',array('sb_hotel_username'=>$this->input->post('username')));
-
+		$admin_password_salt = $this->User_model->authenticate_user_salt('sb_hotel_userpasswd','sb_hotel_users',array('sb_hotel_username'=>$this->input->post('username')));
 		if($admin_password_salt === FALSE)
 		{
-
 			$this->redirectWithErrMsg(ERR_MSG_LEVEL_1);
 		}
-
 		return $admin_password_salt;
 	}
 
@@ -91,7 +81,6 @@ class Login extends CI_Controller
 	 */
 	private function authenticate_user_login()
 	{
-
 		if(is_object($this->password_salt))
 		{
 			if(verifyPasswordHash($this->input->post('password'),$this->password_salt->sb_hotel_userpasswd) === TRUE)
@@ -139,5 +128,5 @@ class Login extends CI_Controller
 		$this->session->set_flashdata('SuccMsg',SUC_MSG_LEVEL_1);
 		redirect('admin/login');
 	}
-}
+}//End Of Controller Class.
 

@@ -1,18 +1,16 @@
 <?php
-/* Model handles Common operations For Ajax Datatable
+/* Model handles Common operations For Ajax Datatable (For Single Table)
  */
 Class Common_model extends CI_Model
 {
-
 	function __construct()
 	{
 		parent::__construct();
 	}
-	
 	/* Method To Get Datatable
 	 * inside system 
-	 * @param @string
-	 * return @string on success and False on Fail
+	 * @param @string,@int,@int,@array
+	 * return @array on success and False on Fail
 	 */
 	function get_datatables($tablename,$orderkey,$orderdir,$columns)
 	{
@@ -20,32 +18,25 @@ Class Common_model extends CI_Model
 		if($this->input->post('length') != -1)
 		$this->db->limit($this->input->post('length'), $this->input->post('start'));
 		$query = $this->db->get();
-		
 		return $query->result();
 	}
 	/* Method To Prepare Query To Get Resultset
 	 * inside system 
-	 * @param @string
+	 * @param @string,@int,@int,@array
 	 * return @string on success and False on Fail
 	 */
 	private function _get_datatables_query($tablename,$orderkey,$orderdir,$columns)
 	{
-		
 		$this->db->from($tablename);
-
 		$i = 0;
-	
 		foreach ($columns as $item) 
 		{
-		
-		   $searchArray =$this->input->post('search');
-		
-			if(isset($searchArray['value']))
+		    $searchArray =$this->input->post('search');
+		    if(isset($searchArray['value']))
 				($i===0) ? $this->db->like($item, $searchArray['value']) : $this->db->or_like($item, $searchArray['value']);
 			$column[$i] = $item;
 			$i++;
 		}
-		
 		if($this->input->post('order') != null)
 		{
 		    $order = $this->input->post('order'); 
@@ -53,11 +44,13 @@ Class Common_model extends CI_Model
 		} 
 		else if(isset($orderkey) && isset($orderdir))
 		{
-			
 			$this->db->order_by($orderkey,$orderdir);
 		}
 	}
-	/*Get No Of Filtered Records in Datatable*/
+	/* Get No Of Filtered Records in Datatable
+	 * @param @string,@int,@int,@array
+	 * return int 
+	 */
     function count_filtered($tablename,$orderkey,$orderdir,$columns)
 	{
 		$this->_get_datatables_query($tablename,$orderkey,$orderdir,$columns);
@@ -65,11 +58,13 @@ Class Common_model extends CI_Model
 		return $query->num_rows();
 	}
     
-	/*Get Total No Of Records Present*/
+	/* Get Total No Of Records Present
+	 * @param @string,@int,@int,@array
+	 * return int 
+	 */
 	public function count_all($tablename,$orderkey,$orderdir,$columns)
 	{
 		$this->db->from($tablename);
 		return $this->db->count_all_results();
 	}
-
-}
+}//End Of Common Model

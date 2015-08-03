@@ -100,8 +100,6 @@ $(document).ready(function () {
     });
 
     $('#idHotels').dataTable({
-         
-
         "processing": true, //Feature control the processing indicator.
         "serverSide": true, //Feature control DataTables' server-side processing mode.
         "bDestroy": true,
@@ -119,10 +117,6 @@ $(document).ready(function () {
               //return false;
             }
         },
-
-
-
-
         "order": [[ 1, "desc" ]],
 
         /*"aoColumnDefs": [
@@ -150,8 +144,6 @@ $(document).ready(function () {
             radioClass: 'iradio_flat-green'
             });
         },
-
-
         "sPaginationType": "full_numbers",
         "dom": 'T<"clear">lfrtip',
     });

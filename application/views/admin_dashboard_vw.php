@@ -175,26 +175,18 @@
     </div>
 </div>
 <script src="<?php echo THEME_ASSETS;  ?>js/bootstrap.min.js"></script>
-
 <!-- chart js -->
 <script src="<?php echo THEME_ASSETS;  ?>js/chartjs/chart.min.js"></script>
-
 <!-- bootstrap progress js -->
 <script src="<?php echo THEME_ASSETS;  ?>js/progressbar/bootstrap-progressbar.min.js"></script>
-
-
 <script src="<?php echo THEME_ASSETS;  ?>js/nicescroll/jquery.nicescroll.min.js"></script>
 <!-- icheck -->
 <script src="<?php echo THEME_ASSETS;  ?>js/icheck/icheck.min.js"></script>
-
 <script src="<?php echo THEME_ASSETS;  ?>js/custom.js"></script>
-
-    
 <script>
     var randomScalingFactor = function () {
         return Math.round(Math.random() * 100)
     };
-
     var barChartData = {
         labels: ["January", "February", "March", "April", "May", "June", "July"],
         datasets: [

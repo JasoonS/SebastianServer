@@ -1,5 +1,5 @@
 <?php
-/* Model handles user crud operations
+/* Model handles common operations which we require common 
  * user authentication , module permssions
  * by checking access rights
  */
@@ -10,8 +10,9 @@ Class Utility_model extends CI_Model
 		parent::__construct();
 	}
 	
-	/* 
-	Returns List Of all countries
+	/*  Returns List Of all countries
+	 *	@params void
+	 *  return json array /array
 	 */
 	function get_country_list()
 	{
@@ -23,8 +24,9 @@ Class Utility_model extends CI_Model
 			return FALSE;
 	}
 	
-	/* 
-	Returns List Of states in country by country id
+	/* Returns List Of states in country by country id
+	 * @params int
+     * return json array/array 
 	 */
 	function get_state_list($country_id)
 	{
@@ -37,8 +39,9 @@ Class Utility_model extends CI_Model
 			return FALSE;
 	}
 
-	/* 
-	Returns List Of Cities in state by state id
+	/* Returns List Of Cities in state by state id
+	 * @params int	
+	 * return json array/array
 	 */
 	function get_city_list($state_id)
 	{
@@ -49,10 +52,10 @@ Class Utility_model extends CI_Model
 			return $row = $query->result_array();
 		else
 			return FALSE;
-	} 
-	
-	/* 
-	Returns List Of Hotels
+	} 	
+	/* Returns List Of Hotels
+	 * @params void
+     * return json array /array	 
 	 */
 	function get_all_hotels()
 	{
@@ -63,23 +66,11 @@ Class Utility_model extends CI_Model
 		else
 			return FALSE;
 	} 
-	
-	/* 
-	Returns List Of all Designations of Hotel Users
+
+	/* Returns List Of Enum values Passed
+	 * @params -string,comma seperated string
+	 * return array
 	 */
-	function get_all_designations()
-	{
-		$this->db->select('sb_staff_designation_id as designation_id,sb_staff_designation_name as designation_name');
-        $query = $this->db->get('sb_hotel_staff_designation');
-		if($query->num_rows() > 0)
-			return $row = $query->result_array();
-		else
-			return FALSE;
-	}
-	
-	/*
-	Returns List Of Enum values Passed
-	*/
     function get_enum_values( $table, $field )
 	{
 		$type = $this->db->query( "SHOW COLUMNS FROM {$table} WHERE Field = '{$field}'" )->row( 0 )->Type;
@@ -88,8 +79,9 @@ Class Utility_model extends CI_Model
 		return $enum;
 	}
 
-	/* 
-	Returns List Of all Languages
+	/* Returns List Of all Languages
+	 * @params -void  
+	 * return array
 	 */
 	function get_all_languages()
 	{
@@ -100,5 +92,4 @@ Class Utility_model extends CI_Model
 		else
 			return FALSE;
 	}	
-	
-}
+}//End Of Utility Model
