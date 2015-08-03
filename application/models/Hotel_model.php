@@ -30,6 +30,7 @@ Class Hotel_model extends CI_Model
 	{
 		$this->db->where('sb_hotel_id',$hotel_id);
 		$this->db->update('sb_hotels',$hotel_data);
+		echo $this->db->last_query();
 		return '1';
 	}
 	
@@ -76,9 +77,22 @@ Class Hotel_model extends CI_Model
 	 * @param @string
 	 * return @string on success and False on Fail
 	 */
-	function create_hotel_admin($hotel_admin_data)
+	function create_hotel_user($hotel_user_data)
 	{
-		return $this->db->insert('sb_hotel_users',$hotel_admin_data);
+		$this->db->insert('sb_hotel_users',$hotel_user_data);
+		return $this->db->insert_id();
+	}
+	
+	/* Method edit Hotel Admin
+	 * inside system 
+	 * @param @string
+	 * return @string on success and False on Fail
+	 */
+	function edit_hotel_user($hotel_user_data,$user_id)
+	{
+	    $this->db->where('sb_hotel_user_id',$user_id);
+		$this->db->update('sb_hotel_users',$hotel_user_data);
+		return 1;
 	}
 	/* Method get Hotel Name
 	 * inside system 
@@ -133,59 +147,6 @@ Class Hotel_model extends CI_Model
 		return true;
 	}
 	
-	/* Method get listing of hotels
-	 * inside system 
-	 * @param 	 
-	 * return @array on success and False on Fail
-	 */
-	
-	function get_hotels($sTable, $sWhere, $sOrder, $sLimit, $aColumns,$sIndexColumn,$sEcho)
-	{
-	 
-         $sQuery = "
-         SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."
-         FROM   $sTable
-         $sWhere
-         $sOrder
-         $sLimit
-         ";
-        
-        $rResult = $this->db->query($sQuery);
-        $rResult_array=$rResult->result_array();
-        $iFilteredTotal = count($rResult_array);
-
-        /* Total data set length */
-        $sQuery_TR = "
-        SELECT COUNT(".$sIndexColumn.") AS TotalRecords
-        FROM   $sTable
-        ";
-        $rResult_TR = $this->db->query($sQuery_TR);
-        $rResult_array_TR=$rResult_TR->result_array();
-        $iTotal = $rResult_array_TR[0]['TotalRecords'];
-        
-        $output = array(
-            "sEcho" => intval($sEcho),
-            "iTotalRecords" => intval($iTotal),
-            "iTotalDisplayRecords" => intval($iTotal), //$iFilteredTotal,
-            "aaData" => array()
-            );
-        
-        foreach($rResult_array as $aRow){
-
-            $row = array();
-             
-            foreach($aColumns as $col)
-            {
-				$row[] = $aRow[$col];              
-            }
-           // array_push($row, '<a href="'.base_url().'admin/broker/edit_broker/'.$aRow['broker_id'].'" class="editRcords btn btn-default btn-sm btn-icon icon-left"><i class="entypo-pencil"></i> Edit</a> <a href="javascript:void(0)" id="brkr_'.$aRow['broker_id'].'" class="removeRcords btn btn-danger btn-sm btn-icon icon-left"><i class="entypo-cancel"></i> Remove</a>');
-
-            $output['aaData'][] = $row;
-        }
-      
-        return $output;
-  	
-	}
 	
   	/* Method get Hotel data from Hotel id
 	 * inside system 
@@ -209,4 +170,18 @@ Class Hotel_model extends CI_Model
 		$result= $query->result_array();
 		return $result[0];
 	}
-}
+
+	/* Method return list of all hotel
+	 * @param void
+	 * return array
+	 */
+	function get_hotels()
+	{
+		$this->db->select('sb_hotel_id,sb_hotel_name,sb_hotel_website,sb_hotel_owner,sb_hotel_email,is_active');
+		$this->db->from('sb_hotels');
+		$this->db->order_by('sb_hotel_id','desc');
+		$query=$this->db->get();
+		$result= $query->result_array();
+		return $result;
+	}
+}	

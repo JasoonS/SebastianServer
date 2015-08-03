@@ -192,6 +192,14 @@ class Hotel_service extends CI_Controller
 		}
 	}
 
+	/**
+	 * This function will will show all the requests placed by the user.
+	 * return type- 
+	 * created on -28th July 2015
+	 * updated on - 
+	 * created by - Samrat Aher;
+	 */
+
 	function get_request()
 	{
 		$sb_hotel_guest_booking_id	 = $this->input->post('sb_hotel_guest_booking_id');

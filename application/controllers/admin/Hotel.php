@@ -28,8 +28,12 @@ class Hotel extends CI_Controller
 
 	public function index()
 	{
-		
-		$this->template->load('page_tpl', 'hotel_list_vw',$this->data);
+		//$this->data['Hotels'] = $this->Hotel_model->get_hotels();
+
+		//$this->template->load('page_tpl','hotel_list_vw',$this->data);
+
+		$this->template->load('page_tpl','test_hotel_list_view',$this->data);
+		//$this->template->load('page_tpl','test_page_modal',$this->data);
 	}
 	/* Method render add Hotel View If User is super administrator
 	 * @param void
@@ -169,7 +173,6 @@ class Hotel extends CI_Controller
 	public function edit_hotel($hotel_id)
 	{	
 		//Check If User is logged in otherwise redirect to login page.
-	
 		$this->data['action']	= "admin/hotel/edit_hotel_action/$hotel_id";
 		$this->data['hotel_id']	= $hotel_id;
 		$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
@@ -178,8 +181,8 @@ class Hotel extends CI_Controller
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
 		    {
 				$this->data['title'] = LABEL_1;
-		$this->template->load('page_tpl', 'edit_hotel',$this->data);
-		}
+				$this->template->load('page_tpl', 'edit_hotel',$this->data);
+		    }
 			
 	}
 	

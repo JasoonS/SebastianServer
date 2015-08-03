@@ -1,15 +1,3 @@
-<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">
-<link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
-<link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
-<link href="<?php echo THEME_ASSETS; ?>css/jquery.dataTables.css" rel="stylesheet" type="text/css">
-<link href="<?php echo THEME_ASSETS; ?>css/custom.css" rel="stylesheet" type="text/css">
-
-<script src="<?php echo THEME_ASSETS ?>js/bootstrap.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
-
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
@@ -17,16 +5,6 @@
             <div class="title_left">
                 <h3>Hotel List</small></h3>
             </div>
-            <!--<div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
-                        </span>
-                    </div>
-                </div>
-            </div>-->
         </div>
         <div class="clearfix"></div>
         <div class="row">
@@ -35,33 +13,77 @@
                     <div class="x_title">
                         <h2></h2>
                         <ul class="nav navbar-right panel_toolbox">
-                           <!-- <li><a href="#"><i class="fa fa-chevron-up"></i></a></li>                            
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                
-                            </li>
-                            <li><a href="#"><i class="fa fa-close"></i></a>
-                            </li>-->
                             <a class="btn btn-sm btn-success" id="add_hotel" href="<?php echo site_url('/admin/hotel/add_hotel');?>"  title="Add Hotel"><i class="glyphicon glyphicon-plus"></i> Add Hotel</a>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="x_content">
-                        <table id="hotel-grid" class="table table-striped responsive-utilities jambo_table">
+                    
+                    <div class="table-responsive x_content">
+                        <table id="idHotels" class="table table-striped responsive-utilities jambo_table">
                             <thead>
-                                <tr class="disableSorting">
-                                    <th aria-label=" " style="width: 40px;" colspan="1" rowspan="1" role="columnheader" class="sorting_disabled disableSorting">
-                                        <div style="position: relative;" class="icheckbox_flat-green"><input style="position: absolute; opacity: 0;" class="tableflat" type="checkbox"><ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;" class="iCheck-helper"></ins></div>
+                                <tr class="headings">
+                                    <th>
+                                        <input type="checkbox" class="tableflat" >
                                     </th>
-                                    <th class='disableSorting'>Hotel Name</th>
-                                    <th class='disableSorting'>Hotel Owner</th>
-                                    <th class='disableSorting'>Hotel Email</th>
-                                    <th class='disableSorting'>Hotel Website</th>
-                                    <th class='disableSorting'>Action</th>                       
+                                    <th>Hotel Name</th>
+                                    <th>Hotel Owner</th>
+                                    <th>Hotel Email</th>
+                                    <th>Hotel Website</th>
+                                    <th>Action</th>                       
                                 </tr>
                             </thead>
+
                             <tbody>
-                              
+                                <?php foreach($Hotels as $hotel) { $row = 1; ?>
+
+                                <?php if ($row % 2 == 1) { ?>
+
+                                <tr class="even pointer" id="idtr_<?php echo $row ?>_<?php echo $hotel['sb_hotel_id'] ?>">
+
+                                    <td class="a-center" id="idtd_<?php echo $hotel['sb_hotel_id']?>_<?php echo $row ?>"><input type="checkbox" class="tableflat" value="<?php echo $hotel['sb_hotel_id'] ?>"></td>
+                                    <td id="idtd_<?php echo $hotel['sb_hotel_name']?>_<?php echo $row ?>"><?php echo $hotel['sb_hotel_name']   ;  ?></td>
+                                    <td id="idtd_<?php echo $hotel['sb_hotel_owner']?>_<?php echo $row ?>"><?php echo $hotel['sb_hotel_owner'] ;  ?></td>
+                                    <td id="idtd_<?php echo $hotel['sb_hotel_email']?>_<?php echo $row ?>"><?php echo $hotel['sb_hotel_email'] ;  ?></td>
+                                    <td id="idtd_<?php echo $hotel['sb_hotel_website']?>_<?php echo $row ?>"><?php echo $hotel['sb_hotel_website']; ?></td>
+
+                                    <td id="idtd_<?php echo $hotel['is_active']?>_<?php echo $row ?>">
+                                        <a class="btn btn-sm btn-primary" href="<?php echo base_url('admin/hotel/edit_hotel')."/".$hotel['sb_hotel_id']?>" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                                        <a class="btn btn-sm btn-warning" href="<?php echo base_url('admin/hotel/view_hotel')."/".$hotel['sb_hotel_id']?>" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>
+										
+									   <?php if($hotel['is_active']=='1'){
+										echo '<a class="btn btn-sm btn-danger" id="delete" href="#" data-href="#"  title="Delete" onclick=changehotelstatus('. $hotel['sb_hotel_id'].','.$hotel['is_active'].')><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+
+									}
+										 else {
+										echo '<a class="btn btn-sm btn-success" id="restore" href="#" data-href="'.base_url('admin/hotel/view_hotel').'"  title="Restore" onClick=changehotelstatus('. $hotel['sb_hotel_id'].','.$hotel['is_active'].'); ><i class="glyphicon glyphicon-save-file"></i> Restore</a>';
+										
+										}?>	
+									</td>
+                                </tr>
+
+                                <?php } else { ?>
+
+                                <tr class="odd pointer" id="idtr_<?php echo $row ?>_<?php echo $hotel['sb_hotel_id'] ?>">
+                                    <td class="a-center"><input type="checkbox"  class="tableflat"value="<?php echo $hotel['sb_hotel_id'] ?>" class="tableflat"></td>
+                                    <td><?php echo $hotel['sb_hotel_name']  ;  ?></td>
+                                    <td><?php echo $hotel['sb_hotel_owner'] ;  ?></td>
+                                    <td><?php echo $hotel['sb_hotel_email'] ;  ?></td>
+                                    <td><?php echo $hotel['sb_hotel_website']; ?></td>
+                                    <td>
+                                      <a class="btn btn-sm btn-primary" href="<?php echo base_url('admin/hotel/edit_hotel')."/".$hotel['sb_hotel_id']?>" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                                      <a class="btn btn-sm btn-warning" href="<?php echo base_url('admin/hotel/view_hotel')."/".$hotel['sb_hotel_id']?>" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>
+									 	
+									  <?php if($hotel['is_active']=='1'){
+										echo '<a class="btn btn-sm btn-danger" id="delete" href="#" data-href="#"  title="Delete" onclick=changehotelstatus('. $hotel['sb_hotel_id'].','.$hotel['is_active'].')><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+										 }
+										 else {
+										echo '<a class="btn btn-sm btn-success" id="restore" href="#" data-href="#"  title="Restore" onclick=changehotelstatus('. $hotel['sb_hotel_id'].','.$hotel['is_active'].') ><i class="glyphicon glyphicon-save-file"></i> Restore</a>';
+										
+										}?>	
+									 </td>
+                                </tr>
+
+                                <?php } $row++; } ?>             
                             </tbody>
                         </table>
                     </div>
@@ -80,103 +102,118 @@
     </footer>
     <!-- /footer content -->
 </div>
-	<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Confirm Change Status</h4>
-                </div>
+<div class="modal fade" id="confirm-delete" role="dialog"  tabindex="-1"  
+   aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Confirm Change Status</h4>
+            </div>
+        
+            <div class="modal-body">
+                <p>You are about to change status of one hotel.</p>
+                <p>Do you want to proceed?</p>
+                <p class="debug-url"></p>
+            </div>
             
-                <div class="modal-body">
-                    <p>You are about to change status of one hotel.</p>
-                    <p>Do you want to proceed?</p>
-                    <p class="debug-url"></p>
-                </div>
-                
-                <div class="modal-footer">
-                    
-                </div>
+            <div class="modal-footer">
+					
+				                              
             </div>
         </div>
     </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
 
+<!-- chart js -->
+<script src="<?php echo THEME_ASSETS?>js/chartjs/chart.min.js"></script>
+<!-- bootstrap progress js -->
+<script src="<?php echo THEME_ASSETS?>js/progressbar/bootstrap-progressbar.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/nicescroll/jquery.nicescroll.min.js"></script>
+<!-- icheck -->
+<script src="<?php echo THEME_ASSETS?>js/icheck/icheck.min.js"></script>
+
+
+<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
+
+<script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
 
 
 <script>
-    var table;
+var asInitVals  = new Array();
+var action_url  = '';
+ 
+$(document).ready(function () {
 
-    $(document).ready(function () {
-    
-     table = $('#hotel-grid').DataTable({ 
-        "processing": true, //Feature control the processing indicator.
-        "serverSide": true, //Feature control DataTables' server-side processing mode.
-        
-        // Load data for the table's content from an Ajax source
-        "ajax": {
-            "url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
-            "data":{flag:'3',tablename:'tbname',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:''},
-            "type": "POST"
-        },
-
-        //Set column definition initialisation properties.
-        "columnDefs": [
-        { 
-          "targets": [ -1,4], //last column
-          "orderable": false, //set not orderable
-        },
+   /* $('input.tableflat').iCheck({
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'iradio_flat-green'
+    });
+	alert("fdsfds");
+*/
+    $('#idHotels').dataTable({
+         "order": [[ 1, "desc" ]],
+		
+         "aoColumnDefs": [
+            {
+                'bSortable': false,
+                'aTargets': [0]
+            } //disables sorting for column one
         ],
-         "order": [[ 0, "desc" ]]
+        "sPaginationType": "full_numbers",
+        "dom": 'T<"clear">lfrtip',
+    });
+    $("tfoot input").keyup(function () {
+        
+        oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
+    });
+    $("tfoot input").each(function (i) {
+        asInitVals[i] = this.value;
+    });
+    $("tfoot input").focus(function () {
+        if (this.className == "search_init") {
+            this.className = "";
+            this.value = "";
+        }
+    });
+    $("tfoot input").blur(function (i) {
+        if (this.value == "") {
+            this.className = "search_init";
+            this.value = asInitVals[$("tfoot input").index(this)];
+        }
+    });
+});
 
-      });
-    }); 
-    $('#hotel-grid tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected');
-        var chkbox =$(this).find('.icheckbox_flat-green');
-        chkbox.toggleClass('checked');
-    } );
+function changehotelstatus(id,hotelstatus)
+{  
 
-	function changehotelstatus(id,hotelstatus)
-	{   
-		$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger" onclick=changestatus('+id+','+hotelstatus+');>Delete</button>');
-		$("#confirm-delete").modal('show');
-	}
-	function changestatus(id,hotelstatus)
-	{
-		var base_url = '<?php echo site_url('admin/hotel/change_hotel_status')?>';
-		$.ajax({
-			url: base_url,
-			type:"post",
-			data:{"hotel_id":id,"hotelstatus":hotelstatus},
-			dataType:"json",
-			success:function(msg){
-				$('#confirm-delete').modal('hide');
-				table.destroy();
-				table = $('#hotel-grid').DataTable({ 
-											"processing": true, //Feature control the processing indicator.
-											"serverSide": true, //Feature control DataTables' server-side processing mode.
-											// Load data for the table's content from an Ajax source
-											"ajax": {
-												"url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
-												"data":{flag:'3',tablename:'tbname',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:''},
-												"type": "POST"
-											},
-											//Set column definition initialisation properties.
-											"columnDefs": [
-															{ 
-																"targets": [ -1,4], //last column
-																"orderable": false, //set not orderable
-															},
-														],
-											"order": [[ 0, "desc" ]]
-										});
-									},
-			error:function(){
-					alert("Error");
-			}
-		});
-	}
+    $(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal" >OK</button>'+
+	                        '<button type="button" onclick="makeAlert();" id="changeS" class="btn btn-danger" >Change</button>');
+							
+   
+    $("#confirm-delete").modal('show');
+}
 
+function changestatus(id,hotelstatus)
+{
+    alert(id);
+    action_url = '<?php echo site_url('admin/hotel/change_hotel_status')?>';
+
+   /* $.ajax({
+        url: action_url,
+        type:"post",
+        data:{"hotel_id":id,"hotelstatus":hotelstatus},
+        dataType:"json",
+        success:function(msg)
+        {
+            console.log(msg);
+			alert(id);
+    		$('#confirm-delete').modal('hide');
+		}
+		});*/
+}           
 </script>
 
 

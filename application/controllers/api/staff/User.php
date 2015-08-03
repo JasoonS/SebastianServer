@@ -34,7 +34,7 @@ class User extends CI_Controller {
 		else
 		{
 			$password =  $this->User_model->checkPassword($sb_hotel_useremail);
-			//print_r(count($password));die;
+			
 			if(count($password) <= 0)
 			{
 				response_fail("Email is wrong");
@@ -91,7 +91,7 @@ class User extends CI_Controller {
 	/**
 	 * This function will mail user with new password
 	 * return type- 
-	 * created on - 20th July 2015;
+	 * created on - 29th July 2015;
 	 * updated on - 
 	 * created by - Akshay Patil;
 	 */
@@ -116,23 +116,6 @@ class User extends CI_Controller {
 	        		</div>
 	        		";
 	        sendMail('',$sb_hotel_useremail,"New login password",$body);
-	  //       include 'email_library.php'; // include the library file
-   //      	include "classes/class.phpmailer.php"; // include the class name
-   //      	$mail	= new PHPMailer; // call the class 
-			// $mail->IsSMTP(); 
-			// $mail->Host = SMTP_HOST; //Hostname of the mail server
-			// $mail->Port = SMTP_PORT; //Port of the SMTP like to be 25, 80, 465 or 587
-			// $mail->SMTPAuth = true; //Whether to use SMTP authentication
-			// $mail->Username = SMTP_UNAME; //Username for SMTP authentication any valid email created in your domain
-			// $mail->Password = SMTP_PWORD; //Password for SMTP authentication
-			// $mail->AddReplyTo($sb_hotel_useremail); //reply-to address
-			// $mail->SetFrom("no-reply@sebastian.com", "Sebastian"); //From address of the mail
-			// // put your while loop here like below,
-			// $mail->Subject = 'Sebastian App'; //Subject od your mail
-			// $mail->AddAddress($sb_hotel_useremail, ""); //To address who will receive this email
-			// $mail->MsgHTML( $body); //Put your body of the message you can place html code here
-			// //$mail->AddAttachment("images/asif18-logo.png"); //Attach a file here if any or comment this line, 
-			// $send = $mail->Send(); //Send the mails
 	        response_ok();
 		}
 		else
@@ -144,7 +127,7 @@ class User extends CI_Controller {
 	/**
 	 * This function will change password
 	 * return type- 
-	 * created on - 20th July 2015;
+	 * created on - 22th July 2015;
 	 * updated on - 
 	 * created by - Akshay Patil;
 	 */
@@ -161,10 +144,7 @@ class User extends CI_Controller {
 		{
 			$arr = array();
 			$arr['sb_hotel_user_id']= $sb_hotel_user_id;
-			//$arr['sb_hotel_userpasswd']= $sb_hotel_userpasswd;
-			//$user_info = $this->User_model->check_user($arr);
 			$password =  $this->User_model->check_user($arr);
-			//print_r(count($password));die;
 			if(count($password) <= 0)
 			{
 				response_fail("Email is wrong");
@@ -173,8 +153,7 @@ class User extends CI_Controller {
 			{
 				if(verifyPasswordHash($sb_hotel_userpasswd,$password[0]['sb_hotel_userpasswd']) == TRUE)
 				{
-				//if($user_info ==1)
-				//{
+				
 					$arr1['sb_hotel_userpasswd']= createHashAndSalt($newpassword);
 					$user_info1 = $this->User_model->update_user($arr1,$arr);
 					response_ok();
@@ -187,6 +166,7 @@ class User extends CI_Controller {
 		}
 	}
 
+	
 	public function random_password() {
 	    $alphabet = "abcdefghijklmnopqrstuwxyz0123456789";
 	    $pass = array(); //remember to declare $pass as an array
@@ -198,11 +178,18 @@ class User extends CI_Controller {
 	    return implode($pass); //turn the array into a string
 	}
 
+	/**
+	 * This function is for sending notification
+	 * return type- 
+	 * created on - 22th July 2015;
+	 * updated on - 
+	 * created by - Akshay Patil;
+	 */
 	public function notification()
 	{
 		$sdt_deviceType = $this->input->post('sdt_deviceType');
 		$token = $this->User_model->get_token($sdt_deviceType);
-		 // print_r($token); die();
+		 
 		$message = "Hi Everyone....";
 
 		$dev_token = array();
@@ -222,7 +209,7 @@ class User extends CI_Controller {
 				}	
 			}	
 		}
-		// print_r($ios_token); die();
+		
 		
 		// array for ios
 		$ipushdata  = array('deviceToken'=> $ios_token,

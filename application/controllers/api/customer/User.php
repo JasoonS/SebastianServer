@@ -13,7 +13,7 @@ class User extends CI_Controller
 	 * This function will take reservation id and device token etc. check for reservation id updates
 	 * device token and return User details as well as hotel's services list etc
 	 * return type- 
-	 * created on - 17th July 2015;
+	 * created on - 20th July 2015;
 	 * updated on - 
 	 * created by - Akshay Patil;
 	 */
@@ -38,10 +38,7 @@ class User extends CI_Controller
 			}
 			else
 			{
-				// $resp = array(
-	   			// 'result' =>$user_info
-		  		//);
-	        	response_ok($user_info);
+				response_ok($user_info);
 			}
 		}
 	}
@@ -50,7 +47,7 @@ class User extends CI_Controller
 	 * This function will take reservation id, check for reservation id 
 	 * and return User details etc
 	 * return type- 
-	 * created on - 17th July 2015;
+	 * created on - 20th July 2015;
 	 * updated on - 
 	 * created by - Akshay Patil;
 	 */
@@ -83,7 +80,7 @@ class User extends CI_Controller
 	/**
 	 * This function is for forgot Reservation code.
 	 * return type- 
-	 * created on - 20th July 2015;
+	 * created on - 21th July 2015;
 	 * updated on - 
 	 * created by - Samrat Aher;
 	 */
@@ -119,24 +116,6 @@ class User extends CI_Controller
 				        		";
 				$this->load->helper('admin/utility_helper');
 				sendMail('',$sb_guest_email,"Reservation code",$body);
-				// include 'email_library.php'; // include the library file
-			 //    include "classes/class.phpmailer.php"; // include the class name
-			 //    $mail	= new PHPMailer; // call the class 
-				// $mail->IsSMTP(); 
-				// $mail->Host = SMTP_HOST; //Hostname of the mail server
-				// $mail->Port = SMTP_PORT; //Port of the SMTP like to be 25, 80, 465 or 587
-				// $mail->SMTPAuth = true; //Whether to use SMTP authentication
-				// $mail->Username = SMTP_UNAME; //Username for SMTP authentication any valid email created in your domain
-				// $mail->Password = SMTP_PWORD; //Password for SMTP authentication
-				// $mail->AddReplyTo($sb_guest_email); //reply-to address
-				// $mail->SetFrom("no-reply@sebastian.com", "Sebastian"); //From address of the mail
-				// // put your while loop here like below,
-				// $mail->Subject = 'Sebastian App'; //Subject od your mail
-				// $mail->AddAddress($sb_guest_email, ""); //To address who will receive this email
-				// $mail->MsgHTML( $body); //Put your body of the message you can place html code here
-				// //$mail->AddAttachment("images/asif18-logo.png"); //Attach a file here if any or comment this line, 
-				// $send = $mail->Send(); //Send the mails
-
 				response_ok();
 			}				
 		}
