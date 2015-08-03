@@ -37,9 +37,9 @@ class Tasks extends CI_Controller {
 	}
 
 	/**
-	 * This API will provide staff's accepted today's tasks.
+	 * This API will provide staff's accepted weekly tasks.
 	 * return type- 
-	 * created on - 20th July 2015;
+	 * created on - 27th July 2015;
 	 * updated on - 
 	 * created by - Akshay Patil;
 	 */
@@ -50,7 +50,7 @@ class Tasks extends CI_Controller {
 		$sb_hotel_id 		= 	$this->input->post('sb_hotel_id');
 
 		$weekdates = $this->x_week_range($service_due_date);
-		//print_r($weekdates);die;
+		
 		if($sb_parent_service_id != '' || $service_due_date !='' || $sb_hotel_id != '')
 		{
 			$tasks = $this->Tasks_model->weekly_tasks($sb_parent_service_id ,$weekdates, $sb_hotel_id);
