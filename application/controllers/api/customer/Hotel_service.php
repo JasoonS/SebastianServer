@@ -137,7 +137,13 @@ class Hotel_service extends CI_Controller
 			$token = $sb_hotel_user = $this->Hotel_service_model->get_staff_ids($hrs['sb_hotel_id'],$hrs['sb_parent_service_id']);
 			if (count($token)>0)
 			{
-				$message = "कृपया, कार्य वर एक कटाक्ष टाका";
+				$msg = "New service requested from room no : ".$hrs['sb_guest_allocated_room_no'] ;
+				$message = array(
+					"type" => 'request',
+					"message" => $msg,
+					"title" => 'New Service Request',
+					"id" => $data
+					);
 				$android_token = array();
 				$ios_token = array();
 				for ($i=0; $i < count($token); $i++) 

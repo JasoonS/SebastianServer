@@ -14,7 +14,8 @@ class Tasks_model extends CI_Model
 				ON hrs.sb_hotel_guest_booking_id = b.sb_hotel_guest_booking_id
 				WHERE hss.sb_hotel_service_status = 'accepted'
 				AND hss.sb_hotel_ser_assgnd_to_user_id ='$sb_hotel_user_id'
-				AND hss.sb_hotel_ser_start_date='$service_due_date';";
+				AND hss.sb_hotel_ser_start_date='$service_due_date'
+				ORDER BY hss.sb_hotel_ser_start_date DESC, hss.sb_hotel_ser_start_time DESC;";
 		$query = $this->db->query($qry);
 		$data = $query->result_array();
 		if(count($data)>0)
@@ -46,7 +47,8 @@ class Tasks_model extends CI_Model
 				WHERE hrs.sb_hotel_id = '$sb_hotel_id'
 				AND hss.sb_hotel_service_status != 'completed'
 				AND hrs.sb_parent_service_id ='$sb_parent_service_id'
-				AND hss.sb_hotel_ser_start_date BETWEEN '$weekdates[0]' AND '$weekdates[1]';";
+				AND hss.sb_hotel_ser_start_date BETWEEN '$weekdates[0]' AND '$weekdates[1]'
+				ORDER BY hss.sb_hotel_ser_start_date DESC, hss.sb_hotel_ser_start_time DESC;";
 		
 		$query = $this->db->query($qry);
 		$data = $query->result_array();
@@ -94,7 +96,8 @@ class Tasks_model extends CI_Model
 				WHERE hss.sb_hotel_service_status = 'completed'
 				AND hrs.sb_hotel_id = '$sb_hotel_id'
 				AND hrs.sb_parent_service_id ='$sb_parent_service_id'
-				AND hss.sb_hotel_ser_start_date BETWEEN '$weekdates[0]' AND '$weekdates[1]';";
+				AND hss.sb_hotel_ser_start_date BETWEEN '$weekdates[0]' AND '$weekdates[1]'
+				ORDER BY hss.sb_hotel_ser_start_date DESC, hss.sb_hotel_ser_start_time DESC;";
 		$query = $this->db->query($qry);
 		$data = $query->result_array();
 		if(count($data)>0)

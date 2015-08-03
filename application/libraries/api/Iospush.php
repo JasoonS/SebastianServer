@@ -21,7 +21,23 @@ class Iospush {
 		//this this password set for .pem file
 		$passphrase = 'sebastian';
 		// Put your alert message here:
-		$message = $iospushdata['message'];
+		//$message = $iospushdata['message'];
+		$data = $iospushdata['message'];
+		$message = $data['message'];
+
+		if(array_key_exists("type",$data))
+		{
+			$body['type'] = $data['type'];
+		}
+		if(array_key_exists("title",$data))
+		{
+			$body['title'] = $data['title'];
+		}
+		if(array_key_exists("id",$data))
+		{
+			$body['id'] = $data['id'];
+		}
+
 		$deviceToken = $iospushdata['deviceToken'];
 		// print_r($deviceToken[0]); die();
 		////////////////////////////////////////////////////////////////////////////////

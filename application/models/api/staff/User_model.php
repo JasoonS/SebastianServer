@@ -12,7 +12,7 @@ class User_model extends CI_Model
 	}
 	public function login($sb_hotel_useremail, $sdt_token, $sdt_deviceType ,$sdt_macid)
 	{
-		$IMP_PATH = BASE_URL."user_data/sb_hotel_user_pic/";
+		$IMP_PATH = base_url().HOTEL_USER_PIC."/";
 		$qry = "SELECT hu.sb_hotel_user_id,hu.sb_hotel_id,hu.sb_hotel_username,usam.sb_parent_service_id, 
 				concat('$IMP_PATH',hu.sb_hotel_user_pic) as sb_hotel_user_pic,
 				 hu.sb_hotel_user_shift_from,hu.sb_hotel_user_shift_to,d.sb_staff_designation_name FROM `sb_hotel_users` as hu
@@ -61,24 +61,11 @@ class User_model extends CI_Model
 
 	public function check_user($arr)
 	{
-		// $qry = "SELECT sb_hotel_userpasswd FROM `sb_hotel_users`
-		// 		WHERE sb_hotel_user_id = '$sb_hotel_user_id'
-		// 		AND sb_hotel_user_status = '1' AND sb_hotel_user_type != 'a'
-		// 		";
-		// $query = $this->db->query($qry);
-		// return $query->result_array();
 		$this->db->select('sb_hotel_userpasswd');
 		$this->db->from('sb_hotel_users');
 		$this->db->where($arr);
 		$query = $this->db->get();
-		// if(count($query->result_array()) > 0)
-		// {
-			return $query->result_array();
-		// }
-		// else
-		// {
-		// 	return 0;
-		// }
+		return $query->result_array();
 	}
 
 	public function update_user($arr1,$arr)
@@ -91,10 +78,7 @@ class User_model extends CI_Model
 
 	function get_token($sdt_deviceType)
 	{
-		
-
 		$sql = "SELECT sdt_token FROM sb_staff_devicetoken WHERE sdt_deviceType = '$sdt_deviceType'";
-		// echo($sql); die();
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}	

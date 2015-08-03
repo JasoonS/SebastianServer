@@ -77,7 +77,7 @@ class User extends CI_Controller {
 		$sb_hotel_user_id =	$this->input->post('sb_hotel_user_id');
 		$sdt_macid = $this->input->post('sdt_macid');
 
-		if($sb_hotel_user_id == '' || $sdt_macid = '')
+		if($sb_hotel_user_id == '' || $sdt_macid == '')
 		{
 			response_fail("Please Insert All data correctly");
 		}
