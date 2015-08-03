@@ -46,10 +46,18 @@
                                     <td id="idtd_<?php echo $hotel['sb_hotel_website']?>_<?php echo $row ?>"><?php echo $hotel['sb_hotel_website']; ?></td>
 
                                     <td id="idtd_<?php echo $hotel['is_active']?>_<?php echo $row ?>">
-                                        <a class="btn btn-sm btn-primary" href="<?php echo base_url('admin/hotel/edit_hotel/').$hotel['sb_hotel_id']?>" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                                        <a class="btn btn-sm btn-warning" href="<?php echo base_url('admin/hotel/view_hotel/').$hotel['sb_hotel_id']?>" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>
-                                        <a class="btn btn-sm btn-danger" id="delete" href="#" data-href="<?php echo base_url('admin/hotel/delete_hotel/').$hotel['sb_hotel_id']?>" onclick="changehotelstatus(<?php echo $hotel['sb_hotel_id'] ?>,<?php echo $hotel['is_active'] ?>);" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>
-                                    </td>
+                                        <a class="btn btn-sm btn-primary" href="<?php echo base_url('admin/hotel/edit_hotel')."/".$hotel['sb_hotel_id']?>" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                                        <a class="btn btn-sm btn-warning" href="<?php echo base_url('admin/hotel/view_hotel')."/".$hotel['sb_hotel_id']?>" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>
+										
+									   <?php if($hotel['is_active']=='1'){
+										echo '<a class="btn btn-sm btn-danger" id="delete" href="#" data-href="#"  title="Delete" onclick=changehotelstatus('. $hotel['sb_hotel_id'].','.$hotel['is_active'].')><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+
+									}
+										 else {
+										echo '<a class="btn btn-sm btn-success" id="restore" href="#" data-href="'.base_url('admin/hotel/view_hotel').'"  title="Restore" onClick=changehotelstatus('. $hotel['sb_hotel_id'].','.$hotel['is_active'].'); ><i class="glyphicon glyphicon-save-file"></i> Restore</a>';
+										
+										}?>	
+									</td>
                                 </tr>
 
                                 <?php } else { ?>
@@ -61,10 +69,17 @@
                                     <td><?php echo $hotel['sb_hotel_email'] ;  ?></td>
                                     <td><?php echo $hotel['sb_hotel_website']; ?></td>
                                     <td>
-                                      <a class="btn btn-sm btn-primary" href="<?php echo base_url('admin/hotel/edit_hotel/').$hotel['sb_hotel_id']?>" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                                      <a class="btn btn-sm btn-warning" href="<?php echo base_url('admin/hotel/view_hotel/').$hotel['sb_hotel_id']?>" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>
-                                      <a class="btn btn-sm btn-danger" id="delete" href="#" data-href="<?php echo base_url('admin/hotel/delete_hotel/').$hotel['sb_hotel_id']?>" onclick="changehotelstatus(<?php echo $hotel['sb_hotel_id'] ?>,<?php echo $hotel['is_active'] ?>);" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>
-                                    </td>
+                                      <a class="btn btn-sm btn-primary" href="<?php echo base_url('admin/hotel/edit_hotel')."/".$hotel['sb_hotel_id']?>" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                                      <a class="btn btn-sm btn-warning" href="<?php echo base_url('admin/hotel/view_hotel')."/".$hotel['sb_hotel_id']?>" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>
+									 	
+									  <?php if($hotel['is_active']=='1'){
+										echo '<a class="btn btn-sm btn-danger" id="delete" href="#" data-href="#"  title="Delete" onclick=changehotelstatus('. $hotel['sb_hotel_id'].','.$hotel['is_active'].')><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+										 }
+										 else {
+										echo '<a class="btn btn-sm btn-success" id="restore" href="#" data-href="#"  title="Restore" onclick=changehotelstatus('. $hotel['sb_hotel_id'].','.$hotel['is_active'].') ><i class="glyphicon glyphicon-save-file"></i> Restore</a>';
+										
+										}?>	
+									 </td>
                                 </tr>
 
                                 <?php } $row++; } ?>             
@@ -86,11 +101,12 @@
     </footer>
     <!-- /footer content -->
 </div>
-<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirm-delete" role="dialog"  tabindex="-1"  
+   aria-labelledby="myModalLabel" aria-hidden="true" >
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">Confirm Change Status</h4>
             </div>
         
@@ -101,12 +117,13 @@
             </div>
             
             <div class="modal-footer">
-                
+					
+				                              
             </div>
         </div>
     </div>
 </div>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
 
 <!-- chart js -->
@@ -126,23 +143,24 @@
 <script>
 var asInitVals  = new Array();
 var action_url  = '';
+ 
 $(document).ready(function () {
 
-    $('input.tableflat').iCheck({
+   /* $('input.tableflat').iCheck({
         checkboxClass: 'icheckbox_flat-green',
         radioClass: 'iradio_flat-green'
     });
-
+	alert("fdsfds");
+*/
     $('#idHotels').dataTable({
          "order": [[ 1, "desc" ]],
+		
          "aoColumnDefs": [
             {
                 'bSortable': false,
-                'aTargets': [0],
-				
+                'aTargets': [0]
             } //disables sorting for column one
         ],
-
         "sPaginationType": "full_numbers",
         "dom": 'T<"clear">lfrtip',
     });
@@ -169,16 +187,20 @@ $(document).ready(function () {
 
 function changehotelstatus(id,hotelstatus)
 {  
-    $(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger" onclick=changestatus("'+id+'","'+hotelstatus+'");>Change</button>');
+
+    $(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal" >OK</button>'+
+	                        '<button type="button" onclick="makeAlert();" id="changeS" class="btn btn-danger" >Change</button>');
+							
+   
     $("#confirm-delete").modal('show');
 }
 
 function changestatus(id,hotelstatus)
 {
-    
+    alert(id);
     action_url = '<?php echo site_url('admin/hotel/change_hotel_status')?>';
 
-    $.ajax({
+   /* $.ajax({
         url: action_url,
         type:"post",
         data:{"hotel_id":id,"hotelstatus":hotelstatus},
@@ -186,11 +208,10 @@ function changestatus(id,hotelstatus)
         success:function(msg)
         {
             console.log(msg);
+			alert(id);
     		$('#confirm-delete').modal('hide');
-			
-			
-        }
-    });
+		}
+		});*/
 }           
 </script>
 

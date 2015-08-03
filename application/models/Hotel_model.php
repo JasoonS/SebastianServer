@@ -169,4 +169,18 @@ Class Hotel_model extends CI_Model
 		$result= $query->result_array();
 		return $result[0];
 	}
-}
+
+	/* Method return list of all hotel
+	 * @param void
+	 * return array
+	 */
+	function get_hotels()
+	{
+		$this->db->select('sb_hotel_id,sb_hotel_name,sb_hotel_website,sb_hotel_owner,sb_hotel_email,is_active');
+		$this->db->from('sb_hotels');
+		$this->db->order_by('sb_hotel_id','desc');
+		$query=$this->db->get();
+		$result= $query->result_array();
+		return $result;
+	}
+}	
