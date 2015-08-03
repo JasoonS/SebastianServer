@@ -111,15 +111,15 @@ class Tasks extends CI_Controller {
 		}
 	}
 	/**
-	 * This API allow staff to accept the request
+	 * This API allow staff to accept/reject/complete the request
 	 * return type- 
 	 * created on - 29th July 2015;
 	 * updated on - 
 	 * created by - Samrat Aher/ Akshay Patil;
 	 */
-	public function accept_request()
+	public function action()
 	{
-		
+
 		$sb_hotel_requst_ser_id 	= 	$this->input->post('sb_hotel_requst_ser_id');
 		$sb_hotel_user_id 	= 	$this->input->post('sb_hotel_user_id');
 		$sb_hotel_service_status 	= 	$this->input->post('sb_hotel_service_status');
@@ -129,16 +129,26 @@ class Tasks extends CI_Controller {
 		}
 		else
 		{
+			$status = $this->Tasks_model->check_status($sb_hotel_requst_ser_id);
 			if($sb_hotel_service_status == 'accepted')
 			{
-				$status = $this->Tasks_model->check_status($sb_hotel_requst_ser_id);
-				 if($status[0]['sb_hotel_service_status'] == 'accepted' || $status[0]['sb_hotel_service_status'] ==  'completed')
-				 {
-				 	response_fail("Request already accepted or completed");
-				 }
-				 else if($status[0]['sb_hotel_service_status'] == 'pending')
-				 {
-				 	$val = $this->Tasks_model->update_status($sb_hotel_requst_ser_id,$sb_hotel_user_id);
+				if($status[0]['sb_hotel_service_status'] == 'accepted' || $status[0]['sb_hotel_service_status'] ==  'completed' || $status[0]['sb_hotel_service_status'] ==  'rejected')
+				{
+				 	$msg = "Request was already ".$status[0]['sb_hotel_service_status'];
+				 	response_fail($msg);
+				}
+				elseif($status[0]['sb_hotel_service_status'] == 'pending')
+				{
+				 	$date = date('Y-m-d' );
+					$time =  date('H:i:s');
+					$data = array(
+			               'sb_hotel_service_assigned' => 'y',
+			               'sb_hotel_ser_assgnd_to_user_id' => $sb_hotel_user_id,
+			               'sb_hotel_ser_start_date' => $date,
+			               'sb_hotel_ser_start_time'=>  $time,
+			               'sb_hotel_service_status'=> 'accepted',
+			            );
+				 	$val = $this->Tasks_model->update_status($sb_hotel_requst_ser_id,$data);
 				 	if($val)
 				 	{
 				 		response_ok();
@@ -147,13 +157,69 @@ class Tasks extends CI_Controller {
 				 	{
 				 		response_fail("Some problem occured.. Please try again");
 				 	}
-				 }
-				
+				}			
 			}
-			
+			elseif($sb_hotel_service_status == 'rejected')
+			{
+				if($status[0]['sb_hotel_service_status'] ==  'completed' || $status[0]['sb_hotel_service_status'] ==  'rejected')
+				{
+				 	$msg = "Request was already ".$status[0]['sb_hotel_service_status'];
+				 	response_fail($msg);
+				}
+				elseif(($status[0]['sb_hotel_service_status'] == 'accepted' AND $status[0]['sb_hotel_ser_assgnd_to_user_id'] == $sb_hotel_user_id)|| $status[0]['sb_hotel_service_status'] == 'pending')
+				{
+				 	$date = date('Y-m-d' );
+					$time =  date('H:i:s');
+					$data = array(
+			               'sb_hotel_ser_assgnd_to_user_id' => $sb_hotel_user_id,
+			               'reject_reason' => $this->input->post('reject_reason'),
+			               'sb_hotel_service_status'=> 'rejected',
+			            );
+				 	$val = $this->Tasks_model->update_status($sb_hotel_requst_ser_id,$data);
+				 	if($val)
+				 	{
+				 		response_ok();
+				 	}
+				 	else
+				 	{
+				 		response_fail("Some problem occured.. Please try again");
+				 	}
+				}			
+			}
+			elseif($sb_hotel_service_status == 'completed')
+			{
+				if($status[0]['sb_hotel_service_status'] == 'pending' || $status[0]['sb_hotel_service_status'] ==  'completed'|| $status[0]['sb_hotel_service_status'] ==  'rejected')
+				{
+				 	$msg = "Request was already ".$status[0]['sb_hotel_service_status'];
+				 	response_fail($msg);
+				}
+				elseif($status[0]['sb_hotel_service_status'] == 'accepted' AND $status[0]['sb_hotel_ser_assgnd_to_user_id'] == $sb_hotel_user_id)
+				{
+				 	$date = date('Y-m-d' );
+					$time =  date('H:i:s');
+					$data = array(
+			               'sb_hotel_ser_finished_date' => $date,
+			               'sb_hotel_ser_finished_time'=>  $time,
+			               'sb_hotel_service_status'=> 'completed',
+			            );
+				 	$val = $this->Tasks_model->update_status($sb_hotel_requst_ser_id,$data);
+				 	if($val)
+				 	{
+				 		response_ok();
+				 	}
+				 	else
+				 	{
+				 		response_fail("Some problem occured.. Please try again");
+				 	}
+				}
+				else
+				{
+					response_fail("User Id miss match");
+				}
+			}
 			else
 			{
-				response_fail("Please enter valid response");
+				response_fail("Please enter valid request");
 			}	 
 		}	
 	}

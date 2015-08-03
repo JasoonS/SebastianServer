@@ -100,14 +100,17 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  */
  define('ERR_MSG_LEVEL_1','Authentication Falied');
  define('ERR_MSG_LEVEL_2','Please log in to continue');
+ define('ERR_MSG_LEVEL_3', 'You are not autorize to access this module');
  define('SUC_MSG_LEVEL_1','Log out Successfully. Please log in to continue.');
  define('HOTEL_SELECT_SERVICES_SUCCESS','Hotel Services Updated Successfully.');
  define('HOTEL_CREATION_SUCCESS','Hotel Created Successfully.');
  define('HOTEL_CREATION_FAIL','Error in Hotel Creation.');
  define('HOTEL_UPDATION_SUCCESS','Hotel Updated Successfully.');
  define('HOTEL_UPDATION_FAIL','Error in Hotel Updation.');
- define('HOTEL_ADMIN_CREATION_SUCCESS','Hotel Administrator Created Successfully.');
- define('HOTEL_ADMIN_CREATION_ERROR','Error in Hotel Administrator Creation.');
+ define('HOTEL_ADMIN_CREATION_SUCCESS','Hotel User Created Successfully.');
+ define('HOTEL_ADMIN_CREATION_ERROR','Error in Hotel User Creation.');
+ define('HOTEL_ADMIN_UPDATION_SUCCESS','Hotel User Updated Successfully.');
+ define('HOTEL_ADMIN_UPDATION_ERROR','Error in Hotel User Updation.');
  define('FOLDER_BASE_URL','http://localhost/sebastian-admin-panel');
 
 
@@ -119,6 +122,7 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  */
  define('LABEL_1','Admin');
  define('LABEL_2','Hotelier');
+
 
  //FOLDER NAMES FOR IMAGE UPLOAD
  define('HOTEL_USER_PIC',"/user_data/hotel_user_pic");
