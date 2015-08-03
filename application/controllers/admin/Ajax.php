@@ -152,9 +152,9 @@ class Ajax extends CI_Controller
 		foreach ($list as $hotel) {
 			$no++;
 			$row = array();
-			//$row[] = $hotel->sb_hotel_id;
+			$row[] = $hotel->sb_hotel_id;
 			//$row[]='<input style="" class="tableflat icheckbox_flat-green" type="checkbox">';
-			$row[] ="<input type=checkbox class=tableflat>";
+			//$row[] ="<input type=checkbox class=tableflat>";
 			$row[] = $hotel->sb_hotel_name;
 			$row[] = $hotel->sb_hotel_owner;
 			$row[] = $hotel->sb_hotel_email;
@@ -162,19 +162,22 @@ class Ajax extends CI_Controller
 			$editurl =base_url("admin/hotel/edit_hotel/".$hotel->sb_hotel_id);
 			$viewurl =base_url("admin/hotel/view_hotel/".$hotel->sb_hotel_id);
 			$deleteurl =base_url("admin/hotel/delete_hotel/".$hotel->sb_hotel_id);
-            $row[]=$hotel->is_active; 
-				//'<a class="btn btn-sm btn-warning" href="'.$viewurl.'" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>';
-			/*if($hotel->is_active == '1'){
-				$row[]=	'<a class="btn btn-sm btn-primary" href="'.$editurl.'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
-						'<a class="btn btn-sm btn-warning" href="'.$viewurl.'" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
-						'<a class="btn btn-sm btn-danger" id="delete" href="#" data-href="'.$deleteurl.'" onclick="changehotelstatus('.$hotel->sb_hotel_id.','.$hotel->is_active.');" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+
+		
+
+			if($hotel->is_active == '1'){
+				$row[]=	'<a class="btn btn-sm btn-primary" href="'.$editurl.'"  title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
+						'<a class="btn btn-sm btn-warning" href="'.$viewurl.'"  title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
+						'<a class="btn btn-sm btn-danger" id="delete" href="#"  data-toggle="modal" data-target="#myModal"  title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>';
 		    }
 			else{
-				$row[]=	'<a class="btn btn-sm btn-primary" href="'.$editurl.'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
+				$row[]=	'<a class="btn btn-sm btn-primary" href="'.$editurl.'"   title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
 
-				        '<a class="btn btn-sm btn-warning" href="'.$viewurl.'" title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
-						'<a class="btn btn-sm btn-success" id="restore" href="#" data-href="'.$deleteurl.'" onclick="changehotelstatus('.$hotel->sb_hotel_id.','.$hotel->is_active.');" title="Restore" ><i class="glyphicon glyphicon-save-file"></i>Restore</a>';
-			}*/
+				        '<a class="btn btn-sm btn-warning" href="'.$viewurl.'"   title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
+						'<a class="btn btn-sm btn-success" id="restore" href="#" data-toggle="modal" data-target="#myModal" title="Restore" ><i class="glyphicon glyphicon-save-file"></i>Restore</a>';
+			}
+
+
 			$data[] = $row;
 		}
 		$output = array(

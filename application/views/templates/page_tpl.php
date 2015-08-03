@@ -21,9 +21,8 @@
 	<!-- Custom styling plus plugins -->
 	<link href="<?php echo THEME_ASSETS;  ?>css/custom.css" rel="stylesheet">
 	<link href="<?php echo THEME_ASSETS;  ?>css/icheck/flat/green.css" rel="stylesheet">
-	
 
-	<script src="<?php echo THEME_ASSETS;  ?>js/jquery.js"></script>
+	<script src="<?php echo THEME_ASSETS;  ?>js/jquery.min.js"></script>
 
 	 
 	<!--[if lt IE 9]>

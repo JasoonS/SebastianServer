@@ -17,7 +17,8 @@
                         </ul>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="x_content">
+                    
+                    <div class="table-responsive x_content">
                         <table id="idHotels" class="table table-striped responsive-utilities jambo_table">
                             <thead>
                                 <tr class="headings">
