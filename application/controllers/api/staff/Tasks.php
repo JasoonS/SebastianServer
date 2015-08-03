@@ -12,7 +12,7 @@ class Tasks extends CI_Controller {
 	/**
 	 * This API will provide staff's accepted today's tasks.
 	 * return type- 
-	 * created on - 20th July 2015;
+	 * created on - 27th July 2015;
 	 * updated on - 
 	 * created by - Akshay Patil;
 	 */
@@ -84,7 +84,7 @@ class Tasks extends CI_Controller {
 	/**
 	 * This API will provide staff's completed weekly tasks.
 	 * return type- 
-	 * created on - 20th July 2015;
+	 * created on - 28th July 2015;
 	 * updated on - 
 	 * created by - Akshay Patil;
 	 */
@@ -115,11 +115,11 @@ class Tasks extends CI_Controller {
 	 * return type- 
 	 * created on - 29th July 2015;
 	 * updated on - 
-	 * created by - Samrat Aher;
+	 * created by - Samrat Aher/ Akshay Patil;
 	 */
 	public function accept_request()
 	{
-		// print_r($_POST); die();
+		
 		$sb_hotel_requst_ser_id 	= 	$this->input->post('sb_hotel_requst_ser_id');
 		$sb_hotel_user_id 	= 	$this->input->post('sb_hotel_user_id');
 		$sb_hotel_service_status 	= 	$this->input->post('sb_hotel_service_status');
@@ -150,10 +150,7 @@ class Tasks extends CI_Controller {
 				 }
 				
 			}
-			// else if($status[0]['sb_hotel_service_status'] == 'done')
-			// {
-				
-			// }
+			
 			else
 			{
 				response_fail("Please enter valid response");
