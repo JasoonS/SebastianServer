@@ -1,4 +1,6 @@
 <?php 
+//   THIS IS API FOR HOTEL SERVICES. THIS IS CUSTOMER SIDE API.
+
 if( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Hotel_service extends CI_Controller

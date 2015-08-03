@@ -1,4 +1,6 @@
 <?php
+//   THIS API IS FOR HOTEL STAFF. THIS API WILL FOCUS ON TASKS OF HOTEL STAFF.
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Tasks extends CI_Controller {

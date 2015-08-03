@@ -1,4 +1,6 @@
 <?php
+// THIS API IS FOR HOTEL STAFF. THIS API WILL FOCUS ON LOGIN/LOGOUT/CHANGE PASSWORD/FORGOT PASSWORD/NOTIFICATIONS FOR HOTEL STAFF.
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User extends CI_Controller {
@@ -183,7 +185,8 @@ class User extends CI_Controller {
 	 * return type- 
 	 * created on - 22th July 2015;
 	 * updated on - 
-	 * created by - Akshay Patil;
+	 * created by - Samrat Aher;
+	 * This was for testing and may be used future..
 	 */
 	public function notification()
 	{
