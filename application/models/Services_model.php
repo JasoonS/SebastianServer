@@ -154,6 +154,35 @@ Class Services_model extends CI_Model
 		$this->db->insert_batch('sb_hotel_user_service_access_map',$service_data);
 		return 1;
 	}
+	/* Method Get Hotel Child Services according to Parent Service & child Service 
+     * @param int,int
+     * return @json array on success and False on Fail 
+	 */
+	function get_hotel_child_service_map_id($hotel_id,$sb_parent_service_id,$sb_child_service_id)
+	{
+		$this->db->select('sb_hotel_child_services.sb_child_service_id,sb_child_service_name,sb_hotel_service_map_id');
+		$this->db->where('sb_hotel_id',$hotel_id);
+		$this->db->where('sb_hotel_child_services.sb_parent_service_id',$sb_parent_service_id);
+		$this->db->where('sb_hotel_child_services.sb_child_service_id',$sb_child_service_id);
+		$this->db->from('sb_hotel_service_map');
+		$this->db->join('sb_hotel_child_services','sb_hotel_child_services.sb_child_service_id = sb_hotel_service_map.sb_child_service_id');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	/* Method Get Current Hotel User Child Service
+	 * inside system 
+	 * @param @string
+	 * return @json array on success and False on Fail
+	 */
+	function get_hotel_user_child_service($user_id)
+	{
+		$this->db->select('sb_hotel_service_map.sb_child_service_id,sb_hotel_service_map.sb_parent_service_id');
+		$this->db->where('sb_hotel_user_id',$user_id);
+		$this->db->from('sb_hotel_user_service_access_map');
+		$this->db->join('sb_hotel_service_map','sb_hotel_service_map.sb_hotel_service_map_id = sb_hotel_user_service_access_map.sb_hotel_service_map_id');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 	
 }
 ?>

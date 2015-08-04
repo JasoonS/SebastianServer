@@ -11,6 +11,7 @@
 <script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
+
 <div class="right_col" role="main">
     <div class="">
 	<!-- This is for Success Message.-->
@@ -21,7 +22,12 @@
 	<?php if ($this->session->flashdata('category_error')) { ?>
     <div class="alert alert-danger"> <?= $this->session->flashdata('category_error') ?> </div>
 	<?php } ?>
+	<?php if(isset($userinfo)){?>
+	<legend>Update Hotel User</legend>
+	<?php }
+	else{?>
 	<legend>Create Hotel User</legend>
+	<?php }?>
 	<div class="account-container">	
 	<div class="content clearfix">
 	<form  action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data" >
@@ -29,23 +35,37 @@
 			<div class="control-group">
 				<label class="control-label" for="sb_hotel_id">Hotel </label>
 					<div class="controls">
-					   <?php if($user_type == 'u'){?>
-						<select id="sb_hotel_id" name="sb_hotel_id" class="input-large">
-							<?php
-							foreach($hotellist as $key=>$hotel)
-							echo "<option value='".$hotel['sb_hotel_id']."'>".$hotel['sb_hotel_name']."</option>";
-						   ?> 
-						</select>
-						<?php }else{?>
-						<input type="text" value ="<?php echo $sb_hotel_name[0]['sb_hotel_name']?>" disabled  class="input-large" />
-						<input type="hidden" value ="<?php echo $hotel_id?>" id="sb_hotel_id" name="sb_hotel_id" class="input-large" />
-					    <?php }?>
+					<?php 
+						if(!isset($userinfo)){
+							if($user_type == 'u'){?>
+								<select id="sb_hotel_id" name="sb_hotel_id" class="input-large">
+								<?php
+									foreach($hotellist as $key=>$hotel)
+									echo "<option value='".$hotel['sb_hotel_id']."'>".$hotel['sb_hotel_name']."</option>";
+								?> 
+								</select>
+							<?php }else{?>
+								<input type="text" value ="<?php echo $sb_hotel_name[0]['sb_hotel_name']?>" disabled  class="input-large" />
+								<input type="hidden" value ="<?php echo $hotel_id?>" id="sb_hotel_id" name="sb_hotel_id" class="input-large" />
+					    <?php }
+						}	
+						else{
+						?>
+						<input type="text" value ="<?php echo $userinfo->sb_hotel_name;?>" disabled class="input-large" />
+						<?php }?>
 					</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="sb_hotel_username">Hotel User Name</label>
 					<div class="controls">
+						<?php 
+							if(isset($userinfo)){
+						?>	
+						<input id="sb_hotel_username" name="sb_hotel_username" type="text" disabled class="input-large" value="<?php echo $userinfo->sb_hotel_username;?>" >
+						<?php }
+						else{?>
 						<input id="sb_hotel_username" name="sb_hotel_username" type="text" placeholder="Type Hotel User Name Here ..." class="input-large" >
+						<?php }?>
 						<?php echo form_error('sb_hotel_username'); ?>
 					</div>
 			</div>
@@ -53,7 +73,12 @@
 			<div class="control-group">
 				<label class="control-label" for="sb_hotel_useremail">Hotel User Email ID</label>
 					<div class="controls">
+					    <?php if(isset($userinfo)){?>
+						<input id="sb_hotel_useremail" name="sb_hotel_useremail" type="text" class="input-large" disabled value="<?php echo $userinfo->sb_hotel_useremail;?>">
+						<?php }
+						 else { ?>
 						<input id="sb_hotel_useremail" name="sb_hotel_useremail" type="text" placeholder="Type Hotel User Email Here ..." class="input-large" >
+						<?php }?>
 						<?php echo form_error('sb_hotel_useremail'); ?>
 					</div>
 			</div>
@@ -111,8 +136,17 @@
 								{
 									$label = "Hotel Staff";
 								}
-			
-								echo "<option value='".$usertype."'>".$label."</option>";
+			                    if(!isset($userinfo)){
+									echo "<option value='".$usertype."'>".$label."</option>";
+								}
+								else{
+									if($userinfo->sb_hotel_user_type==$usertype){
+										echo "<option value='".$usertype."' selected>".$label."</option>";
+									}
+									else{
+										echo "<option value='".$usertype."'>".$label."</option>";
+									}
+								}
 							}
 						   ?> 
 						</select>
@@ -124,16 +158,31 @@
 					<div class="controls">
 						<select id="sb_staff_designation_id" name="sb_staff_designation_id" class="input-large">
 							<?php
-							foreach($designation_list as $key=>$value)
-							{
-								echo "<option value='".$value['designation_id']."'>".$value['designation_name']."</option>";
+							if(!isset($userinfo)){
+								foreach($designation_list as $key=>$value)
+								{
+									echo "<option value='".$value['designation_id']."'>".$value['designation_name']."</option>";
+								}
+							}
+							else{
+							  
+								foreach($designation_list as $key=>$value)
+								{
+									if($userinfo->sb_staff_designation_id==$value['designation_id']){
+										echo "<option value='".$value['designation_id']."' selected>".$value['designation_name']."</option>";
+									}
+									else
+									{
+										echo "<option value='".$value['designation_id']."'>".$value['designation_name']."</option>";
+									}
+								}
 							}
 						   ?> 
 						</select>
 					</div>
 			    </div>
 			<?php }?>
-			<?php if($user_type == 'a'){?>
+			<?php if($user_type == 'a' || $user_type == 'm'){?>
 			<div class="control-group">
 				<label class="control-label" for="sb_parent_service_id">User Parent Service</label>
 					<div class="controls">
@@ -172,30 +221,65 @@
 
 <script type="text/javascript">
  $(function() {
-    $('#sb_hotel_user_shift_from').timepicker({
-                showSeconds: true,
-               
-            });
-    $('#sb_hotel_user_shift_to').timepicker({
-                showSeconds: true,
-            });
-	$("#sb_hotel_user_pic").fileinput({
-		showUpload: false,
-		showCaption: false,
-		browseClass: "btn btn-primary btn-lg",
-		fileType: "any",
-        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
-	});
+   
+	<?php if(!isset($userinfo)){?>
+		$('#sb_hotel_user_shift_from').timepicker({
+					showSeconds: true,
+				   
+				});
+		$('#sb_hotel_user_shift_to').timepicker({
+					showSeconds: true,
+				});
+		$("#sb_hotel_user_pic").fileinput({
+			showUpload: false,
+			showCaption: false,
+			browseClass: "btn btn-primary btn-lg",
+			fileType: "any",
+			previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
+		});
+	<?php }
+    else { ?>
+			$('#sb_hotel_user_shift_from').timepicker({
+						defaultTime: '<?php echo date("g:i A",strtotime($userinfo->sb_hotel_user_shift_from)); ?>',
+						showSeconds: true,
+					   
+					});
+			$('#sb_hotel_user_shift_to').timepicker({
+						defaultTime: '<?php echo date("g:i A",strtotime($userinfo->sb_hotel_user_shift_to)); ?>',
+						showSeconds: true,
+					   
+					});
+			$("#sb_hotel_user_pic").fileinput({
+				initialPreview: [
+					"<img src='<?php echo FOLDER_BASE_URL."/".HOTEL_USER_PIC."/".$userinfo->sb_hotel_user_pic;?>' class='file-preview-image' alt='Hotel Image' title='HotelImage'>",
+				],
+				showUpload: false,
+				showCaption: false,
+				browseClass: "btn btn-primary btn-lg",
+				fileType: "any",
+				previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
+			});
+			
+			<?php if(isset($user_parent_service)){?>
+			           $("#sb_parent_service_id").val('<?php echo $user_parent_service[0]["sb_parent_service_id"];?>');
+					console.log(' <?php echo $user_parent_service[0]["sb_parent_service_id"];?>');
+			<?php }?>
+	<?php }?>
+      	
  });
  function callToChildServices()
  {
-	<?php  if(isset($hotel_id) && $user_type == 'a'){?>
+	<?php  
+	
+	      if(isset($hotel_id) && ($user_type == 'a' || $user_type == 'm')){?>
 				populateChildServices('<?php echo $user_type;?>','<?php echo $user_id;?>','<?php echo $hotel_id;?>');
 	<?php } ?>
  }
- <?php  if(isset($hotel_id) && $user_type == 'a'){?>
+ <?php  if(isset($hotel_id) && ($user_type == 'a' || $user_type == 'm')){?>
  populateChildServices('<?php echo $user_type;?>','<?php echo $user_id;?>','<?php echo $hotel_id;?>');
-<?php } ?>
+<?php }
+ ?>
+
 
 /* This method is used to load child services
  * params 
@@ -216,7 +300,6 @@
 			dataType:"json",
 			success:function(msg){
 					    var data = msg;
-						console.log(data);
 						$("#sb_child_service_id").html(""); 
 						$.each(data, function() {
 							$('#sb_child_service_id').append( $('<option value="' + this.sb_child_service_id + '">' + this.sb_child_service_name + '</option>' ));
@@ -227,6 +310,15 @@
 			}
 		}).done(function (){
 		//Nothing in callback
+			<?php
+              if(isset($userinfo)){			
+				  if(($userinfo->sb_hotel_user_type == 's')&&($user_parent_service[0]["sb_parent_service_id"] == $user_child_service[0]["sb_parent_service_id"])){?>	
+				 console.log("We need to set child service here");
+				 console.log('<?php echo $user_child_service[0]["sb_child_service_id"];?>');
+				  $("#sb_child_service_id").val('<?php echo $user_child_service[0]["sb_child_service_id"];?>')
+				<?php } 
+			} 
+			?>
 	 });
 	}
 	else

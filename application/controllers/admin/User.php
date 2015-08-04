@@ -292,6 +292,24 @@ class User extends CI_Controller
 					
 					$this->Services_model->set_services($insert_user_services,$result);
 				}
+				if($data['sb_hotel_user_type'] == 's'){
+					
+					$child_services=$this->Services_model->get_hotel_child_service_map_id($data['sb_hotel_id'],$data['sb_parent_service_id'],$data['sb_child_service_id']);
+				    $i=0;
+					$insert_user_services=array();
+					while($i<count($child_services)){
+						$singlearray=array(
+											'sb_hotel_service_map_id'=>$child_services[$i]['sb_hotel_service_map_id'],
+											'sb_hotel_user_id'=>$result,
+											'sb_parent_service_id'=>$data['sb_parent_service_id'],
+											'sb_service_rel_status'=>'1'
+										);
+						array_push($insert_user_services,$singlearray);
+						$i++;
+					}
+					
+					$this->Services_model->set_services($insert_user_services,$result);
+				}
 				$hotelusername=$data['sb_hotel_username'];
 				$message="Hi ,
 							Congratulations Your user account is created on sebastian.
@@ -380,6 +398,7 @@ class User extends CI_Controller
 			$this->data['userinfo']=$this->User_model->get_user_info($user_id);
 			$this->data['hotelusertypes'] = getAvailableHotelUserTypes();
 			$this->data['user_type']=$this->session->userdata('logged_in_user')->sb_hotel_user_type;
+			
             if (($key = array_search('s',$this->data['hotelusertypes'])) !== false) {
 					unset($this->data['hotelusertypes'][$key]);
 		    }
@@ -394,8 +413,14 @@ class User extends CI_Controller
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'a')
 	    {
 			$this->data['title'] = LABEL_1;
+			$this->data['user_type']=$this->session->userdata('logged_in_user')->sb_hotel_user_type;
 			$this->data['userinfo']=$this->User_model->get_user_info($user_id);
 			$this->data['hotelusertypes'] = getAvailableHotelUserTypes();
+			$this->data['hotel_id']=$this->session->userdata('logged_in_user')->sb_hotel_id;
+			$this->data['designation_list']=$this->User_model->get_all_designations();
+			$hotel_user_id=$this->session->userdata('logged_in_user')->sb_hotel_user_id;
+			$this->data['user_id']=$hotel_user_id;
+			$this->data['parent_services']=$this->Services_model->get_hotel_unique_parent_services($this->data['userinfo']->sb_hotel_id);
 			if (($key = array_search('u',$this->data['hotelusertypes'])) !== false) {
 					unset($this->data['hotelusertypes'][$key]);
 			}
@@ -407,7 +432,16 @@ class User extends CI_Controller
 	    {
 			$this->data['title'] = LABEL_1;
 			$this->data['userinfo']=$this->User_model->get_user_info($user_id);
+		
 			$this->data['hotelusertypes'] = getAvailableHotelUserTypes();
+			$this->data['sb_hotel_name']=$this->Hotel_model->get_hotel_name($this->data['userinfo']->sb_hotel_id);
+			$this->data['designation_list']=$this->User_model->get_all_designations();
+			$this->data['user_type']=$this->session->userdata('logged_in_user')->sb_hotel_user_type;
+			$hotel_user_id=$this->session->userdata('logged_in_user')->sb_hotel_user_id;
+			$this->data['user_id']=$hotel_user_id;
+			$this->data['hotel_id']=$this->session->userdata('logged_in_user')->sb_hotel_id;
+			$this->data['parent_services']=$this->Services_model->get_hotel_user_parent_service($hotel_user_id);
+				
 			if (($key = array_search('m',$this->data['hotelusertypes'])) !== false) {
 					unset($this->data['hotelusertypes'][$key]);
 			}
@@ -427,8 +461,14 @@ class User extends CI_Controller
 	public function edit_hotel_user($user_id)
 	{	
 		$this->data['action']	= "admin/user/edit_hotel_user_action/".$user_id;
+		$this->data['userinfo']=$this->User_model->get_user_info($user_id);
+	
+		if($this->data['userinfo']->sb_hotel_user_type !='a'){
+			$this->data['user_parent_service']=$this->Services_model->get_hotel_user_parent_service($user_id);
+			$this->data['user_child_service']=$this->Services_model->get_hotel_user_child_service($user_id);
+		}
 		$this->check_edit_user_permissions($user_id);
-		$this->template->load('page_tpl', 'edit_hotel_admin_user',$this->data);
+		$this->template->load('page_tpl', 'create_hotel_admin_user',$this->data);
 	}
 	/*Method performs actual logic of user edit and his permission edition
 	 *@param int
@@ -437,6 +477,7 @@ class User extends CI_Controller
 	public function edit_hotel_user_action($user_id)
 	{
 		$data = $this->input->post();
+	
 		$this->validation_rules = array(
 		    array('field'=>'sb_hotel_user_shift_from','label'=>'Hotel User Shift From','rules'=>'required','class'=>'text-danger'),
 		    array('field'=>'sb_hotel_user_shift_to','label'=>'Hotel User Shift To','rules'=>'required','class'=>'text-danger'),	
@@ -446,6 +487,7 @@ class User extends CI_Controller
 		if ($this->form_validation->run() == FALSE)
 		{
 			$this->check_edit_user_permissions($user_id);
+			$this->template->load('page_tpl', 'create_hotel_admin_user',$data);
 		}else{
         		$this->check_edit_user_permissions($user_id);
 				$data["sb_hotel_user_pic"] = $this->data['userinfo']->sb_hotel_user_pic;
@@ -460,7 +502,16 @@ class User extends CI_Controller
 				} 
 				$data['sb_hotel_user_shift_from']= date("H:i:s", strtotime($data['sb_hotel_user_shift_from']));
 				$data['sb_hotel_user_shift_to']= date("H:i:s", strtotime($data['sb_hotel_user_shift_to']));
-				$result=$this->Hotel_model->edit_hotel_user($data,$user_id);
+				$hotel_user_data =array(
+									'sb_hotel_user_shift_from'=>$data['sb_hotel_user_shift_from'],
+									'sb_hotel_user_shift_to'=>$data['sb_hotel_user_shift_to'],
+									'sb_hotel_user_type'=>$data['sb_hotel_user_type'],
+									'sb_staff_designation_id'=>$data['sb_staff_designation_id'],
+									'sb_hotel_user_pic'=>$data['sb_hotel_user_pic'],
+								);	
+				$data['sb_hotel_id']=$this->data['userinfo']->sb_hotel_id;	
+				
+				$result=$this->Hotel_model->edit_hotel_user($hotel_user_data,$user_id);
 				//We need to Remove Previous Permissions//
 				$this->User_model->remove_user_role($user_id);
 				$this->User_model->remove_user_permissions($user_id);
@@ -510,7 +561,41 @@ class User extends CI_Controller
 						array_push($user_module_array,$singlearray);
 						$count++;
 					}
-					$this->User_model->set_user_permissions($user_module_array);	
+					$this->User_model->set_user_permissions($user_module_array);
+					$child_services=$this->Services_model->get_hotel_child_services_by_parent_service($data['sb_hotel_id'],$data['sb_parent_service_id']);	
+               
+				    $i=0;
+					$insert_user_services=array();
+					while($i<count($child_services)){
+						$singlearray=array(
+											'sb_hotel_service_map_id'=>$child_services[$i]['sb_hotel_service_map_id'],
+											'sb_hotel_user_id'=>$user_id,
+											'sb_parent_service_id'=>$data['sb_parent_service_id'],
+											'sb_service_rel_status'=>'1'
+										);
+						array_push($insert_user_services,$singlearray);
+						$i++;
+					}
+					
+					$this->Services_model->set_services($insert_user_services,$user_id);	
+				}
+				if($data['sb_hotel_user_type'] == 's'){
+					
+					$child_services=$this->Services_model->get_hotel_child_service_map_id($data['sb_hotel_id'],$data['sb_parent_service_id'],$data['sb_child_service_id']);
+				    $i=0;
+					$insert_user_services=array();
+					while($i<count($child_services)){
+						$singlearray=array(
+											'sb_hotel_service_map_id'=>$child_services[$i]['sb_hotel_service_map_id'],
+											'sb_hotel_user_id'=>$user_id,
+											'sb_parent_service_id'=>$data['sb_parent_service_id'],
+											'sb_service_rel_status'=>'1'
+										);
+						array_push($insert_user_services,$singlearray);
+						$i++;
+					}
+					
+					$this->Services_model->set_services($insert_user_services,$user_id);
 				}
 				if($result > '0')
 				{
