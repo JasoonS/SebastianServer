@@ -69,3 +69,5 @@ ERROR - 2015-08-04 09:51:50 --> Severity: Notice --> Use of undefined constant s
 ERROR - 2015-08-04 10:15:34 --> 404 Page Not Found: admin/Indexhtml/index
 ERROR - 2015-08-04 10:15:47 --> 404 Page Not Found: admin/Admin/hotel
 ERROR - 2015-08-04 10:18:14 --> 404 Page Not Found: Hotel/index
+ERROR - 2015-08-04 10:49:11 --> Severity: Parsing Error --> syntax error, unexpected ',', expecting ']' C:\xampp\htdocs\sebastian-admin-panel\application\controllers\admin\User.php 284
+ERROR - 2015-08-04 10:50:46 --> Severity: Notice --> Use of undefined constant sb_hotel_useremail - assumed 'sb_hotel_useremail' C:\xampp\htdocs\sebastian-admin-panel\application\controllers\admin\User.php 304

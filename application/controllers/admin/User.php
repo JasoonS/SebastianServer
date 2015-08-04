@@ -276,12 +276,12 @@ class User extends CI_Controller
 					$this->User_model->set_user_permissions($user_module_array);
 					//Get all child Services of particular parent service and of particular hotel
 					$child_services=$this->Services_model->get_hotel_child_services_by_parent_service($data['sb_hotel_id'],$data['sb_parent_service_id']);	
-                   print_r($child_services);
+               
 				    $i=0;
 					$insert_user_services=array();
 					while($i<count($child_services)){
 						$singlearray=array(
-											'sb_hotel_service_map_id'=>$child_services[$i]['sb_hotel_service_map_id]'],
+											'sb_hotel_service_map_id'=>$child_services[$i]['sb_hotel_service_map_id'],
 											'sb_hotel_user_id'=>$result,
 											'sb_parent_service_id'=>$data['sb_parent_service_id'],
 											'sb_service_rel_status'=>'1'
@@ -289,6 +289,7 @@ class User extends CI_Controller
 						array_push($insert_user_services,$singlearray);
 						$i++;
 					}
+					
 					$this->Services_model->set_services($insert_user_services,$result);
 				}
 				$hotelusername=$data['sb_hotel_username'];
