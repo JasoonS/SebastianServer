@@ -63,11 +63,7 @@ class Ajax extends CI_Controller
 				$logged_user_type=$this->input->post('logged_user_type');
 				$hotel_id=$this->input->post('hotel_id');
 				$parent_service_id=$this->input->post('sb_parent_service_id');
-				if($logged_user_type == 'a')
-				{
-					$result=$this->Services_model->get_hotel_child_services_by_parent_service($hotel_id,$parent_service_id);
-				}
-				
+				$result=$this->Services_model->get_hotel_child_services_by_parent_service($hotel_id,$parent_service_id);
 				echo json_encode($result);
 				break;
 			}

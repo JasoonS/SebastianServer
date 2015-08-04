@@ -134,13 +134,25 @@ Class Services_model extends CI_Model
 	 */
 	function get_hotel_child_services_by_parent_service($hotel_id,$sb_parent_service_id)
 	{
-		$this->db->select('sb_hotel_child_services.sb_child_service_id,sb_child_service_name');
+		$this->db->select('sb_hotel_child_services.sb_child_service_id,sb_child_service_name,sb_hotel_service_map_id');
 		$this->db->where('sb_hotel_id',$hotel_id);
 		$this->db->where('sb_hotel_child_services.sb_parent_service_id',$sb_parent_service_id);
 		$this->db->from('sb_hotel_service_map');
 		$this->db->join('sb_hotel_child_services','sb_hotel_child_services.sb_child_service_id = sb_hotel_service_map.sb_child_service_id');
 		$query = $this->db->get();
 		return $query->result_array();
+	}
+	/* Method Remove Previous services assignment and make new services assignment for hotel user
+     * @param array,int
+     * return void
+	 */
+	function set_services($service_data,$user_id)
+	{
+	    $this->db->where('sb_hotel_user_id',$user_id);
+	    $this->db->delete('sb_hotel_user_service_access_map');
+		
+		$this->db->insert_batch('sb_hotel_user_service_access_map',$service_data);
+		return 1;
 	}
 	
 }

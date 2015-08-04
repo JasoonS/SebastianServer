@@ -51,3 +51,21 @@ ERROR - 2015-08-04 08:59:41 --> 404 Page Not Found: Assets/img
 ERROR - 2015-08-04 08:59:47 --> Severity: Notice --> Undefined offset: 0 C:\xampp\htdocs\sebastian-admin-panel\application\models\Hotel_model.php 162
 ERROR - 2015-08-04 08:59:48 --> 404 Page Not Found: Assets/css
 ERROR - 2015-08-04 08:59:56 --> 404 Page Not Found: Assets/css
+ERROR - 2015-08-04 09:13:44 --> 404 Page Not Found: admin/Hotel/user
+ERROR - 2015-08-04 09:13:48 --> 404 Page Not Found: admin/Hotel/user
+ERROR - 2015-08-04 09:13:55 --> 404 Page Not Found: admin/Hotel/user
+ERROR - 2015-08-04 09:14:00 --> Severity: Notice --> Undefined offset: 0 C:\xampp\htdocs\sebastian-admin-panel\application\models\Hotel_model.php 162
+ERROR - 2015-08-04 09:14:04 --> 404 Page Not Found: admin//index
+ERROR - 2015-08-04 09:14:57 --> 404 Page Not Found: Assets/img
+ERROR - 2015-08-04 09:15:00 --> Severity: Notice --> Undefined index: sb_staff_designation_id C:\xampp\htdocs\sebastian-admin-panel\application\controllers\admin\User.php 219
+ERROR - 2015-08-04 09:15:00 --> Query error: Column 'sb_staff_designation_id' cannot be null - Invalid query: INSERT INTO `sb_hotel_users` (`sb_hotel_username`, `sb_hotel_useremail`, `sb_hotel_user_shift_from`, `sb_hotel_user_shift_to`, `sb_hotel_user_status`, `sb_hotel_user_type`, `sb_staff_designation_id`, `sb_hotel_user_pic`, `sb_hotel_id`, `sb_hotel_userpasswd`) VALUES ('MarriotAdmin', 'MarriotAdmin@gmail.com', '12:45:45', '12:45:45', '1', 'a', NULL, '1438672500.jpg', '21', '$2y$11$BWxJdwfMpTJaIQNErwgwjeCS4oe0Bl00T9bmqiJ54T3RuQvy24PpC')
+ERROR - 2015-08-04 09:17:48 --> Severity: Notice --> Use of undefined constant sb_hotel_useremail - assumed 'sb_hotel_useremail' C:\xampp\htdocs\sebastian-admin-panel\application\controllers\admin\User.php 294
+ERROR - 2015-08-04 09:25:59 --> Severity: Notice --> Undefined variable: result C:\xampp\htdocs\sebastian-admin-panel\application\controllers\admin\Ajax.php 71
+ERROR - 2015-08-04 09:26:09 --> Severity: Notice --> Undefined variable: result C:\xampp\htdocs\sebastian-admin-panel\application\controllers\admin\Ajax.php 71
+ERROR - 2015-08-04 09:51:18 --> Severity: Parsing Error --> syntax error, unexpected 'while' (T_WHILE) C:\xampp\htdocs\sebastian-admin-panel\application\controllers\admin\User.php 282
+ERROR - 2015-08-04 09:51:50 --> Severity: Notice --> Undefined index: sb_hotel_service_map_id] C:\xampp\htdocs\sebastian-admin-panel\application\controllers\admin\User.php 284
+ERROR - 2015-08-04 09:51:50 --> Severity: Notice --> Undefined index: sb_hotel_service_map_id] C:\xampp\htdocs\sebastian-admin-panel\application\controllers\admin\User.php 284
+ERROR - 2015-08-04 09:51:50 --> Severity: Notice --> Use of undefined constant sb_hotel_useremail - assumed 'sb_hotel_useremail' C:\xampp\htdocs\sebastian-admin-panel\application\controllers\admin\User.php 303
+ERROR - 2015-08-04 10:15:34 --> 404 Page Not Found: admin/Indexhtml/index
+ERROR - 2015-08-04 10:15:47 --> 404 Page Not Found: admin/Admin/hotel
+ERROR - 2015-08-04 10:18:14 --> 404 Page Not Found: Hotel/index

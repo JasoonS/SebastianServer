@@ -107,7 +107,7 @@ class User extends CI_Controller
 				$hotel_user_id=$this->session->userdata('logged_in_user')->sb_hotel_user_id;
 				$this->data['user_id']=$hotel_user_id;
 				$this->data['parent_services']=$this->Services_model->get_hotel_unique_parent_services($this->data['hotel_id']);
-              
+        
 				if (($key = array_search('u',$this->data['hotelusertypes'])) !== false) {
 						unset($this->data['hotelusertypes'][$key]);
 				}
@@ -209,6 +209,10 @@ class User extends CI_Controller
 				$data['sb_hotel_userpasswd']=createHashAndSalt($password);
 				$data['sb_hotel_user_shift_from']= date("H:i:s", strtotime($data['sb_hotel_user_shift_from']));
 				$data['sb_hotel_user_shift_to']= date("H:i:s", strtotime($data['sb_hotel_user_shift_to']));
+				if(!isset($data['sb_staff_designation_id']))
+				{
+					$data['sb_staff_designation_id']=0;
+				}
 				$hotel_user_data =array(
 									'sb_hotel_username'=>$data['sb_hotel_username'],
 									'sb_hotel_useremail'=>$data['sb_hotel_useremail'],
@@ -272,11 +276,20 @@ class User extends CI_Controller
 					$this->User_model->set_user_permissions($user_module_array);
 					//Get all child Services of particular parent service and of particular hotel
 					$child_services=$this->Services_model->get_hotel_child_services_by_parent_service($data['sb_hotel_id'],$data['sb_parent_service_id']);	
-                   // $i=0;
-					//while($i<)
-					
-					//sprint_r($child_services);exit;
-					
+                   print_r($child_services);
+				    $i=0;
+					$insert_user_services=array();
+					while($i<count($child_services)){
+						$singlearray=array(
+											'sb_hotel_service_map_id'=>$child_services[$i]['sb_hotel_service_map_id]'],
+											'sb_hotel_user_id'=>$result,
+											'sb_parent_service_id'=>$data['sb_parent_service_id'],
+											'sb_service_rel_status'=>'1'
+										);
+						array_push($insert_user_services,$singlearray);
+						$i++;
+					}
+					$this->Services_model->set_services($insert_user_services,$result);
 				}
 				$hotelusername=$data['sb_hotel_username'];
 				$message="Hi ,

@@ -86,6 +86,7 @@ class Login extends CI_Controller
 			if(verifyPasswordHash($this->input->post('password'),$this->password_salt->sb_hotel_userpasswd) === TRUE)
 			{
 				$this->logged_in_user_meta 	=  $this->User_model->authenticated_hoteleir_records($this->input->post('username'),$this->password_salt->sb_hotel_userpasswd);
+				
 			}
 			else
 			{
