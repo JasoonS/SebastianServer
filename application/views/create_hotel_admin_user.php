@@ -37,7 +37,8 @@
 						   ?> 
 						</select>
 						<?php }else{?>
-						<input type="text" value ="<?php echo $sb_hotel_name[0]['sb_hotel_name']?>" disabled class="input-large" />
+						<input type="text" value ="<?php echo $sb_hotel_name[0]['sb_hotel_name']?>" disabled  class="input-large" />
+						<input type="hidden" value ="<?php echo $hotel_id?>" id="sb_hotel_id" name="sb_hotel_id" class="input-large" />
 					    <?php }?>
 					</div>
 			</div>
@@ -94,7 +95,7 @@
 			<div class="control-group">
 				<label class="control-label" for="sb_hotel_user_type">Hotel User Type</label>
 					<div class="controls">
-						<select id="sb_hotel_user_type" name="sb_hotel_user_type" class="input-large">
+						<select id="sb_hotel_user_type" name="sb_hotel_user_type" class="input-large"  onchange="callToChildServices();">
 							<?php
 							foreach($hotelusertypes as $key=>$usertype)
 							{
@@ -117,6 +118,45 @@
 						</select>
 					</div>
 			</div>
+			<?php if($user_type !='u'){?>
+				<div class="control-group">
+				<label class="control-label" for="sb_staff_designation_id">User Designation</label>
+					<div class="controls">
+						<select id="sb_staff_designation_id" name="sb_staff_designation_id" class="input-large">
+							<?php
+							foreach($designation_list as $key=>$value)
+							{
+								echo "<option value='".$value['designation_id']."'>".$value['designation_name']."</option>";
+							}
+						   ?> 
+						</select>
+					</div>
+			    </div>
+			<?php }?>
+			<?php if($user_type == 'a'){?>
+			<div class="control-group">
+				<label class="control-label" for="sb_parent_service_id">User Parent Service</label>
+					<div class="controls">
+						<select id="sb_parent_service_id" name="sb_parent_service_id" class="input-large" onchange="populateChildServices();">
+							<?php
+							foreach($parent_services as $key=>$value)
+							{
+								echo "<option value='".$value['sb_parent_service_id']."'>".$value['sb_parent_service_name']."</option>";
+							}
+						   ?> 
+						</select>
+					</div>
+			</div>
+			
+			<div class="control-group" id="child_services_control" style="display:none;" >
+				<label class="control-label" for="sb_child_service_id">User Child Service</label>
+					<div class="controls">
+						<select id="sb_child_service_id" name="sb_child_service_id" class="input-large" >
+							
+						</select>
+					</div>
+			</div>
+			<?php }?>
             <div class="control-group">
 				<label class="control-label" for="submit"></label>
 					<div class="controls">
@@ -133,14 +173,11 @@
 <script type="text/javascript">
  $(function() {
     $('#sb_hotel_user_shift_from').timepicker({
-               
                 showSeconds: true,
                
             });
     $('#sb_hotel_user_shift_to').timepicker({
-               
                 showSeconds: true,
-               
             });
 	$("#sb_hotel_user_pic").fileinput({
 		showUpload: false,
@@ -150,4 +187,13 @@
         previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
 	});
  });
-</script>
+ function callToChildServices()
+ {
+	<?php  if(isset($hotel_id) && $user_type == 'a'){?>
+				populateChildServices('<?php echo $user_type;?>','<?php echo $user_id;?>','<?php echo $hotel_id;?>');
+	<?php } ?>
+ }
+ <?php  if(isset($hotel_id) && $user_type == 'a'){?>
+ populateChildServices('<?php echo $user_type;?>','<?php echo $user_id;?>','<?php echo $hotel_id;?>');
+<?php } ?>
+ </script>

@@ -132,7 +132,7 @@ function upload_image($folderName,$fieldName)
 		$file_ext = substr(strrchr($_FILES[$fieldName]['name'],'.'),1);
 		$name= time();
 		$config = array(
-				'upload_path' => ".$folderName",
+				'upload_path' => "./$folderName",
 				'allowed_types' => "jpeg|jpg|png|gif",
 				'overwrite' => TRUE,
 				'file_name' => $name.".".$file_ext

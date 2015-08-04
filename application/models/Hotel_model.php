@@ -28,7 +28,7 @@ Class Hotel_model extends CI_Model
 	{
 		$this->db->where('sb_hotel_id',$hotel_id);
 		$this->db->update('sb_hotels',$hotel_data);
-		echo $this->db->last_query();
+	
 		return '1';
 	}
 	/* Method Return If Hotel Present  

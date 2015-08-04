@@ -29,7 +29,7 @@
 						</tr>
 						<tr>
 							<td>Hotel Picture</td>
-							<td><img src='<?php echo FOLDER_BASE_URL.HOTEL_PIC."/".$hoteldata['sb_hotel_pic'];?>' height="100px" width="100px"/></td>
+							<td><img src='<?php echo FOLDER_BASE_URL."/".HOTEL_PIC."/".$hoteldata['sb_hotel_pic'];?>' height="100px" width="100px"/></td>
 						</tr>
 						<tr>
 							<td>Hotel Address</td>

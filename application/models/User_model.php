@@ -144,4 +144,17 @@ Class User_model extends CI_Model
 		$this->db->delete('sb_user_modules');
 		return 1;
 	}
+	/* Returns List Of all Designations of Hotel Users
+	 * @params void
+	 *
+	 */
+	function get_all_designations()
+	{
+		$this->db->select('sb_staff_designation_id as designation_id,sb_staff_designation_name as designation_name');
+        $query = $this->db->get('sb_hotel_staff_designation');
+		if($query->num_rows() > 0)
+			return $row = $query->result_array();
+		else
+			return FALSE;
+	}
 }//End Of Model

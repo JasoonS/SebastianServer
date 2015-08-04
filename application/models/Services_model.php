@@ -83,7 +83,7 @@ Class Services_model extends CI_Model
 		return $query->result_array();
 	}
 	
-	/* Method Get All Parent Services
+	/* Method Get All Hotel Parent Services
 	 * inside system 
 	 * @param @string
 	 * return @string on success and False on Fail
@@ -94,6 +94,51 @@ Class Services_model extends CI_Model
 		$this->db->where('sb_hotel_id',$hotel_id);
 		$this->db->from('sb_hotel_service_map');
 		$this->db->join('sb_hotel_parent_services','sb_hotel_parent_services.sb_parent_service_id = sb_hotel_service_map.sb_parent_service_id');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	
+	/* Method Get All Unique Hotel Parent Services
+	 * inside system 
+	 * @param @string
+	 * return @string on success and False on Fail
+	 */
+	function get_hotel_unique_parent_services($hotel_id)
+	{
+		$this->db->select('sb_hotel_parent_services.sb_parent_service_id,sb_parent_service_name');
+		$this->db->where('sb_hotel_id',$hotel_id);
+		$this->db->from('sb_hotel_service_map');
+		$this->db->join('sb_hotel_parent_services','sb_hotel_parent_services.sb_parent_service_id = sb_hotel_service_map.sb_parent_service_id');
+		$this->db->group_by('sb_hotel_parent_services.sb_parent_service_id');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	/* Method Get Current Hotel User Parent Service
+	 * inside system 
+	 * @param @string
+	 * return @json array on success and False on Fail
+	 */
+	function get_hotel_user_parent_service($user_id)
+	{
+		$this->db->select('sb_hotel_parent_services.sb_parent_service_id,sb_parent_service_name');
+		$this->db->where('sb_hotel_user_id',$user_id);
+		$this->db->from('sb_hotel_user_service_access_map');
+		$this->db->join('sb_hotel_parent_services','sb_hotel_parent_services.sb_parent_service_id = sb_hotel_user_service_access_map.sb_parent_service_id');
+		$this->db->group_by('sb_hotel_parent_services.sb_parent_service_id');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	/* Method Get Hotel Child Services according to Parent Service
+     * @param int,int
+     * return @json array on success and False on Fail 
+	 */
+	function get_hotel_child_services_by_parent_service($hotel_id,$sb_parent_service_id)
+	{
+		$this->db->select('sb_hotel_child_services.sb_child_service_id,sb_child_service_name');
+		$this->db->where('sb_hotel_id',$hotel_id);
+		$this->db->where('sb_hotel_child_services.sb_parent_service_id',$sb_parent_service_id);
+		$this->db->from('sb_hotel_service_map');
+		$this->db->join('sb_hotel_child_services','sb_hotel_child_services.sb_child_service_id = sb_hotel_service_map.sb_child_service_id');
 		$query = $this->db->get();
 		return $query->result_array();
 	}
