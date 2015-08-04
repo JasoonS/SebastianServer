@@ -5,6 +5,7 @@ var proj_url=location.protocol + "//" + location.host;
  */
 function loadStates(inputelementname,outputelementname,populatecities,cityelement,haveDefaultStateAndCity,state,city)
 {
+
 	var base_url = proj_url+'/sebastian-admin-panel/admin/ajax/get_ajax_data';
 	var country_id = $("#"+inputelementname).val();
 	$.ajax({

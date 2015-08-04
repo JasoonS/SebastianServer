@@ -6,11 +6,15 @@
         </div>
         <div class="clearfix"></div>
 		
-	
+	   <?php
+        //echo '<pre>';
+        //print_r($this->session->all_userdata());
+        //exit;
+       ?>
         <!-- menu prile quick info -->
         <div class="profile">
             <div class="profile_pic">
-                <img src="<?php echo base_url(HOTEL_USER_PIC).'/'.$this->session->logged_in_user->sb_hotel_user_pic ?>" alt="" class="img-circle profile_img">
+                <img src="<?php echo base_url(HOTEL_USER_PIC).'/'.$this->session->logged_in_user->sb_hotel_user_pic; ?>" alt="" class="img-circle profile_img">
             </div>
             <div class="profile_info">
                 <span>Welcome,</span>
