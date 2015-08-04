@@ -85,6 +85,18 @@
 							</div>
 
 							<div class="form-group classFormInputsBox">
+								<label for="sbHotelWebsite" class="col-xs-3 control-label">Hotel Website :</label>
+								<div class="col-xs-6">
+								<?php if(isset($hoteldata)){?>
+									<input id="id_sbHotelWebsite" name="sb_hotel_website" type="text" placeholder="Type Hotel Website Url Here ..." class="form-control" value="<?php echo $hoteldata['sb_hotel_website']?>">
+								<?php } else { ?>
+									<input id="id_sbHotelWebsite" name="sb_hotel_website" type="text" placeholder="Type Hotel Website Url Here ..." class="form-control" >
+								<?php }?>
+								<?php echo form_error('sb_hotel_website'); ?>
+								</div>
+							</div>
+
+							<div class="form-group classFormInputsBox">
 								<label for="sbHotelOwner" class="col-xs-3 control-label">Hotel Owner :</label>
 								<div class="col-xs-6">
 								<?php if(isset($hoteldata)){?>
@@ -284,12 +296,12 @@
 <!--- Page specfic css !-->
 <link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">
 <link href="<?php echo THEME_ASSETS; ?>css/fileinput.css" rel="stylesheet" type="text/css">
+<link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
 
 
 <!-- Page specific js !-->
 <script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/star-rating.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 
