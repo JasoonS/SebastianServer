@@ -160,7 +160,7 @@
 		    		<div class = "col-md-6 col-xs-6 classFormBox">
 		    			<div class="x_panel classOptionalPanel">
 		    				<div class="x_title">
-			                    <h2>Optional Inputs</h2>	                            
+			                    <h2><b>Optional Inputs</b></h2>	                            
 			                    <div class="clearfix"></div>
 			                </div>
 			                <div class = "x_content">
