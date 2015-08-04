@@ -9,7 +9,18 @@ class Hotel_service_model extends CI_Model
 				 where m.sb_parent_service_id = '$sb_parent_service_id' AND m.sb_hotel_id = '$sb_hotel_id'";
 				
 		$query = $this->db->query($qry);
-		return $query->result_array();
+		$data = $query->result_array();
+		for ($i=0; $i < count($data); $i++) { 
+			$data[$i]['sub_childmenu'] = array();
+			if($data[$i]['is_service'] == 0)
+			{
+				$id = $data[$i]['sb_child_service_id'];
+				$qry1 = "SELECT * FROM `sb_sub_child_services` WHERE `sb_child_service_id` = '$id'";
+				$query = $this->db->query($qry1);
+				$data[$i]['sub_childmenu'] = $query->result_array();
+			}
+		}
+		return $data;
 	}
 
 	function get_service_map($sb_parent_service_id, $sb_child_service_id,$sb_hotel_id)

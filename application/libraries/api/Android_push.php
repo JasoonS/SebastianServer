@@ -28,14 +28,6 @@ class Android_push
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode( $fields ));
 		$result = curl_exec($ch);
-		// print_r($result); 	// Execute post	;
-
-	 //    if($result === false)
-	 //        die('Curl failed ' . curl_error());
-
-	 //    curl_close($ch);
-	 //    //return $result;
-		// // curl_close($ch);          // Close connection
 		// $response = json_decode($result);
 		// print_r($response);
 		return 1;
