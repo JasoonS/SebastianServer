@@ -36,6 +36,8 @@
 				<label class="control-label" for="sb_hotel_username">Hotel User Name</label>
 				<div class="controls">
 					<input id="sb_hotel_username" name="sb_hotel_username" type="text" disabled class="input-large" value="<?php echo $userinfo->sb_hotel_username;?>" >
+					<input id="sb_hotel_id" name="sb_hotel_id" type="hidden" disabled class="input-large" value="<?php echo $userinfo->sb_hotel_id;?>" >
+					
 					<?php echo form_error('sb_hotel_username'); ?>
 				</div>
 			</div>

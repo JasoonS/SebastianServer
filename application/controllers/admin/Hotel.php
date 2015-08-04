@@ -44,7 +44,7 @@ class Hotel extends CI_Controller
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
 		{
 			$this->data['title'] = LABEL_1;
-		    $this->template->load('page_tpl', 'create_hotel',$this->data);
+		    $this->template->load('page_tpl', 'create_hotel_vw',$this->data);
 		}	
 	}
 	
@@ -114,12 +114,12 @@ class Hotel extends CI_Controller
 				{
 					$languageresult =$this->Hotel_model->set_hotel_languages($result,$data['sb_languages']);
 					$this->session->set_flashdata('category_success', HOTEL_CREATION_SUCCESS);
-					redirect('admin/user/add_hotel');
+					redirect('admin/hotel/add_hotel');
 				}
 				else
 				{
 					$this->session->set_flashdata('category_error', HOTEL_CREATION_FAIL);
-					redirect('admin/user/add_hotel');
+					redirect('admin/hotel/add_hotel');
 				}
 			}
 	}	
@@ -163,16 +163,16 @@ class Hotel extends CI_Controller
 	public function edit_hotel($hotel_id)
 	{	
 		//Check If User is logged in otherwise redirect to login page.
-		$this->data['action']	= "admin/hotel/edit_hotel_action/$hotel_id";
-		$this->data['hotel_id']	= $hotel_id;
-		$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
-		$this->data['countrylist'] = getCountryList();
-		$this->data['languagelist']=getAllLanguages();
+		$this->data['action']			= "admin/hotel/edit_hotel_action/$hotel_id";
+		$this->data['hotel_id']			= $hotel_id;
+		$this->data['hoteldata'] 		= $this->Hotel_model->get_hotel_data($hotel_id); 
+		$this->data['countrylist'] 		= getCountryList();
+		$this->data['languagelist']		=getAllLanguages();
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
-		    {
-				$this->data['title'] = LABEL_1;
-				$this->template->load('page_tpl', 'edit_hotel',$this->data);
-		    }	
+	    {
+			$this->data['title'] = LABEL_1;
+			$this->template->load('page_tpl', 'create_hotel',$this->data);
+	    }	
 	}
 	
 	/* Method Have Hotel Data updation logic super administrator/Hotel Administrator
@@ -200,7 +200,7 @@ class Hotel extends CI_Controller
 			$this->data['countrylist'] = getCountryList();
 			$this->data['languagelist']=getAllLanguages();
 			$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
-			$this->template->load('page_tpl', 'edit_hotel',$this->data);
+			$this->template->load('page_tpl', 'create_hotel',$this->data);
 		}else{
 		        $this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
 				$data["sb_hotel_pic"] =$this->data['hoteldata']['sb_hotel_pic'];

@@ -1,6 +1,11 @@
 var proj_url=location.protocol + "//" + location.host;
+/* This method is used to load states according to country and callback to load cities according to states
+ * params string,string,boolean,string,boolean,string,string
+ *
+ */
 function loadStates(inputelementname,outputelementname,populatecities,cityelement,haveDefaultStateAndCity,state,city)
 {
+
 	var base_url = proj_url+'/sebastian-admin-panel/admin/ajax/get_ajax_data';
 	var country_id = $("#"+inputelementname).val();
 	$.ajax({
@@ -28,7 +33,10 @@ function loadStates(inputelementname,outputelementname,populatecities,cityelemen
 		}
 	});
 }
-
+/* This method is used to load cities
+ * params string,string,boolean,string
+ *
+ */
 function loadCities(inputelementname,outputelementname,haveDefaultStateAndCity,city)
 {
 	var base_url = proj_url+'/sebastian-admin-panel/admin/ajax/get_ajax_data';
@@ -53,7 +61,7 @@ function loadCities(inputelementname,outputelementname,haveDefaultStateAndCity,c
 		if(haveDefaultStateAndCity ==1)
 		{
 			$("#"+outputelementname).val(city);
-		}
-		
+		}	
 	});
 }
+

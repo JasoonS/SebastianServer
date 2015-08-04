@@ -16,6 +16,9 @@
 <script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
+<script src="<?php echo THEME_ASSETS;  ?>js/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/custom.js"></script>
+
 <style>
 	.ui-datepicker-calendar,.ui-datepicker-month {
 		display: none;
@@ -229,7 +232,7 @@ $(document).ready(function () {
     loadStates('sb_hotel_country','sb_hotel_state','1','sb_hotel_city','1','<?php echo $hoteldata['sb_hotel_state']?>','<?php echo $hoteldata['sb_hotel_city']?>');
 	$("#sb_hotel_pic").fileinput({
 	     initialPreview: [
-			"<img src='<?php echo FOLDER_BASE_URL.HOTEL_PIC."/".$hoteldata['sb_hotel_pic'];?>' class='file-preview-image' alt='Hotel Image' title='HotelImage'>",
+			"<img src='<?php echo FOLDER_BASE_URL."/".HOTEL_PIC."/".$hoteldata['sb_hotel_pic'];?>' class='file-preview-image' alt='Hotel Image' title='HotelImage'>",
         ],
 		showUpload: false,
 		showCaption: false,
