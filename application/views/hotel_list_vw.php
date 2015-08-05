@@ -73,7 +73,7 @@
     </div>
 </div>
 
-
+<!-- Theme specfic js !-->
 <script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>	
 <!-- chart js -->
 <script src="<?php echo THEME_ASSETS?>js/chartjs/chart.min.js"></script>

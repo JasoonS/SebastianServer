@@ -8,10 +8,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	 
 
-	<title><?php //echo $title; ?></title>
+	<title><?php echo $title; ?></title>
 
 	 
-	<!-- Bootstrap core CSS -->
+	<!-- Bootstrap core CSS and Required Theme Js -->
 	 
 	<link href="<?php echo THEME_ASSETS;  ?>css/bootstrap.min.css" rel="stylesheet">
 	 
