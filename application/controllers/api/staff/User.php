@@ -8,10 +8,13 @@ class User extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->helper('api/device_log');
+		device_log($_SERVER,$_REQUEST);
 		$this->load->model('api/staff/User_model');
 		$this->load->helper('admin/utility_helper');
 		$this->load->library('api/android_push');
 		$this->load->library('api/iospush');
+		// $this->device_log();
 	}
 
 	/**
@@ -238,4 +241,17 @@ class User extends CI_Controller {
 			echo("Notification send");
 		}
 	}
+
+	// function device_log()
+	// {
+	// // 	// $server_name = $_SERVER['REMOTE_USER'];
+	// // 	// $server_addr = $_SERVER['REMOTE_ADDR'];
+	// // 	// $REMOTE_HOST = $_SERVER['REMOTE_HOST'];
+	// // 	// print_r($server_name); print_r($server_addr); 
+	// // 	// print_r($_SERVER); die();
+	// 	 $data = json_encode( $_SERVER['REQUEST_URI']);
+	// 	 print_r($data); die();
+	// 	// $data = "HTTP_USER_AGENT"
+	// 		$this->User_model->store_log($data);
+	// }
 }

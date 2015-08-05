@@ -8,7 +8,10 @@ class User extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->helper('api/device_log');
+		device_log($_SERVER,$_REQUEST);
 		$this->load->model('api/customer/User_model');
+		// $this->device_log();
 	}
 
 	/**
@@ -21,6 +24,7 @@ class User extends CI_Controller
 	 */
 	function login()
 	{
+
 		$sb_guest_reservation_code = 	$this->input->post('sb_guest_reservation_code');
 		$cdt_token				= 	$this->input->post('cdt_token');
 		$cdt_deviceType		    =   $this->input->post('cdt_deviceType');
@@ -122,5 +126,16 @@ class User extends CI_Controller
 			}				
 		}
 	}
+
+	// function device_log()
+	// {
+	// // 	// $server_name = $_SERVER['REMOTE_USER'];
+	// // 	// $server_addr = $_SERVER['REMOTE_ADDR'];
+	// // 	// $REMOTE_HOST = $_SERVER['REMOTE_HOST'];
+	// // 	// print_r($server_name); print_r($server_addr); 
+	// // 	// print_r($_SERVER); die();
+	//  	$data = json_encode($_SERVER);
+	// 	$this->User_model->store_log($data);
+	// }
 	
 }	
