@@ -8,11 +8,8 @@ class User extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-<<<<<<< HEAD
-		$this->load->helper('api/device_log');
-		device_log($_SERVER,$_REQUEST);
-=======
-		/*
+
+			/*
 			this code is to maintain all hits log
 			as well as to restrict API to any devices not browsers
 
@@ -26,7 +23,6 @@ class User extends CI_Controller {
 		    response_fail("Please insert all the fields");
 		}
 		/*EOF*/		
->>>>>>> 98a8725a96b114e33363fc0945238286fe6a5cda
 		$this->load->model('api/staff/User_model');
 		$this->load->helper('admin/utility_helper');
 		$this->load->library('api/android_push');
@@ -259,16 +255,5 @@ class User extends CI_Controller {
 		}
 	}
 
-	// function device_log()
-	// {
-	// // 	// $server_name = $_SERVER['REMOTE_USER'];
-	// // 	// $server_addr = $_SERVER['REMOTE_ADDR'];
-	// // 	// $REMOTE_HOST = $_SERVER['REMOTE_HOST'];
-	// // 	// print_r($server_name); print_r($server_addr); 
-	// // 	// print_r($_SERVER); die();
-	// 	 $data = json_encode( $_SERVER['REQUEST_URI']);
-	// 	 print_r($data); die();
-	// 	// $data = "HTTP_USER_AGENT"
-	// 		$this->User_model->store_log($data);
-	// }
+	
 }
