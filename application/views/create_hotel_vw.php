@@ -259,12 +259,12 @@
 												{
 												    if (in_array($languagelist[$i]['lang_id'], $selectedlanguages)) 
 												    {				
-														echo '<input type="checkbox" class="flat" name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'" checked>'.$languagelist[$i]['lang_name'].'<br/>';				        
+														echo '<input type="checkbox"  name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'" checked><b>'.$languagelist[$i]['lang_name'].'</b><br/>';				        
 													}
 													else
 													{
 													
-														echo '<input type="checkbox" class="flat" name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'"><b>'. $languagelist[$i]['lang_name'].'</b><br/>';														
+														echo '<input type="checkbox"  name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'"><b>'. $languagelist[$i]['lang_name'].'</b><br/>';														
 													}
 													$i++;
 												}
