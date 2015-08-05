@@ -120,8 +120,8 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  |--------------------------------------------------------------------------
  |
  */
- define('LABEL_1','Admin');
- define('LABEL_2','Hotelier');
+ define('LABEL_1','Admin Dashboard');
+ define('LABEL_2','Hotelier Dashboard');
 
 
  //FOLDER NAMES FOR IMAGE UPLOAD
