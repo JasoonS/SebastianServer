@@ -375,6 +375,7 @@
         defaultPreviewTypes = ['image', 'html', 'text', 'video', 'audio', 'flash', 'object'],
         defaultPreviewSettings = {
             image: {width: "auto", height: "160px"},
+			//image: {width: "100px", height: "100px"},
             html: {width: "213px", height: "160px"},
             text: {width: "160px", height: "160px"},
             video: {width: "213px", height: "160px"},

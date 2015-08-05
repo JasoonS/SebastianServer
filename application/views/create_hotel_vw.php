@@ -179,7 +179,14 @@
 	                    		<div class="form-group classFormInputsBox">
 									<label for="sbHotelPic" class="col-xs-3 control-label">Hotel Picture :</label>
 									<div class="col-xs-6">
-										<input id="id_sbHotelPic" name="sb_hotel_pic" type="file"/>									
+									     <div class="col-xs-6">
+										<input id="id_sbHotelPic" name="sb_hotel_pic"  type="file" style="display:none"/>
+										<button id='btn-upload'>Upload</button>
+                                        </div>	
+										<div id="id_filePreview" class="col-xs-6">
+										    <img id="id_uploadImage" style="width:100%;height:100%" src="#" alt="your image" />
+										</div>
+																			
 									</div>
 								</div>
 
@@ -308,7 +315,7 @@
 <!-- Page specific js !-->
 <script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/star-rating.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/fileinput.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 
 
@@ -335,16 +342,21 @@ $(document).ready(function () {
 	<?php if(isset($hoteldata)){ ?>
 		    $("#id_sbHotelCountry").val("<?php echo $hoteldata['sb_hotel_country'];?>");
 			loadStates('id_sbHotelCountry','id_sbHotelState','1','id_sbHotelCity','1','<?php echo $hoteldata['sb_hotel_state']?>','<?php echo $hoteldata['sb_hotel_city']?>');
-			$("#id_sbHotelPic").fileinput({
+			$('#id_uploadImage').attr('src','<?php echo FOLDER_BASE_URL."/".HOTEL_PIC."/".$hoteldata['sb_hotel_pic'];?>');
+			/*$("#id_sbHotelPic").fileinput({
 				initialPreview: [
 				"<img src='<?php echo FOLDER_BASE_URL."/".HOTEL_PIC."/".$hoteldata['sb_hotel_pic'];?>' class='file-preview-image' alt='Hotel Image' title='HotelImage'>",
 				],
+				
 				showUpload: false,
 				showCaption: false,
 				browseClass: "btn btn-primary btn-lg",
 				fileType: "any",
-				previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
-			});
+				previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+				previewClass : "test",
+				showRemove: false,
+			
+			});*/
 	
 			$('#id_sbPropertyBuiltYear').datepicker({
 				changeYear: true,
@@ -388,14 +400,21 @@ $(document).ready(function () {
 				}
 			});
 	<?php } else { ?>
+	$("#id_uploadImage").hide();
     loadStates('id_sbHotelCountry','id_sbHotelState','1','id_sbHotelCity','0','0','0'); 
-	$("#id_sbHotelPic").fileinput({
+	/*$("#id_sbHotelPic").fileinput({
 		showUpload: false,
 		showCaption: false,
 		browseClass: "btn btn-primary btn-lg",
 		fileType: "any",
-        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
-	});
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+		previewClass : "test"
+		showRemove: false,
+		width:'80%',
+		height:'80%',
+		preview:"test"
+		
+	});*/
 	
 	  $('#id_sbPropertyBuiltYear').datepicker({
 			changeYear: true,
@@ -452,5 +471,25 @@ $(document).ready(function () {
     
 			};
 		});
+	function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {
+			    $("#id_uploadImage").show(200);
+                $('#id_uploadImage').attr('src', e.target.result);
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#id_sbHotelPic").change(function(){
+	
+        readURL(this);
+    });	
+	$('#btn-upload').click(function(e){
+        e.preventDefault();
+        $('#id_sbHotelPic').click();}
+    );
 });
 </script>
