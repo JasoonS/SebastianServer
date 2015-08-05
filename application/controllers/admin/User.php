@@ -45,28 +45,27 @@ class User extends CI_Controller
 		// Staff cant access this module
 		if(($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u'))
 		{
-			$data['hotel_list'] = getAllHotels();
-			$data['user_type']= 'u';
-			$data['page_type']=$this->uri->segment(4);
-			$this->template->load('page_tpl', 'hotel_user_list',$data);
+			$data['hotel_list'] 	= 	getAllHotels();
+			$data['user_type']		= 	'u';
+			$data['page_type']		=	$this->uri->segment(4);
 		}
 		
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'a')
 		{
-			$data['user_type']= 'a';
-			$data['page_type']=$this->uri->segment(4);
-			$data['sb_hotel_id']=$this->session->userdata('logged_in_user')->sb_hotel_id;
-			$data['sb_hotel_name']=$this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
-			$this->template->load('page_tpl', 'hotel_user_list',$data);
+			$data['user_type']		= 	'a';
+			$data['page_type']		=	$this->uri->segment(4);
+			$data['sb_hotel_id']	=	$this->session->userdata('logged_in_user')->sb_hotel_id;
+			$data['sb_hotel_name']	=	$this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
 		}
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'm')
 		{
-			$data['user_type']= 'm';
-			$data['page_type']=$this->uri->segment(4);
-			$data['sb_hotel_id']=$this->session->userdata('logged_in_user')->sb_hotel_id;
-			$data['sb_hotel_name']=$this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
-			$this->template->load('page_tpl', 'hotel_user_list',$data);
+			$data['user_type']		= 	'm';
+			$data['page_type']		=	$this->uri->segment(4);
+			$data['sb_hotel_id']	=	$this->session->userdata('logged_in_user')->sb_hotel_id;
+			$data['sb_hotel_name']	=	$this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
 		}
+
+		$this->template->load('page_tpl', 'hotel_user_list',$data);
 	}
 
     /*

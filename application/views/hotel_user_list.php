@@ -1,27 +1,10 @@
-<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">
-<link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
-<link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
-<link href="<?php echo THEME_ASSETS; ?>css/jquery.dataTables.css" rel="stylesheet" type="text/css">
-<script src="<?php echo THEME_ASSETS ?>js/bootstrap.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
-	<div class="right_col" role="main">
-		<div class="">
-			<div class="page-title">
+<div class="right_col" role="main">
+	<div class="">
+		<div class="page-title">
             <div class="title_left">
-                <h3>Hotel User List</small></h3>
+                <h3>Hotel User List</h3>
             </div>
-            <!--<div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
-                        </span>
-                    </div>
-                </div>
-            </div>-->
-        </div>
+    	</div>
         <div class="clearfix"></div>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -44,21 +27,14 @@
 							}
 						?>
                         <ul class="nav navbar-right panel_toolbox">
-                           <!-- <li><a href="#"><i class="fa fa-chevron-up"></i></a></li>                            
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                
-                            </li>
-                            <li><a href="#"><i class="fa fa-close"></i></a>
-                            </li>-->
                             <a class="btn btn-sm btn-success" id="add_hotel_user" href="<?php echo site_url('/admin/user/add_hotel_user');?>"  title="Add Hotel User"><i class="glyphicon glyphicon-plus"></i> Add Hotel User</a>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="x_content">
-						<table id="hotel-grid"  class="table table-striped table-bordered" >
+                    <div class="table-responsive x_content">
+						<table id="hotel-grid"  class="table table-striped responsive-utilities jambo_table" >
 							<thead>
-								<tr>
+								<tr class="headings">
 									<th>Hotel User ID</th>
 									<th>Hotel Username</th>
 									<th>Hotel User Email</th>
@@ -85,52 +61,86 @@
         </div>
         <div class="clearfix"></div>
     </footer>
-	
+</div>
 <!--Confirmation Dialog For Delete Hotel -->
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
-                </div>
-            
-                <div class="modal-body">
-                    <p>You are about to delete/restore one hotel user.</p>
-                    <p>Do you want to proceed?</p>
-                    <p class="debug-url"></p>
-                </div>
-                <div class="modal-footer">
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+        
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+            </div>
+        
+            <div class="modal-body">
+                <p>You are about to delete/restore one hotel user.</p>
+                <p>Do you want to proceed?</p>
+                <p class="debug-url"></p>
+            </div>
+            <div class="modal-footer">
             </div>
         </div>
     </div>
 </div>
-</div>
-<script type="text/javascript">
 
-function create_hotel_grid(){
+
+<!-- Theme specfic js !-->
+<script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>	
+<!-- chart js -->
+<script src="<?php echo THEME_ASSETS?>js/chartjs/chart.min.js"></script>
+<!-- bootstrap progress js -->
+<script src="<?php echo THEME_ASSETS?>js/progressbar/bootstrap-progressbar.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/nicescroll/jquery.nicescroll.min.js"></script>
+<!-- icheck -->
+<script src="<?php echo THEME_ASSETS?>js/icheck/icheck.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
+
+<script type="text/javascript">
+function create_hotel_grid()
+{
     var columnnames=['sb_hotel_user_id','sb_hotel_username','sb_hotel_useremail','sb_hotel_user_type','sb_hotel_user_type'];
 	var hotel_id=$("#sb_hotel_id").val();
 	table = $('#hotel-grid').DataTable({ 
-				"processing": true, //Feature control the processing indicator.
-				"serverSide": true, //Feature control DataTables' server-side processing mode.
-				"bDestroy":true,// Load data for the table's content from an Ajax source
-				"ajax": {
-					"url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
-					"data":{flag:'4',tablename:'sb_hotel_users',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:columnnames,hotel_id:hotel_id,user_type:'<?php echo $user_type;?>',page_type:'<?php echo $page_type;?>'},
-					"type": "POST"
-				},
-				//Set column definition initialisation properties.
-				"columnDefs": [
-					{ 
-						"targets": [ -1 ], //last column
-						"orderable": false, //set not orderable
-					},
-				],
-				"order": [[ 0, "desc" ]]
-      });
+		"processing": true, //Feature control the processing indicator.
+		"serverSide": true, //Feature control DataTables' server-side processing mode.
+		"bDestroy":true,// Load data for the table's content from an Ajax source
+		"ajax": {
+			"url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
+			"data":{flag:'4',tablename:'sb_hotel_users',orderkey: ' sb_hotel_id ',orderdir:' desc ',columns:columnnames,hotel_id:hotel_id,user_type:'<?php echo $user_type;?>',page_type:'<?php echo $page_type;?>'},
+			"type": "POST"
+		},
+		//Set column definition initialisation properties.
+		"columnDefs": [
+			{ 
+				"targets": [ -1 ], //last column
+				"orderable": false, //set not orderable
+			},
+		],
+		"order": [[ 0, "desc" ]],
+		"sPaginationType": "full_numbers",
+        "dom": 'T<"clear">lfrtip',
+    });
+
+    $("tfoot input").keyup(function () {
+        
+        oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
+    });
+    $("tfoot input").each(function (i) {
+        asInitVals[i] = this.value;
+    });
+    $("tfoot input").focus(function () {
+        if (this.className == "search_init") {
+            this.className = "";
+            this.value = "";
+        }
+    });
+    $("tfoot input").blur(function (i) {
+        if (this.value == "") {
+            this.className = "search_init";
+            this.value = asInitVals[$("tfoot input").index(this)];
+        }
+    });
 }
 
 var table;
