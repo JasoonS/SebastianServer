@@ -171,7 +171,7 @@ class Hotel extends CI_Controller
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
 	    {
 			$this->data['title'] = LABEL_1;
-			$this->template->load('page_tpl', 'create_hotel',$this->data);
+			$this->template->load('page_tpl', 'create_hotel_vw',$this->data);
 	    }	
 	}
 	

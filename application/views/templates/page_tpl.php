@@ -11,7 +11,7 @@
 	<title><?php //echo $title; ?></title>
 
 	 
-	<!-- Bootstrap core CSS -->
+	<!-- Bootstrap core CSS and Required Theme Js -->
 	 
 	<link href="<?php echo THEME_ASSETS;  ?>css/bootstrap.min.css" rel="stylesheet">
 	 

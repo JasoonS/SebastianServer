@@ -259,12 +259,12 @@
 												{
 												    if (in_array($languagelist[$i]['lang_id'], $selectedlanguages)) 
 												    {				
-														echo '<input type="checkbox" class="flat" name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'" checked>'.$languagelist[$i]['lang_name'].'<br/>';				        
+														echo '<input type="checkbox"  name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'" checked><b>'.$languagelist[$i]['lang_name'].'</b><br/>';				        
 													}
 													else
 													{
 													
-														echo '<input type="checkbox" class="flat" name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'"><b>'. $languagelist[$i]['lang_name'].'</b><br/>';														
+														echo '<input type="checkbox"  name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'"><b>'. $languagelist[$i]['lang_name'].'</b><br/>';														
 													}
 													$i++;
 												}
@@ -310,6 +310,16 @@
 <script src="<?php echo THEME_ASSETS ?>js/star-rating.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
+
+
+<!-- Theme specfic js!-->
+<script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
+<!-- bootstrap progress js -->
+<script src="<?php echo THEME_ASSETS?>js/progressbar/bootstrap-progressbar.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/nicescroll/jquery.nicescroll.min.js"></script>
+<!-- icheck -->
+<script src="<?php echo THEME_ASSETS?>js/icheck/icheck.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
 
 
 <script>
