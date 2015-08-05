@@ -45,7 +45,7 @@ class Iospush {
 			$pemPath = 'push/customer/SebastianCustomerCK.pem';
 		else
 			$pemPath = 'push/staff/SebastianStaffCK.pem';
-		// echo $pemPath; die;
+		
 		$arrContextOptions=array(
 		    "ssl"=>array(
 		        "verify_peer"=>false,

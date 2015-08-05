@@ -2,18 +2,23 @@
     <div class="left_col scroll-view">
 
         <div class="navbar nav_title" style="border: 0;">
-            <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span><?php if(isset($title)) {echo $title;} ?></span></a>
+            <a href="<?php echo site_url('admin/dashboard'); ?>" class="site_title"><i class="fa fa-paw"></i> <span><?php if(isset($title)) {echo $title;} ?></span></a>
         </div>
         <div class="clearfix"></div>
-
+		
+	   <?php
+        //echo '<pre>';
+        //print_r($this->session->all_userdata());
+        //exit;
+       ?>
         <!-- menu prile quick info -->
         <div class="profile">
             <div class="profile_pic">
-                <img src="<?php echo THEME_ASSETS;  ?>images/img.jpg" alt="..." class="img-circle profile_img">
+                <img src="<?php echo base_url(HOTEL_USER_PIC).'/'.$this->session->logged_in_user->sb_hotel_user_pic; ?>" alt="" class="img-circle profile_img">
             </div>
             <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>Anthony Fernando</h2>
+                <h2><?php $this->session->logged_in_user->sb_hotel_username;?></h2>
             </div>
         </div>
         <!-- /menu prile quick info -->
@@ -35,7 +40,7 @@
                                <?php if($subModules) { ?>
                                 <ul class="nav child_menu" style="display: none">                
                                     <?php foreach($subModules as $key => $val) { ?>
-                                        <li><a href="<?php echo $val['module_key'] ?>"><?php echo $val['name']; ?></a></li>
+                                        <li><a href="<?php echo base_url('admin/'.$val['module_key']); ?>"><?php echo $val['name']; ?></a></li>
                                     <?php } ?>
                                 </ul>
 

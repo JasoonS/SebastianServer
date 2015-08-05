@@ -8,8 +8,21 @@ class User extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+
+		/*
+			this code is to maintain all hits log
+			as well as to restrict API to any devices not browsers
+
+			SOF
+		*/
 		$this->load->helper('api/device_log');
 		device_log($_SERVER,$_REQUEST);
+		$this->load->library('user_agent');
+		if($this->agent->is_browser())
+		{
+		    response_fail("Please insert all the fields");
+		}
+		/*EOF*/
 		$this->load->model('api/customer/User_model');
 		// $this->device_log();
 	}
@@ -127,15 +140,5 @@ class User extends CI_Controller
 		}
 	}
 
-	// function device_log()
-	// {
-	// // 	// $server_name = $_SERVER['REMOTE_USER'];
-	// // 	// $server_addr = $_SERVER['REMOTE_ADDR'];
-	// // 	// $REMOTE_HOST = $_SERVER['REMOTE_HOST'];
-	// // 	// print_r($server_name); print_r($server_addr); 
-	// // 	// print_r($_SERVER); die();
-	//  	$data = json_encode($_SERVER);
-	// 	$this->User_model->store_log($data);
-	// }
 	
 }	

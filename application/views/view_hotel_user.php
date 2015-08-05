@@ -1,31 +1,26 @@
-
-
-	<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">
-    
-	<link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	<link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo THEME_ASSETS; ?>css/bootstrap-toggle.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo THEME_ASSETS; ?>css/fileinput.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo THEME_ASSETS; ?>css/jquery-checktree.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo THEME_ASSETS; ?>css/jquery.dataTables.css" rel="stylesheet" type="text/css">
-	<script src="<?php echo THEME_ASSETS ?>js/bootstrap.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/star-rating.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/bootstrap-toggle.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
-	<script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
-	<div class="right_col" role="main">
+<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">    
+<link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">
+<link href="<?php echo THEME_ASSETS; ?>css/bootstrap-toggle.css" rel="stylesheet" type="text/css">
+<link href="<?php echo THEME_ASSETS; ?>css/fileinput.css" rel="stylesheet" type="text/css">
+<link href="<?php echo THEME_ASSETS; ?>css/jquery-checktree.css" rel="stylesheet" type="text/css">
+<link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
+<link href="<?php echo THEME_ASSETS; ?>css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/star-rating.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-toggle.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
+<div class="right_col" role="main">
     <div class="">
 	<legend>View Hotel User</legend>
-	
 	<form class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data">
 		<fieldset>
-			
 				<table id="hotel-table"  class="table  table-bordered" >
 					<tbody>
 						<tr>
@@ -79,14 +74,11 @@
 									}
 								?></td>
 						</tr>
-						
                     </tbody>
 				</table>
 		</fieldset>
-		
 	</form>
-
-</div>
+	</div>
 </div>
 
 

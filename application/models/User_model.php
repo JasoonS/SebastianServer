@@ -92,20 +92,18 @@ Class User_model extends CI_Model
 	{
 		$this->db->select('sb_hotel_user_id,sb_hotels.sb_hotel_id,sb_hotel_username,sb_hotel_name');
 		$this->db->select('sb_hotel_useremail,sb_hotel_user_pic,sb_hotel_user_type');
-		$this->db->select('sb_hotel_user_shift_from,sb_hotel_user_shift_to');
+		$this->db->select('sb_hotel_user_shift_from,sb_hotel_user_shift_to,sb_staff_designation_id');
 		$this->db->from('sb_hotel_users');
 		$this->db->join('sb_hotels','sb_hotels.sb_hotel_id=sb_hotel_users.sb_hotel_id');
 		$this->db->where('sb_hotel_user_id',$user_id);
 		$query = $this->db->get();
-
 		if($query->num_rows() > 0)
 			return $row = $query->row();
 		else
 			return FALSE;
 	}
 	
-	/* Method insert User Role in Database
-	 * 
+	/* Method insert User Role in Database 
 	 * @param array
 	 * return true on success , false on failure
 	 */
@@ -137,7 +135,6 @@ Class User_model extends CI_Model
 		return 1;
 	}
 	/* Method Remove User Module Permissions in Database
-	 * 
 	 * @param array
 	 * return true on success , false on failure
 	 */
@@ -147,6 +144,17 @@ Class User_model extends CI_Model
 		$this->db->delete('sb_user_modules');
 		return 1;
 	}
-	
-	
-}
+	/* Returns List Of all Designations of Hotel Users
+	 * @params void
+	 *
+	 */
+	function get_all_designations()
+	{
+		$this->db->select('sb_staff_designation_id as designation_id,sb_staff_designation_name as designation_name');
+        $query = $this->db->get('sb_hotel_staff_designation');
+		if($query->num_rows() > 0)
+			return $row = $query->result_array();
+		else
+			return FALSE;
+	}
+}//End Of Model

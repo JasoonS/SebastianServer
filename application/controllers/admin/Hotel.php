@@ -1,13 +1,12 @@
 <?php
-/* Dashboard display user dashboard
- * according to inheriated/assigned access levels
+/* Hotel Controller Class
+ * perform crud of hotels
+ * All Hotels Related
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Hotel extends CI_Controller 
 {
 	public $data	 = array();
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -20,7 +19,6 @@ class Hotel extends CI_Controller
 		{
 			// Get the user's ID and add it to the config array
 			$config = array('userID'=>$this->session->userdata('logged_in_user')->sb_hotel_user_id);
-
 			// Load the ACL library and pas it the config array
 			$this->load->library('acl',$config);
 		}
@@ -28,11 +26,9 @@ class Hotel extends CI_Controller
 
 	public function index()
 	{
-		//$this->data['Hotels'] = $this->Hotel_model->get_hotels();
-
-		//$this->template->load('page_tpl','hotel_list_vw',$this->data);
-
-		$this->template->load('page_tpl','test_hotel_list_view',$this->data);
+		$this->data['Hotels'] = $this->Hotel_model->get_hotels();
+		$this->template->load('page_tpl','hotel_list_vw',$this->data);
+		//$this->template->load('page_tpl','test_hotel_list_view',$this->data);
 		//$this->template->load('page_tpl','test_page_modal',$this->data);
 	}
 	/* Method render add Hotel View If User is super administrator
@@ -42,16 +38,14 @@ class Hotel extends CI_Controller
 	public function add_hotel()
 	{	
 		//Check If User is logged in otherwise redirect to login page.
-	
 		$this->data['action']	= "admin/hotel/create_hotel";
 		$this->data['countrylist'] = getCountryList();
 		$this->data['languagelist']=getAllLanguages();
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
 		{
 			$this->data['title'] = LABEL_1;
-		    $this->template->load('page_tpl', 'create_hotel',$this->data);
-		}
-			
+		    $this->template->load('page_tpl', 'create_hotel_vw',$this->data);
+		}	
 	}
 	
 	/* Method render create Hotel After submission Of add_hotel_form is super administrator
@@ -89,10 +83,8 @@ class Hotel extends CI_Controller
 			}
 		}else{
 				$data["sb_hotel_pic"] = "";
-				
 		        if(!empty($_FILES['sb_hotel_pic']['name']))
 				{
-
 					$folderName=HOTEL_PIC;
 					$pic1 = upload_image($folderName,"sb_hotel_pic");
 					if($pic1 != 0)
@@ -100,44 +92,42 @@ class Hotel extends CI_Controller
 						$data["sb_hotel_pic"] = $pic1;
 					}	
 				} 
-                
 				$hoteldata = array(
-									'sb_hotel_name'=>$data['sb_hotel_name'],	
-									'sb_hotel_category'=>$data['sb_hotel_category'],
-									'sb_hotel_star'=>$data['sb_hotel_star'],
-									'sb_hotel_email'=>$data['sb_hotel_email'],
-									'sb_hotel_website'=>$data['sb_hotel_website'],
-									'sb_hotel_owner'=>$data['sb_hotel_owner'],
-									'sb_hotel_country'=>$data['sb_hotel_country'],
-									'sb_hotel_state'=>$data['sb_hotel_state'],
-									'sb_hotel_city'=>$data['sb_hotel_city'],
-									'sb_hotel_address'=>$data['sb_hotel_address'],	
-									'sb_hotel_zipcode'=>$data['sb_hotel_zipcode'],
-									'sb_hotel_pic'=>$data['sb_hotel_pic'],
-									'sb_property_built_month'=>$data['sb_property_built_month'],
-									'sb_property_built_year'=>$data['sb_property_built_year'],
-									'sb_property_open_year'=>$data['sb_property_open_year']	
-							 );
-							 
+								'sb_hotel_name'=>$data['sb_hotel_name'],	
+								'sb_hotel_category'=>$data['sb_hotel_category'],
+								'sb_hotel_star'=>$data['sb_hotel_star'],
+								'sb_hotel_email'=>$data['sb_hotel_email'],
+								'sb_hotel_website'=>$data['sb_hotel_website'],
+								'sb_hotel_owner'=>$data['sb_hotel_owner'],
+								'sb_hotel_country'=>$data['sb_hotel_country'],
+								'sb_hotel_state'=>$data['sb_hotel_state'],
+								'sb_hotel_city'=>$data['sb_hotel_city'],
+								'sb_hotel_address'=>$data['sb_hotel_address'],	
+								'sb_hotel_zipcode'=>$data['sb_hotel_zipcode'],
+								'sb_hotel_pic'=>$data['sb_hotel_pic'],
+								'sb_property_built_month'=>$data['sb_property_built_month'],
+								'sb_property_built_year'=>$data['sb_property_built_year'],
+								'sb_property_open_year'=>$data['sb_property_open_year']	
+							 );		 
 				$result=$this->Hotel_model->create_hotel($hoteldata);
-
 				if($result > '1')
 				{
 					$languageresult =$this->Hotel_model->set_hotel_languages($result,$data['sb_languages']);
 					$this->session->set_flashdata('category_success', HOTEL_CREATION_SUCCESS);
-					redirect('admin/user/add_hotel');
+					redirect('admin/hotel/add_hotel');
 				}
 				else
 				{
 					$this->session->set_flashdata('category_error', HOTEL_CREATION_FAIL);
-					redirect('admin/user/add_hotel');
+					redirect('admin/hotel/add_hotel');
 				}
 			}
 	}	
 	
-	/*
-	This method returns Whether Hotel With The particular name Already Exists
-	*/
+	/* This method returns Whether Hotel With The particular name Already Exists
+	 * @params - String (Hotel Name)	 
+	 * return -boolean 
+	 */
     function validate_hotel($field_value)
 	{
 	   $result=$this->Hotel_model->find_hotel($field_value);
@@ -173,17 +163,16 @@ class Hotel extends CI_Controller
 	public function edit_hotel($hotel_id)
 	{	
 		//Check If User is logged in otherwise redirect to login page.
-		$this->data['action']	= "admin/hotel/edit_hotel_action/$hotel_id";
-		$this->data['hotel_id']	= $hotel_id;
-		$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
-		$this->data['countrylist'] = getCountryList();
-		$this->data['languagelist']=getAllLanguages();
+		$this->data['action']			= "admin/hotel/edit_hotel_action/$hotel_id";
+		$this->data['hotel_id']			= $hotel_id;
+		$this->data['hoteldata'] 		= $this->Hotel_model->get_hotel_data($hotel_id); 
+		$this->data['countrylist'] 		= getCountryList();
+		$this->data['languagelist']		=getAllLanguages();
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
-		    {
-				$this->data['title'] = LABEL_1;
-				$this->template->load('page_tpl', 'edit_hotel',$this->data);
-		    }
-			
+	    {
+			$this->data['title'] = LABEL_1;
+			$this->template->load('page_tpl', 'create_hotel',$this->data);
+	    }	
 	}
 	
 	/* Method Have Hotel Data updation logic super administrator/Hotel Administrator
@@ -192,11 +181,8 @@ class Hotel extends CI_Controller
 	 */
 	public function edit_hotel_action($hotel_id)
 	{	
-		//Check If User is logged in otherwise redirect to login page.
-	
 		$data = $this->input->post();
 		$this->validation_rules = array(
-		   
 		    array('field'=>'sb_hotel_country','label'=>'Country','rules'=>'required','class'=>'text-danger'),
 		    array('field'=>'sb_hotel_state','label'=>'State','rules'=>'required','class'=>'text-danger'),
 		    array('field'=>'sb_hotel_city','label'=>'City','rules'=>'required','class'=>'text-danger'),
@@ -214,15 +200,12 @@ class Hotel extends CI_Controller
 			$this->data['countrylist'] = getCountryList();
 			$this->data['languagelist']=getAllLanguages();
 			$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
-			$this->template->load('page_tpl', 'edit_hotel',$this->data);
+			$this->template->load('page_tpl', 'create_hotel',$this->data);
 		}else{
 		        $this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
-		        
 				$data["sb_hotel_pic"] =$this->data['hoteldata']['sb_hotel_pic'];
-				
 		        if(!empty($_FILES['sb_hotel_pic']['name']))
 				{
-
 					$folderName=HOTEL_PIC;
 					$pic1 = upload_image($folderName,"sb_hotel_pic");
 					if($pic1 != 0)
@@ -230,25 +213,22 @@ class Hotel extends CI_Controller
 						$data["sb_hotel_pic"] = $pic1;
 					}	
 				} 
-               
 				$hoteldata = array(
-									
-									'sb_hotel_category'=>$data['sb_hotel_category'],
-									'sb_hotel_star'=>$data['sb_hotel_star'],
-									'sb_hotel_email'=>$data['sb_hotel_email'],
-									'sb_hotel_website'=>$data['sb_hotel_website'],
-									'sb_hotel_owner'=>$data['sb_hotel_owner'],
-									'sb_hotel_country'=>$data['sb_hotel_country'],
-									'sb_hotel_state'=>$data['sb_hotel_state'],
-									'sb_hotel_city'=>$data['sb_hotel_city'],
-									'sb_hotel_address'=>$data['sb_hotel_address'],	
-									'sb_hotel_zipcode'=>$data['sb_hotel_zipcode'],
-									'sb_hotel_pic'=>$data['sb_hotel_pic'],
-									'sb_property_built_month'=>$data['sb_property_built_month'],
-									'sb_property_built_year'=>$data['sb_property_built_year'],
-									'sb_property_open_year'=>$data['sb_property_open_year']	
-							 );
-							 
+								'sb_hotel_category'=>$data['sb_hotel_category'],
+								'sb_hotel_star'=>$data['sb_hotel_star'],
+								'sb_hotel_email'=>$data['sb_hotel_email'],
+								'sb_hotel_website'=>$data['sb_hotel_website'],
+								'sb_hotel_owner'=>$data['sb_hotel_owner'],
+								'sb_hotel_country'=>$data['sb_hotel_country'],
+								'sb_hotel_state'=>$data['sb_hotel_state'],
+								'sb_hotel_city'=>$data['sb_hotel_city'],
+								'sb_hotel_address'=>$data['sb_hotel_address'],	
+								'sb_hotel_zipcode'=>$data['sb_hotel_zipcode'],
+								'sb_hotel_pic'=>$data['sb_hotel_pic'],
+								'sb_property_built_month'=>$data['sb_property_built_month'],
+								'sb_property_built_year'=>$data['sb_property_built_year'],
+								'sb_property_open_year'=>$data['sb_property_open_year']	
+							); 
 				$result=$this->Hotel_model->edit_hotel($hoteldata,$hotel_id);
 
 				if($result == '1')
@@ -263,8 +243,6 @@ class Hotel extends CI_Controller
 					redirect("admin/hotel/edit_hotel/$hotel_id");
 				}
 			}
-		
-			
 	}
 	
 	/* Method render  Hotel View If User is super administrator/Hotel Administrator
@@ -273,7 +251,6 @@ class Hotel extends CI_Controller
 	 */
 	public function view_hotel($hotel_id)
 	{	
-		
 		$this->data['action']	= "admin/hotel/view_hotel/$hotel_id";
 		$this->data['hotel_id']	= $hotel_id;
 		$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
@@ -282,8 +259,7 @@ class Hotel extends CI_Controller
 		    {
 				$this->data['title'] = LABEL_1;
 				$this->template->load('page_tpl', 'view_hotel',$this->data);
-			}
-			
+			}	
 	}
 	/* Method Deactivates/Activates hotel
 	 * @param int
@@ -302,11 +278,10 @@ class Hotel extends CI_Controller
 			$status =1;
 		}
 		$data=array(
-					'sb_hotel_id'=>$hotel_id,
-					'is_active'=>$status	
-				);
+				'sb_hotel_id'=>$hotel_id,
+				'is_active'=>$status	
+			);
 		$this->Hotel_model->edit_hotel($data,$hotel_id);		
 		echo json_encode(array('status'=>'1','message'=>'Hotel Status Changed'));
-			
 	}
-}
+}//End Of Controller Class

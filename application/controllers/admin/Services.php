@@ -1,7 +1,6 @@
 <?php
 /* Services controller class 
- * 1.Shows All Avaliable Services Checkbox List View For Hotel
- * 2.Allow Hotel Admin To Select Services For Hotel.
+ * perform service access related functionality for hotels
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -14,8 +13,6 @@ class services extends CI_Controller
 		$this->load->model('Services_model');
 		$this->load->helper('admin/utility_helper');
 	}
-
-
 	/* Render Hotel Checkbox Tree View If User is Hotel administrator to change services available for hotel.     
 	 * @param void
 	 * return void
@@ -30,10 +27,8 @@ class services extends CI_Controller
 		$this->data['serviceslist'] =$this->Services_model->get_all_services();
 		$this->data['hotelserviceslist']=$this->Services_model->get_hotel_services($this->data['hotel_id']);
 		$this->data['servicestree']=$this->createservicestree($this->data['serviceslist'],$this->data['hotelserviceslist']);
-		$this->template->load('create_hotel_tpl', 'hotel_services',$this->data);
-			
+		$this->template->load('create_hotel_tpl', 'hotel_services',$this->data);	
 	}
-	
 	/* Method Actual Selection of services available for hotel.
 	 * @param void
 	 * return void
@@ -53,10 +48,10 @@ class services extends CI_Controller
 			if (strpos($key, 'cservice') === 0) {
 				$valuearray=explode("_",$key);
 				$singlearray=array(
-									"sb_parent_service_id"=>$valuearray[3],
-									"sb_child_service_id"=>$valuearray[1],
-									"sb_hotel_id"=>$this->data['hotel_id']							 
-								);
+								"sb_parent_service_id"=>$valuearray[3],
+								"sb_child_service_id"=>$valuearray[1],
+								"sb_hotel_id"=>$this->data['hotel_id']							 
+							);
 				array_push($postdata,$singlearray);
 			}
 		}
@@ -64,9 +59,8 @@ class services extends CI_Controller
 		$this->session->set_flashdata('category_success',HOTEL_SELECT_SERVICES_SUCCESS);
 		redirect('admin/services/select_services');
 	}
-	/*
-	   This Function Creates Hotel Actual Services Checkbox Tree View html
-	 *  @param 1.Object Array Of all available services 2.Object Array of hotel selected services 
+	/* This Function Creates Hotel Default All Services Checkbox Tree View html
+	 * @param 1.Object Array Of all available services 2.Object Array of hotel selected services 
 	 * return html  
 	 */
 	function createservicestree($serviceslist,$hotelserviceslist)
@@ -78,7 +72,6 @@ class services extends CI_Controller
 		while($cnt<count($serviceslist))
 								{
 									array_push($groupArray,$serviceslist[$cnt]['sb_parent_service_name']);
-									
 									$cnt++;
 								}
 		$cnt=0;	
@@ -86,37 +79,30 @@ class services extends CI_Controller
 								{
 									array_push($hotelChildServicesArray,$hotelserviceslist[$cnt]['sb_child_service_id']);
 									array_push($hotelParentServicesArray,$hotelserviceslist[$cnt]['sb_parent_service_id']);
-									
 									$cnt++;
 								}			
 								
 		$arrayValues=array_count_values($groupArray);
-		
 		$html="<ul id='tree'>";
 		while($count<count($serviceslist))
 		{
 				if($count > 0){
-					if($serviceslist[$count]['sb_parent_service_id'] == $serviceslist[$count-1]['sb_parent_service_id'])
-						{
-						}
-					else
+					if($serviceslist[$count]['sb_parent_service_id'] != $serviceslist[$count-1]['sb_parent_service_id'])
 						{
 							$parentServiceName=$serviceslist[$count]['sb_parent_service_name'];
-						
 								if($arrayValues[$parentServiceName]>0)
 								{
 									$servicecount = 0;
 									$checked ="";
-										$parentservice=$serviceslist[$count]['sb_parent_service_id'];
-										if (in_array($parentservice, $hotelParentServicesArray)) {
-											$checked = 'checked';
-										}
-										else
-										{
-											$checked ='';
-										}
+									$parentservice=$serviceslist[$count]['sb_parent_service_id'];
+									if (in_array($parentservice, $hotelParentServicesArray)) {
+										$checked = 'checked';
+									}
+									else
+									{
+										$checked ='';
+									}
 									$html.="<li><label><input type='checkbox' $checked id='parent_service_".$serviceslist[$count]['sb_parent_service_id']."' />".$serviceslist[$count]['sb_parent_service_name']."</label>";
-								
 									while($servicecount<$arrayValues[$parentServiceName])
 									{
 										$checked ="";
@@ -132,7 +118,7 @@ class services extends CI_Controller
 										$servicecount++;
 										$count++;
 									}
-										$html.="</ul></li>";
+									$html.="</ul></li>";
 								}
 						}
 				}	
@@ -143,27 +129,26 @@ class services extends CI_Controller
 							{
 								$servicecount = 0;
 								$checked ="";
-										$parentservice=$serviceslist[$count]['sb_parent_service_id'];
-										if (in_array($parentservice, $hotelParentServicesArray)) {
-											$checked = 'checked';
-										}
-										else
-										{
-											$checked ='';
-										}
+								$parentservice=$serviceslist[$count]['sb_parent_service_id'];
+								if (in_array($parentservice, $hotelParentServicesArray)) {
+									$checked = 'checked';
+								}
+								else
+								{
+									$checked ='';
+								}
 								$html .="<li><label><input type='checkbox' $checked id='parent_service_".$serviceslist[$count]['sb_parent_service_id']."' />".$serviceslist[$count]['sb_parent_service_name']."</label>";
 								while($servicecount<$arrayValues[$parentServiceName])
 								{
-									 $checked ="";
-										$childservice=$serviceslist[$count]['sb_child_service_id'];
-										if (in_array($childservice, $hotelChildServicesArray)) {
-											$checked = 'checked';
-										}
-										else
-										{
-											$checked ='';
-										}
-								  
+									$checked ="";
+									$childservice=$serviceslist[$count]['sb_child_service_id'];
+									if (in_array($childservice, $hotelChildServicesArray)) {
+										$checked = 'checked';
+									}
+									else
+									{
+										$checked ='';
+									}
 									$html.= "<ul><li><label><input type='checkbox' ".$checked. " id='cservice_".$serviceslist[$count]['sb_child_service_id']."_pservice".$serviceslist[$count]['sb_parent_service_id']."' name='cservice_".$serviceslist[$count]['sb_child_service_id']."_pservice_".$serviceslist[$count]['sb_parent_service_id']."'/>".$serviceslist[$count]['sb_child_service_name']."</label></li></ul>";
 									$servicecount++;
 									$count++;
@@ -172,10 +157,9 @@ class services extends CI_Controller
 							}
 				}
 
-			}
+		}
 		$html .="</ul>";
 		return $html;
 	}
-
-}
+}//End Of Controller Class.
 
