@@ -1,5 +1,11 @@
 <div class="right_col" role="main">
     <div class="">
+    	<div class="page-title">
+            <div class="title_left">
+                <h3><?php echo $title; ?></h3>
+            </div>
+        </div>
+
 		<!-- This is for Success Message.-->
 		<?php if ($this->session->flashdata('category_success')) { ?>
 	        <div class="alert alert-success"> <?= $this->session->flashdata('category_success') ?> </div>
@@ -10,11 +16,11 @@
 	    	<div class="alert alert-danger"> <?= $this->session->flashdata('category_error') ?> </div>
 		<?php } ?>
 
-		<?php if(isset($userinfo)){?>
+		<?php /*if(isset($userinfo)){?>
 			<legend>Update Hotel User</legend>
 		<?php } else{ ?>
 			<legend>Create Hotel User</legend>
-		<?php }?>
+		<?php } */ ?>
 
 		<form  class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data" >
 			<div class="row">

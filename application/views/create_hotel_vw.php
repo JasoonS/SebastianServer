@@ -1,303 +1,309 @@
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
-	    	<form class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data">
-		    	<div class="row">
-		    		<div class = "col-md-6 col-xs-6 classFormBox">
-		    			<div class="x_panel classRequiredPanel">
-		    				<div class="x_title">
-			                    <h2><b>Mandatory Inputs</b></h2>	                            
-			                    <div class="clearfix"></div>
-			                </div>
-			                <div class = "x_content">
+    	<div class="page-title">
+            <div class="title_left">
+                <h3>Add New Hotel</h3>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+	    <form class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data">
+		    <div class="row">
+	    		<div class = "col-md-6 col-xs-6 classFormBox">
+	    			<div class="x_panel classRequiredPanel">
+	    				<div class="x_title">
+		                    <h2><b>Mandatory Inputs</b></h2>	                            
+		                    <div class="clearfix"></div>
+		                </div>
+		                <div class = "x_content">
 
-			                	<div class = "form-group classFormInputsBox">
-	                    			<label for="sbHotelName" class="col-xs-3 control-label">Hotel Name : </label>
-								    <div class="col-xs-6">
-								      <!--<input type="email" class="form-control" id="inputEmail3" placeholder="Email">!-->
-								      	<?php if(isset($hoteldata)){?>
-											<input id="id_sbHotelName"  name="sb_hotel_name" type="text" placeholder="Type Hotel Name Here ..." class="form-control" value="<?php echo $hoteldata['sb_hotel_name']?>" disabled />
-										<?php } else { ?>
-											<input id="id_sbHotelName"  name="sb_hotel_name" type="text" placeholder="Type Hotel Name Here ..." class="form-control" />
-										<?php }?>
-										<?php echo form_error('sb_hotel_name'); ?>
-								    </div>
-	                    		</div>
-
-	                    		<div class = "form-group classFormInputsBox">
-	                    			<label for = "sbHotelCategory" class="col-xs-3 control-label">Hotel Category :</label>
-	                    			<div class="col-xs-6">
-	                    				<?php if(isset($hoteldata)){?>
-											<select id="id_sbHotelCategory" name="sb_hotel_category" class="form-control">
-											    <?php
-													if($hoteldata['sb_hotel_category']=='Hotel')
-													{
-														echo "<option checked>Hotel</option>";
-														echo "<option>Resort</option>";
-													}
-													else
-													{
-														echo "<option>Hotel</option>";
-														echo "<option checked>Resort</option>";
-													}	
-											   ?>	
-					   						</select>
-										<?php }	else {?>
-										<select id="id_sbHotelCategory" name="sb_hotel_category" class="form-control">
-											<option>Hotel</option>
-											<option>Resort</option>
-										</select>
-										<?php }?>
-	                    			</div>
-	                    		</div>
-
-	                    		<div class="form-group classFormInputsBox">
-									<label for="sbHotelEmail" class="col-xs-3 control-label">Hotel Email :</label>
-									<div class="col-xs-6">
-										<?php if(isset($hoteldata)){?>
-											<input id="id_sbHotelEmail" name="sb_hotel_email" type="text" placeholder="Type Hotel Email Here ..." class="form-control" value="<?php echo $hoteldata['sb_hotel_email'];?>" />
-										<?php } else {?>	
-											<input id="id_sbHotelEmail" name="sb_hotel_email" type="text" placeholder="Type Hotel Email Here ..." class="form-control" />
-										<?php }?>
-										<?php echo form_error('sb_hotel_email'); ?>
-									</div>
-								</div>
-
-								<div class="form-group classFormInputsBox">
-									<label for="sbHotelWebsite" class="col-xs-3 control-label">Hotel Website :</label>
-									<div class="col-xs-6">
-									<?php if(isset($hoteldata)){?>
-										<input id="id_sbHotelWebsite" name="sb_hotel_website" type="text" placeholder="Type Hotel Website Url Here ..." class="form-control" value="<?php echo $hoteldata['sb_hotel_website']?>">
+		                	<div class = "form-group classFormInputsBox">
+                    			<label for="sbHotelName" class="col-xs-3 control-label">Hotel Name : </label>
+							    <div class="col-xs-6">
+							      <!--<input type="email" class="form-control" id="inputEmail3" placeholder="Email">!-->
+							      	<?php if(isset($hoteldata)){?>
+										<input id="id_sbHotelName"  name="sb_hotel_name" type="text" placeholder="Type Hotel Name Here ..." class="form-control" value="<?php echo $hoteldata['sb_hotel_name']?>" disabled />
 									<?php } else { ?>
-										<input id="id_sbHotelWebsite" name="sb_hotel_website" type="text" placeholder="Type Hotel Website Url Here ..." class="form-control" >
+										<input id="id_sbHotelName"  name="sb_hotel_name" type="text" placeholder="Type Hotel Name Here ..." class="form-control" />
 									<?php }?>
-									<?php echo form_error('sb_hotel_website'); ?>
-									</div>
-								</div>
+									<?php echo form_error('sb_hotel_name'); ?>
+							    </div>
+                    		</div>
 
-								<div class="form-group classFormInputsBox">
-								  <label for="sbHotelCountry" class="col-xs-3 control-label">Country :</label>
-								  <div class="col-xs-6">
-									<select id="id_sbHotelCountry" name="sb_hotel_country" class="form-control" required="" onchange="loadStates('id_sbHotelCountry','id_sbHotelState','1','id_sbHotelCity','0','0','0')">
-										<?php
-											if(isset($hoteldata)){
-												foreach($countrylist as $key=>$country)
+                    		<div class = "form-group classFormInputsBox">
+                    			<label for = "sbHotelCategory" class="col-xs-3 control-label">Hotel Category :</label>
+                    			<div class="col-xs-6">
+                    				<?php if(isset($hoteldata)){?>
+										<select id="id_sbHotelCategory" name="sb_hotel_category" class="form-control">
+										    <?php
+												if($hoteldata['sb_hotel_category']=='Hotel')
 												{
-													if($country['country_id'] == $hoteldata['sb_hotel_country']){
-														echo "<option value='".$country['country_id']."' checked>".$country['country_name']."</option>";
-													}
-													else
-													{
-														echo "<option value='".$country['country_id']."'>".$country['country_name']."</option>";
-													}
+													echo "<option checked>Hotel</option>";
+													echo "<option>Resort</option>";
 												}
-										  	}
-											else{
-												foreach($countrylist as $key=>$country)
-												echo "<option value='".$country['country_id']."'>".$country['country_name']."</option>";
-											}
-										?>   				
+												else
+												{
+													echo "<option>Hotel</option>";
+													echo "<option checked>Resort</option>";
+												}	
+										   ?>	
+				   						</select>
+									<?php }	else {?>
+									<select id="id_sbHotelCategory" name="sb_hotel_category" class="form-control">
+										<option>Hotel</option>
+										<option>Resort</option>
 									</select>
-									<?php echo form_error('sb_hotel_country'); ?>
-								  </div>
-								</div>
+									<?php }?>
+                    			</div>
+                    		</div>
 
-								<div class="form-group classFormInputsBox">
-								  <label for="sbHotelState" class="col-xs-3 control-label">State :</label>
-								  <div class="col-xs-6">
-									<select id="id_sbHotelState" name="sb_hotel_state" class="form-control" required="" onchange="loadCities('id_sbHotelState','id_sbHotelCity','0','0')">
-									  
-									</select>
-									<?php echo form_error('sb_hotel_state'); ?>
-								  </div>
-								</div>
-
-								<div class="form-group classFormInputsBox">
-								  <label for="sbHotelCity" class="col-xs-3 control-label">City :</label>
-								  <div class="col-xs-6">
-									<select id="id_sbHotelCity" name="sb_hotel_city" class="form-control" required="">
-									</select>
-									<?php echo form_error('sb_hotel_city'); ?>
-								  </div>
-								</div>
-
-								<div class="form-group classFormInputsBox">
-			  						<label for="sbHotelAddress" class="col-xs-3 control-label" >Hotel Address :</label>
-								  	<div class="col-xs-6">
-										<?php if(isset($hoteldata)){?>
-							            <textarea id="id_sbHotelAddress" name="sb_hotel_address" required class="form-control"><?php echo $hoteldata['sb_hotel_address']?></textarea>		  
-										<?php }
-										 else {?>
-										<textarea id="sb_hotel_address" name="sb_hotel_address" required class="form-control"></textarea>
-										<?php }?>
-										<?php echo form_error('sb_hotel_address'); ?>
-								  	</div>
-								</div>
-
-								<div class="form-group classFormInputsBox">
-								  <label class="col-xs-3 control-label" for="sbHotelZipcode">Postal Code</label>
-								  <div class="col-xs-6">
-								    <?php if(isset($hoteldata)){?>
-								    	<input id="id_sbHotelZipcode" name="sb_hotel_zipcode" type="text"  placeholder="Type Postal Code Here" class="form-control"  maxlength="5" value="<?php echo $hoteldata['sb_hotel_zipcode']?>">
-									<?php } else {?>
-										<input id="id_sbHotelZipcode" name="sb_hotel_zipcode" type="text"  placeholder="Type Postal Code Here" class="form-control"  maxlength="6">
-									<?php }?>	
-									<?php echo form_error('sb_hotel_zipcode'); ?>
-								  </div>
-								</div>								
-			                </div>    
-		    			</div>
-		    			<div class="form-group classFormInputsBox">													  								 
-							    <?php if(isset($hoteldata)){ ?>
-										<button id="submit"  class="btn btn-primary btn-lg btn-block">Update Hotel</button>
-								<?php }
-								 else {?>	
-										<button id="submit"  class="btn btn-primary btn-lg btn-block">Create Hotel</button>
-								<?php }?>							  
-							</div>
-		    		</div>
-
-		    		<div class = "col-md-6 col-xs-6 classFormBox">
-		    			<div class="x_panel classOptionalPanel">
-		    				<div class="x_title">
-			                    <h2><b>Optional Inputs</b></h2>	                            
-			                    <div class="clearfix"></div>
-			                </div>
-			                <div class = "x_content">
-
-			                	<div class = "form-group classFormInputsBox">
-	                    			<label for="sbHotelStar" class="col-xs-3 control-label">Hotel Star :</label>
-	                    			<div class="col-xs-6">
-	                    				<?php if(isset($hoteldata)){?>
-											<input id="id_sbHotelStar" name="sb_hotel_star" value="<?php echo $hoteldata['sb_hotel_star'];?>" type="number" class="rating" data-stars=7 min=0 max=7 step=1 data-size="xs" data-glyphicon="false"/>
-										<?php } else {?>
-											<input id="id_sbHotelStar" name="sb_hotel_star" value="0" type="number" class="rating" data-stars=7 min=0 max=7 step=1 data-size="xs" data-glyphicon="false"/>
-										<?php }?>
-	                    			</div>
-	                    		</div>
-
-	                    		<div class="form-group classFormInputsBox">
-									<label for="sbHotelPic" class="col-xs-3 control-label">Hotel Picture :</label>
-									<div class="col-xs-6">
-										<input id="id_sbHotelPic" name="sb_hotel_pic" type="file"/>									
-									</div>
-								</div>
-
-								<div class="form-group classFormInputsBox">
-									<label for="sbHotelOwner" class="col-xs-3 control-label">Hotel Owner :</label>
-									<div class="col-xs-6">
+                    		<div class="form-group classFormInputsBox">
+								<label for="sbHotelEmail" class="col-xs-3 control-label">Hotel Email :</label>
+								<div class="col-xs-6">
 									<?php if(isset($hoteldata)){?>
-									<input id="id_sbHotelOwner" name="sb_hotel_owner" type="text" placeholder="Type Hotel Owner Name Here ..." class="form-control" value="<?php echo $hoteldata['sb_hotel_owner']?>"/>
+										<input id="id_sbHotelEmail" name="sb_hotel_email" type="text" placeholder="Type Hotel Email Here ..." class="form-control" value="<?php echo $hoteldata['sb_hotel_email'];?>" />
+									<?php } else {?>	
+										<input id="id_sbHotelEmail" name="sb_hotel_email" type="text" placeholder="Type Hotel Email Here ..." class="form-control" />
+									<?php }?>
+									<?php echo form_error('sb_hotel_email'); ?>
+								</div>
+							</div>
+
+							<div class="form-group classFormInputsBox">
+								<label for="sbHotelWebsite" class="col-xs-3 control-label">Hotel Website :</label>
+								<div class="col-xs-6">
+								<?php if(isset($hoteldata)){?>
+									<input id="id_sbHotelWebsite" name="sb_hotel_website" type="text" placeholder="Type Hotel Website Url Here ..." class="form-control" value="<?php echo $hoteldata['sb_hotel_website']?>">
+								<?php } else { ?>
+									<input id="id_sbHotelWebsite" name="sb_hotel_website" type="text" placeholder="Type Hotel Website Url Here ..." class="form-control" >
+								<?php }?>
+								<?php echo form_error('sb_hotel_website'); ?>
+								</div>
+							</div>
+
+							<div class="form-group classFormInputsBox">
+							  <label for="sbHotelCountry" class="col-xs-3 control-label">Country :</label>
+							  <div class="col-xs-6">
+								<select id="id_sbHotelCountry" name="sb_hotel_country" class="form-control" required="" onchange="loadStates('id_sbHotelCountry','id_sbHotelState','1','id_sbHotelCity','0','0','0')">
+									<?php
+										if(isset($hoteldata)){
+											foreach($countrylist as $key=>$country)
+											{
+												if($country['country_id'] == $hoteldata['sb_hotel_country']){
+													echo "<option value='".$country['country_id']."' checked>".$country['country_name']."</option>";
+												}
+												else
+												{
+													echo "<option value='".$country['country_id']."'>".$country['country_name']."</option>";
+												}
+											}
+									  	}
+										else{
+											foreach($countrylist as $key=>$country)
+											echo "<option value='".$country['country_id']."'>".$country['country_name']."</option>";
+										}
+									?>   				
+								</select>
+								<?php echo form_error('sb_hotel_country'); ?>
+							  </div>
+							</div>
+
+							<div class="form-group classFormInputsBox">
+							  <label for="sbHotelState" class="col-xs-3 control-label">State :</label>
+							  <div class="col-xs-6">
+								<select id="id_sbHotelState" name="sb_hotel_state" class="form-control" required="" onchange="loadCities('id_sbHotelState','id_sbHotelCity','0','0')">
+								  
+								</select>
+								<?php echo form_error('sb_hotel_state'); ?>
+							  </div>
+							</div>
+
+							<div class="form-group classFormInputsBox">
+							  <label for="sbHotelCity" class="col-xs-3 control-label">City :</label>
+							  <div class="col-xs-6">
+								<select id="id_sbHotelCity" name="sb_hotel_city" class="form-control" required="">
+								</select>
+								<?php echo form_error('sb_hotel_city'); ?>
+							  </div>
+							</div>
+
+							<div class="form-group classFormInputsBox">
+		  						<label for="sbHotelAddress" class="col-xs-3 control-label" >Hotel Address :</label>
+							  	<div class="col-xs-6">
+									<?php if(isset($hoteldata)){?>
+						            <textarea id="id_sbHotelAddress" name="sb_hotel_address" required class="form-control"><?php echo $hoteldata['sb_hotel_address']?></textarea>		  
 									<?php }
 									 else {?>
-									<input id="id_sbHotelOwner" name="sb_hotel_owner" type="text" placeholder="Type Hotel Owner Name Here ..." class="form-control" />
+									<textarea id="sb_hotel_address" name="sb_hotel_address" required class="form-control"></textarea>
 									<?php }?>
-									<?php echo form_error('sb_hotel_owner'); ?>
-									</div>
-								</div>
+									<?php echo form_error('sb_hotel_address'); ?>
+							  	</div>
+							</div>
 
-								<div class="form-group classFormInputsBox">
-									<label for="sbPropertyBuiltMonth" class="col-xs-3 control-label">Hotel Built-In (Month) </label>
-									<div class="col-xs-6">
-										<select id="id_sbPropertyBuiltMonth" name="sb_property_built_month" class="form-control">
-											<?php 
-											$monthArray = array('January','February','March','April','May','June','July','August','September','October','November','December');
-											$i=0;
-											while($i<count($monthArray))
-										    {
-											   if(isset($hoteldata)){
-													if($i==$hoteldata['sb_property_built_month'])
-													{
-														echo "<option value='".$i."' checked>".$monthArray[$i]."</option>";	
-													}
-													else{
-														echo "<option value='".$i."'>".$monthArray[$i]."</option>";
-													}
-											    }
+							<div class="form-group classFormInputsBox">
+							  <label class="col-xs-3 control-label" for="sbHotelZipcode">Postal Code</label>
+							  <div class="col-xs-6">
+							    <?php if(isset($hoteldata)){?>
+							    	<input id="id_sbHotelZipcode" name="sb_hotel_zipcode" type="text"  placeholder="Type Postal Code Here" class="form-control"  maxlength="5" value="<?php echo $hoteldata['sb_hotel_zipcode']?>">
+								<?php } else {?>
+									<input id="id_sbHotelZipcode" name="sb_hotel_zipcode" type="text"  placeholder="Type Postal Code Here" class="form-control"  maxlength="6">
+								<?php }?>	
+								<?php echo form_error('sb_hotel_zipcode'); ?>
+							  </div>
+							</div>								
+		                </div>    
+	    			</div>
+	    			<div class="form-group classFormInputsBox">													  								 
+						    <?php if(isset($hoteldata)){ ?>
+									<button id="submit"  class="btn btn-primary btn-lg btn-block">Update Hotel</button>
+							<?php }
+							 else {?>	
+									<button id="submit"  class="btn btn-primary btn-lg btn-block">Create Hotel</button>
+							<?php }?>							  
+						</div>
+	    		</div>
+
+	    		<div class = "col-md-6 col-xs-6 classFormBox">
+	    			<div class="x_panel classOptionalPanel">
+	    				<div class="x_title">
+		                    <h2><b>Optional Inputs</b></h2>	                            
+		                    <div class="clearfix"></div>
+		                </div>
+		                <div class = "x_content">
+
+		                	<div class = "form-group classFormInputsBox">
+                    			<label for="sbHotelStar" class="col-xs-3 control-label">Hotel Star :</label>
+                    			<div class="col-xs-6">
+                    				<?php if(isset($hoteldata)){?>
+										<input id="id_sbHotelStar" name="sb_hotel_star" value="<?php echo $hoteldata['sb_hotel_star'];?>" type="number" class="rating" data-stars=7 min=0 max=7 step=1 data-size="xs" data-glyphicon="false"/>
+									<?php } else {?>
+										<input id="id_sbHotelStar" name="sb_hotel_star" value="0" type="number" class="rating" data-stars=7 min=0 max=7 step=1 data-size="xs" data-glyphicon="false"/>
+									<?php }?>
+                    			</div>
+                    		</div>
+
+                    		<div class="form-group classFormInputsBox">
+								<label for="sbHotelPic" class="col-xs-3 control-label">Hotel Picture :</label>
+								<div class="col-xs-6">
+									<input id="id_sbHotelPic" name="sb_hotel_pic" type="file"/>									
+								</div>
+							</div>
+
+							<div class="form-group classFormInputsBox">
+								<label for="sbHotelOwner" class="col-xs-3 control-label">Hotel Owner :</label>
+								<div class="col-xs-6">
+								<?php if(isset($hoteldata)){?>
+								<input id="id_sbHotelOwner" name="sb_hotel_owner" type="text" placeholder="Type Hotel Owner Name Here ..." class="form-control" value="<?php echo $hoteldata['sb_hotel_owner']?>"/>
+								<?php }
+								 else {?>
+								<input id="id_sbHotelOwner" name="sb_hotel_owner" type="text" placeholder="Type Hotel Owner Name Here ..." class="form-control" />
+								<?php }?>
+								<?php echo form_error('sb_hotel_owner'); ?>
+								</div>
+							</div>
+
+							<div class="form-group classFormInputsBox">
+								<label for="sbPropertyBuiltMonth" class="col-xs-3 control-label">Hotel Built-In (Month) </label>
+								<div class="col-xs-6">
+									<select id="id_sbPropertyBuiltMonth" name="sb_property_built_month" class="form-control">
+										<?php 
+										$monthArray = array('January','February','March','April','May','June','July','August','September','October','November','December');
+										$i=0;
+										while($i<count($monthArray))
+									    {
+										   if(isset($hoteldata)){
+												if($i==$hoteldata['sb_property_built_month'])
+												{
+													echo "<option value='".$i."' checked>".$monthArray[$i]."</option>";	
+												}
 												else{
 													echo "<option value='".$i."'>".$monthArray[$i]."</option>";
 												}
-												$i++;
-											} 
-										   ?>	
-										</select>
-									</div>
-								</div>
-
-								<div class="form-group classFormInputsBox">
-									<label for="sbPropertyBuiltYear" class="col-xs-3 control-label" >Hotel Built-In (Year)</label>
-									<div class="col-xs-6">
-										<?php if(isset($hoteldata)){?>
-											<input id="id_sbPropertyBuiltYear" name="sb_property_built_year" type="text"  class="form-control" value="<?php echo $hoteldata['sb_property_built_year']?>">
-										<?php } else {?>
-											<input id="id_sbPropertyBuiltYear" name="sb_property_built_year" type="text"  class="form-control" >
-										<?php }?>
-										<?php echo form_error('sb_property_built_year'); ?>
-									</div>
-								</div>
-
-								<div class="form-group classFormInputsBox">
-									<label for="sbPropertyOpenYear" class="col-xs-3 control-label">Hotel Opened (Year)</label>
-									<div class="col-xs-6">
-										<?php if(isset($hoteldata)){?>
-											<input id="id_sbPropertyOpenYear" name="sb_property_open_year" type="text"  class="form-control" value="<?php echo $hoteldata['sb_property_open_year']?>">
-										<?php } else {?>
-											<input id="id_sbPropertyOpenYear" name="sb_property_open_year" type="text"  class="form-control" >
-										<?php }?>
-										<?php echo form_error('sb_property_open_year'); ?>
-									</div>
-								</div>
-
-								<div class="form-group classFormInputsBox">
-									<label class="col-xs-3 control-label" for="sbHotelZipcode">Language Set :</label>
-									<div class="col-xs-6">
-										<?php
-											if(isset($hoteldata)){	
-												$selectedlanguages =explode(',',$hoteldata['lang_id']);
-												$i=0;
-												while($i<count($languagelist))
-												{
-												    if (in_array($languagelist[$i]['lang_id'], $selectedlanguages)) 
-												    {				
-														echo '<input type="checkbox"  name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'" checked><b>'.$languagelist[$i]['lang_name'].'</b><br/>';				        
-													}
-													else
-													{
-													
-														echo '<input type="checkbox"  name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'"><b>'. $languagelist[$i]['lang_name'].'</b><br/>';														
-													}
-													$i++;
-												}
-											}
+										    }
 											else{
-												$i=0;
-												while($i<count($languagelist))
-												{				    
-													echo '<input type="checkbox" name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'" checked><b>'. $languagelist[$i]['lang_name'].'</b><br/>';
-													
-													$i++;
-												}
+												echo "<option value='".$i."'>".$monthArray[$i]."</option>";
 											}
-										?>
-									</div>								
+											$i++;
+										} 
+									   ?>	
+									</select>
 								</div>
-			                </div>
-		    			</div>
-		    		</div>
+							</div>
+
+							<div class="form-group classFormInputsBox">
+								<label for="sbPropertyBuiltYear" class="col-xs-3 control-label" >Hotel Built-In (Year)</label>
+								<div class="col-xs-6">
+									<?php if(isset($hoteldata)){?>
+										<input id="id_sbPropertyBuiltYear" name="sb_property_built_year" type="text"  class="form-control" value="<?php echo $hoteldata['sb_property_built_year']?>">
+									<?php } else {?>
+										<input id="id_sbPropertyBuiltYear" name="sb_property_built_year" type="text"  class="form-control" >
+									<?php }?>
+									<?php echo form_error('sb_property_built_year'); ?>
+								</div>
+							</div>
+
+							<div class="form-group classFormInputsBox">
+								<label for="sbPropertyOpenYear" class="col-xs-3 control-label">Hotel Opened (Year)</label>
+								<div class="col-xs-6">
+									<?php if(isset($hoteldata)){?>
+										<input id="id_sbPropertyOpenYear" name="sb_property_open_year" type="text"  class="form-control" value="<?php echo $hoteldata['sb_property_open_year']?>">
+									<?php } else {?>
+										<input id="id_sbPropertyOpenYear" name="sb_property_open_year" type="text"  class="form-control" >
+									<?php }?>
+									<?php echo form_error('sb_property_open_year'); ?>
+								</div>
+							</div>
+
+							<div class="form-group classFormInputsBox">
+								<label class="col-xs-3 control-label" for="sbHotelZipcode">Language Set :</label>
+								<div class="col-xs-6">
+									<?php
+										if(isset($hoteldata)){	
+											$selectedlanguages =explode(',',$hoteldata['lang_id']);
+											$i=0;
+											while($i<count($languagelist))
+											{
+											    if (in_array($languagelist[$i]['lang_id'], $selectedlanguages)) 
+											    {				
+													echo '<input type="checkbox"  name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'" checked><b>'.$languagelist[$i]['lang_name'].'</b><br/>';				        
+												}
+												else
+												{
+												
+													echo '<input type="checkbox"  name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'"><b>'. $languagelist[$i]['lang_name'].'</b><br/>';														
+												}
+												$i++;
+											}
+										}
+										else{
+											$i=0;
+											while($i<count($languagelist))
+											{				    
+												echo '<input type="checkbox" name="sb_languages[]" value="'.$languagelist[$i]['lang_id'].'" checked><b>'. $languagelist[$i]['lang_name'].'</b><br/>';
+												
+												$i++;
+											}
+										}
+									?>
+								</div>								
+							</div>
+		                </div>
+	    			</div>
+	    		</div>
 		    	</div>
 	    	</form>
-        </div>
-	</div>
-	 <footer>
-        <div class="">
-            <p class="pull-right">Sebastian Admin |
-                <span class="lead"> <i class="fa fa-paw"></i></span>
-            </p>
-        </div>
-        <div class="clearfix"></div>
-    </footer>
-    <!-- /footer content -->	
+    </div>
+    <footer>
+		<div class="">
+		    <p class="pull-right">Sebastian Admin |
+		        <span class="lead"> <i class="fa fa-paw"></i></span>
+		    </p>
+		</div>
+		<div class="clearfix"></div>
+	</footer>
+<!-- /footer content -->
 </div>
+
 
 <!--- Page specfic css !-->
 <link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">

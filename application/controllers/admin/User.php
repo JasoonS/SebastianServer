@@ -48,6 +48,7 @@ class User extends CI_Controller
 			$data['hotel_list'] 	= 	getAllHotels();
 			$data['user_type']		= 	'u';
 			$data['page_type']		=	$this->uri->segment(4);
+			$data['title']			=   'Hotel Admins';
 		}
 		
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'a')
@@ -145,9 +146,15 @@ class User extends CI_Controller
 	*/
 	function add_hotel_user($hotel_id= '')
 	{
+
 		$this->data['action']	= "admin/user/create_hotel_admin_user/".$hotel_id;
+		$this->data['title']	= 'Add hotel admin';
+
+		//echo '<pre>';
+		//print_r($this->data);
+		//exit;
 		$this->make_authentication_validation();
-		$this->template->load('page_tpl', 'create_hotel_admin_user',$this->data); 
+		$this->template->load('page_tpl','create_hotel_admin_user',$this->data); 
 			
 	}
 	/*
