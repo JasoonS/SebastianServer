@@ -112,6 +112,17 @@ class Hotel_service extends CI_Controller
 			unset($inputArray['guest_room_number']);
 			$hrscnt++;
 		}
+		if(array_key_exists("sub_child_services_id",$inputArray))
+		{
+			$hrs['sub_child_services_id'] = $inputArray['sub_child_services_id'];
+			unset($inputArray['sub_child_services_id']);
+			$hrscnt++;
+		}
+		else
+		{
+			$hrs['sub_child_services_id'] = 0;
+			$hrscnt++;
+		}
 		
 		if(array_key_exists("service_due_date",$inputArray))
 		{
@@ -119,6 +130,7 @@ class Hotel_service extends CI_Controller
 			unset($inputArray['service_due_date']);
 			$hsscnt++;
 		}
+
 		else
 		{
 			$hss['sb_hotel_ser_start_date'] = date("Y-m-d");
@@ -136,7 +148,7 @@ class Hotel_service extends CI_Controller
 			$hsscnt++;
 		}
 
-		if($hrscnt<5 || $hsscnt < 2)
+		if($hrscnt<6 || $hsscnt < 2)
 		{
 			response_fail("Some input is missing");
 		}
@@ -151,6 +163,7 @@ class Hotel_service extends CI_Controller
  			//code for push notification	
 
 			$token = $sb_hotel_user = $this->Hotel_service_model->get_staff_ids($hrs['sb_hotel_id'],$hrs['sb_parent_service_id']);
+			
 			if (count($token)>0)
 			{
 				$msg = "New service requested from room no : ".$hrs['sb_guest_allocated_room_no'] ;
@@ -164,18 +177,20 @@ class Hotel_service extends CI_Controller
 				$ios_token = array();
 				for ($i=0; $i < count($token); $i++) 
 				{ 
-					if($token[$i]['sdt_deviceType'] == 'android')
+					if($token[$i]['sdt_deviceType'] == 'android' AND $token[$i]['sdt_token'] != NULL AND $token[$i]['sdt_token'] != (null))
 					{
 						array_push($android_token,$token[$i]['sdt_token']);
 					}
 					else
 					{
-						if($token[$i]['sdt_token'] != "")
+						if($token[$i]['sdt_token'] != "" AND $token[$i]['sdt_token'] != NULL AND $token[$i]['sdt_token'] != (null))
 						{
 							array_push($ios_token,$token[$i]['sdt_token']);
 						}	
 					}	
 				}
+
+				
 				if(count($ios_token)>0)
 				{
 					$ipushdata  = array('deviceToken'=> $ios_token,

@@ -2,6 +2,7 @@
 
     function device_log($SERVER,$REQUEST)
     {
+
         
         $arr = array();
         if(array_key_exists("UNIQUE_ID",$SERVER))
@@ -26,6 +27,7 @@
         }
         $arr['REQUEST'] = $REQUEST;
                 
+
         $file_name = date('Y-m-d').".txt";
         $myfile = fopen("api_log/".$file_name, "a+");
 		$txt = json_encode($arr);
