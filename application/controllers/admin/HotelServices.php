@@ -41,6 +41,10 @@ Class HotelServices extends CI_Controller
 		// Get all parent services
 		$this->data['parent_services'] 		= $this->Services_model->get_all_parent_services();
 
+		//echo '<pre>';
+		//print_r($this->data['parent_services']);
+		//exit;
+
 		$this->template->load('page_tpl', 'parent_service_list_vw',$this->data);
 
 

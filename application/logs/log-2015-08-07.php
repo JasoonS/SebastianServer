@@ -11,3 +11,15 @@ ERROR - 2015-08-07 09:50:54 --> Severity: Warning --> Invalid argument supplied 
 ERROR - 2015-08-07 09:56:27 --> 404 Page Not Found: Assets/img
 ERROR - 2015-08-07 10:41:05 --> 404 Page Not Found: Assets/img
 ERROR - 2015-08-07 11:33:11 --> 404 Page Not Found: Assets/img
+ERROR - 2015-08-07 11:41:56 --> Severity: Notice --> Undefined variable: data C:\wamp\www\sebastian-admin-panel\application\controllers\admin\HotelServices.php 45
+ERROR - 2015-08-07 11:44:20 --> Severity: Notice --> Trying to get property of non-object C:\wamp\www\sebastian-admin-panel\application\views\parent_service_list_vw.php 25
+ERROR - 2015-08-07 11:44:20 --> Severity: Notice --> Trying to get property of non-object C:\wamp\www\sebastian-admin-panel\application\views\parent_service_list_vw.php 25
+ERROR - 2015-08-07 11:44:20 --> Severity: Notice --> Trying to get property of non-object C:\wamp\www\sebastian-admin-panel\application\views\parent_service_list_vw.php 25
+ERROR - 2015-08-07 11:44:20 --> Severity: Notice --> Trying to get property of non-object C:\wamp\www\sebastian-admin-panel\application\views\parent_service_list_vw.php 25
+ERROR - 2015-08-07 11:44:20 --> Severity: Notice --> Trying to get property of non-object C:\wamp\www\sebastian-admin-panel\application\views\parent_service_list_vw.php 25
+ERROR - 2015-08-07 11:44:20 --> Severity: Notice --> Trying to get property of non-object C:\wamp\www\sebastian-admin-panel\application\views\parent_service_list_vw.php 25
+ERROR - 2015-08-07 11:44:20 --> Severity: Notice --> Trying to get property of non-object C:\wamp\www\sebastian-admin-panel\application\views\parent_service_list_vw.php 25
+ERROR - 2015-08-07 11:44:20 --> Severity: Notice --> Trying to get property of non-object C:\wamp\www\sebastian-admin-panel\application\views\parent_service_list_vw.php 25
+ERROR - 2015-08-07 11:44:21 --> 404 Page Not Found: Assets/img
+ERROR - 2015-08-07 11:44:47 --> 404 Page Not Found: Assets/img
+ERROR - 2015-08-07 11:45:29 --> 404 Page Not Found: Assets/img
