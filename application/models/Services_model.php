@@ -134,7 +134,7 @@ Class Services_model extends CI_Model
 	 */
 	function get_hotel_child_services_by_parent_service($hotel_id,$sb_parent_service_id)
 	{
-		$this->db->select('sb_hotel_child_services.sb_child_service_id,sb_child_service_name,sb_hotel_service_map_id');
+		$this->db->select('sb_hotel_child_services.sb_child_service_id,sb_child_servcie_name,sb_hotel_service_map_id');
 		$this->db->where('sb_hotel_id',$hotel_id);
 		$this->db->where('sb_hotel_child_services.sb_parent_service_id',$sb_parent_service_id);
 		$this->db->from('sb_hotel_service_map');
@@ -183,6 +183,19 @@ Class Services_model extends CI_Model
 		$query = $this->db->get();
 		return $query->result_array();
 	}
-	
+
+	/* Method return all parent services 
+	 * inside system
+	 * @param void
+	 * return array
+	 */
+	function get_all_parent_services()
+	{
+		$this->db->select('sb_parent_service_id,sb_parent_service_name,sb_parent_service_image');
+		$this->db->from('sb_hotel_parent_services');
+		$this->db->order_by('sb_parent_service_id');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 }
 ?>
