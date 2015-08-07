@@ -183,6 +183,20 @@ Class Services_model extends CI_Model
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
+	/* Method return all parent services 
+	 * inside system
+	 * @param void
+	 * return array
+	 */
+	function get_all_parent_services()
+	{
+		$this->db->select('sb_parent_service_id,sb_parent_service_name,sb_parent_service_image');
+		$this->db->from('sb_hotel_parent_services');
+		$this->db->order_by('sb_parent_service_id');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 	
 }
 ?>
