@@ -26,6 +26,7 @@ class Hotel extends CI_Controller
 
 	public function index()
 	{
+		$this->data['title']  = 'All Hotel List';
 		$this->data['Hotels'] = $this->Hotel_model->get_hotels();
 		$this->template->load('page_tpl','hotel_list_vw',$this->data);
 		//$this->template->load('page_tpl','test_hotel_list_view',$this->data);
@@ -43,7 +44,7 @@ class Hotel extends CI_Controller
 		$this->data['languagelist']=getAllLanguages();
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
 		{
-			$this->data['title'] = LABEL_1;
+			$this->data['title'] = 'Add new Hotel';
 		    $this->template->load('page_tpl', 'create_hotel_vw',$this->data);
 		}	
 	}
@@ -171,7 +172,7 @@ class Hotel extends CI_Controller
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
 	    {
 			$this->data['title'] = LABEL_1;
-			$this->template->load('page_tpl', 'create_hotel',$this->data);
+			$this->template->load('page_tpl', 'create_hotel_vw',$this->data);
 	    }	
 	}
 	

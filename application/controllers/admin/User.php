@@ -45,28 +45,28 @@ class User extends CI_Controller
 		// Staff cant access this module
 		if(($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u'))
 		{
-			$data['hotel_list'] = getAllHotels();
-			$data['user_type']= 'u';
-			$data['page_type']=$this->uri->segment(4);
-			$this->template->load('page_tpl', 'hotel_user_list',$data);
+			$data['hotel_list'] 	= 	getAllHotels();
+			$data['user_type']		= 	'u';
+			$data['page_type']		=	$this->uri->segment(4);
+			$data['title']			=   'Hotel Admins';
 		}
 		
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'a')
 		{
-			$data['user_type']= 'a';
-			$data['page_type']=$this->uri->segment(4);
-			$data['sb_hotel_id']=$this->session->userdata('logged_in_user')->sb_hotel_id;
-			$data['sb_hotel_name']=$this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
-			$this->template->load('page_tpl', 'hotel_user_list',$data);
+			$data['user_type']		= 	'a';
+			$data['page_type']		=	$this->uri->segment(4);
+			$data['sb_hotel_id']	=	$this->session->userdata('logged_in_user')->sb_hotel_id;
+			$data['sb_hotel_name']	=	$this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
 		}
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'm')
 		{
-			$data['user_type']= 'm';
-			$data['page_type']=$this->uri->segment(4);
-			$data['sb_hotel_id']=$this->session->userdata('logged_in_user')->sb_hotel_id;
-			$data['sb_hotel_name']=$this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
-			$this->template->load('page_tpl', 'hotel_user_list',$data);
+			$data['user_type']		= 	'm';
+			$data['page_type']		=	$this->uri->segment(4);
+			$data['sb_hotel_id']	=	$this->session->userdata('logged_in_user')->sb_hotel_id;
+			$data['sb_hotel_name']	=	$this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
 		}
+
+		$this->template->load('page_tpl', 'hotel_user_list',$data);
 	}
 
     /*
@@ -146,9 +146,15 @@ class User extends CI_Controller
 	*/
 	function add_hotel_user($hotel_id= '')
 	{
+
 		$this->data['action']	= "admin/user/create_hotel_admin_user/".$hotel_id;
+		$this->data['title']	= 'Add hotel admin';
+
+		//echo '<pre>';
+		//print_r($this->data);
+		//exit;
 		$this->make_authentication_validation();
-		$this->template->load('page_tpl', 'create_hotel_admin_user',$this->data); 
+		$this->template->load('page_tpl','create_hotel_admin_user',$this->data); 
 			
 	}
 	/*

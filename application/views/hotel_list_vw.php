@@ -3,7 +3,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Hotel List</h3>
+                <h3>Signed Up Hotels</h3>
             </div>
         </div>
         <div class="clearfix"></div>
@@ -73,7 +73,7 @@
     </div>
 </div>
 
-
+<!-- Theme specfic js !-->
 <script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>	
 <!-- chart js -->
 <script src="<?php echo THEME_ASSETS?>js/chartjs/chart.min.js"></script>

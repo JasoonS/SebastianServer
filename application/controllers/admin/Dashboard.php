@@ -20,6 +20,10 @@ class Dashboard extends CI_Controller
 			$config = array('userID'=>$this->session->userdata('logged_in_user')->sb_hotel_user_id);
 			// Load the ACL library and pas it the config array
 			$this->load->library('acl',$config);
+
+			//echo '<pre>';
+			//print_r($this->acl->perms);
+			//exit;
 		}
 	}
     /*This method decides which dashboard to show according to user is Hotel Administrator or Super Administrator

@@ -8,6 +8,7 @@ class User extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+
 		/*
 			this code is to maintain all hits log
 			as well as to restrict API to any devices not browsers
@@ -23,6 +24,7 @@ class User extends CI_Controller
 		}
 		/*EOF*/
 		$this->load->model('api/customer/User_model');
+		// $this->device_log();
 	}
 
 	/**
@@ -35,6 +37,7 @@ class User extends CI_Controller
 	 */
 	function login()
 	{
+
 		$sb_guest_reservation_code = 	$this->input->post('sb_guest_reservation_code');
 		$cdt_token				= 	$this->input->post('cdt_token');
 		$cdt_deviceType		    =   $this->input->post('cdt_deviceType');
@@ -136,5 +139,6 @@ class User extends CI_Controller
 			}				
 		}
 	}
+
 	
 }	

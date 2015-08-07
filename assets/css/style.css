@@ -1,5 +1,20 @@
 /*------------------------------------------------------------------
 Custom Style sheet
 ------------------------------------------------------------------*/
+.classFormBox
+{
+	
+}
+
+.classRequiredPanel
+{
+	background:#E2BEBE;
+	
+}
+
+.classOptionalPanel
+{
+	background:#D8CBCB;
+}
 
 

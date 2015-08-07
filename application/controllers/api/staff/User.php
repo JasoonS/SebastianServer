@@ -8,7 +8,8 @@ class User extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		/*
+
+			/*
 			this code is to maintain all hits log
 			as well as to restrict API to any devices not browsers
 
@@ -26,6 +27,7 @@ class User extends CI_Controller {
 		$this->load->helper('admin/utility_helper');
 		$this->load->library('api/android_push');
 		$this->load->library('api/iospush');
+		// $this->device_log();
 	}
 
 	/**
@@ -252,4 +254,6 @@ class User extends CI_Controller {
 			echo("Notification send");
 		}
 	}
+
+	
 }

@@ -76,6 +76,7 @@ class Ajax extends CI_Controller
 				echo json_encode($result);
 				break;
 			}
+			
 			default:{
 			}
 		}
@@ -158,22 +159,25 @@ class Ajax extends CI_Controller
 			//$row[] = $hotel->sb_hotel_id;
 			//$row[]='<input style="" class="tableflat icheckbox_flat-green" type="checkbox">';
 			//$row[] ="<input type=checkbox class=tableflat>";
-			$row[] = $hotel->sb_hotel_name;
-			$row[] = $hotel->sb_hotel_owner;
-			$row[] = $hotel->sb_hotel_email;
-			$row[] = $hotel->sb_hotel_website;
-			$editurl =base_url("admin/hotel/edit_hotel/".$hotel->sb_hotel_id);
-			$viewurl =base_url("admin/hotel/view_hotel/".$hotel->sb_hotel_id);
-			$deleteurl =base_url("admin/hotel/delete_hotel/".$hotel->sb_hotel_id);
+			$row[] 				= $hotel->sb_hotel_name;
+			$row[] 				= $hotel->sb_hotel_owner;
+			$row[] 				= $hotel->sb_hotel_email;
+			$row[] 				= $hotel->sb_hotel_website;
+			$editurl 			= base_url("admin/hotel/edit_hotel/".$hotel->sb_hotel_id);
+			$viewurl 			= base_url("admin/hotel/view_hotel/".$hotel->sb_hotel_id);
+			$deleteurl  		= base_url("admin/hotel/delete_hotel/".$hotel->sb_hotel_id);
+			$serviceurl			= base_url("admin/hotelservices/edit/".$hotel->sb_hotel_id);
 			if($hotel->is_active == '1'){
 				$row[]=	'<a class="btn btn-sm btn-primary" href="'.$editurl.'"  title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
 						'<a class="btn btn-sm btn-warning" href="'.$viewurl.'"  title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
-						'<a class="btn btn-sm btn-danger" id="delete" href="#" title="Delete" onclick="changehotelstatus('.$hotel->sb_hotel_id.','.$hotel->is_active.');"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+						'<a class="btn btn-sm btn-danger"  id="delete" href="#" title="Delete" onclick="changehotelstatus('.$hotel->sb_hotel_id.','.$hotel->is_active.');"><i class="glyphicon glyphicon-trash"></i> Delete</a>'.
+						'<a class="btn btn-sm btn-dark btn-round" href="'.$serviceurl.'" title="View/Edit" >Services</a>';
 		    }
 			else{
 				$row[]=	'<a class="btn btn-sm btn-primary" href="'.$editurl.'"   title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
 				        '<a class="btn btn-sm btn-warning" href="'.$viewurl.'"   title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
-						'<a class="btn btn-sm btn-success" id="restore" href="#" onclick="changehotelstatus('.$hotel->sb_hotel_id.','.$hotel->is_active.');" data-target="#confirm-delete" title="Restore" ><i class="glyphicon glyphicon-save-file"></i>Restore</a>';
+						'<a class="btn btn-sm btn-dark btn-round" id="restore" href="#" onclick="changehotelstatus('.$hotel->sb_hotel_id.','.$hotel->is_active.');" data-target="#confirm-delete" title="Restore" ><i class="glyphicon glyphicon-save-file"></i>Restore</a>'.
+						'<a class="btn btn-sm btn-dark btn-round" href="'.$serviceurl.'" title="View/Edit" >Services</a>';
 			}
 			$data[] = $row;
 			
