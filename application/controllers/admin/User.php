@@ -179,9 +179,7 @@ class User extends CI_Controller
 		$this->data['action']	= "admin/user/create_hotel_admin_user/".$hotel_id;
 		$this->data['title']	= 'Add hotel admin';
 		$this->data['hotel_id']=$hotel_id;
-		
 		$result=$this->Hotel_model->get_hotel_name($hotel_id);
-		
 		if($hotel_id == 0)
 		{
 			$this->data['hotel_name']="None";
@@ -267,8 +265,8 @@ class User extends CI_Controller
 					$hotelname=$this->Hotel_model->get_hotel_name($this->session->userdata('logged_in_user')->sb_hotel_id);
 					$data['sb_hotel_id']=$this->session->userdata('logged_in_user')->sb_hotel_id;
 				}
-				$password =randomPassword();
-				
+				//$password =randomPassword();
+				$password="password";
 				$data['sb_hotel_userpasswd']=createHashAndSalt($password);
 				$data['sb_hotel_user_shift_from']= date("H:i:s", strtotime($data['sb_hotel_user_shift_from']));
 				$data['sb_hotel_user_shift_to']= date("H:i:s", strtotime($data['sb_hotel_user_shift_to']));
@@ -291,6 +289,30 @@ class User extends CI_Controller
 				
 				$result=$this->Hotel_model->create_hotel_user($hotel_user_data);
                 //We need to Add User Permissions & Services From HERE in db //
+				if($data['sb_hotel_user_type'] == 'u')
+				{
+				    //Permissions For admins list
+					$useradminpermissions=array(
+										'sb_hotel_user_id'=>$result,
+										'sb_roleid'=>'1',
+										'sb_user_role_status'=>'1'
+									);
+                     									
+					$this->User_model->set_user_role($useradminpermissions);
+					$user_module_array=array();
+					$permarray=array('2','4','6');
+					$count=0;
+					while($count<count($permarray)){
+						$singlearray=array(
+										'sb_hotel_user_id'=>$result,
+										'sb_mod_id'=>$permarray[$count],
+										'sb_user_mod_val'=>'1'
+									);
+						array_push($user_module_array,$singlearray);
+						$count++;
+					}
+					$this->User_model->set_user_permissions($user_module_array);					
+				}
 				if($data['sb_hotel_user_type'] == 'a')
 				{
 				    //Permissions For admins list
@@ -340,7 +362,6 @@ class User extends CI_Controller
 					$this->User_model->set_user_permissions($user_module_array);
 					//Get all child Services of particular parent service and of particular hotel
 					$child_services=$this->Services_model->get_hotel_child_services_by_parent_service($data['sb_hotel_id'],$data['sb_parent_service_id']);	
-               
 				    $i=0;
 					$insert_user_services=array();
 					while($i<count($child_services)){
@@ -467,6 +488,7 @@ class User extends CI_Controller
 			$this->data['userinfo']=$this->User_model->get_user_info($user_id);
 			$this->data['hotelusertypes'] = getAvailableHotelUserTypes();
 			$this->data['user_type']=$this->session->userdata('logged_in_user')->sb_hotel_user_type;
+			$this->data['hotel_id']=$this->data['userinfo']->sb_hotel_id;
 			/*if (($key = array_search('u',$this->data['hotelusertypes'])) !== false) {
 						unset($this->data['hotelusertypes'][$key]);
 				}*/
@@ -520,6 +542,16 @@ class User extends CI_Controller
 					unset($this->data['hotelusertypes'][$key]);
 			}	
 		}
+		$hotel_user_id=$this->session->userdata('logged_in_user')->sb_hotel_user_id;
+		$this->data['user_id']=$hotel_user_id;
+			if($this->data['hotel_id'] == 0)
+			{
+				$this->data['hotel_name']="None";
+			}
+			else{
+				$result=$this->Hotel_model->get_hotel_name( $this->data['hotel_id']);
+				$this->data['hotel_name']=$result[0]['sb_hotel_name'];
+			}
 	}
 	
 	/* Method render edit hotel user view
@@ -584,6 +616,30 @@ class User extends CI_Controller
 				$this->User_model->remove_user_role($user_id);
 				$this->User_model->remove_user_permissions($user_id);
                 //We need to Add User Permissions HERE in db //
+				if($data['sb_hotel_user_type'] == 'u')
+				{
+				    //Permissions For admins list
+					$useradminpermissions=array(
+										'sb_hotel_user_id'=>$user_id,
+										'sb_roleid'=>'1',
+										'sb_user_role_status'=>'1'
+									);
+                     									
+					$this->User_model->set_user_role($useradminpermissions);
+					$user_module_array=array();
+					$permarray=array('2','4','6');
+					$count=0;
+					while($count<count($permarray)){
+						$singlearray=array(
+										'sb_hotel_user_id'=>$user_id,
+										'sb_mod_id'=>$permarray[$count],
+										'sb_user_mod_val'=>'1'
+									);
+						array_push($user_module_array,$singlearray);
+						$count++;
+					}
+					$this->User_model->set_user_permissions($user_module_array);					
+				}
 				if($data['sb_hotel_user_type'] == 'a')
 				{
 				    //Permissions For admins list

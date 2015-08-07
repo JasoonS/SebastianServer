@@ -56,8 +56,11 @@
 			                <div class="form-group classFormInputsBox">
 								<label class="col-md-4 col-xs-4 control-label" for="sb_hotel_useremail">Hotel User Email ID :</label>
 								<div class="col-md-8 col-xs-8">
-								    <?php if($action == "edit"){?>
-										<input id="sb_hotel_useremail" name="sb_hotel_useremail" type="text" class="form-control" disabled value="<?php echo $userinfo->sb_hotel_useremail;?>">
+								    <?php
+                                    
+									if($action_type == "edit"){
+									?>
+										<input id="sb_hotel_useremail" name="sb_hotel_useremail" type="text" class="form-control" value="<?php echo $userinfo->sb_hotel_useremail;?>"  disabled >
 									<?php } else { ?>
 										<input id="sb_hotel_useremail" name="sb_hotel_useremail" type="text" placeholder="Type Hotel User Email Here ..." class="form-control" >
 									<?php } ?>
@@ -228,6 +231,7 @@
 
 <script type="text/javascript">
 $(function() {
+        populateChildServices('<?php echo $user_type;?>','<?php echo $user_id ?>','<?php echo $hotel_id?>')
         hideShowElements();
 		<?php if($action_type == "create"){?>
 		$('#sb_hotel_user_shift_from').timepicker({
@@ -255,7 +259,8 @@ $(function() {
 	});
 	function callToChildServices()
 		{
-			//hideShowElements();
+			hideShowElements();
+			populateChildServices('<?php echo $user_type;?>','<?php echo $user_id ?>','<?php echo $hotel_id?>');
         } 
 	/* This method is used to load child services
 	 * params 
@@ -278,7 +283,7 @@ $(function() {
 								var data = msg;
 								$("#sb_child_service_id").html(""); 
 								$.each(data, function() {
-									$('#sb_child_service_id').append( $('<option value="' + this.sb_child_service_id + '">' + this.sb_child_service_name + '</option>' ));
+									$('#sb_child_service_id').append( $('<option value="' + this.sb_child_service_id + '">' + this.sb_child_servcie_name + '</option>' ));
 								});
 							},
 					error:function(msg){
