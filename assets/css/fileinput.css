@@ -21,7 +21,7 @@
     font-size: 999px;
     text-align: right;
     color: #fff;
-    background: transparent url('../img/loading.gif') top left no-repeat;
+    background: transparent url('../images/loading.gif') top left no-repeat;
     border: none;
 }
 
@@ -123,6 +123,7 @@
     float: left;
     text-align: center;
     vertical-align: middle;
+
 }
 
 .file-preview-frame:hover {
@@ -130,7 +131,8 @@
 }
 
 .file-preview-image {
-    height: 160px;
+     height: 160px;
+	
     vertical-align: text-center;
 }
 
@@ -163,7 +165,7 @@
 }
 
 .loading {
-    background: transparent url('../img/loading.gif') no-repeat scroll center center content-box !important;
+    background: transparent url('../images/loading.gif') no-repeat scroll center center content-box !important;
 }
 
 .wrap-indicator {
