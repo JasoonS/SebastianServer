@@ -6,6 +6,7 @@ Class Hoteluser_model extends CI_Model
 	function __construct()
 	{
 		parent::__construct();
+		$this->user_id= $this->session->userdata('logged_in_user')->sb_hotel_user_id; 
 	}
 	/* Method To Get Datatable
 	 * inside system 
@@ -32,29 +33,32 @@ Class Hoteluser_model extends CI_Model
 		if($type == 'm')
 		{
 			$this->db->join('sb_hotel_user_service_access_map', 'sb_hotel_user_service_access_map.sb_hotel_user_id = sb_hotel_users.sb_hotel_user_id');
+			$this->db->where("(sb_hotel_users.sb_hotel_id='$hotel_id' AND sb_hotel_user_type='s' AND sb_hotel_user_id <> '".$this->user_id."' AND sb_parent_service_id='".$by_parent_service."')", NULL, FALSE);
 		}
 		$i = 0;
 	    if($type == 'u')
-		{
-			$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='a')", NULL, FALSE);
+		{ 
+		    if($pagetype !="hotel-admin"){
+				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='u' AND sb_hotel_user_id <> '".$this->user_id."')", NULL, FALSE);
+			}
+			else{
+				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='a' AND sb_hotel_user_id <> '".$this->user_id."')", NULL, FALSE);
+			}
+			
 		}
 		if($type == 'a')
 		{
 		    if($pagetype=='hotel-managers'){
-				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='m')", NULL, FALSE);
+				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='m' AND sb_hotel_user_id <> '".$this->user_id."')", NULL, FALSE);
 			}
 			else
 			{
-				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='s')", NULL, FALSE);
+				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='s' AND sb_hotel_user_id <> '".$this->user_id."')", NULL, FALSE);
 			}
 		}
-		if($type == 'm')
-		{
-		    
-			$this->db->where("(sb_hotel_users.sb_hotel_id='$hotel_id' AND sb_hotel_user_type='s' AND sb_parent_service_id='".$by_parent_service."')", NULL, FALSE);
-		}
+		
 		$searchArray =$this->input->post('search');
-			if(isset($searchArray['value'])){
+		if(isset($searchArray['value'])){
 				$this->db->where("(`sb_hotel_users`.`sb_hotel_user_id` LIKE '%".$searchArray['value']."%' ESCAPE '!'
 							OR  `sb_hotel_username` LIKE '%".$searchArray['value']."%' ESCAPE '!'
 							OR  `sb_hotel_useremail` LIKE '%".$searchArray['value']."%' ESCAPE '!'
@@ -95,28 +99,31 @@ Class Hoteluser_model extends CI_Model
 	{
 		if($type == 'u')
 		{
-			$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='a')", NULL, FALSE);
+			if($pagetype !="hotel-admin"){
+				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='u' AND sb_hotel_user_id <> '".$this->user_id."')", NULL, FALSE);
+			}
+			else{
+				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='a' AND sb_hotel_user_id <> '".$this->user_id."')", NULL, FALSE);
+			}
 		}
 		if($type == 'a')
 		{
 			if($pagetype=='hotel-managers'){
-				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='m')", NULL, FALSE);
+				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='m' AND sb_hotel_user_id <> '".$this->user_id."')", NULL, FALSE);
 			}
 			else
 			{
-				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='s')", NULL, FALSE);
+				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='s' AND sb_hotel_user_id <> '".$this->user_id."')", NULL, FALSE);
 			}
 		}
 		if($type == 'm')
 		{
-		   
-			$this->db->where("(sb_hotel_users.sb_hotel_id='$hotel_id' AND sb_hotel_user_type='s' AND sb_parent_service_id='".$by_parent_service."')", NULL, FALSE);
+			$this->db->where("(sb_hotel_users.sb_hotel_id='$hotel_id' AND sb_hotel_user_type='s' AND sb_hotel_user_id <> '".$this->user_id."' AND sb_parent_service_id='".$by_parent_service."')", NULL, FALSE);
+			$this->db->join('sb_hotel_user_service_access_map', 'sb_hotel_user_service_access_map.sb_hotel_user_id = sb_hotel_users.sb_hotel_user_id');
+
 		}
 		$this->db->from($tablename);
-		if($type == 'm')
-		{
-			$this->db->join('sb_hotel_user_service_access_map', 'sb_hotel_user_service_access_map.sb_hotel_user_id = sb_hotel_users.sb_hotel_user_id');
-		}
+		
 		return $this->db->count_all_results();
 	}
 }//End Of Model

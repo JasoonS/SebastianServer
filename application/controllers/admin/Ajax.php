@@ -38,14 +38,15 @@ class Ajax extends CI_Controller
 				break;
 			}
 			case 4:{ 
+			    $columnnames=['sb_hotel_user_id','sb_hotel_username','sb_hotel_useremail','sb_hotel_user_type','sb_hotel_user_type'];
 				if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'm'){
 					$this->load->model('Services_model');
 					$user_id=$this->session->userdata('logged_in_user')->sb_hotel_user_id;
 					$parent_service=$this->Services_model->get_hotel_user_parent_service($user_id);
-					$this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$this->input->post('columns'),$this->input->post('hotel_id'),$this->input->post('user_type'),$this->input->post('page_type'),$parent_service[0]['sb_parent_service_id']);
+					$this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames,$this->input->post('hotel_id'),$this->input->post('user_type'),$this->input->post('page_type'),$parent_service[0]['sb_parent_service_id']);
 				}
 				else{
-					$this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$this->input->post('columns'),$this->input->post('hotel_id'),$this->input->post('user_type'),$this->input->post('page_type'),0);
+					$this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames,$this->input->post('hotel_id'),$this->input->post('user_type'),$this->input->post('page_type'),0);
 				}
 				break;
 			}
@@ -76,6 +77,7 @@ class Ajax extends CI_Controller
 				echo json_encode($result);
 				break;
 			}
+			
 			default:{
 			}
 		}
@@ -113,8 +115,10 @@ class Ajax extends CI_Controller
 			$row[] = $hotel->sb_hotel_user_id;
 			$row[] = $hotel->sb_hotel_username;
 			$row[] = $hotel->sb_hotel_useremail;
+			
 			switch($hotel->sb_hotel_user_type)
 				{
+				    case 'u':$row[] ="System Admin";break;
 					case 'a':$row[] ="Hotel Admin";break;
 					case 'm':$row[] ="Hotel Manager";break;
 					case 's':$row[] ="Hotel Staff";break;
