@@ -5,6 +5,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Ajax extends CI_Controller 
 {
+
+	public $return_type = '';
+	public $output      = array();
+
 	
 	public function __construct()
 	{
@@ -16,11 +20,14 @@ class Ajax extends CI_Controller
 		$this->load->model('User_model');
 		$this->load->model('Services_model');
 	}
+
+	
 	/* This function decides which function to call after ajax call
 	 * @param - int flag (and other post parameters in ajax requests)
 	 */
 	public function get_ajax_data()
 	{
+
 	    $flag=$this->input->post('flag');
 		switch($flag)
 		{
@@ -78,6 +85,9 @@ class Ajax extends CI_Controller
 				break;
 			}
 			
+			case 7 : {
+				$this->get_child_of_parent();
+			}
 			default:{
 			}
 		}
@@ -196,5 +206,34 @@ class Ajax extends CI_Controller
 		echo json_encode($output);
 		exit;
 	}
+
+	function get_child_of_parent()
+	{
+		if($this->input->post('return_type'))
+		{
+			$this->return_type = $this->input->post('return_type');
+		}else
+		{
+			$this->return_type = 'json';
+		}
+
+		$this->output = $this->Services_model->get_child_of_parent($this->input->post('parentId'));
+
+		$this->render_ouput();		
+	}
+
+	function render_ouput()
+	{
+		if($this->return_type == 'json')
+		{
+			
+			echo json_encode($this->output);
+			exit;
+		}
+		else
+		{
+			echo $this->output;
+		}
+	} 
 }//End Of Controller Class
 

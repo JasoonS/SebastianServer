@@ -1,4 +1,6 @@
-var proj_url=location.protocol + "//" + location.host;
+var proj_url		=	location.protocol + "//" + location.host;
+
+var js_requesting	= 'admin/ajax/get_ajax_data';
 /* This method is used to load states according to country and callback to load cities according to states
  * params string,string,boolean,string,boolean,string,string
  *
