@@ -265,8 +265,8 @@ class User extends CI_Controller
 					$hotelname=$this->Hotel_model->get_hotel_name($this->session->userdata('logged_in_user')->sb_hotel_id);
 					$data['sb_hotel_id']=$this->session->userdata('logged_in_user')->sb_hotel_id;
 				}
-				//$password =randomPassword();
-				$password="password";
+				$password =randomPassword();
+				//$password="password";
 				$data['sb_hotel_userpasswd']=createHashAndSalt($password);
 				$data['sb_hotel_user_shift_from']= date("H:i:s", strtotime($data['sb_hotel_user_shift_from']));
 				$data['sb_hotel_user_shift_to']= date("H:i:s", strtotime($data['sb_hotel_user_shift_to']));

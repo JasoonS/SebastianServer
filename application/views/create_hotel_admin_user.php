@@ -39,7 +39,7 @@
 			                </div>
 
 			                <div class = "form-group classFormInputsBox">
-			                	<label class="col-md-4 col-xs-4 control-label" for="sb_hotel_username">Hotel User Name :</label>
+			                	<label class="col-md-4 col-xs-4 control-label" for="sb_hotel_username">User Name :</label>
 								<div class="col-md-8 col-xs-8">
 									<?php 
 										if($action_type =="edit"){
@@ -54,7 +54,7 @@
 			                </div>
 
 			                <div class="form-group classFormInputsBox">
-								<label class="col-md-4 col-xs-4 control-label" for="sb_hotel_useremail">Hotel User Email ID :</label>
+								<label class="col-md-4 col-xs-4 control-label" for="sb_hotel_useremail">User Email ID :</label>
 								<div class="col-md-8 col-xs-8">
 								    <?php
                                     
@@ -69,7 +69,7 @@
 							</div>
 							
 							<div class="form-group classFormInputsBox">
-								<label class="col-md-4 col-xs-4 control-label" for="sb_hotel_user_pic">Hotel User Picture :</label>
+								<label class="col-md-4 col-xs-4 control-label" for="sb_hotel_user_pic">User Picture :</label>
 								<div class="col-md-8 col-xs-8">
 									    <div class="col-xs-6">
 										<input id="sb_hotel_user_pic" name="sb_hotel_user_pic"  type="file" style="display:none"/>
@@ -105,7 +105,7 @@
 							</div>
 							
 							<div class="form-group">
-								<label class="col-md-4 col-xs-4 control-label" for="sb_hotel_user_type">Hotel User Type</label>
+								<label class="col-md-4 col-xs-4 control-label" for="sb_hotel_user_type">User Type</label>
 								<div class="col-md-8 col-xs-8">
 									<select id="sb_hotel_user_type" name="sb_hotel_user_type" class="form-control"  onchange="callToChildServices();">
 										<?php
@@ -200,7 +200,7 @@
 							<?php }?>
 							<div class="control-group">
 								<div class="controls">
-									<button id="submit"  class="btn btn-primary btn-lg btn-block">Create Hotel User</button>
+									<button id="submit"  class="btn btn-primary btn-lg btn-block">Create User</button>
 								</div>
 							</div>	
 
@@ -271,7 +271,7 @@ $(function() {
 			var proj_url=location.protocol + "//" + location.host;
 			var creation_user_type=$("#sb_hotel_user_type").val();
 			var parent_service_id=$("#sb_parent_service_id").val();
-			var base_url = proj_url+'/sebastian-admin-panel/admin/ajax/get_ajax_data';
+			var base_url = proj_url+'/sebastian/admin/ajax/get_ajax_data';
 			if(creation_user_type == 's'){
 				$("#child_services_control").show(2000);
 				$.ajax({
