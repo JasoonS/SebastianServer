@@ -20,7 +20,7 @@ class User extends CI_Controller
 		$this->load->library('user_agent');
 		if($this->agent->is_browser())
 		{
-		    response_fail("Please insert all the fields");
+		    //response_fail("Please insert all the fields");
 		}
 		/*EOF*/
 		$this->load->model('api/customer/User_model');

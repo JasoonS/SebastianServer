@@ -179,7 +179,7 @@ class Hotel_service extends CI_Controller
 		}
 		if(array_key_exists("quantity",$inputArray))
 		{
-			$hrs['quantity'] = $inputArray['quantity'];
+			$hrs['sb_quantity'] = $inputArray['quantity'];
 			unset($inputArray['quantity']);
 			$hrscnt++;
 		}
