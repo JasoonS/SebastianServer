@@ -19,7 +19,7 @@ class Hotel_service extends CI_Controller
 		$this->load->library('user_agent');
 		if($this->agent->is_browser())
 		{
-		    response_fail("Please insert all the fields");
+		    //response_fail("Please insert all the fields");
 		}
 		/*EOF*/
 		$this->load->model('api/customer/Hotel_service_model');
@@ -69,14 +69,78 @@ class Hotel_service extends CI_Controller
 	function place_service()
 	{
 		$inputArray = $this->input->post();
-		$rooms = $this->Hotel_service_model->get_guest_rooms($inputArray['sb_hotel_guest_booking_id']);
-		if (!in_array($inputArray['guest_room_number'], $rooms))
+		if(array_key_exists("room_details",$inputArray))
 		{
-			$result = array(
-				'result' => $rooms
-				);
-			response_fail("Wrong Room Number",$result);
+			$room_details = $inputArray['room_details'];
+			$room_details = json_decode($room_details);
+			unset($inputArray['room_details']);
+			$applied_count = 0;
+			$wrongRoom = 0;
+			for ($i=0; $i <count($room_details); $i++)
+			{
+				$temp =  (array) $room_details[$i];
+				if(array_key_exists("guest_room_number",$temp))
+				{
+					$inputArray['guest_room_number'] = $temp['guest_room_number'];
+
+					$rooms = $this->Hotel_service_model->get_guest_rooms($inputArray['sb_hotel_guest_booking_id']);
+					if (!in_array($inputArray['guest_room_number'], $rooms))
+					{
+						$wrongRoom ++;
+						$result = array(
+							'result' => $rooms
+							);
+						continue;
+						// response_fail("Wrong Room Number",$result);
+					}
+
+					
+					if(array_key_exists("quantity",$temp))
+					{
+						$inputArray['quantity'] = $temp['quantity'];
+					}
+					if(array_key_exists("quantity",$inputArray) AND $inputArray['quantity'] <=0)
+					{
+						continue;
+					}
+					else
+					{
+						$rply = $this->place_service1($inputArray);
+						$applied_count = intval($applied_count) + intval($rply);
+					}
+				}
+			}
+			if(count($room_details) == $applied_count)
+			{
+				response_ok();
+			}
+			else
+			{
+				if($wrongRoom > 0)
+				{
+					response_fail("Wrong Room Number",$result);
+				}
+				else
+				{
+					response_fail("May be some request(s) is not placed");
+				}
+			}
 		}
+		response_fail("room_details missing");
+	}
+
+	function place_service1($inputArray)
+	{
+		//$inputArray = $this->input->post();
+		
+		// $rooms = $this->Hotel_service_model->get_guest_rooms($inputArray['sb_hotel_guest_booking_id']);
+		// if (!in_array($inputArray['guest_room_number'], $rooms))
+		// {
+		// 	$result = array(
+		// 		'result' => $rooms
+		// 		);
+		// 	response_fail("Wrong Room Number",$result);
+		// }
 
 		$hrs = array();
 		$hrscnt = 0;
@@ -215,11 +279,13 @@ class Hotel_service extends CI_Controller
 				
 			}
 			
-			response_ok();
+			return 1;
+			//response_ok();
 		}
 		else
 		{
-			response_fail("Sorry, Unable to place your service request. Please try again after some time.");
+			return 0;
+			//response_fail("Sorry, Unable to place your service request. Please try again after some time.");
 		}
 	}
 
