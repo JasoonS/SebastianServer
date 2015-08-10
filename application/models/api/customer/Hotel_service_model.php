@@ -10,6 +10,7 @@ class Hotel_service_model extends CI_Model
 				
 		$query = $this->db->query($qry);
 		$data = $query->result_array();
+
 		for ($i=0; $i < count($data); $i++) { 
 			$data[$i]['sub_childmenu'] = array();
 			if($data[$i]['is_service'] == 0)
@@ -17,9 +18,24 @@ class Hotel_service_model extends CI_Model
 				$id = $data[$i]['sb_child_service_id'];
 				$qry1 = "SELECT * FROM `sb_sub_child_services` WHERE `sb_child_service_id` = '$id'";
 				$query = $this->db->query($qry1);
-				$data[$i]['sub_childmenu'] = $query->result_array();
+				$subChildService = $query->result_array();
+
+				for ($j=0; $j < count($subChildService); $j++) { 
+					if($subChildService[$j]['service_type'] == 'paid')
+					{
+						$subChildId = $subChildService[$j]['sub_child_services_id'];
+						$qry2 = "SELECT service_price FROM `sb_hotel_paid_services` WHERE `sb_hotel_id` = '$sb_hotel_id'
+								AND `service_table` = 'subchild' AND `service_id` = '$subChildId'";
+						$query = $this->db->query($qry2);
+						$service_price = $query->result_array()[0];
+						$subChildService[$j]['service_price'] = $service_price['service_price'];
+					}
+				}
+
+				$data[$i]['sub_childmenu'] = $subChildService;
 			}
 		}
+		//print_r($data);die;
 		return $data;
 	}
 

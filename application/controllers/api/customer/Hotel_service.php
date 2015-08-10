@@ -62,8 +62,9 @@ class Hotel_service extends CI_Controller
 	 * This function will allow all types of service requests
 	 * return type- 
 	 * created on - 22nd July 2015;
-	 * updated on - 
+	 * updated on -  7th Aug 2015
 	 * created by - Akshay Patil;
+	 * updated by - Akshay Patil;
 	 */
 
 	function place_service()
@@ -176,6 +177,12 @@ class Hotel_service extends CI_Controller
 			unset($inputArray['guest_room_number']);
 			$hrscnt++;
 		}
+		if(array_key_exists("quantity",$inputArray))
+		{
+			$hrs['quantity'] = $inputArray['quantity'];
+			unset($inputArray['quantity']);
+			$hrscnt++;
+		}
 		if(array_key_exists("sub_child_services_id",$inputArray))
 		{
 			$hrs['sub_child_services_id'] = $inputArray['sub_child_services_id'];
@@ -194,7 +201,6 @@ class Hotel_service extends CI_Controller
 			unset($inputArray['service_due_date']);
 			$hsscnt++;
 		}
-
 		else
 		{
 			$hss['sb_hotel_ser_start_date'] = date("Y-m-d");
