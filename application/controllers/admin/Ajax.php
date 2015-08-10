@@ -88,6 +88,10 @@ class Ajax extends CI_Controller
 			case 7 : {
 				$this->get_hotel_child_service_of_parent();
 			}
+
+			case 8 : {
+				$this->update_hotel_services();
+			}
 			default:{
 			}
 		}
@@ -220,6 +224,31 @@ class Ajax extends CI_Controller
 		$this->output = $this->Services_model->get_hotel_child_services_by_parent_service($this->input->post('hotelId'),$this->input->post('parentId'));
 
 		$this->render_ouput();		
+	}
+
+	function update_hotel_services()
+	{
+		if($this->input->post('return_type'))
+		{
+			$this->return_type = $this->input->post('return_type');
+		}else
+		{
+			$this->return_type = 'json';
+		}
+
+		for($cnt = 0 ; $cnt < count($this->input->post('chkBoxArr'));$cnt ++ )
+		{
+			$child_id 	= explode('_',$this->input->post('chkBoxArr')[$cnt]['val']);
+			$check_val	= explode('_',$this->input->post('chkBoxArr')[$cnt]['isChecked']);
+
+			$data       = array('sb_is_service_in_use' => $check_val[0]);
+
+			$this->db->where('sb_hotel_id',$this->input->post('hotelId'));
+			$this->db->where('sb_child_service_id',$child_id[1]);
+			$this->db->update('sb_hotel_service_map',$data);
+		}
+
+		echo '1';
 	}
 
 	function render_ouput()
