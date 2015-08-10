@@ -127,3 +127,8 @@ ERROR - 2015-08-10 11:06:59 --> 404 Page Not Found: User_data/hotel_user_pic
 ERROR - 2015-08-10 11:07:20 --> 404 Page Not Found: User_data/hotel_user_pic
 ERROR - 2015-08-10 11:07:24 --> 404 Page Not Found: User_data/hotel_user_pic
 ERROR - 2015-08-10 11:07:26 --> 404 Page Not Found: User_data/hotel_user_pic
+ERROR - 2015-08-10 12:37:33 --> 404 Page Not Found: User_data/hotel_user_pic
+ERROR - 2015-08-10 12:37:37 --> 404 Page Not Found: User_data/hotel_user_pic
+ERROR - 2015-08-10 12:37:39 --> 404 Page Not Found: User_data/hotel_user_pic
+ERROR - 2015-08-10 12:38:59 --> 404 Page Not Found: User_data/hotel_user_pic
+ERROR - 2015-08-10 12:38:59 --> 404 Page Not Found: User_data/hotel_user_pic
