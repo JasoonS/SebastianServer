@@ -34,6 +34,7 @@ class Tasks extends CI_Controller {
 	 */
 	public function get_todays_tasks()
 	{
+		
 		$sb_hotel_user_id 	= 	$this->input->post('sb_hotel_user_id');
 		$service_due_date	= 	$this->input->post('date');
 

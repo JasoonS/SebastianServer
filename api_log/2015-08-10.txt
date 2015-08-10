@@ -1,0 +1,8 @@
+{"UNIQUE_ID":"Vcg8iH8AAQEAAArg3ccAAAAA","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/staff\/Tasks\/get_todays_tasks","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.135 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_hotel_user_id":"3","date":"2015-07-31"}}
+
+{"UNIQUE_ID":"Vcg8zn8AAQEAAArkP-wAAAAE","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/staff\/Tasks\/get_todays_tasks","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.135 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_hotel_user_id":"3","date":"2015-07-31"}}
+
+{"UNIQUE_ID":"Vcg85n8AAQEAAArjdQwAAAAD","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/staff\/Tasks\/get_todays_tasks","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.135 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_hotel_user_id":"3","date":"2015-07-31"}}
+
+{"UNIQUE_ID":"VchFLn8AAQEAAArh-pAAAAAB","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/customer\/Hotel_service\/place_service","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.135 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_hotel_guest_booking_id":"1","sb_parent_service_id":"1","sb_child_service_id":"1","sb_hotel_id":"1","guest_room_number":"201","sub_child_services_id":"1"}}
+

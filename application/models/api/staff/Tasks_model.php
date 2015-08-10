@@ -130,13 +130,33 @@ class Tasks_model extends CI_Model
 
 	public function getChildServiceDetails($id)
 	{
-		$qry = "SELECT c.* FROM sb_hotel_request_service as a
-				JOIN sb_hotel_service_map as b
-				ON a.sb_hotel_service_map_id = b.sb_hotel_service_map_id
-				JOIN sb_hotel_child_services as c
-				on b.sb_child_service_id = c.sb_child_service_id
-				WHERE a.sb_hotel_requst_ser_id = '$id';";
-		$query = $this->db->query($qry);
+		$sql = "Select sub_child_services_id from sb_hotel_request_service where sb_hotel_requst_ser_id = '$id' ";
+		$query1 = $this->db->query($sql);
+		$data = $query1->result_array();
+		if($data[0]['sub_child_services_id'] == 0)
+		{
+			$qry = "SELECT c.* FROM sb_hotel_request_service as a
+					JOIN sb_hotel_service_map as b
+					ON a.sb_hotel_service_map_id = b.sb_hotel_service_map_id
+					JOIN sb_hotel_child_services as c
+					on b.sb_child_service_id = c.sb_child_service_id
+					WHERE a.sb_hotel_requst_ser_id = '$id';";
+					$query = $this->db->query($qry);
+			
+		}
+		else
+		{
+			$sub_child_services_id = $data[0]['sub_child_services_id'];
+			$qry = "SELECT sb_sub_child_service_name from sb_sub_child_services where sub_child_services_id = '$sub_child_services_id' ";
+			$query = $this->db->query($qry);
+			$result = $query->result_array();
+			$result[0]['sb_child_servcie_name'] = $result[0]['sb_sub_child_service_name'];
+			$result[0]['sb_sub_child_service_name'] = '';
+			return $result; 
+		}
+
+		
+		
 		return $query->result_array();
 	}
 }
