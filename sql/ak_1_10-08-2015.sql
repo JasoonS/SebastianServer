@@ -1,0 +1,1 @@
+ALTER TABLE `sb_hotel_request_service` ADD `quantity` VARCHAR(25) NOT NULL AFTER `sb_guest_allocated_room_no`;

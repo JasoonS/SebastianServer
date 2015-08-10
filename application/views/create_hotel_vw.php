@@ -352,27 +352,11 @@ $(document).ready(function () {
 		    $("#id_sbHotelCountry").val("<?php echo $hoteldata['sb_hotel_country'];?>");
 			loadStates('id_sbHotelCountry','id_sbHotelState','1','id_sbHotelCity','1','<?php echo $hoteldata['sb_hotel_state']?>','<?php echo $hoteldata['sb_hotel_city']?>');
 			$('#id_uploadImage').attr('src','<?php echo FOLDER_BASE_URL."/".HOTEL_PIC."/".$hoteldata['sb_hotel_pic'];?>');
-			/*$("#id_sbHotelPic").fileinput({
-				initialPreview: [
-				"<img src='<?php echo FOLDER_BASE_URL."/".HOTEL_PIC."/".$hoteldata['sb_hotel_pic'];?>' class='file-preview-image' alt='Hotel Image' title='HotelImage'>",
-				],
-				
-				showUpload: false,
-				showCaption: false,
-				browseClass: "btn btn-primary btn-lg",
-				fileType: "any",
-				previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-				previewClass : "test",
-				showRemove: false,
-			
-			});*/
-	
 			$('#id_sbPropertyBuiltYear').datepicker({
 				changeYear: true,
 				dateFormat: 'yy',
 				yearRange: "-100:+0",
 				onClose: function() {
-						 //var iMonth = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
 						  var iYear = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
 	                      $(this).datepicker('setDate', new Date(iYear, 1, 1));
 	            },
@@ -411,21 +395,7 @@ $(document).ready(function () {
 	<?php } else { ?>
 	$("#id_uploadImage").hide();
     loadStates('id_sbHotelCountry','id_sbHotelState','1','id_sbHotelCity','0','0','0'); 
-	/*$("#id_sbHotelPic").fileinput({
-		showUpload: false,
-		showCaption: false,
-		browseClass: "btn btn-primary btn-lg",
-		fileType: "any",
-        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-		previewClass : "test"
-		showRemove: false,
-		width:'80%',
-		height:'80%',
-		preview:"test"
-		
-	});*/
-	
-	  $('#id_sbPropertyBuiltYear').datepicker({
+	$('#id_sbPropertyBuiltYear').datepicker({
 			changeYear: true,
 			dateFormat: 'yy',
 			yearRange: "-100:+0",
@@ -446,7 +416,7 @@ $(document).ready(function () {
 			}
 		});
 		
-		  $('#id_sbPropertyOpenYear').datepicker({
+		$('#id_sbPropertyOpenYear').datepicker({
 			changeYear: true,
 			dateFormat: 'yy',
 			yearRange: "-100:+0",

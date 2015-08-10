@@ -134,7 +134,7 @@ Class Services_model extends CI_Model
 	 */
 	function get_hotel_child_services_by_parent_service($hotel_id,$sb_parent_service_id)
 	{
-		$this->db->select('sb_hotel_child_services.sb_child_service_id,sb_child_service_name,sb_hotel_service_map_id');
+		$this->db->select('sb_hotel_child_services.sb_child_service_id,sb_child_servcie_name,sb_hotel_service_map_id');
 		$this->db->where('sb_hotel_id',$hotel_id);
 		$this->db->where('sb_hotel_child_services.sb_parent_service_id',$sb_parent_service_id);
 		$this->db->from('sb_hotel_service_map');
@@ -160,7 +160,7 @@ Class Services_model extends CI_Model
 	 */
 	function get_hotel_child_service_map_id($hotel_id,$sb_parent_service_id,$sb_child_service_id)
 	{
-		$this->db->select('sb_hotel_child_services.sb_child_service_id,sb_child_service_name,sb_hotel_service_map_id');
+		$this->db->select('sb_hotel_child_services.sb_child_service_id,sb_child_servcie_name,sb_hotel_service_map_id');
 		$this->db->where('sb_hotel_id',$hotel_id);
 		$this->db->where('sb_hotel_child_services.sb_parent_service_id',$sb_parent_service_id);
 		$this->db->where('sb_hotel_child_services.sb_child_service_id',$sb_child_service_id);
@@ -197,6 +197,20 @@ Class Services_model extends CI_Model
 		$query = $this->db->get();
 		return $query->result_array();
 	}
-	
+
+	/* Method return child services of 
+	 * a parent id
+	 * @param int
+	 * return array
+	 */
+	function get_child_of_parent($parent_id)
+	{
+		$this->db->select('sb_child_servcie_name,sb_child_service_id');
+		$this->db->from('sb_hotel_child_services');
+		$this->db->where('sb_parent_service_id',$parent_id);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 }
 ?>

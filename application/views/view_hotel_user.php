@@ -37,7 +37,7 @@
 						</tr>
 						<tr>
 							<td>User Picture</td>
-							<td><img src='<?php echo FOLDER_BASE_URL.HOTEL_USER_PIC."/".$userinfo->sb_hotel_user_pic;?>' height="100px" width="100px"/></td>
+							<td><img src='<?php echo FOLDER_BASE_URL."/".HOTEL_USER_PIC."/".$userinfo->sb_hotel_user_pic;?>' height="100px" width="100px"/></td>
 						</tr>
 					
 						<tr>

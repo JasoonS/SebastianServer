@@ -5,6 +5,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Ajax extends CI_Controller 
 {
+
+	public $return_type = '';
+	public $output      = array();
+
 	
 	public function __construct()
 	{
@@ -16,11 +20,14 @@ class Ajax extends CI_Controller
 		$this->load->model('User_model');
 		$this->load->model('Services_model');
 	}
+
+	
 	/* This function decides which function to call after ajax call
 	 * @param - int flag (and other post parameters in ajax requests)
 	 */
 	public function get_ajax_data()
 	{
+
 	    $flag=$this->input->post('flag');
 		switch($flag)
 		{
@@ -38,14 +45,15 @@ class Ajax extends CI_Controller
 				break;
 			}
 			case 4:{ 
+			    $columnnames=['sb_hotel_user_id','sb_hotel_username','sb_hotel_useremail','sb_hotel_user_type','sb_hotel_user_type'];
 				if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'm'){
 					$this->load->model('Services_model');
 					$user_id=$this->session->userdata('logged_in_user')->sb_hotel_user_id;
 					$parent_service=$this->Services_model->get_hotel_user_parent_service($user_id);
-					$this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$this->input->post('columns'),$this->input->post('hotel_id'),$this->input->post('user_type'),$this->input->post('page_type'),$parent_service[0]['sb_parent_service_id']);
+					$this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames,$this->input->post('hotel_id'),$this->input->post('user_type'),$this->input->post('page_type'),$parent_service[0]['sb_parent_service_id']);
 				}
 				else{
-					$this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$this->input->post('columns'),$this->input->post('hotel_id'),$this->input->post('user_type'),$this->input->post('page_type'),0);
+					$this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames,$this->input->post('hotel_id'),$this->input->post('user_type'),$this->input->post('page_type'),0);
 				}
 				break;
 			}
@@ -75,6 +83,10 @@ class Ajax extends CI_Controller
 				
 				echo json_encode($result);
 				break;
+			}
+			
+			case 7 : {
+				$this->get_child_of_parent();
 			}
 			default:{
 			}
@@ -113,8 +125,10 @@ class Ajax extends CI_Controller
 			$row[] = $hotel->sb_hotel_user_id;
 			$row[] = $hotel->sb_hotel_username;
 			$row[] = $hotel->sb_hotel_useremail;
+			
 			switch($hotel->sb_hotel_user_type)
 				{
+				    case 'u':$row[] ="System Admin";break;
 					case 'a':$row[] ="Hotel Admin";break;
 					case 'm':$row[] ="Hotel Manager";break;
 					case 's':$row[] ="Hotel Staff";break;
@@ -192,5 +206,34 @@ class Ajax extends CI_Controller
 		echo json_encode($output);
 		exit;
 	}
+
+	function get_child_of_parent()
+	{
+		if($this->input->post('return_type'))
+		{
+			$this->return_type = $this->input->post('return_type');
+		}else
+		{
+			$this->return_type = 'json';
+		}
+
+		$this->output = $this->Services_model->get_child_of_parent($this->input->post('parentId'));
+
+		$this->render_ouput();		
+	}
+
+	function render_ouput()
+	{
+		if($this->return_type == 'json')
+		{
+			
+			echo json_encode($this->output);
+			exit;
+		}
+		else
+		{
+			echo $this->output;
+		}
+	} 
 }//End Of Controller Class
 
