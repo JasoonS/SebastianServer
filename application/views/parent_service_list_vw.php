@@ -20,7 +20,7 @@
 
                 				<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 classParentServicePanel">                					
                                     <div class="tile-stats classParentServiceBox">
-                                        <a  id="idParentService_<?php echo $parent_service['sb_parent_service_id']; ?>_<?php echo $parent_service['sb_parent_service_name']; ?>" href="javascript:void(0)"><div class="icon"><i class="fa fa-caret-square-o-right"></i></div></a>
+                                        <a  id="idParentService_<?php echo $parent_service['sb_parent_service_id']; ?>_<?php echo $parent_service['sb_parent_service_name']; ?>_<?php echo $hotel_id ?>" href="javascript:void(0)"><div class="icon"><i class="fa fa-caret-square-o-right"></i></div></a>
 	                                    
 	                                    <h3 class = "text-primary"><?php echo $parent_service['sb_parent_service_name']; ?></h3>
                                          
@@ -77,11 +77,13 @@
             
             <!-- content goes here -->
             <form id="idFrmSelectChildService">
-              <!--<div class="checkbox">
-                <label>
-                  <input type="checkbox" value="" name="selectedChildService[]"> Check me out
-                </label>
-              </div>!-->
+                <div class = "classFormChkBoxes" id="idChidServiceContainer">
+                    <!--<div class="checkbox">
+                        <label>
+                          <input type="checkbox" value="" name="selectedChildService[]"> Check me out
+                        </label>
+                    </div>!-->
+                </div>
               <button type="submit" class="btn btn-default">Submit</button>
             </form>
         </div>
@@ -121,6 +123,7 @@ $(document).ready(function(){
 
 
 
+
     if(host_url == 'http://bizmoapps.com')
     {
         base_url    = host_url+'/sebastian/';
@@ -131,14 +134,19 @@ $(document).ready(function(){
 
     
 
-	$('a[id^="idParentService"]').click(function(){
+	$('a[id^="idParentService"]').on('click',function(){
+
+
 		jsTmpArr           = this.id.split('_');
         jsParentId         = jsTmpArr[1];
         jsParentName       = jsTmpArr[2];
+        jsHotelId          = jsTmpArr[3];
+
 
         //Creating object properties
         jsTmpObj.flag      = 7;
         jsTmpObj.parentId  = jsParentId;
+        jsTmpObj.hotelId   = jsHotelId;
 
         
 
@@ -151,19 +159,31 @@ $(document).ready(function(){
 
             jsParsedData = jQuery.parseJSON(data);
 
+
             for(var cnt = 0; cnt < jsParsedData.length; cnt++ )
             {
-               var childInputs  = '<input type=checkbox id="idChildService" value="'+jsParsedData[cnt].sb_child_service_id+'" name="childServices[]" />'+jsParsedData[cnt].sb_child_servcie_name;
+               if(jsParsedData[cnt].sb_is_service_in_use == 1 )
+               {
+                    checked = 'checked';
+               }else
+               {
+                    checked = '';
+               }
+               var childInputs  = '<input type=checkbox id="idChildService" value="'+jsParentId+'_'+jsParsedData[cnt].sb_child_service_id+'" '+checked+' name="childServices[]" />'+jsParsedData[cnt].sb_child_servcie_name;
                var jsNewElement = '<div class = "checkbox"><label>'+childInputs+'</label></div>';
-               $("#idFrmSelectChildService").append(jsNewElement);                
+               $("#idChidServiceContainer").append(jsNewElement);                
             }
 
+            // Intialize modal
             $('#idChildServiceModal').modal({
-                show: true
+                show: true,
             });
-        })
 
-        
+            // Reset Modal
+            $('#idChildServiceModal').on('hidden.bs.modal', function (e) {
+                $(".classFormChkBoxes").html("");
+            })
+        })
 	});
 })
 </script>

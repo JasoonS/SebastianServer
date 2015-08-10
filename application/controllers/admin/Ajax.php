@@ -86,7 +86,7 @@ class Ajax extends CI_Controller
 			}
 			
 			case 7 : {
-				$this->get_child_of_parent();
+				$this->get_hotel_child_service_of_parent();
 			}
 			default:{
 			}
@@ -179,7 +179,7 @@ class Ajax extends CI_Controller
 			$editurl 			= base_url("admin/hotel/edit_hotel/".$hotel->sb_hotel_id);
 			$viewurl 			= base_url("admin/hotel/view_hotel/".$hotel->sb_hotel_id);
 			$deleteurl  		= base_url("admin/hotel/delete_hotel/".$hotel->sb_hotel_id);
-			$serviceurl			= base_url("admin/hotelservices/edit/".$hotel->sb_hotel_id);
+			$serviceurl			= base_url("admin/HotelServices/edit/".$hotel->sb_hotel_id);
 			if($hotel->is_active == '1'){
 				$row[]=	'<a class="btn btn-sm btn-primary" href="'.$editurl.'"  title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
 						'<a class="btn btn-sm btn-warning" href="'.$viewurl.'"  title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
@@ -207,7 +207,7 @@ class Ajax extends CI_Controller
 		exit;
 	}
 
-	function get_child_of_parent()
+	function get_hotel_child_service_of_parent()
 	{
 		if($this->input->post('return_type'))
 		{
@@ -217,7 +217,7 @@ class Ajax extends CI_Controller
 			$this->return_type = 'json';
 		}
 
-		$this->output = $this->Services_model->get_child_of_parent($this->input->post('parentId'));
+		$this->output = $this->Services_model->get_hotel_child_services_by_parent_service($this->input->post('hotelId'),$this->input->post('parentId'));
 
 		$this->render_ouput();		
 	}
