@@ -91,6 +91,7 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  |--------------------------------------------------------------------------
  */
   define('BASE_URL','http://localhost/sebastian-admin-panel/');
+  //define('BASE_URL','http://bizmoapps.com/sebastian/');
   define('THEME_ASSETS',BASE_URL.'assets/');
 
  /*
@@ -112,6 +113,7 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('HOTEL_ADMIN_UPDATION_SUCCESS','Hotel User Updated Successfully.');
  define('HOTEL_ADMIN_UPDATION_ERROR','Error in Hotel User Updation.');
  define('FOLDER_BASE_URL','http://localhost/sebastian-admin-panel');
+ //define('FOLDER_BASE_URL','http://bizmoapps.com/sebastian');
 
 
  /*
