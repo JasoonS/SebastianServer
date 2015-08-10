@@ -128,6 +128,15 @@ class Tasks_model extends CI_Model
 		return $val;
 	}
 
+	/**
+	 * This model will provide childs and sub-childs for a requested service.
+	 * return type- 
+	 * created on - 27th July 2015;
+	 * created by - Akshay Patil;
+	 * updated on - 10th August 2015
+	 * updated by - Samrat Aher
+	 */
+
 	public function getChildServiceDetails($id)
 	{
 		$sql = "Select sub_child_services_id from sb_hotel_request_service where sb_hotel_requst_ser_id = '$id' ";

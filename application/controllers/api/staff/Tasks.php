@@ -29,8 +29,9 @@ class Tasks extends CI_Controller {
 	 * This API will provide staff's accepted today's tasks.
 	 * return type- 
 	 * created on - 27th July 2015;
-	 * updated on - 
 	 * created by - Akshay Patil;
+	 * updated on - 10th August 2015
+	 * updated by - Samrat Aher
 	 */
 	public function get_todays_tasks()
 	{
@@ -57,8 +58,9 @@ class Tasks extends CI_Controller {
 	 * This API will provide staff's accepted weekly tasks.
 	 * return type- 
 	 * created on - 27th July 2015;
-	 * updated on - 
 	 * created by - Akshay Patil;
+	 * updated on - 10th August 2015
+	 * updated by - Samrat Aher
 	 */
 	public function get_weekly_tasks()
 	{
