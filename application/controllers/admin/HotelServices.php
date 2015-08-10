@@ -18,10 +18,6 @@ Class HotelServices extends CI_Controller
 			$config = array('userID'=>$this->session->userdata('logged_in_user')->sb_hotel_user_id);
 			// Load the ACL library and pas it the config array
 			$this->load->library('acl',$config);
-
-			//echo '<pre>';
-			//print_r($this->acl->perms);
-			//exit;
 		}
 		$this->load->model('Hotel_model');
 		$this->load->model('Services_model');
@@ -40,6 +36,9 @@ Class HotelServices extends CI_Controller
 
 		// Get all parent services
 		$this->data['parent_services'] 		= $this->Services_model->get_all_parent_services();
+
+		// Pass hotel id
+		$this->data['hotel_id']				= $hotel_id;
 
 		//echo '<pre>';
 		//print_r($this->data['parent_services']);
