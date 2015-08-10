@@ -44,4 +44,10 @@ local.properties
 #ignoring some specific files
 application/config/database.php
 
+#ignoring log files
+application/logs/*
+
+#ignoring user data
+user_data/*
+
 
