@@ -268,10 +268,10 @@ $(function() {
 	 */
 	function populateChildServices(loggedusertype,userid,hotelid)
 		{
-			var proj_url=location.protocol + "//" + location.host;
+			
 			var creation_user_type=$("#sb_hotel_user_type").val();
 			var parent_service_id=$("#sb_parent_service_id").val();
-			var base_url = proj_url+'/sebastian-admin-panel/admin/ajax/get_ajax_data';
+			var base_url = proj_url+'/admin/ajax/get_ajax_data';
 			if(creation_user_type == 's'){
 				$("#child_services_control").show(2000);
 				$.ajax({
