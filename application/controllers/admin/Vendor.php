@@ -23,7 +23,10 @@ class Vendor extends CI_Controller
 			$this->load->library('acl',$config);
 		}
 	}
-
+    /* This method is to show listing view of vendors
+	 *	@ params void
+     * 	return view
+	 */
 	public function index()
 	{
 		$this->data['title']  = 'Available Vendor List';

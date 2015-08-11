@@ -26,7 +26,8 @@ class Login extends CI_Controller
 	 */
 	public function index()
 	{	
-		$this->data['action']	= "admin/login/verify_user";	
+		$this->data['action']	= "admin/login/verify_user";
+		$this->data['title']="Login";	
 		$this->template->load('login_tpl', 'login_vw',$this->data);
 	}
 	
