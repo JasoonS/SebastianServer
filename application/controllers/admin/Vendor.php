@@ -1,7 +1,6 @@
 <?php
 /* Vendor Controller Class
  * perform crud of Vendors
- * All Vendors Related
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Vendor extends CI_Controller 
@@ -28,7 +27,6 @@ class Vendor extends CI_Controller
 	{
 		$this->data['title']  = 'Available Vendor List';
 		$this->template->load('page_tpl','vendor_list_vw',$this->data);
-		
 	}
 	
 }//End Of Controller Class

@@ -61,4 +61,18 @@ Custom Style sheet
 /******************** Parent widget style ****************************/
 
 
+/********** Date picker style***************/
+.daterangepicker{
+  z-index:1151 !important;
+}
+
+.classModalDatePicker{
+  background: #fff; 
+  cursor: pointer; 
+  padding: 5px 8px; 
+  border: 1px solid #ccc;
+}
+/********** Date picker style***************/
+
+
 

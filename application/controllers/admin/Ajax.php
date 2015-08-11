@@ -163,8 +163,10 @@ class Ajax extends CI_Controller
 				 }
 				$output=$this->Vendor_model->edit_vendor($updateData,$this->input->post('vendor_id'));
 				echo json_encode($output);
-				break;
-				 
+				break;	 
+			}
+			case 15:{
+				$this->save_guest_data();
 			}
 			default:{
 			}
@@ -337,6 +339,13 @@ class Ajax extends CI_Controller
 		{
 			echo $this->output;
 		}
-	} 
+	}
+
+	function save_guest_data() 
+	{
+		echo '<pre>';
+		print_r($_POST);
+		exit;
+	}
 }//End Of Controller Class
 

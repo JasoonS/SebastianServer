@@ -8,11 +8,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class GuestProfiles extends CI_Controller
 {
-	public $data = array();
+	public $data 			= array();
+	public $guest_info		= array();
+	public $guest_fname 	= '';
+	public $guest_lanme 	= '';
+	public $guest_email		= '';
+	public $guest_booking	= '';
 
 	public function __construct()
 	{
-		//die('i am here');
 		parent::__construct();
 		if(!$this->session->userdata('logged_in_user'))
 		{
@@ -24,6 +28,7 @@ class GuestProfiles extends CI_Controller
 			// Load the ACL library and pas it the config array
 			$this->load->library('acl',$config);
 		}
+		$this->load->model('Guest_model');
 		$this->load->helper('admin/utility_helper');
 	}
 
@@ -34,11 +39,19 @@ class GuestProfiles extends CI_Controller
 
 	public function guest()
 	{
-		$this->data['title'] = 'Guest Profiles';
 
-		// Get all guest for this hotel
-		$this->template->load('page_tpl', 'hotel_guest_list_vw',$this->data);
+		if($this->session->logged_in_user->sb_hotel_id)
+		{
+			$this->data['title'] = 'Guest Profiles';
 
+			// Get  guest list for this hotel
+			$guest_list	= $this->Guest_model->get_guest_data($this->session->logged_in_user->sb_hotel_id);
+
+			$this->template->load('page_tpl', 'hotel_guest_list_vw',$this->data);
+		}else
+		{
+			die('you are not allowed to access this module');
+		}
 	}
 
 	public function hotel_guest()

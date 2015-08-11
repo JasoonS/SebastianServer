@@ -147,7 +147,7 @@ $(document).ready(function(){
         // Update Services
         jqXHRSaveService = $.post(base_url+js_requesting,jsTmpObj,function( data ){});
 
-        jqXHR.success(function(data)
+        jqXHRSaveService.success(function(data)
         {
            
            $('#idSucessMsg').html("Service updated successfully").fadeIn('slow') //also show a success message 

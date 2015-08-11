@@ -118,6 +118,7 @@
 <script>
 var asInitVals  = new Array();
 var action_url  = '';
+
 function createTable(){
 		$('#idVendors').dataTable({
         "processing": true, //Feature control the processing indicator.
