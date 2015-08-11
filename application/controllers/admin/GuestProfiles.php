@@ -35,6 +35,8 @@ class GuestProfiles extends CI_Controller
 	public function guest()
 	{
 		$this->data['title'] = 'Guest Profiles';
+
+		// Get all guest for this hotel
 		$this->template->load('page_tpl', 'hotel_guest_list_vw',$this->data);
 
 	}
