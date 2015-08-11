@@ -42,6 +42,20 @@ Class Vendor_model extends CI_Model
 		$this->db->where('vendor_name',$vendor_name);
 		$query=$this->db->get('sb_vendors');
 		return $query->result_array();
+	}
+
+	/* Method Return If Another Vendor Present with same name  
+	 * inside system 
+	 * @param @string,@int
+	 * return 1 on success and 0 on Fail
+	 */
+	function find_vendor_edit($vendor_name,$vendor_id)
+	{
+	    $this->db->select('COUNT(`vendor_name`) as vendorcount',false);
+		$this->db->where('vendor_name',$vendor_name);
+		$this->db->where('vendor_id <> ',$vendor_id);
+		$query=$this->db->get('sb_vendors');
+		return $query->result_array();
 	}	
 	
 }//End Of Vendor Model	

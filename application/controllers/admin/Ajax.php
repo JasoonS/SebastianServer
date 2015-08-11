@@ -90,9 +90,13 @@ class Ajax extends CI_Controller
 				$this->get_hotel_child_service_of_parent();
 				break;
 			}
+			case 8 : {
+				$this->update_hotel_services();
+				break;
+			}
 			//We have used this for vendor grid
-			case 8 :{
-				$columnnames=['vendor_id','vendor_name'];
+			case 9 :{
+				$columnnames=['vendor_id','vendor_name','status'];
 				$list = $this->Common_model->get_datatables('sb_vendors',$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames);
 				$data = array();
 				$no =$this->input->post('start');
@@ -101,6 +105,12 @@ class Ajax extends CI_Controller
 					$row = array();
 					$row[] 				= $vendor->vendor_id;
 					$row[] 				= $vendor->vendor_name;
+					if($vendor->status == '1'){
+						$row[] ='<a class="btn btn-sm btn-primary" href="#" title="Edit" onclick="edit('.$vendor->vendor_id.',\''.$vendor->vendor_name.'\');"><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.'<a class="btn btn-sm btn-danger" id="delete" href="#"  onclick="changevendorstatus('.$vendor->vendor_id.','.$vendor->status.');" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+					}
+					else{
+						$row[]='<a class="btn btn-sm btn-primary" href="#" title="Edit" onclick="edit('.$vendor->vendor_id.',\''.$vendor->vendor_name.'\');"><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.'<a class="btn btn-sm btn-success" id="restore" href="#" data-href="#" onclick="changevendorstatus('.$vendor->vendor_id.','.$vendor->status.');" title="Restore" ><i class="glyphicon glyphicon-file"></i>Restore</a>';
+					}
 					$data[] = $row;
 				}
 				$output = array(
@@ -113,22 +123,48 @@ class Ajax extends CI_Controller
 				echo json_encode($output);
 				break;
 			}
+			
 			//This case is to get in vendorname is not repeating
-			case 9:{
+			case 10:{
 			    $output=$this->Vendor_model->find_vendor($this->input->post('vendorname'));
 				echo json_encode($output);
 				break;
 			}
 			//This case is to insert vendor
-			case 10:{
+			case 11:{
 			    $insertData=array("vendor_name"=>$this->input->post('vendorname'));
 			    $output=$this->Vendor_model->create_vendor($insertData);
 				echo json_encode($output);
 				break;
 			}
 
-			case 8 : {
-				$this->update_hotel_services();
+			//This case is to get in vendorname is not repeating for edit
+			case 12:{
+			    $output=$this->Vendor_model->find_vendor_edit($this->input->post('vendorname'),$this->input->post('vendor_id'));
+				echo json_encode($output);
+				break;
+			}
+			
+			//This case is to edit vendor
+			case 13:{
+			    $updateData=array("vendor_name"=>$this->input->post('vendorname'));
+			    $output=$this->Vendor_model->edit_vendor($updateData,$this->input->post('vendor_id'));
+				echo json_encode($output);
+				break;
+			}
+			//This case is to edit vendor/Soft Delete Or Recover Vendor
+			case 14:{
+			     if($this->input->post('vendorstatus') == '1')
+				 {
+					$updateData=array("status"=>'0');
+				 }
+				 else{
+					$updateData=array("status"=>'1');
+				 }
+				$output=$this->Vendor_model->edit_vendor($updateData,$this->input->post('vendor_id'));
+				echo json_encode($output);
+				break;
+				 
 			}
 			default:{
 			}

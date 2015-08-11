@@ -23,7 +23,8 @@
                             <thead>
                                 <tr class="headings">
 									<th>Vendor Id</th>
-                                    <th>Vendor Name</th>                       
+                                    <th>Vendor Name</th> 
+									<th>Action</th> 									
                                 </tr>
                             </thead>
 
@@ -78,7 +79,7 @@
         <div class="modal-content">
             <div class="modal-header">
                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Confirm Change Status</h4>
+                <h4 class="modal-title" id="myModalLabel">Add / Edit Vendor</h4>
             </div>
         
             <div class="modal-body">
@@ -124,7 +125,7 @@ function createTable(){
 		"bDestroy":true,	
         "ajax": {
             "url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
-            "data":{flag:'8',tablename:'tbname',orderkey: ' vendor_id ',orderdir:' desc '},
+            "data":{flag:'9',tablename:'tbname',orderkey: ' vendor_id ',orderdir:' desc '},
             "type": "POST",
          
         },
@@ -133,7 +134,7 @@ function createTable(){
         "aoColumnDefs": [
             {
                 'bSortable': false,
-                'aTargets': [0]
+                'aTargets': [0,2]
             } //disables sorting for column one
         ],
         "sPaginationType": "full_numbers",
@@ -174,7 +175,7 @@ $(document).ready(function () {
 
 function changevendorstatus(id,vendorstatus)
 {   
-    $(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger id="idChangeHotelStats" onclick="changestatus('+id+','+hotelstatus+');">Change</button>');
+    $(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger id="idChangeHotelStats" onclick="changestatus('+id+','+vendorstatus+');">Change</button>');
     $("#confirm-delete").modal('show');
 }
 
@@ -185,23 +186,70 @@ function addVendor(action)
 	$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger id="addVendor" onclick="add();">Add Vendor</button>');
     $("#add-edit").modal('show');
 }
+function edit(vendor_id,vendor_name)
+{   
+    $("#myModalLabel").html("Create Vendor");
+	$("#sb_vendorname").val(vendor_name);
+	$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger id="editVendor" onclick="editVendor('+vendor_id+',\''+vendor_name+'\');">Edit Vendor</button>');
+    $("#add-edit").modal('show');
+}
 
 function changestatus(id,vendorstatus)
 {
-    alert(id);
-    /*action_url = '<?php echo site_url('admin/hotel/change_hotel_status')?>';
+    action_url = '<?php echo site_url('admin/ajax/get_ajax_data')?>';
 
     $.ajax({
         url: action_url,
         type:"post",
-        data:{"hotel_id":id,"hotelstatus":hotelstatus},
+        data:{flag:"14","vendor_id":id,"vendorstatus":vendorstatus},
         dataType:"json",
         success:function(msg)
         {
             $('#confirm-delete').modal('hide');
 			createTable();
         }
-    });*/
+    });
+}
+
+function editVendor(vendor_id,vendor_name)
+{
+	var vendorname=$("#sb_vendorname").val();
+	if(vendorname == "")
+	{
+		$("#err_vendorname").html("Vendor Name is compulsory.");
+		$("#err_vendorname").show();
+	}
+	else{
+		action_url = '<?php echo site_url('admin/ajax/get_ajax_data')?>';
+
+		$.ajax({
+			url: action_url,
+			type:"post",
+			data:{flag:'12',vendorname:vendorname,vendor_id:vendor_id},
+			dataType:"json",
+			success:function(msg)
+			{
+				if(msg[0].vendorcount == 1){
+					$("#err_vendorname").html("Vendor is already present.");
+					$("#err_vendorname").show();
+				}
+				else{
+					$("#err_vendorname").hide();
+					$.ajax({
+						url: action_url,
+						type:"post",
+						data:{flag:'13',vendorname:vendorname,vendor_id:vendor_id},
+						dataType:"json",
+						success:function(msg)
+						{
+							$("#add-edit").modal('hide');
+							createTable();
+						}
+					});
+				}
+			}
+		});
+	}
 } 
 
 function add()
@@ -218,7 +266,7 @@ function add()
 		$.ajax({
 			url: action_url,
 			type:"post",
-			data:{flag:'9',vendorname:vendorname},
+			data:{flag:'13',vendorname:vendorname},
 			dataType:"json",
 			success:function(msg)
 			{
@@ -231,7 +279,7 @@ function add()
 					$.ajax({
 						url: action_url,
 						type:"post",
-						data:{flag:'10',vendorname:vendorname},
+						data:{flag:'11',vendorname:vendorname},
 						dataType:"json",
 						success:function(msg)
 						{
