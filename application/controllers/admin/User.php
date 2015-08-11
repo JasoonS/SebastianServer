@@ -398,17 +398,12 @@ class User extends CI_Controller
 				
 				
 				$hotelusername=$data['sb_hotel_username'];
-				$message="Hi ,
-							Congratulations Your user account is created on sebastian.
-							Account Details are
-							User Name =  $hotelusername
-							Password = $password
-				
-							Thanks
-						";
-				//sendMail('no-reply@sebastian.com',$data[sb_hotel_useremail],"Administrator Account Creation",$message);
+				$data['password']=$password;
+				$data['hotelusername']=$hotelusername;
+				$message = $this->load->view('email/accountcreation',$data,TRUE);
+				sendMail('no-reply@sebastian.com',$data[sb_hotel_useremail],"Administrator Account Creation",$message);
 				//For Time being we are sending an email to developer.
-				sendMail('no-reply@sebastian.com',"kalyani.joshi@eeshana.com","Administrator Account Creation",$message);
+				//sendMail('no-reply@sebastian.com',"kalyani.joshi@eeshana.com","Administrator Account Creation",$message);
 				if($result > '0')
 				{
 					$this->session->set_flashdata('category_success', HOTEL_ADMIN_CREATION_SUCCESS);

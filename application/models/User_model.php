@@ -157,4 +157,16 @@ Class User_model extends CI_Model
 		else
 			return FALSE;
 	}
+	
+	/* Method Get User Information according to its Email Id
+	 * @param string
+	 * return array
+	 */
+	function get_user_by_email($user_email)
+	{
+		$this->db->select('sb_hotel_user_id,sb_hotel_username');
+		$this->db->where('sb_hotel_useremail',$user_email);
+		$query=$this->db->get('sb_hotel_users');
+		return $query->result_array();
+	}
 }//End Of Model

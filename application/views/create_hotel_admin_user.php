@@ -203,8 +203,7 @@
 									<button id="submit"  class="btn btn-primary btn-lg btn-block">Create User</button>
 								</div>
 							</div>	
-
-										
+				
 				</div>
 			</div>
 		</form>
