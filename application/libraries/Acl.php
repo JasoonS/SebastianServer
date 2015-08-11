@@ -81,7 +81,7 @@ Class Acl
         $assigned_mods = array();
         foreach( $data as $row )
         {
-            $pK = strtolower($this->getPermKeyFromID($row->sb_mod_id));
+            $pK = $this->getPermKeyFromID($row->sb_mod_id);
             if ($pK == '') { continue; }
             if ($row->sb_role_mod_val === '1') {
                 $hP = true;
@@ -138,7 +138,7 @@ Class Acl
         $assigned_mods = array();
         foreach( $data as $row )
         {
-            $pK = strtolower($this->getPermKeyFromID($row->sb_mod_id));
+            $pK = $this->getPermKeyFromID($row->sb_mod_id);
             if ($pK == '') { continue; }
             if ($row->sb_user_mod_val == '1') {
                 $hP = true;
