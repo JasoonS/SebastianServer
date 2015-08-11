@@ -13,12 +13,15 @@ Class Services_model extends CI_Model
 	 */
 	function get_all_services()
 	{
-		$this->db->select('sb_hotel_child_services.sb_parent_service_id,sb_parent_service_name,sb_child_service_id,sb_child_servcie_name');
+		$this->db->select('sb_hotel_child_services.sb_parent_service_id,sb_parent_service_name,sb_hotel_child_services.sb_child_service_id,sb_child_servcie_name,sub_child_services_id');
 		$this->db->from('sb_hotel_parent_services');
 		$this->db->join('sb_hotel_child_services','sb_hotel_parent_services.sb_parent_service_id = sb_hotel_child_services.sb_parent_service_id');
+		$this->db->join('sb_sub_child_services','sb_sub_child_services.sb_child_service_id = sb_hotel_child_services.sb_child_service_id','left');
+		
 		//$this->db->group_by('sb_parent_service_id');
 		$this->db->order_by('sb_parent_service_id,sb_child_service_id', 'ASC');
 		$query = $this->db->get();
+	
         return $query->result_array();		
 	}
 	
@@ -30,6 +33,7 @@ Class Services_model extends CI_Model
 	function add_all_services_to_hotel($hotel_id)
 	{
 		$serviceslist=$this->get_all_services();
+		
 		//Delete Previously added services for the particular hotel.
 		//$this->db->where('sb_hotel_id',$hotel_id);
 		//$this->db->delete('sb_hotel_service_map');
@@ -40,7 +44,8 @@ Class Services_model extends CI_Model
 		{
 			$singlearray=array('sb_hotel_id'=>$hotel_id,
 								'sb_parent_service_id'=>$serviceslist[$i]['sb_parent_service_id'],
-								'sb_child_service_id'=>$serviceslist[$i]['sb_child_service_id']
+								'sb_child_service_id'=>$serviceslist[$i]['sb_child_service_id'],
+								'sb_sub_child_service_id'=>$serviceslist[$i]['sub_child_services_id']
 							  );
 			array_push($data,$singlearray);				  
 			$i++;
@@ -139,6 +144,7 @@ Class Services_model extends CI_Model
 		$this->db->where('sb_hotel_child_services.sb_parent_service_id',$sb_parent_service_id);
 		$this->db->from('sb_hotel_service_map');
 		$this->db->join('sb_hotel_child_services','sb_hotel_child_services.sb_child_service_id = sb_hotel_service_map.sb_child_service_id');
+		$this->db->group_by('sb_hotel_child_services.sb_child_service_id');
 		$query = $this->db->get();
 		return $query->result_array();
 	}

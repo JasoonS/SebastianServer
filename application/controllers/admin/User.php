@@ -300,7 +300,7 @@ class User extends CI_Controller
                      									
 					$this->User_model->set_user_role($useradminpermissions);
 					$user_module_array=array();
-					$permarray=array('2','4','6');
+					$permarray=array('2','4','6','8');
 					$count=0;
 					while($count<count($permarray)){
 						$singlearray=array(
@@ -627,7 +627,7 @@ class User extends CI_Controller
                      									
 					$this->User_model->set_user_role($useradminpermissions);
 					$user_module_array=array();
-					$permarray=array('2','4','6');
+					$permarray=array('2','4','6','8');
 					$count=0;
 					while($count<count($permarray)){
 						$singlearray=array(

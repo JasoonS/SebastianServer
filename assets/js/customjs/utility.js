@@ -8,7 +8,7 @@ var js_requesting	= 'admin/ajax/get_ajax_data';
 function loadStates(inputelementname,outputelementname,populatecities,cityelement,haveDefaultStateAndCity,state,city)
 {
 
-	var base_url = proj_url+'/sebastian/admin/ajax/get_ajax_data';
+	var base_url = proj_url+'/sebastian-admin-panel/admin/ajax/get_ajax_data';
 	var country_id = $("#"+inputelementname).val();
 	$.ajax({
 			url: base_url,
@@ -41,7 +41,7 @@ function loadStates(inputelementname,outputelementname,populatecities,cityelemen
  */
 function loadCities(inputelementname,outputelementname,haveDefaultStateAndCity,city)
 {
-	var base_url = proj_url+'/sebastian/admin/ajax/get_ajax_data';
+	var base_url = proj_url+'/sebastian-admin-panel/admin/ajax/get_ajax_data';
 	var state_id = $("#"+inputelementname).val();
 	$.ajax({
 			url: base_url,

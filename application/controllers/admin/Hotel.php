@@ -66,7 +66,6 @@ class Hotel extends CI_Controller
 		    array('field'=>'sb_hotel_city','label'=>'City','rules'=>'required','class'=>'text-danger'),
 			array('field'=>'sb_hotel_address','label'=>'Address','rules'=>'required','class'=>'text-danger'),
 			array('field'=>'sb_hotel_zipcode','label'=>'Postal Code','rules'=>'required','class'=>'text-danger'),
-			array('field'=>'sb_hotel_owner','label'=>'Hotel Owner','rules'=>'required','class'=>'text-danger'),
 			array('field'=>'sb_hotel_website','label'=>'Hotel Website','rules'=>'required|prep_url','class'=>'text-danger'),
 			array('field'=>'sb_hotel_email','label'=>'Hotel Email','rules'=>'required|valid_email','class'=>'text-danger')
 		);
@@ -117,7 +116,7 @@ class Hotel extends CI_Controller
 				{
 					$languageresult =$this->Hotel_model->set_hotel_languages($result,$data['sb_languages']);
 					$this->Services_model->add_all_services_to_hotel($result);
-					$this->Services_model->add_all_paid_services($result);
+				
 					$this->session->set_flashdata('category_success', HOTEL_CREATION_SUCCESS);
 					redirect('admin/hotel/add_hotel');
 				}

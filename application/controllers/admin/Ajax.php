@@ -19,6 +19,7 @@ class Ajax extends CI_Controller
 		$this->load->model('Hoteluser_model');
 		$this->load->model('User_model');
 		$this->load->model('Services_model');
+		$this->load->model('Vendor_model');
 	}
 
 	
@@ -87,6 +88,43 @@ class Ajax extends CI_Controller
 			
 			case 7 : {
 				$this->get_hotel_child_service_of_parent();
+				break;
+			}
+			//We have used this for vendor grid
+			case 8 :{
+				$columnnames=['vendor_id','vendor_name'];
+				$list = $this->Common_model->get_datatables('sb_vendors',$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames);
+				$data = array();
+				$no =$this->input->post('start');
+				foreach ($list as $vendor) {
+					$no++;
+					$row = array();
+					$row[] 				= $vendor->vendor_id;
+					$row[] 				= $vendor->vendor_name;
+					$data[] = $row;
+				}
+				$output = array(
+					"draw" => $this->input->post("draw"),
+					"recordsTotal" => $this->Common_model->count_all('sb_vendors',$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames),
+					"recordsFiltered" => $this->Common_model->count_filtered('sb_vendors',$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames),
+					"data" => $data
+				);
+				//output to json format
+				echo json_encode($output);
+				break;
+			}
+			//This case is to get in vendorname is not repeating
+			case 9:{
+			    $output=$this->Vendor_model->find_vendor($this->input->post('vendorname'));
+				echo json_encode($output);
+				break;
+			}
+			//This case is to insert vendor
+			case 10:{
+			    $insertData=array("vendor_name"=>$this->input->post('vendorname'));
+			    $output=$this->Vendor_model->create_vendor($insertData);
+				echo json_encode($output);
+				break;
 			}
 			default:{
 			}
