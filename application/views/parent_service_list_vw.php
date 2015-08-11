@@ -20,7 +20,7 @@
 
                 				<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 classParentServicePanel">                					
                                     <div class="tile-stats classParentServiceBox">
-                                        <a  id="idParentService_<?php echo $parent_service['sb_parent_service_id']; ?>_<?php echo $parent_service['sb_parent_service_name']; ?>_<?php echo $hotel_id ?>" href="javascript:void(0)"><div class="icon"><i class="fa fa-caret-square-o-right"></i></div></a>
+                                        <a  id="idParentService_<?php echo $parent_service['sb_parent_service_id']; ?>_<?php echo $parent_service['sb_parent_service_name']; ?>" href="javascript:void(0)"><div class="icon"><i class="fa fa-caret-square-o-right"></i></div></a>
 	                                    
 	                                    <h3 class = "text-primary"><?php echo $parent_service['sb_parent_service_name']; ?></h3>
                                          
@@ -65,6 +65,7 @@
 	<!-- /footer content -->
 </div>
 
+
 <!-- line modal -->
 <div class="modal fade" id="idChildServiceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -77,14 +78,8 @@
             
             <!-- content goes here -->
             <form id="idFrmSelectChildService">
-                <div class = "classFormChkBoxes" id="idChidServiceContainer">
-                    <!--<div class="checkbox">
-                        <label>
-                          <input type="checkbox" value="" name="selectedChildService[]"> Check me out
-                        </label>
-                    </div>!-->
-                </div>
-              <button type="submit" class="btn btn-default">Submit</button>
+                <div class = "classFormChkBoxes" id="idChidServiceContainer"></div>              
+                <p class = "text-success" id="idSucessMsg"></p>             
             </form>
         </div>
 
@@ -93,11 +88,8 @@
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Close</button>
                 </div>
-                <div class="btn-group btn-delete hidden" role="group">
-                    <button type="button" id="delImage" class="btn btn-default btn-hover-red" data-dismiss="modal"  role="button">Delete</button>
-                </div>
                 <div class="btn-group" role="group">
-                    <button type="button" id="saveImage" class="btn btn-default btn-hover-green" data-action="save" role="button">Save</button>
+                    <button type="button" id="idSaveService" class="btn btn-default btn-hover-green" data-action="save" role="button">Save</button>
                 </div>
             </div>
         </div>
@@ -116,13 +108,11 @@ $(document).ready(function(){
 
     var host_url        = window.location.origin;
     var base_url        = '';
+    var jsHotelId       = "<?php echo $hotel_id ?>";
     var jsTmpArr        = [];
     var jsParentId      = '';
     var jqXHR           = '';
-    var jsTmpObj        = new Object();
-
-
-
+   
 
     if(host_url == 'http://bizmoapps.com')
     {
@@ -132,23 +122,54 @@ $(document).ready(function(){
         base_url    = host_url+'/sebastian-admin-panel/';
     }
 
+
+    // Defining Page Specfic Funcions
+    var jsSaveServices = function () {
+
+        var jsChkBoxVals    = [];
+        var jsTmpObj        = new Object();
+
+       
+        $("#idChidServiceContainer .childChkBoxs").each(function (){
+
+            var jsObjChkBox         = new Object;
+            jsObjChkBox.val         = $(this).attr("value");
+            jsObjChkBox.isChecked   = $(this).is(":checked") ? "1":"0";
+            jsChkBoxVals.push(jsObjChkBox);
+        })
+
+       
+        jsTmpObj.flag       = 8;
+        jsTmpObj.chkBoxArr  = jsChkBoxVals;
+        jsTmpObj.hotelId    = jsHotelId;
+
+
+        // Update Services
+        jqXHRSaveService = $.post(base_url+js_requesting,jsTmpObj,function( data ){});
+
+        jqXHR.success(function(data)
+        {
+           
+           $('#idSucessMsg').html("Service updated successfully").fadeIn('slow') //also show a success message 
+        });
+    }
+
+
     
 
 	$('a[id^="idParentService"]').on('click',function(){
 
-
 		jsTmpArr           = this.id.split('_');
         jsParentId         = jsTmpArr[1];
         jsParentName       = jsTmpArr[2];
-        jsHotelId          = jsTmpArr[3];
 
-
+       
         //Creating object properties
+        var jsTmpObj       = new Object();
         jsTmpObj.flag      = 7;
         jsTmpObj.parentId  = jsParentId;
         jsTmpObj.hotelId   = jsHotelId;
-
-        
+      
 
         jqXHR = $.post(base_url+js_requesting,jsTmpObj,function( data ){});
 
@@ -164,12 +185,12 @@ $(document).ready(function(){
             {
                if(jsParsedData[cnt].sb_is_service_in_use == 1 )
                {
-                    checked = 'checked';
+                    checked = "checked = 'checked'";
                }else
                {
                     checked = '';
                }
-               var childInputs  = '<input type=checkbox id="idChildService" value="'+jsParentId+'_'+jsParsedData[cnt].sb_child_service_id+'" '+checked+' name="childServices[]" />'+jsParsedData[cnt].sb_child_servcie_name;
+               var childInputs  = '<input type=checkbox class=childChkBoxs id="idChildService_'+jsParentId+'_'+jsParsedData[cnt].sb_child_service_id+'" value="'+jsParentId+'_'+jsParsedData[cnt].sb_child_service_id+'" '+checked+' name="childServices[]" />'+jsParsedData[cnt].sb_child_servcie_name;
                var jsNewElement = '<div class = "checkbox"><label>'+childInputs+'</label></div>';
                $("#idChidServiceContainer").append(jsNewElement);                
             }
@@ -185,5 +206,11 @@ $(document).ready(function(){
             })
         })
 	});
+
+    // Save Service
+    $("#idSaveService").on('click',function(){
+        jsSaveServices()
+    })
+
 })
 </script>
