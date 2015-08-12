@@ -117,8 +117,10 @@ class Ajax extends CI_Controller
 			case 15:{
 			    $output=$this->get_service_list();
 				echo json_encode($output);
-				break;
-				 
+				break;	 
+			}
+			case 15:{
+				$this->save_guest_data();
 			}
 			default:{
 			}
@@ -397,6 +399,13 @@ class Ajax extends CI_Controller
 		{
 			echo $this->output;
 		}
-	} 
+	}
+
+	function save_guest_data() 
+	{
+		echo '<pre>';
+		print_r($_POST);
+		exit;
+	}
 }//End Of Controller Class
 
