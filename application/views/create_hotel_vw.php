@@ -297,6 +297,19 @@
 									?>
 								</div>								
 							</div>
+							<div class="form-group classFormInputsBox">
+								<div class="radio">
+                                    <label>
+                                        <input type="radio" checked="" value="option1" id="optionsRadios1" name="optionsRadios"> Option one. only select one option
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" value="option2" id="optionsRadios2" name="optionsRadios"> Option two. only select one option
+                                    </label>
+                                </div>
+							
+							</div>
 		                </div>
 	    			</div>
 	    		</div>

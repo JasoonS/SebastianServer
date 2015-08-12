@@ -46,33 +46,11 @@ class Ajax extends CI_Controller
 				break;
 			}
 			case 4:{ 
-			    $columnnames=['sb_hotel_user_id','sb_hotel_username','sb_hotel_useremail','sb_hotel_user_type','sb_hotel_user_type'];
-				if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'm'){
-					$this->load->model('Services_model');
-					$user_id=$this->session->userdata('logged_in_user')->sb_hotel_user_id;
-					$parent_service=$this->Services_model->get_hotel_user_parent_service($user_id);
-					$this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames,$this->input->post('hotel_id'),$this->input->post('user_type'),$this->input->post('page_type'),$parent_service[0]['sb_parent_service_id']);
-				}
-				else{
-					$this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames,$this->input->post('hotel_id'),$this->input->post('user_type'),$this->input->post('page_type'),0);
-				}
+			    $this->call_ajax_user_list();
 				break;
 			}
 			case 5:{
-				$hotel_user_id=$this->input->post('hotel_user_id');
-				$hotel_user_status=$this->input->post('sb_hotel_user_status');
-				if($hotel_user_status == 1)
-				{
-					$status=0;
-				}
-				else
-				{
-					$status =1;
-				}
-				$data=array(
-					'sb_hotel_user_status'=>$status	
-				);
-				$this->Hotel_model->edit_hotel_user($data,$hotel_user_id);		
+				$this->edit_hotel();		
 				echo json_encode(array('status'=>'1','message'=>'Hotel User Status Changed'));
 				break;
 			}
@@ -81,7 +59,6 @@ class Ajax extends CI_Controller
 				$hotel_id=$this->input->post('hotel_id');
 				$parent_service_id=$this->input->post('sb_parent_service_id');
 				$result=$this->Services_model->get_hotel_child_services_by_parent_service($hotel_id,$parent_service_id);
-				
 				echo json_encode($result);
 				break;
 			}
@@ -96,29 +73,7 @@ class Ajax extends CI_Controller
 			}
 			//We have used this for vendor grid
 			case 9 :{
-				$columnnames=['vendor_id','vendor_name','status'];
-				$list = $this->Common_model->get_datatables('sb_vendors',$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames);
-				$data = array();
-				$no =$this->input->post('start');
-				foreach ($list as $vendor) {
-					$no++;
-					$row = array();
-					$row[] 				= $vendor->vendor_id;
-					$row[] 				= $vendor->vendor_name;
-					if($vendor->status == '1'){
-						$row[] ='<a class="btn btn-sm btn-primary" href="#" title="Edit" onclick="edit('.$vendor->vendor_id.',\''.$vendor->vendor_name.'\');"><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.'<a class="btn btn-sm btn-danger" id="delete" href="#"  onclick="changevendorstatus('.$vendor->vendor_id.','.$vendor->status.');" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>';
-					}
-					else{
-						$row[]='<a class="btn btn-sm btn-primary" href="#" title="Edit" onclick="edit('.$vendor->vendor_id.',\''.$vendor->vendor_name.'\');"><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.'<a class="btn btn-sm btn-success" id="restore" href="#" data-href="#" onclick="changevendorstatus('.$vendor->vendor_id.','.$vendor->status.');" title="Restore" ><i class="glyphicon glyphicon-file"></i>Restore</a>';
-					}
-					$data[] = $row;
-				}
-				$output = array(
-					"draw" => $this->input->post("draw"),
-					"recordsTotal" => $this->Common_model->count_all('sb_vendors',$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames),
-					"recordsFiltered" => $this->Common_model->count_filtered('sb_vendors',$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames),
-					"data" => $data
-				);
+				$output=$this->ajax_vendor_list();
 				//output to json format
 				echo json_encode($output);
 				break;
@@ -147,21 +102,20 @@ class Ajax extends CI_Controller
 			
 			//This case is to edit vendor
 			case 13:{
-			    $updateData=array("vendor_name"=>$this->input->post('vendorname'));
-			    $output=$this->Vendor_model->edit_vendor($updateData,$this->input->post('vendor_id'));
-				echo json_encode($output);
+				$output=$this->edit_vendor();
+			    echo json_encode($output);
 				break;
 			}
 			//This case is to edit vendor/Soft Delete Or Recover Vendor
 			case 14:{
-			     if($this->input->post('vendorstatus') == '1')
-				 {
-					$updateData=array("status"=>'0');
-				 }
-				 else{
-					$updateData=array("status"=>'1');
-				 }
-				$output=$this->Vendor_model->edit_vendor($updateData,$this->input->post('vendor_id'));
+			    $output=$this->change_vendor_status();
+				echo json_encode($output);
+				break;
+				 
+			}
+			//This case is to getServices List
+			case 15:{
+			    $output=$this->get_service_list();
 				echo json_encode($output);
 				break;
 				 
@@ -169,6 +123,49 @@ class Ajax extends CI_Controller
 			default:{
 			}
 		}
+	}
+	/*This method is used to edit vendor
+    * @param string
+	* return true 
+    */
+	public function edit_vendor()
+    {
+		$updateData=array("vendor_name"=>$this->input->post('vendorname'));
+	    $output=$this->Vendor_model->edit_vendor($updateData,$this->input->post('vendor_id'));
+		return $output;		
+    } 
+   /*This method is used to decide how ajax user list grid is called according to user role
+    *@params void
+	* return void
+    */
+    public function call_ajax_user_list()
+    {
+		$columnnames=['sb_hotel_user_id','sb_hotel_username','sb_hotel_useremail','sb_hotel_user_type','sb_hotel_user_type'];
+			if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'm'){
+					$this->load->model('Services_model');
+					$user_id=$this->session->userdata('logged_in_user')->sb_hotel_user_id;
+					$parent_service=$this->Services_model->get_hotel_user_parent_service($user_id);
+					$this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames,$this->input->post('hotel_id'),$this->input->post('user_type'),$this->input->post('page_type'),$parent_service[0]['sb_parent_service_id']);
+				}
+			else{
+					$this->ajax_user_list($this->input->post('tablename'),$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames,$this->input->post('hotel_id'),$this->input->post('user_type'),$this->input->post('page_type'),0);
+				}
+    } 	
+   /*This method is used to change vendor status
+    * @param void
+	* return true 
+    */
+	public function change_vendor_status()
+	{
+		if($this->input->post('vendorstatus') == '1')
+			{
+				$updateData=array("status"=>'0');
+			}
+		else{
+				$updateData=array("status"=>'1');
+			}
+		$output=$this->Vendor_model->edit_vendor($updateData,$this->input->post('vendor_id'));
+		return $output;
 	}
 	/* Method to Return States List In Json Format Via Ajax According to Country Id
 	 * @param void
@@ -187,6 +184,36 @@ class Ajax extends CI_Controller
 	{	
 		echo getStateCities($state_id,'json');
 		exit;
+	}
+	/* Method to Return Vendor List 
+	 * @param void
+	 * return array
+	 */
+	public function ajax_vendor_list(){
+		$columnnames=['vendor_id','vendor_name','status'];
+		$list = $this->Common_model->get_datatables('sb_vendors',$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames);
+		$data = array();
+		$no =$this->input->post('start');
+			foreach ($list as $vendor) {
+					$no++;
+					$row = array();
+					$row[] 				= $vendor->vendor_id;
+					$row[] 				= $vendor->vendor_name;
+					if($vendor->status == '1'){
+						$row[] ='<a class="btn btn-sm btn-primary" href="#" title="Edit" onclick="edit('.$vendor->vendor_id.',\''.$vendor->vendor_name.'\');"><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.'<a class="btn btn-sm btn-danger" id="delete" href="#"  onclick="changevendorstatus('.$vendor->vendor_id.','.$vendor->status.');" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+					}
+					else{
+						$row[]='<a class="btn btn-sm btn-primary" href="#" title="Edit" onclick="edit('.$vendor->vendor_id.',\''.$vendor->vendor_name.'\');"><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.'<a class="btn btn-sm btn-success" id="restore" href="#" data-href="#" onclick="changevendorstatus('.$vendor->vendor_id.','.$vendor->status.');" title="Restore" ><i class="glyphicon glyphicon-file"></i>Restore</a>';
+					}
+					$data[] = $row;
+				}
+		$output = array(
+					"draw" => $this->input->post("draw"),
+					"recordsTotal" => $this->Common_model->count_all('sb_vendors',$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames),
+					"recordsFiltered" => $this->Common_model->count_filtered('sb_vendors',$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames),
+					"data" => $data
+				);
+		return $output;
 	}
 	/* Method to Return Hotel Users List In Json Format (For Datatable)
 	 * @param void
@@ -284,7 +311,40 @@ class Ajax extends CI_Controller
 		echo json_encode($output);
 		exit;
 	}
-
+   /* This function is to Edit Hotel Via ajax
+    * @param void
+	* return void
+	*/
+	function edit_hotel(){
+		$hotel_user_id=$this->input->post('hotel_user_id');
+		$hotel_user_status=$this->input->post('sb_hotel_user_status');
+			if($hotel_user_status == 1)
+				{
+					$status=0;
+				}
+			else
+				{
+					$status =1;
+				}
+			$data=array(
+					'sb_hotel_user_status'=>$status	
+				);
+		$this->Hotel_model->edit_hotel_user($data,$hotel_user_id);
+	}
+	/*This method is used to get services listing
+    * @param string
+	* return true 
+    */
+	public function get_service_list()
+    {
+	    $type=$this->input->post('type');
+		$tablename='sb_hotel_parent_services';
+		if($type == 'parent'){$tablename = 'sb_hotel_parent_services';}
+		if($type == 'child'){$tablename = 'sb_hotel_child_services';}
+		if($type == 'subchild'){$tablename = 'sb_sub_child_services';}
+	    $output=$this->Services_model->get_services($tablename);
+		return $output;		
+    } 
 	function get_hotel_child_service_of_parent()
 	{
 		if($this->input->post('return_type'))

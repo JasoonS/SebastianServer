@@ -114,10 +114,10 @@
 <script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
 
-
 <script>
 var asInitVals  = new Array();
 var action_url  = '';
+
 function createTable(){
 		$('#idVendors').dataTable({
         "processing": true, //Feature control the processing indicator.
@@ -196,10 +196,8 @@ function edit(vendor_id,vendor_name)
 
 function changestatus(id,vendorstatus)
 {
-    action_url = '<?php echo site_url('admin/ajax/get_ajax_data')?>';
-
     $.ajax({
-        url: action_url,
+        url: ajax_url,
         type:"post",
         data:{flag:"14","vendor_id":id,"vendorstatus":vendorstatus},
         dataType:"json",
@@ -220,10 +218,8 @@ function editVendor(vendor_id,vendor_name)
 		$("#err_vendorname").show();
 	}
 	else{
-		action_url = '<?php echo site_url('admin/ajax/get_ajax_data')?>';
-
 		$.ajax({
-			url: action_url,
+			url: ajax_url,
 			type:"post",
 			data:{flag:'12',vendorname:vendorname,vendor_id:vendor_id},
 			dataType:"json",
@@ -236,7 +232,7 @@ function editVendor(vendor_id,vendor_name)
 				else{
 					$("#err_vendorname").hide();
 					$.ajax({
-						url: action_url,
+						url: ajax_url,
 						type:"post",
 						data:{flag:'13',vendorname:vendorname,vendor_id:vendor_id},
 						dataType:"json",
@@ -261,10 +257,9 @@ function add()
 		$("#err_vendorname").show();
 	}
 	else{
-		action_url = '<?php echo site_url('admin/ajax/get_ajax_data')?>';
-
+		
 		$.ajax({
-			url: action_url,
+			url: ajax_url,
 			type:"post",
 			data:{flag:'13',vendorname:vendorname},
 			dataType:"json",
@@ -277,7 +272,7 @@ function add()
 				else{
 					$("#err_vendorname").hide();
 					$.ajax({
-						url: action_url,
+						url: ajax_url,
 						type:"post",
 						data:{flag:'11',vendorname:vendorname},
 						dataType:"json",

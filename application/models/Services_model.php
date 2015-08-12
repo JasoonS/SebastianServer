@@ -273,6 +273,30 @@ Class Services_model extends CI_Model
 		$this->db->insert_batch('sb_hotel_paid_services',$insertData);
 		return true;
 	}
+	/* Method To get Count Of all Parent/Child/SubChild Services.
+	 * @param int
+	 * return int
+	 */
+	function get_services_count($tablename)
+	{
+		$this->db->select('count(*) as servicecount',false);
+		$query=$this->db->get($tablename);
+		$result=$query->result_array();
+		return $result[0]['servicecount'];
+	}
+	
+	/* Method To get all Parent/Child/SubChild Services.
+	 * @param string
+	 * return array
+	 */
+	function get_services($tablename)
+	{
+		$this->db->select('*',false);
+		$query=$this->db->get($tablename);
+		$result=$query->result_array();
+		return $result;
+	}
+	
 	
 }
 ?>
