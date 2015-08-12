@@ -97,7 +97,7 @@
   </div>
 </div>
 
-<script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/customjs/constants.js"></script>
 <!-- Theme specfic js!-->
 <script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
 <!--<script src="<?php echo THEME_ASSETS ?>js/stackblurjs/stackblur.js"></script>!-->
@@ -106,22 +106,12 @@
 <script>
 $(document).ready(function(){
 
-    var host_url        = window.location.origin;
-    var base_url        = '';
+   
     var jsHotelId       = "<?php echo $hotel_id ?>";
     var jsTmpArr        = [];
     var jsParentId      = '';
     var jqXHR           = '';
    
-
-    if(host_url == 'http://bizmoapps.com')
-    {
-        base_url    = host_url+'/sebastian/';
-    }else
-    {
-        base_url    = host_url+'/sebastian-admin-panel/';
-    }
-
 
     // Defining Page Specfic Funcions
     var jsSaveServices = function () {
@@ -145,7 +135,7 @@ $(document).ready(function(){
 
 
         // Update Services
-        jqXHRSaveService = $.post(base_url+js_requesting,jsTmpObj,function( data ){});
+        jqXHRSaveService = $.post(ajax_url,jsTmpObj,function( data ){});
 
         jqXHRSaveService.success(function(data)
         {
@@ -171,7 +161,7 @@ $(document).ready(function(){
         jsTmpObj.hotelId   = jsHotelId;
       
 
-        jqXHR = $.post(base_url+js_requesting,jsTmpObj,function( data ){});
+        jqXHR = $.post(ajax_url,jsTmpObj,function( data ){});
 
         jqXHR.done(function(data)
         {

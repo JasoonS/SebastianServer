@@ -244,7 +244,7 @@ $(document).ready(function () {
     	jsFrmGuestObj.flag       = 15;
 
     	// Update Services
-        jqXHRSaveGuest = $.post(proj_url+js_requesting,jsFrmGuestObj,function( data ){});
+        jqXHRSaveGuest = $.post(ajax_url,jsFrmGuestObj,function( data ){});
 
         jqXHRSaveGuest.success(function(data)
         {
