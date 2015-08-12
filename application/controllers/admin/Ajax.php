@@ -20,6 +20,7 @@ class Ajax extends CI_Controller
 		$this->load->model('User_model');
 		$this->load->model('Services_model');
 		$this->load->model('Vendor_model');
+		$this->load->model('Guest_model');
 	}
 
 	
@@ -119,7 +120,7 @@ class Ajax extends CI_Controller
 				echo json_encode($output);
 				break;	 
 			}
-			case 15:{
+			case 16:{
 				$this->save_guest_data();
 			}
 			default:{
@@ -403,9 +404,61 @@ class Ajax extends CI_Controller
 
 	function save_guest_data() 
 	{
-		echo '<pre>';
-		print_r($_POST);
-		exit;
+		$this->load->model('Guest_model');
+
+		$hotel_id 			= $this->session->logged_in_user->sb_hotel_id;
+
+		$temp_date			= explode('-',$this->input->post('inoutdates'));
+
+		
+
+		$booking_array  = array('sb_hotel_id' 			=> $hotel_id,
+						   'sb_guest_firstName' 		=> $this->input->post('firstname'),
+						   'sb_guest_lastName'			=> $this->input->post('lastname'),
+						   'sb_guest_email'				=> $this->input->post('email'),
+						   'sb_guest_contact_no'		=> $this->input->post('phone'),
+						   'sb_guest_rooms_alloted'		=> $this->input->post('noOfrooms'),
+						   'sb_guest_check_in_date'		=> $temp_date[0],
+						   'sb_guest_check_out_date'	=> $temp_date[1],
+						   );
+		// Saving new guest booking
+		$save_guest_booking 	= $this->Guest_model->insert_guest_booking($booking_array);
+
+		// Generating confirmation string 
+		$generate_confm_id		= $this->generate_confirmation_id($save_guest_booking,$hotel_id);
+
+		$insert_confirmation_id	= $this->Guest_model->update_guest_reservation_code($save_guest_booking,$generate_confm_id);
+
+		echo $generate_confm_id;
+	}
+
+	/* Method generate confirmation code for last
+	 * booking 
+	 * @param int
+	 * return string
+	 */
+	function generate_confirmation_id($last_booking_id = null , $hotel_id = null)
+	{
+		$confm_string 		 	 = '#';
+
+
+		$guest_last_booking_data = $this->Guest_model->select_guest_booking($last_booking_id,$hotel_id);
+
+
+		if(!empty($guest_last_booking_data[0]))
+		{
+			foreach($guest_last_booking_data[0] as $key => $val)
+			{
+				if(!empty($val))
+				{
+					$confm_string .= substr($val,0,2);
+				}					
+			}
+		}
+
+		$confm_string		.= "-".$last_booking_id;
+
+		return $confm_string;
 	}
 }//End Of Controller Class
 
