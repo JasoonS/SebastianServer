@@ -14,13 +14,13 @@ class Hotel_service extends CI_Controller
 
 			SOF
 		*/
-		$this->load->helper('api/device_log');
-		device_log($_SERVER,$_REQUEST);
-		$this->load->library('user_agent');
-		if($this->agent->is_browser())
-		{
-		    //response_fail("Please insert all the fields");
-		}
+		// $this->load->helper('api/device_log');
+		// device_log($_SERVER,$_REQUEST);
+		// $this->load->library('user_agent');
+		// if($this->agent->is_browser())
+		// {
+		//     //response_fail("Please insert all the fields");
+		// }
 		/*EOF*/
 		$this->load->model('api/customer/Hotel_service_model');
 	}
@@ -142,14 +142,21 @@ class Hotel_service extends CI_Controller
 		// 		);
 		// 	response_fail("Wrong Room Number",$result);
 		// }
-
+		// print_r("samrat"); die();
 		$hrs = array();
 		$hrscnt = 0;
 		$hss = array();
 		$hsscnt = 0;
 		if((array_key_exists("sb_parent_service_id",$inputArray)) AND (array_key_exists("sb_child_service_id",$inputArray)) AND (array_key_exists("sb_hotel_id",$inputArray)))
 		{
-			$hrs['sb_hotel_service_map_id'] = $this->Hotel_service_model->get_service_map($inputArray['sb_parent_service_id'], $inputArray['sb_child_service_id'], $inputArray['sb_hotel_id']);
+			if(array_key_exists("sub_child_services_id",$inputArray))
+			{
+				$hrs['sb_hotel_service_map_id'] = $this->Hotel_service_model->get_service_map($inputArray['sb_parent_service_id'], $inputArray['sb_child_service_id'], $inputArray['sb_hotel_id'] , $inputArray['sb_sub_child_service_id']);
+			}
+			else
+			{
+				$hrs['sb_hotel_service_map_id'] = $this->Hotel_service_model->get_service_map($inputArray['sb_parent_service_id'], $inputArray['sb_child_service_id'], $inputArray['sb_hotel_id'],0);
+			}
 			unset($inputArray['sb_child_service_id']);
 			$hrscnt++;
 		}
