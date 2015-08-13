@@ -198,6 +198,10 @@ $(document).ready(function () {
 		  $('#search_0').css('text-align', 'center');
 		}
     });
+
+    // Changing color attribute for first tr
+
+    $('table.jambo_table').find("tr:first").css('color', '#000');
  
     // Apply the search
     table.columns().eq( 0 ).each( function ( colIdx ) {

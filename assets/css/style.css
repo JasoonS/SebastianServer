@@ -74,12 +74,6 @@ Custom Style sheet
 }
 /********** Date picker style***************/
 
-/********** Table header style when searchable **************/
-
-.classNoColor {
-  /*background: rgba(52, 73, 94, 0.94) none repeat scroll 0 0;*/
-  color: none !important;
-}
 
 
 
