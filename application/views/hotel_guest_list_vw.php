@@ -124,6 +124,7 @@
                         </div>
                     </form>
                 </div>
+                <p class="text-success" id="idSucessMsg"></p>
             </div>
         </div>
 
@@ -236,7 +237,10 @@ $(document).ready(function () {
 
         jqXHRSaveGuest.success(function(data)
         {
-           console.log(data);
+           if(data)
+           {
+            $("#idAddGuestModal #idSucessMsg").html('New guest booking added.Reservation Code -'+data).delay(5000).fadeOut(function(){ window.location.reload(); });
+           }
         });
 
     })
