@@ -18,19 +18,26 @@
 
                 			<?php foreach($parent_services as $parent_service) { ?>
 
-                				<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 classParentServicePanel">                					
-                                    <div class="tile-stats classParentServiceBox">
-                                        <a  id="idParentService_<?php echo $parent_service['sb_parent_service_id']; ?>_<?php echo $parent_service['sb_parent_service_name']; ?>" href="javascript:void(0)"><div class="icon"><i class="fa fa-caret-square-o-right"></i></div></a>
-	                                    
-	                                    <h3 class = "text-primary"><?php echo $parent_service['sb_parent_service_name']; ?></h3>
-                                         
-                                        <p>Lorem ipsum psdea itgum rixt.</p>
-	                                </div>                                   
+                                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 classParentServicePanel">
+                                    <div class = "card">
+                                        <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
+                                        <div class="avatar">
+                                            <img src="" alt="" />
+                                        </div>
+                                        <div class="content">
+                                            <br/>
+                                            <p>
+                                                <a id="idParentService_<?php echo $parent_service['sb_parent_service_id']; ?>_<?php echo $parent_service['sb_parent_service_name']; ?>" href="javascript:void(0)">
+                                                    <button type="button" class="btn btn-default"><?php echo $parent_service['sb_parent_service_name']; ?></button>
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <?php if($pCnt % 3 == 0) { ?> 
+                                <?php /*if($pCnt % 3 == 0) { ?> 
                                 	<div class="clearfix"></div> 
-                                <?php } ?>
+                                <?php } */ ?>
                 			<?php $pCnt++;} ?>
                 		<?php } ?>
                     </div>
@@ -38,21 +45,10 @@
             </div>
         </div>
 
-        <div class = "row">
-            <div class="col-sm-3">
-                <div class="card">
-                    <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
-                    <div class="avatar">
-                        <img src="<?php echo site_url('user_data') ?>/hotel_pic/1437977204.jpg" alt="" />
-                    </div>
-                    <div class="content">
-                        <p>Web Developer <br>
-                           More description here</p>
-                        <p><button type="button" class="btn btn-default">Contact</button></p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Storing image data soruce !-->
+        <?php foreach($parent_services as $parent_service) { ?>
+            <img class="src-image"src="<?php echo base_url() ?>user_data/hotel_service_images/<?php echo $parent_service['sb_parent_service_image']; ?>" />
+        <?php } ?>
     </div>
     <footer>
 		<div class="">
@@ -64,7 +60,6 @@
 	</footer>
 	<!-- /footer content -->
 </div>
-
 
 <!-- line modal -->
 <div class="modal fade" id="idChildServiceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
@@ -100,7 +95,15 @@
 <script src="<?php echo THEME_ASSETS ?>js/customjs/constants.js"></script>
 <!-- Theme specfic js!-->
 <script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
-<!--<script src="<?php echo THEME_ASSETS ?>js/stackblurjs/stackblur.js"></script>!-->
+<!-- chart js -->
+<script src="<?php echo THEME_ASSETS?>js/chartjs/chart.min.js"></script>
+<!-- bootstrap progress js -->
+<script src="<?php echo THEME_ASSETS?>js/progressbar/bootstrap-progressbar.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/nicescroll/jquery.nicescroll.min.js"></script>
+<!-- icheck -->
+<script src="<?php echo THEME_ASSETS?>js/icheck/icheck.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/stackblurjs/stackblur.js"></script>
 
 
 <script>
