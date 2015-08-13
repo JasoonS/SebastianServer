@@ -3,7 +3,7 @@
     <div class="">
     	<div class="page-title">
             <div class="title_left">
-                <h3>Add New Hotel</h3>
+                <h3><?php echo $title ?></h3>
             </div>
         </div>
         <div class="clearfix"></div>
@@ -296,6 +296,19 @@
 										}
 									?>
 								</div>								
+							</div>
+							<div class="form-group classFormInputsBox">
+								<div class="radio">
+                                    <label>
+                                        <input type="radio" checked="" value="option1" id="optionsRadios1" name="optionsRadios"> Option one. only select one option
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" value="option2" id="optionsRadios2" name="optionsRadios"> Option two. only select one option
+                                    </label>
+                                </div>
+							
 							</div>
 		                </div>
 	    			</div>

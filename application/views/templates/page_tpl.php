@@ -24,7 +24,7 @@
 	<link href="<?php echo THEME_ASSETS;  ?>css/style.css" rel="stylesheet">
 
 	<script src="<?php echo THEME_ASSETS;  ?>js/jquery.min.js"></script>
-
+    <script src="<?php echo THEME_ASSETS;  ?>js/customjs/constants.js"></script>
 
 	 
 	<!--[if lt IE 9]>

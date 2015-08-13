@@ -18,10 +18,6 @@ Class HotelServices extends CI_Controller
 			$config = array('userID'=>$this->session->userdata('logged_in_user')->sb_hotel_user_id);
 			// Load the ACL library and pas it the config array
 			$this->load->library('acl',$config);
-
-			//echo '<pre>';
-			//print_r($this->acl->perms);
-			//exit;
 		}
 		$this->load->model('Hotel_model');
 		$this->load->model('Services_model');
@@ -37,18 +33,9 @@ Class HotelServices extends CI_Controller
 	{
 		
 		$this->data['title'] 				= 'Hotel Services';
-
-		// Get all parent services
 		$this->data['parent_services'] 		= $this->Services_model->get_all_parent_services();
-
-		//echo '<pre>';
-		//print_r($this->data['parent_services']);
-		//exit;
-
+		$this->data['hotel_id']				= $hotel_id;
 		$this->template->load('page_tpl', 'parent_service_list_vw',$this->data);
-
-
-		//$this->get_child_services_for_hotel($hotel_id);
 	}
 
 	public function get_child_services_for_hotel($hotel_id = '')
@@ -64,4 +51,23 @@ Class HotelServices extends CI_Controller
 		
 		$child_services_for_this_parent = 	$this->Services_model->get_hotel_child_services_by_parent_service($hotel_id,$parent_service_id);
 	}
+	
+   /* This method is used to render Service Creation Form
+	* @params void
+	* return view 
+    */
+	
+	public function add()
+	{
+		$this->data['action']	= "admin/HotelServices/addService";
+		$this->data['title']	= 'Create Service';
+		$this->data['parent_service_count']=$this->Services_model->get_services_count('sb_hotel_parent_services');
+		$this->data['child_service_count']=$this->Services_model->get_services_count('sb_hotel_child_services');
+		$this->data['sub_child_service_count']=$this->Services_model->get_services_count('sb_sub_child_services');
+		$this->template->load('page_tpl','create_service_vw',$this->data); 
+	}	
+	
+	/*This method is used for actual Service Creation Task
+	 *
+	 */
 }

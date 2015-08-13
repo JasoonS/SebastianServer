@@ -4,9 +4,11 @@ class Hotel_service_model extends CI_Model
 
 	function get_submenu($sb_hotel_id, $sb_parent_service_id)
 	{
-		$qry =  "Select c.* from sb_hotel_child_services c join sb_hotel_service_map m ON c.sb_child_service_id = m.sb_child_service_id
-				 join sb_hotel_parent_services s ON s.sb_parent_service_id = m.sb_parent_service_id
-				 where m.sb_parent_service_id = '$sb_parent_service_id' AND m.sb_hotel_id = '$sb_hotel_id'";
+		$qry =  "SELECT DISTINCT m.sb_child_service_id, m.sb_child_price, c.* from sb_hotel_child_services c 
+				join sb_hotel_service_map m ON c.sb_child_service_id = m.sb_child_service_id
+				join sb_hotel_parent_services s ON s.sb_parent_service_id = m.sb_parent_service_id
+				where m.sb_parent_service_id = '$sb_parent_service_id' AND m.sb_hotel_id = '$sb_hotel_id'
+				AND sb_is_service_in_use = '1'";
 				
 		$query = $this->db->query($qry);
 		$data = $query->result_array();
@@ -16,22 +18,14 @@ class Hotel_service_model extends CI_Model
 			if($data[$i]['is_service'] == 0)
 			{
 				$id = $data[$i]['sb_child_service_id'];
-				$qry1 = "SELECT * FROM `sb_sub_child_services` WHERE `sb_child_service_id` = '$id'";
+				$qry1 = "SELECT scs.*, m.sb_sub_child_price FROM `sb_sub_child_services` as scs
+						join sb_hotel_service_map m ON scs.sub_child_services_id = m.sb_sub_child_service_id 
+						WHERE `sb_hotel_id` = '$sb_hotel_id'
+							AND m.`sb_parent_service_id` = '$sb_parent_service_id' 
+							AND m.`sb_child_service_id` = '$id'
+							AND sb_is_service_in_use = '1'";
 				$query = $this->db->query($qry1);
 				$subChildService = $query->result_array();
-
-				for ($j=0; $j < count($subChildService); $j++) { 
-					if($subChildService[$j]['service_type'] == 'paid')
-					{
-						$subChildId = $subChildService[$j]['sub_child_services_id'];
-						$qry2 = "SELECT service_price FROM `sb_hotel_paid_services` WHERE `sb_hotel_id` = '$sb_hotel_id'
-								AND `service_table` = 'subchild' AND `service_id` = '$subChildId'";
-						$query = $this->db->query($qry2);
-						$service_price = $query->result_array()[0];
-						$subChildService[$j]['service_price'] = $service_price['service_price'];
-					}
-				}
-
 				$data[$i]['sub_childmenu'] = $subChildService;
 			}
 		}

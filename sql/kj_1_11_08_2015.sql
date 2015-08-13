@@ -1,0 +1,1 @@
+ALTER TABLE `sb_vendors` ADD `status` TINYINT(2) NOT NULL DEFAULT '1' COMMENT '1-Present 0-Deleted' ;

@@ -91,6 +91,7 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  |--------------------------------------------------------------------------
  */
   define('BASE_URL','http://localhost/sebastian-admin-panel/');
+  //define('BASE_URL','http://bizmoapps.com/sebastian/');
   define('THEME_ASSETS',BASE_URL.'assets/');
 
  /*
@@ -102,6 +103,7 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('ERR_MSG_LEVEL_2','Please log in to continue');
  define('ERR_MSG_LEVEL_3', 'You are not autorize to access this module');
  define('SUC_MSG_LEVEL_1','Log out Successfully. Please log in to continue.');
+ define('SUC_MSG_LEVEL_2','Your Password is sent in your email successfully.');
  define('HOTEL_SELECT_SERVICES_SUCCESS','Hotel Services Updated Successfully.');
  define('HOTEL_CREATION_SUCCESS','Hotel Created Successfully.');
  define('HOTEL_CREATION_FAIL','Error in Hotel Creation.');
@@ -112,6 +114,7 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('HOTEL_ADMIN_UPDATION_SUCCESS','Hotel User Updated Successfully.');
  define('HOTEL_ADMIN_UPDATION_ERROR','Error in Hotel User Updation.');
  define('FOLDER_BASE_URL','http://localhost/sebastian-admin-panel');
+ //define('FOLDER_BASE_URL','http://bizmoapps.com/sebastian');
 
 
  /*

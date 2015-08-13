@@ -1,5 +1,3 @@
-var proj_url		=	location.protocol + "//" + location.host;
-
 var js_requesting	= 'admin/ajax/get_ajax_data';
 /* This method is used to load states according to country and callback to load cities according to states
  * params string,string,boolean,string,boolean,string,string
@@ -8,7 +6,7 @@ var js_requesting	= 'admin/ajax/get_ajax_data';
 function loadStates(inputelementname,outputelementname,populatecities,cityelement,haveDefaultStateAndCity,state,city)
 {
 
-	var base_url = proj_url+'/sebastian-admin-panel/admin/ajax/get_ajax_data';
+	var base_url = proj_url+'/admin/ajax/get_ajax_data';
 	var country_id = $("#"+inputelementname).val();
 	$.ajax({
 			url: base_url,
@@ -41,7 +39,7 @@ function loadStates(inputelementname,outputelementname,populatecities,cityelemen
  */
 function loadCities(inputelementname,outputelementname,haveDefaultStateAndCity,city)
 {
-	var base_url = proj_url+'/sebastian-admin-panel/admin/ajax/get_ajax_data';
+	var base_url = proj_url+'/admin/ajax/get_ajax_data';
 	var state_id = $("#"+inputelementname).val();
 	$.ajax({
 			url: base_url,

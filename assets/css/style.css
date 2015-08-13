@@ -61,4 +61,26 @@ Custom Style sheet
 /******************** Parent widget style ****************************/
 
 
+/********** Date picker style***************/
+.daterangepicker{
+  z-index:1151 !important;
+}
+
+.classModalDatePicker{
+  background: #fff; 
+  cursor: pointer; 
+  padding: 5px 8px; 
+  border: 1px solid #ccc;
+}
+/********** Date picker style***************/
+
+/********** Table header style when searchable **************/
+
+.classNoColor {
+  /*background: rgba(52, 73, 94, 0.94) none repeat scroll 0 0;*/
+  color: none !important;
+}
+
+
+
 

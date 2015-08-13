@@ -265,8 +265,8 @@ class User extends CI_Controller
 					$hotelname=$this->Hotel_model->get_hotel_name($this->session->userdata('logged_in_user')->sb_hotel_id);
 					$data['sb_hotel_id']=$this->session->userdata('logged_in_user')->sb_hotel_id;
 				}
-				//$password =randomPassword();
-				$password="password";
+				$password =randomPassword();
+				//$password="password";
 				$data['sb_hotel_userpasswd']=createHashAndSalt($password);
 				$data['sb_hotel_user_shift_from']= date("H:i:s", strtotime($data['sb_hotel_user_shift_from']));
 				$data['sb_hotel_user_shift_to']= date("H:i:s", strtotime($data['sb_hotel_user_shift_to']));
@@ -300,7 +300,7 @@ class User extends CI_Controller
                      									
 					$this->User_model->set_user_role($useradminpermissions);
 					$user_module_array=array();
-					$permarray=array('2','4','6');
+					$permarray=array('2','4','6','8');
 					$count=0;
 					while($count<count($permarray)){
 						$singlearray=array(
@@ -398,17 +398,12 @@ class User extends CI_Controller
 				
 				
 				$hotelusername=$data['sb_hotel_username'];
-				$message="Hi ,
-							Congratulations Your user account is created on sebastian.
-							Account Details are
-							User Name =  $hotelusername
-							Password = $password
-				
-							Thanks
-						";
-				//sendMail('no-reply@sebastian.com',$data[sb_hotel_useremail],"Administrator Account Creation",$message);
+				$data['password']=$password;
+				$data['hotelusername']=$hotelusername;
+				$message = $this->load->view('email/accountcreation',$data,TRUE);
+				sendMail('no-reply@sebastian.com',$data[sb_hotel_useremail],"Administrator Account Creation",$message);
 				//For Time being we are sending an email to developer.
-				sendMail('no-reply@sebastian.com',"kalyani.joshi@eeshana.com","Administrator Account Creation",$message);
+				//sendMail('no-reply@sebastian.com',"kalyani.joshi@eeshana.com","Administrator Account Creation",$message);
 				if($result > '0')
 				{
 					$this->session->set_flashdata('category_success', HOTEL_ADMIN_CREATION_SUCCESS);
@@ -627,7 +622,7 @@ class User extends CI_Controller
                      									
 					$this->User_model->set_user_role($useradminpermissions);
 					$user_module_array=array();
-					$permarray=array('2','4','6');
+					$permarray=array('2','4','6','8');
 					$count=0;
 					while($count<count($permarray)){
 						$singlearray=array(

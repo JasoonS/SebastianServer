@@ -12,6 +12,7 @@ class Hotel extends CI_Controller
 		parent::__construct();
 		$this->load->model('User_model');
         $this->load->model('Hotel_model');
+		$this->load->model('Services_model');
 		if(!$this->session->userdata('logged_in_user'))
 		{
 			redirectWithErr(ERR_MSG_LEVEL_2,'login');
@@ -65,7 +66,6 @@ class Hotel extends CI_Controller
 		    array('field'=>'sb_hotel_city','label'=>'City','rules'=>'required','class'=>'text-danger'),
 			array('field'=>'sb_hotel_address','label'=>'Address','rules'=>'required','class'=>'text-danger'),
 			array('field'=>'sb_hotel_zipcode','label'=>'Postal Code','rules'=>'required','class'=>'text-danger'),
-			array('field'=>'sb_hotel_owner','label'=>'Hotel Owner','rules'=>'required','class'=>'text-danger'),
 			array('field'=>'sb_hotel_website','label'=>'Hotel Website','rules'=>'required|prep_url','class'=>'text-danger'),
 			array('field'=>'sb_hotel_email','label'=>'Hotel Email','rules'=>'required|valid_email','class'=>'text-danger')
 		);
@@ -80,7 +80,7 @@ class Hotel extends CI_Controller
 			if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
 		    {
 				$this->data['title'] = LABEL_1;
-				$this->template->load('page_tpl', 'create_hotel',$this->data);
+				$this->template->load('page_tpl', 'create_hotel_vw',$this->data);
 			}
 		}else{
 				$data["sb_hotel_pic"] = "";
@@ -91,6 +91,7 @@ class Hotel extends CI_Controller
 					if($pic1 != 0)
 					{
 						$data["sb_hotel_pic"] = $pic1;
+						
 					}	
 				} 
 				$hoteldata = array(
@@ -114,6 +115,8 @@ class Hotel extends CI_Controller
 				if($result > '1')
 				{
 					$languageresult =$this->Hotel_model->set_hotel_languages($result,$data['sb_languages']);
+					$this->Services_model->add_all_services_to_hotel($result);
+				
 					$this->session->set_flashdata('category_success', HOTEL_CREATION_SUCCESS);
 					redirect('admin/hotel/add_hotel');
 				}
