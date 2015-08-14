@@ -18,19 +18,26 @@
 
                 			<?php foreach($parent_services as $parent_service) { ?>
 
-                				<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 classParentServicePanel">                					
-                                    <div class="tile-stats classParentServiceBox">
-                                        <a  id="idParentService_<?php echo $parent_service['sb_parent_service_id']; ?>_<?php echo $parent_service['sb_parent_service_name']; ?>" href="javascript:void(0)"><div class="icon"><i class="fa fa-caret-square-o-right"></i></div></a>
-	                                    
-	                                    <h3 class = "text-primary"><?php echo $parent_service['sb_parent_service_name']; ?></h3>
-                                         
-                                        <p>Lorem ipsum psdea itgum rixt.</p>
-	                                </div>                                   
+                                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 classParentServicePanel">
+                                    <div class = "card">
+                                        <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
+                                        <div class="avatar">
+                                            <img src="" alt="" />
+                                        </div>
+                                        <div class="content">
+                                            <br/>
+                                            <p>
+                                                <a id="idParentService_<?php echo $parent_service['sb_parent_service_id']; ?>_<?php echo $parent_service['sb_parent_service_name']; ?>" href="javascript:void(0)">
+                                                    <button type="button" class="btn btn-default"><?php echo $parent_service['sb_parent_service_name']; ?></button>
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <?php if($pCnt % 3 == 0) { ?> 
+                                <?php /*if($pCnt % 3 == 0) { ?> 
                                 	<div class="clearfix"></div> 
-                                <?php } ?>
+                                <?php } */ ?>
                 			<?php $pCnt++;} ?>
                 		<?php } ?>
                     </div>
@@ -38,21 +45,10 @@
             </div>
         </div>
 
-        <div class = "row">
-            <div class="col-sm-3">
-                <div class="card">
-                    <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
-                    <div class="avatar">
-                        <img src="<?php echo site_url('user_data') ?>/hotel_pic/1437977204.jpg" alt="" />
-                    </div>
-                    <div class="content">
-                        <p>Web Developer <br>
-                           More description here</p>
-                        <p><button type="button" class="btn btn-default">Contact</button></p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Storing image data soruce !-->
+        <?php foreach($parent_services as $parent_service) { ?>
+            <img class="src-image"src="<?php echo base_url() ?>user_data/hotel_service_images/<?php echo $parent_service['sb_parent_service_image']; ?>" />
+        <?php } ?>
     </div>
     <footer>
 		<div class="">
@@ -64,7 +60,6 @@
 	</footer>
 	<!-- /footer content -->
 </div>
-
 
 <!-- line modal -->
 <div class="modal fade" id="idChildServiceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
@@ -97,31 +92,29 @@
   </div>
 </div>
 
-<script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/customjs/constants.js"></script>
 <!-- Theme specfic js!-->
 <script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
-<!--<script src="<?php echo THEME_ASSETS ?>js/stackblurjs/stackblur.js"></script>!-->
+<!-- chart js -->
+<script src="<?php echo THEME_ASSETS?>js/chartjs/chart.min.js"></script>
+<!-- bootstrap progress js -->
+<script src="<?php echo THEME_ASSETS?>js/progressbar/bootstrap-progressbar.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/nicescroll/jquery.nicescroll.min.js"></script>
+<!-- icheck -->
+<script src="<?php echo THEME_ASSETS?>js/icheck/icheck.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/stackblurjs/stackblur.js"></script>
 
 
 <script>
 $(document).ready(function(){
 
-    var host_url        = window.location.origin;
-    var base_url        = '';
+   
     var jsHotelId       = "<?php echo $hotel_id ?>";
     var jsTmpArr        = [];
     var jsParentId      = '';
     var jqXHR           = '';
    
-
-    if(host_url == 'http://bizmoapps.com')
-    {
-        base_url    = host_url+'/sebastian/';
-    }else
-    {
-        base_url    = host_url+'/sebastian-admin-panel/';
-    }
-
 
     // Defining Page Specfic Funcions
     var jsSaveServices = function () {
@@ -145,7 +138,7 @@ $(document).ready(function(){
 
 
         // Update Services
-        jqXHRSaveService = $.post(base_url+js_requesting,jsTmpObj,function( data ){});
+        jqXHRSaveService = $.post(ajax_url,jsTmpObj,function( data ){});
 
         jqXHRSaveService.success(function(data)
         {
@@ -171,7 +164,7 @@ $(document).ready(function(){
         jsTmpObj.hotelId   = jsHotelId;
       
 
-        jqXHR = $.post(base_url+js_requesting,jsTmpObj,function( data ){});
+        jqXHR = $.post(ajax_url,jsTmpObj,function( data ){});
 
         jqXHR.done(function(data)
         {

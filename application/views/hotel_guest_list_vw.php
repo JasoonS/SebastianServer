@@ -15,8 +15,7 @@
 			                <th>First Name</th>
 			                <th>Email Id</th>
 			                <th>Phone No</th>
-			                <th>Action</th>
-			                <!--<th>Salary</th>!-->
+			                <th>Reservation Code</th>
 			            </tr>
 			        </thead>
                     
@@ -26,35 +25,20 @@
 			                <th>First Name</th>
 			                <th>Email Id</th>
 			                <th>Phone No</th>
-			                <th>Action</th>
-			                <!--<th>Salary</th>!-->
+			                <th>Reservation Code</th>
 			            </tr>
         			</tfoot>
 
                     <tbody>
-                        <tr>
-			                <td>Tiger Nixon</td>
-			                <td>System Architect</td>
-			                <td>Edinburgh</td>
-			                <td>61</td>
-			                <td>2011/04/25</td>
-			               
-            			</tr>
-			            <tr>
-			                <td>Garrett Winters</td>
-			                <td>Accountant</td>
-			                <td>Tokyo</td>
-			                <td>63</td>
-			                <td>2011/07/25</td>
-			                
-			            </tr>
-			            <tr>
-			                <td>Ashton Cox</td>
-			                <td>Junior Technical Author</td>
-			                <td>San Francisco</td>
-			                <td>66</td>
-			                <td>2009/01/12</td>  
-			            </tr>                        
+                        <?php foreach($guest_list as $list) { ?>
+                            <tr id="idRow_"<?php echo $list->sb_guest_reservation_code ?>>
+                                <td><?php echo $list->sb_guest_lastName ?></td>
+                                <td><?php echo $list->sb_guest_firstName ?></td>
+                                <td><?php echo $list->sb_guest_email ?></td>
+                                <td><?php echo $list->sb_guest_contact_no ?></td>
+                                <td><span class="label label-warning"><a href="javascript:void(0)"><?php echo $list->sb_guest_reservation_code ?></a></span></td>
+                            </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
         	</div>
@@ -140,6 +124,7 @@
                         </div>
                     </form>
                 </div>
+                <p class="text-success" id="idSucessMsg"></p>
             </div>
         </div>
 
@@ -198,7 +183,7 @@ $(document).ready(function () {
         $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
     } );
 
-  
+   
     // DataTable
     var table = $('#example').DataTable({
     	"ordering": false,
@@ -214,6 +199,10 @@ $(document).ready(function () {
 		  $('#search_0').css('text-align', 'center');
 		}
     });
+
+    // Changing color attribute for first tr
+
+    $('table.jambo_table').find("tr:first").css('color', '#000');
  
     // Apply the search
     table.columns().eq( 0 ).each( function ( colIdx ) {
@@ -241,14 +230,17 @@ $(document).ready(function () {
     	jsFrmGuestObj.email 	 = $("#idGuestEmail").val();
     	jsFrmGuestObj.phone 	 = $("#idGuestPhoneno").val();
     	jsFrmGuestObj.noOfrooms  = $("#idGuestNoOfRooms").val();
-    	jsFrmGuestObj.flag       = 15;
+    	jsFrmGuestObj.flag       = 16;
 
     	// Update Services
-        jqXHRSaveGuest = $.post(proj_url+js_requesting,jsFrmGuestObj,function( data ){});
+        jqXHRSaveGuest = $.post(ajax_url,jsFrmGuestObj,function( data ){});
 
         jqXHRSaveGuest.success(function(data)
         {
-           console.log(data);
+           if(data)
+           {
+            $("#idAddGuestModal #idSucessMsg").html('New guest booking added.Reservation Code -'+data).delay(5000).fadeOut(function(){ window.location.reload(); });
+           }
         });
 
     })

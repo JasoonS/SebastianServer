@@ -31,6 +31,7 @@ Custom Style sheet
   padding: 0;
   background-color: #284c79;
   color: rgb(136, 172, 217);
+  margin:5px;
 }
 
 .card .header-bg {
@@ -58,6 +59,11 @@ Custom Style sheet
   border-radius: 50%;
   border: 5px solid rgba(0,0,30,0.8);
 }
+
+.avatar img {
+  border-radius: 50%;
+  max-width: none !important;
+}
 /******************** Parent widget style ****************************/
 
 
@@ -73,6 +79,8 @@ Custom Style sheet
   border: 1px solid #ccc;
 }
 /********** Date picker style***************/
+
+
 
 
 
