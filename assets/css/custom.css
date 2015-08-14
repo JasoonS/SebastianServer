@@ -6356,3 +6356,8 @@ ul.notifications {
 #hotel-grid.dataTable thead .sorting_desc {
     background : none !important;
 }
+
+/* To Remove Vertical Scroll*/
+.removeyscroll{
+	overflow:hidden !important;
+}	

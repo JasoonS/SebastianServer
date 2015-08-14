@@ -127,7 +127,6 @@ function getAvailableHotelUserTypes($format='array')
 */
 function upload_image($folderName,$fieldName)
 	{
-	   
 		$CI = & get_instance(); 
 		$file_ext = substr(strrchr($_FILES[$fieldName]['name'],'.'),1);
 		$name= time();
@@ -139,21 +138,19 @@ function upload_image($folderName,$fieldName)
 			);
 		$CI->load->helper('file');
 		$CI->load->library('upload', $config);
-	   
 		if($CI->upload->do_upload($fieldName))
-		{
-		  
-			$data = array('upload_data' => $CI->upload->data());
-			return $data['upload_data']['file_name'];
-			//return $data['upload_data']['file_name'];
-		}
-		else
-		{
-			$error = array('error' => $CI->upload->display_errors());
-			
-			return $error;
-		}
+			{
+				$data = array('upload_data' => $CI->upload->data());
+				return $data['upload_data']['file_name'];
+						//return $data['upload_data']['file_name'];
+			}
+			else
+			{
+				$error = array('error' => $CI->upload->display_errors());
+				return $error;
+			}
 	}
+
 /* Function check for password hash
  * @param string
  * return TRUE on success FALSE if fails

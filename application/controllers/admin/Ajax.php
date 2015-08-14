@@ -117,9 +117,10 @@ class Ajax extends CI_Controller
 			case 15:{
 			    $output=$this->get_service_list();
 				echo json_encode($output);
+				//echo json_encode($_POST);
 				break;	 
 			}
-			case 15:{
+			case 16:{
 				$this->save_guest_data();
 			}
 			default:{
@@ -341,10 +342,11 @@ class Ajax extends CI_Controller
     {
 	    $type=$this->input->post('type');
 		$tablename='sb_hotel_parent_services';
-		if($type == 'parent'){$tablename = 'sb_hotel_parent_services';}
-		if($type == 'child'){$tablename = 'sb_hotel_child_services';}
-		if($type == 'subchild'){$tablename = 'sb_sub_child_services';}
-	    $output=$this->Services_model->get_services($tablename);
+		$subservicetable="";
+		if($type == 'Parent'){$tablename = 'sb_hotel_parent_services';$subservicetable='sb_hotel_child_services';}
+		if($type == 'Child'){$tablename = 'sb_hotel_child_services';$subservicetable='sb_sub_child_services';}
+		if($type == 'Subchild'){$tablename = 'sb_sub_child_services';$subservicetable='';}
+	    $output=$this->Services_model->get_services($tablename,$subservicetable);
 		return $output;		
     } 
 	function get_hotel_child_service_of_parent()
