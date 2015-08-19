@@ -1,0 +1,18 @@
+{"UNIQUE_ID":"VdRJ3X8AAQEAAAv4XlIAAAAI","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/Chat\/get_chat","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.135 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_hotel_requst_ser_id":"25"}}
+
+{"UNIQUE_ID":"VdRJ@H8AAQEAAAv5Gy0AAAAJ","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/Chat\/get_chat","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.135 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_hotel_requst_ser_id":"25","type":"request"}}
+
+{"UNIQUE_ID":"VdRKS38AAQEAAAvT38QAAAAC","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/Chat\/get_chat","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.135 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_hotel_requst_ser_id":"25","type":"request"}}
+
+{"UNIQUE_ID":"VdRK0H8AAQEAAAvV64AAAAAE","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/Chat\/get_chat","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.135 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_hotel_requst_ser_id":"25","type":"request"}}
+
+{"UNIQUE_ID":"VdROs38AAQEAAAvS8lwAAAAB","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/Chat\/insert_chat","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.135 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_hotel_requst_ser_id":"25","type":"request"}}
+
+{"UNIQUE_ID":"VdRO138AAQEAAAv5Gy4AAAAJ","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/Chat\/insert_chat","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.135 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_hotel_requst_ser_id":"1","type":"request"}}
+
+{"UNIQUE_ID":"VdRUBX8AAQEAAAvwULsAAAAH","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/Chat\/insert_chat","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.135 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_hotel_requst_ser_id":"1","type":"request","sb_sender_type":"1","sb_chat_message":"Hi.. Deliver my lunch at 13.00 instead of 12.30"}}
+
+{"UNIQUE_ID":"VdRUPX8AAQEAAAv604MAAAAK","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/Chat\/insert_chat","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.135 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_hotel_requst_ser_id":"1","type":"request","sb_sender_type":"1","sb_chat_message":"Hi.. Deliver my lunch at 13.00 instead of 12.30"}}
+
+{"UNIQUE_ID":"VdRU3H8AAQEAAAvV64EAAAAE","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/Chat\/insert_chat","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.135 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_hotel_requst_ser_id":"1","type":"request","sb_sender_type":"0","sb_chat_message":"Hi.. Ok Sir..      "}}
+
