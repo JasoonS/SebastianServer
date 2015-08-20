@@ -47,12 +47,16 @@ class Chat extends CI_Controller
 			{
 				response_fail("ErrorCode#2, Somthing went wrong, Please Logout and login again");
 			}
-			$data = $this->Chat_model->get_request($sb_hotel_requst_ser_id);
-			if(count($data) != '1')
-			{
-				response_fail("ErrorCode#3, Somthing went wrong, Please Logout and login again");
-			}
-			response_ok($data);			
+			// $data = $this->Chat_model->get_request($sb_hotel_requst_ser_id);
+			// if(count($data) != '1')
+			// {
+			// 	response_fail("ErrorCode#3, Somthing went wrong, Please Logout and login again");
+			// }
+			$data = $this->Chat_model->get_chat_messages($sb_hotel_requst_ser_id);
+			$arr = array(
+					'result'=> $data
+				);
+			response_ok($arr);			
 		}
 		elseif ($type == 'order')
 		{
@@ -63,5 +67,57 @@ class Chat extends CI_Controller
 			response_fail("ErrorCode#2, Somthing went wrong, Please Logout and login again");
 		}	
 	}
+
+
+	function insert_chat()
+	{
+		$type = $this->input->post('type');
+		if($type != 'request' AND $type != 'order')
+		{
+			response_fail("ErrorCode#1, Somthing went wrong, Please Logout and login again");
+		}
+		if($type == 'request')
+		{
+			$sb_hotel_requst_ser_id = $this->input->post('sb_hotel_requst_ser_id');
+			if($sb_hotel_requst_ser_id == '')
+			{
+				response_fail("ErrorCode#2, Somthing went wrong, Please Logout and login again");
+			}
+			$data = $this->Chat_model->get_request($sb_hotel_requst_ser_id);
+			if( $data > 0)
+			{
+				$sb_sender_type = $this->input->post('sb_sender_type');
+				$sb_chat_message = trim($this->input->post('sb_chat_message'));
+				if($sb_sender_type == '' || $sb_chat_message == '' )
+				{
+					response_fail("ErrorCode#4, Somthing went wrong, Please Logout and login again");
+				}
+				else
+				{
+					$insert_arr = array(
+									'sb_hotel_requst_ser_id' => $sb_hotel_requst_ser_id,
+									'sb_sender_type' => $sb_sender_type,
+									'sb_chat_message' => $sb_chat_message	
+						);
+					$result = $this->Chat_model->insert_chat($insert_arr);
+					if($result)
+					{
+						response_ok();	
+					}
+					else
+					{
+						response_fail("Notification not inserted.. Please try again");
+					}
+
+				}
+
+			}
+			else
+			{
+				response_fail("ErrorCode#3, Somthing went wrong, Please Logout and login again");
+			} 
+		}
+			
+	}	
 
 }	

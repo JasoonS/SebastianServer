@@ -33,9 +33,9 @@ class Hotel_service_model extends CI_Model
 		return $data;
 	}
 
-	function get_service_map($sb_parent_service_id, $sb_child_service_id,$sb_hotel_id,$sub_child_services_id)
+	function get_service_map($sb_parent_service_id, $sb_child_service_id,$sb_hotel_id,$sb_sub_child_service_id)
 	{
-		if($sub_child_services_id == 0)
+		if($sb_sub_child_service_id == 0)
 		{
 			$qry = "SELECT `sb_hotel_service_map_id` FROM `sb_hotel_service_map` 
 					WHERE `sb_parent_service_id` = '$sb_parent_service_id'
