@@ -88,7 +88,18 @@ class Ajax extends CI_Controller
 			}
 			//This case is to insert vendor
 			case 11:{
-			    $insertData=array("vendor_name"=>$this->input->post('vendorname'));
+			    $insertData=array(
+						  "vendor_name"=>$this->input->post('vendorname'),
+						  "address"=>$this->input->post('vendoraddress'),
+						  "phone"=>$this->input->post("phone1"),
+						  "phone2"=>$this->input->post("phone2"),
+						  "web"=>$this->input->post("web1"),
+						  "web2"=>$this->input->post("web2"),
+						  "stars"=>$this->input->post("vendorstar"),
+						  "country"=>$this->input->post("country"),
+						  "state"=>$this->input->post("state"),
+						  "city"=>$this->input->post("city")
+						  );
 			    $output=$this->Vendor_model->create_vendor($insertData);
 				echo json_encode($output);
 				break;
@@ -134,7 +145,18 @@ class Ajax extends CI_Controller
     */
 	public function edit_vendor()
     {
-		$updateData=array("vendor_name"=>$this->input->post('vendorname'));
+		$updateData=array(
+						  "vendor_name"=>$this->input->post('vendorname'),
+						  "address"=>$this->input->post('vendoraddress'),
+						  "phone"=>$this->input->post("phone1"),
+						  "phone2"=>$this->input->post("phone2"),
+						  "web"=>$this->input->post("web1"),
+						  "web2"=>$this->input->post("web2"),
+						  "stars"=>$this->input->post("vendorstar"),
+						  "country"=>$this->input->post("country"),
+						  "state"=>$this->input->post("state"),
+						  "city"=>$this->input->post("city")
+						  );
 	    $output=$this->Vendor_model->edit_vendor($updateData,$this->input->post('vendor_id'));
 		return $output;		
     } 
@@ -194,7 +216,7 @@ class Ajax extends CI_Controller
 	 * return array
 	 */
 	public function ajax_vendor_list(){
-		$columnnames=['vendor_id','vendor_name','status'];
+		$columnnames=['vendor_id','vendor_name','country','state','city','address','stars','phone','phone2','web','web2','status'];
 		$list = $this->Common_model->get_datatables('sb_vendors',$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames);
 		$data = array();
 		$no =$this->input->post('start');
@@ -204,10 +226,10 @@ class Ajax extends CI_Controller
 					$row[] 				= $vendor->vendor_id;
 					$row[] 				= $vendor->vendor_name;
 					if($vendor->status == '1'){
-						$row[] ='<a class="btn btn-sm btn-primary" href="#" title="Edit" onclick="edit('.$vendor->vendor_id.',\''.$vendor->vendor_name.'\');"><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.'<a class="btn btn-sm btn-danger" id="delete" href="#"  onclick="changevendorstatus('.$vendor->vendor_id.','.$vendor->status.');" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+						$row[] ='<a class="btn btn-sm btn-primary" href="#" title="Edit" onclick="edit('.$vendor->vendor_id.',\''.$vendor->vendor_name.'\','.$vendor->country.','.$vendor->state.','.$vendor->city.',\''.$vendor->address.'\','.$vendor->stars.',\''.$vendor->phone.'\',\''.$vendor->phone2.'\',\''.$vendor->web.'\',\''.$vendor->web2.'\');"><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.'<a class="btn btn-sm btn-danger" id="delete" href="#"  onclick="changevendorstatus('.$vendor->vendor_id.','.$vendor->status.');" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>';
 					}
 					else{
-						$row[]='<a class="btn btn-sm btn-primary" href="#" title="Edit" onclick="edit('.$vendor->vendor_id.',\''.$vendor->vendor_name.'\');"><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.'<a class="btn btn-sm btn-success" id="restore" href="#" data-href="#" onclick="changevendorstatus('.$vendor->vendor_id.','.$vendor->status.');" title="Restore" ><i class="glyphicon glyphicon-file"></i>Restore</a>';
+						$row[]='<a class="btn btn-sm btn-primary" href="#" title="Edit" onclick="edit('.$vendor->vendor_id.',\''.$vendor->vendor_name.'\','.$vendor->country.','.$vendor->state.','.$vendor->city.',\''.$vendor->address.'\','.$vendor->stars.',\''.$vendor->phone.'\',\''.$vendor->phone2.'\',\''.$vendor->web.'\',\''.$vendor->web2.'\');"><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.'<a class="btn btn-sm btn-success" id="restore" href="#" data-href="#" onclick="changevendorstatus('.$vendor->vendor_id.','.$vendor->status.');" title="Restore" ><i class="glyphicon glyphicon-file"></i>Restore</a>';
 					}
 					$data[] = $row;
 				}
