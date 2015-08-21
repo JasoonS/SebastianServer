@@ -4,7 +4,7 @@ class Hotel_service_model extends CI_Model
 
 	function get_submenu($sb_hotel_id, $sb_parent_service_id)
 	{
-		$qry =  "SELECT DISTINCT m.sb_child_service_id, m.sb_child_price, c.* from sb_hotel_child_services c 
+		$qry =  "SELECT DISTINCT m.sb_child_service_id,  c.* from sb_hotel_child_services c 
 				join sb_hotel_service_map m ON c.sb_child_service_id = m.sb_child_service_id
 				join sb_hotel_parent_services s ON s.sb_parent_service_id = m.sb_parent_service_id
 				where m.sb_parent_service_id = '$sb_parent_service_id' AND m.sb_hotel_id = '$sb_hotel_id'
@@ -18,12 +18,20 @@ class Hotel_service_model extends CI_Model
 			if($data[$i]['is_service'] == 0)
 			{
 				$id = $data[$i]['sb_child_service_id'];
-				$qry1 = "SELECT scs.*, m.sb_sub_child_price FROM `sb_sub_child_services` as scs
+				if($id == 10 || $id == 12 || $id == 11)
+				{
+					$qry1 = "SELECT * from sb_paid_services  where sb_hotel_id = '$sb_hotel_id'
+					AND sb_child_service_id = '$id' AND sb_is_service_in_use = '1' ";
+				}
+				else
+				{
+					$qry1 = "SELECT scs.*  FROM `sb_sub_child_services` as scs
 						join sb_hotel_service_map m ON scs.sub_child_services_id = m.sb_sub_child_service_id 
 						WHERE `sb_hotel_id` = '$sb_hotel_id'
 							AND m.`sb_parent_service_id` = '$sb_parent_service_id' 
 							AND m.`sb_child_service_id` = '$id'
 							AND sb_is_service_in_use = '1'";
+				}			
 				$query = $this->db->query($qry1);
 				$subChildService = $query->result_array();
 				$data[$i]['sub_childmenu'] = $subChildService;
@@ -33,23 +41,28 @@ class Hotel_service_model extends CI_Model
 		return $data;
 	}
 
-	function get_service_map($sb_parent_service_id, $sb_child_service_id,$sb_hotel_id,$sb_sub_child_service_id)
+	function get_service_map($sb_parent_service_id, $sb_child_service_id,$sb_hotel_id)
 	{
-		if($sb_sub_child_service_id == 0)
-		{
-			$qry = "SELECT `sb_hotel_service_map_id` FROM `sb_hotel_service_map` 
-					WHERE `sb_parent_service_id` = '$sb_parent_service_id'
-					AND `sb_child_service_id` = '$sb_child_service_id' 
-					AND `sb_hotel_id` = '$sb_hotel_id';";
-		}
-		else
-		{
-			$qry = "SELECT `sb_hotel_service_map_id` FROM `sb_hotel_service_map` 
-					WHERE `sb_parent_service_id` = '$sb_parent_service_id'
-					AND `sb_child_service_id` = '$sb_child_service_id' 
-					AND `sb_hotel_id` = '$sb_hotel_id'
-					AND `sb_sub_child_service_id` = '$sb_sub_child_service_id';";
-		}			
+		// if($sb_sub_child_service_id == 0)
+		// {
+		// 	$qry = "SELECT `sb_hotel_service_map_id` FROM `sb_hotel_service_map` 
+		// 			WHERE `sb_parent_service_id` = '$sb_parent_service_id'
+		// 			AND `sb_child_service_id` = '$sb_child_service_id' 
+		// 			AND `sb_hotel_id` = '$sb_hotel_id';";
+		// }
+		// else
+		// {
+			// $qry = "SELECT `sb_hotel_service_map_id` FROM `sb_hotel_service_map` 
+			// 		WHERE `sb_parent_service_id` = '$sb_parent_service_id'
+			// 		AND `sb_child_service_id` = '$sb_child_service_id' 
+			// 		AND `sb_hotel_id` = '$sb_hotel_id'
+			// 		AND `sb_sub_child_service_id` = '$sb_sub_child_service_id';";
+			//}		
+		$qry = "SELECT `sb_hotel_service_map_id` FROM `sb_hotel_service_map` 
+		 			WHERE `sb_parent_service_id` = '$sb_parent_service_id'
+		 			AND `sb_child_service_id` = '$sb_child_service_id' 
+		 			AND `sb_hotel_id` = '$sb_hotel_id';";
+					
 		$query = $this->db->query($qry);
 		$rply = $query->result_array();
 		if(count($rply)>0)
