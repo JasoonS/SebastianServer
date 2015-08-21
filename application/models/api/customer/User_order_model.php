@@ -43,5 +43,12 @@ class User_order_model extends CI_Model
 			}
 			return $data;
 	}
+
+	public function place_order_details($data)
+	{
+		//print_r($user_order);die;
+		$this->db->insert_batch('sb_customer_order_placed', $data);
+		return 1; 
+	}
 }
 ?>	

@@ -23,6 +23,7 @@ class Hotel_service extends CI_Controller
 		// }
 		/*EOF*/
 		$this->load->model('api/customer/Hotel_service_model');
+		$this->load->model('api/customer/User_order_model');
 	}
 
 	/**
@@ -351,53 +352,35 @@ class Hotel_service extends CI_Controller
 		$rooms = $this->Hotel_service_model->get_guest_rooms($sb_hotel_guest_booking_id);
 		$inputArray = $this->input->post('order_details');
 		$order_details = json_decode($inputArray);
-		// /print_r($order_details);
+
 		for ($i=0; $i < count($order_details); $i++) 
 		{
 		
 			$order = array();
 			$order = (array)$order_details[$i];
 			
-			
-			// print_r($hrs);
-			// echo "<br>";
-			// print_r($hss);
 			$new_order =array();
 			for ($j=0; $j < count($order['order']); $j++) 
 			{ 
-			 	//$order['order'][$j] = (array)$order['order'][$j];
 				$new_order[$j] = (array)$order['order'][$j];
 			}
-			//print_r($new_order[0]);
 			$hrs = array();
-				$hss = array();
-				$user_order = array();
+			$hss = array();
+			$user_order = array();
+			
 			for ($j=0; $j < count($new_order); $j++) { 
-				//sb_guest_allocated_room_no
 				
 				$index = -1;
 				for ($k=0; $k < count($hrs); $k++) { 
 					if($hrs[$k]['sb_guest_allocated_room_no'] == $new_order[$j]['sb_guest_allocated_room_no'])
 						$index = $k;
 				}
-				// echo "index ::".$index;
-				// if($j > 0)
-				// {
-				// 	die;
-				// }
-				// if($index == -1)
-				// {
-					
-				// 	//$hrs[$j]['sb_guest_allocated_room_no'] = '';
-				// }
-
-				// if($hrs[$j]['sb_guest_allocated_room_no'] == '')
 				if ($index == -1) 
 				{
 					$hrs[$j]['sb_parent_service_id'] = $order['sb_parent_service_id'];
 					$hrs[$j]['sb_hotel_id'] = $sb_hotel_id;
 					$hrs[$j]['sb_hotel_guest_booking_id'] = $sb_hotel_guest_booking_id;
-					
+					$hrs[$j]['order_details'] = '1';
 
 					if($this->input->post('service_due_date'))
 					{
@@ -423,15 +406,11 @@ class Hotel_service extends CI_Controller
 						"quantity" => $new_order[$j]['quantity'],
 						"price" => $new_order[$j]['price'],
 					);
-					//array_push($user_order[$j], $temp);
-					//echo "in If";
-					$user_order[$j] = $temp;
-					//print_r($user_order);
-					//echo "out if";
+					
+					$user_order[$j][] = $temp;
 				}	
 				else
 				{
-					//echo "in else";
 					$temp = array(
 						"sb_parent_service_id" => $order['sb_parent_service_id'],
 						"sb_child_service_id" => $new_order[$j]['sb_child_service_id'],
@@ -439,20 +418,22 @@ class Hotel_service extends CI_Controller
 						"quantity" => $new_order[$j]['quantity'],
 						"price" => $new_order[$j]['price'],
 					);
-					//array_push($user_order[$index], $temp);
 					$temp1 = $user_order[$index];
-					//print_r($temp1);
 					array_push($temp1, $temp);
 					$user_order[$index] = $temp1;
-					//print_r($user_order);//die;
 				}
 			}
-
-			print_r($hrs);
-			echo "\n<br>";
-			print_r($hss);
-			echo "\n<br>";
-			print_r($user_order);
+			
+			for ($l=0; $l < count($hrs); $l++)
+			{ 
+				$data = $this->Hotel_service_model->place_service($hrs[$l], $hss[$l]);
+				$myTempArry = $user_order[$l];
+				for ($m=0; $m < count($user_order[$l]); $m++) { 
+					$user_order[$l][$m]['sb_hotel_requst_ser_id'] = $data;
+				}
+				$rply = $this->User_order_model->place_order_details($user_order[$l]);
+				/*PUSH NOTIFICATION*/
+			}			
 		}
 	}
 
