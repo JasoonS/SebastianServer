@@ -18,7 +18,7 @@ class Hotel_service_model extends CI_Model
 			if($data[$i]['is_service'] == 0)
 			{
 				$id = $data[$i]['sb_child_service_id'];
-				if($id == 10 || $id == 12 || $id == 11)
+				if($sb_parent_service_id == 3 || $sb_parent_service_id == 6)
 				{
 					$qry1 = "SELECT * from sb_paid_services  where sb_hotel_id = '$sb_hotel_id'
 					AND sb_child_service_id = '$id' AND sb_is_service_in_use = '1' ";
@@ -143,7 +143,7 @@ class Hotel_service_model extends CI_Model
 
 	function get_request_info($sb_hotel_guest_booking_id)
 	{
-		$qry = "Select r.sb_hotel_requst_ser_id , h.sb_hotel_service_assigned, h.sb_hotel_ser_start_date, r.sb_hotel_ser_reqstd_on, 
+		$qry = "SELECT r.sb_hotel_requst_ser_id , h.sb_hotel_service_assigned, h.sb_hotel_ser_start_date, r.sb_hotel_ser_reqstd_on, 
 				h.sb_hotel_ser_start_time, h.sb_hotel_ser_finished_date , h.sb_hotel_ser_finished_time,h.sb_hotel_ser_assgnd_to_user_id,
 				h.sb_hotel_service_status, r.sb_service_log,c.sb_child_servcie_name, c.child_service_image,h.reject_reason,
 				r.sb_hotel_ser_reqstd_on
@@ -151,7 +151,9 @@ class Hotel_service_model extends CI_Model
 				ON r.sb_hotel_requst_ser_id = h.sb_hotel_requst_ser_id
 				join sb_hotel_service_map m ON r.sb_hotel_service_map_id = m.sb_hotel_service_map_id
 				join sb_hotel_child_services c ON m.sb_child_service_id = c.sb_child_service_id 
-				where r.sb_hotel_guest_booking_id = '$sb_hotel_guest_booking_id'";
+				where r.sb_hotel_guest_booking_id = '$sb_hotel_guest_booking_id'
+				AND r.order_details='0'
+				AND h.sb_hotel_service_status !='rejected'";
 		$query = $this->db->query($qry);
 		$data = $query->result_array();		
 		// echo $qry; die();				 
