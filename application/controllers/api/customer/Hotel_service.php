@@ -342,8 +342,121 @@ class Hotel_service extends CI_Controller
 	 * updated on - 
 	 * created by - Samrat Aher;
 	 */
-
 	function place_order()
+	{
+		//print_r($_POST);
+		$sb_hotel_guest_booking_id = $this->input->post('sb_hotel_guest_booking_id');
+		$sb_hotel_id = $this->input->post('sb_hotel_id');
+		$rooms = $this->Hotel_service_model->get_guest_rooms($sb_hotel_guest_booking_id);
+		$inputArray = $this->input->post('order_details');
+		$order_details = json_decode($inputArray);
+		// /print_r($order_details);
+		for ($i=0; $i < count($order_details); $i++) 
+		{
+		
+			$order = array();
+			$order = (array)$order_details[$i];
+			
+			
+			// print_r($hrs);
+			// echo "<br>";
+			// print_r($hss);
+			$new_order =array();
+			for ($j=0; $j < count($order['order']); $j++) 
+			{ 
+			 	//$order['order'][$j] = (array)$order['order'][$j];
+				$new_order[$j] = (array)$order['order'][$j];
+			}
+			//print_r($new_order[0]);
+			$hrs = array();
+				$hss = array();
+				$user_order = array();
+			for ($j=0; $j < count($new_order); $j++) { 
+				//sb_guest_allocated_room_no
+				
+				$index = -1;
+				for ($k=0; $k < count($hrs); $k++) { 
+					if($hrs[$k]['sb_guest_allocated_room_no'] == $new_order[$j]['sb_guest_allocated_room_no'])
+						$index = $k;
+				}
+				// echo "index ::".$index;
+				// if($j > 0)
+				// {
+				// 	die;
+				// }
+				// if($index == -1)
+				// {
+					
+				// 	//$hrs[$j]['sb_guest_allocated_room_no'] = '';
+				// }
+
+				// if($hrs[$j]['sb_guest_allocated_room_no'] == '')
+				if ($index == -1) 
+				{
+					$hrs[$j]['sb_parent_service_id'] = $order['sb_parent_service_id'];
+					$hrs[$j]['sb_hotel_id'] = $sb_hotel_id;
+					$hrs[$j]['sb_hotel_guest_booking_id'] = $sb_hotel_guest_booking_id;
+					
+
+					if($this->input->post('service_due_date'))
+					{
+						$hss[$j]['sb_hotel_ser_start_date'] = $this->input->post('service_due_date');
+					}
+					else
+					{
+						$hss[$j]['sb_hotel_ser_start_date'] = date("Y-m-d");
+					}
+					if($this->input->post('service_due_time'))
+					{
+						$hss[$j]['sb_hotel_ser_start_time'] = $this->input->post('service_due_time');
+					}
+					else
+					{
+						$hss[$j]['sb_hotel_ser_start_time'] = date("h:i:s");
+					}
+					$hrs[$j]['sb_guest_allocated_room_no'] = $new_order[$j]['sb_guest_allocated_room_no'];
+					$temp = array(
+						"sb_parent_service_id" => $order['sb_parent_service_id'],
+						"sb_child_service_id" => $new_order[$j]['sb_child_service_id'],
+						"sub_child_services_id" => $new_order[$j]['sub_child_services_id'],
+						"quantity" => $new_order[$j]['quantity'],
+						"price" => $new_order[$j]['price'],
+					);
+					//array_push($user_order[$j], $temp);
+					//echo "in If";
+					$user_order[$j] = $temp;
+					//print_r($user_order);
+					//echo "out if";
+				}	
+				else
+				{
+					//echo "in else";
+					$temp = array(
+						"sb_parent_service_id" => $order['sb_parent_service_id'],
+						"sb_child_service_id" => $new_order[$j]['sb_child_service_id'],
+						"sub_child_services_id" => $new_order[$j]['sub_child_services_id'],
+						"quantity" => $new_order[$j]['quantity'],
+						"price" => $new_order[$j]['price'],
+					);
+					//array_push($user_order[$index], $temp);
+					$temp1 = $user_order[$index];
+					//print_r($temp1);
+					array_push($temp1, $temp);
+					$user_order[$index] = $temp1;
+					//print_r($user_order);//die;
+				}
+			}
+
+			print_r($hrs);
+			echo "\n<br>";
+			print_r($hss);
+			echo "\n<br>";
+			print_r($user_order);
+		}
+	}
+
+
+	function place_order12()
 	{
 		$sb_hotel_guest_booking_id = $this->input->post('sb_hotel_guest_booking_id');
 		$sb_hotel_id = $this->input->post('sb_hotel_id');
@@ -362,7 +475,10 @@ class Hotel_service extends CI_Controller
 				}
 
 			}
-			$arr = array();
+			
+			$new_array = array();
+			$new_array1 = array();
+			// $arr = array();
 			   // print_r($order); die();
 			for($j=0; $j < count($order); $j++)
 			{
@@ -371,66 +487,97 @@ class Hotel_service extends CI_Controller
 				$hrscnt = 0;
 				$hss = array();
 				$hsscnt = 0;
-					// echo count($order[$j]['order']); die();
+				$tmp = array();
+				$flag =0;
+				// array_push($new_array,$order[$j]['sb_parent_service_id']);
+				// $parent = $order[$j]['sb_parent_service_id'];
+				// $new_array[$parent]=array();
+				// $new_array1[$parent]=array();
+				// print_r($new_array); die();
+					 // echo count($order[$j]['order']); die();
+				
 				for($i=0;$i < count($order[$j]['order']); $i++)
 				{
 					// print_r("sam"); die();	
-					if (!in_array($order[$j]['order'][$i]['sb_guest_allocated_room_no'] , $rooms))
+					// if (!in_array($order[$j]['order'][$i]['sb_guest_allocated_room_no'] , $rooms))
+					// {
+					// 	  // print_r("sam1"); die();
+					// 	$wrongRoom ++;
+					// 	$result = array(
+					// 		'result' => $rooms
+					// 		);
+					// 	continue;
+					// }
+					// if(in_array($order[$j]['order'][$i]['sb_guest_allocated_room_no'], $parent))
+					// {
+					// 	// $parent[$i] = $order[$j]['order'][$i]['sb_guest_allocated_room_no'];
+					// 	array_push($parent, $order[$j]['order'][$i]['sb_guest_allocated_room_no']);
+					// 	$new_array[$parent[$i]]=array();
+					// 	$new_array1[$parent[$i]]=array();
+					// }
+					if(!in_array($order[$j]['order'][$i]['sb_guest_allocated_room_no'], $tmp))
 					{
-						  // print_r("sam1"); die();
-						$wrongRoom ++;
-						$result = array(
-							'result' => $rooms
-							);
-						continue;
-					}
+						$parent = $order[$j]['order'][$i]['sb_guest_allocated_room_no'];
+						$new_array[$parent] = array();
+						$new_array1[$parent]= array();
+						array_push($tmp, $order[$j]['order'][$i]['sb_guest_allocated_room_no']);
+						$flag = 1;	
+					}	
+
 					if(!array_key_exists("quantity",$order[$j]['order'][$i]) && $order[$j]['order'][$i][$j]['quantity'] <= 0 && $order[$j]['order'][$i][$j]['quantity']  == '')
 					{
 						 // print_r("sam"); die();
 						continue;
 					}
 					// print_r($order[$j]['order'][$i]['sb_child_service_id']); die(); 
-					if(array_key_exists("sb_parent_service_id",$order[$j]['order'][$i])  && array_key_exists("sb_child_service_id",$order[$j]['order'][$i])  && $sb_hotel_id != '')
+					if($order[$j]['sb_parent_service_id'] != '' && array_key_exists("sb_child_service_id",$order[$j]['order'][$i])  && $sb_hotel_id != '')
 					{
 						// print_r("sam"); die();
-						$hrs['sb_hotel_service_map_id'] = $this->Hotel_service_model->get_service_map($order[$j]['order'][$i]['sb_parent_service_id'], $order[$j]['order'][$i]['sb_child_service_id'], $sb_hotel_id);
-
+						$hrs['sb_hotel_service_map_id'] = $this->Hotel_service_model->get_service_map($order[$j]['sb_parent_service_id'], $order[$j]['order'][$i]['sb_child_service_id'], $sb_hotel_id);
+						// array_push($new_array[$parent], $hrs['sb_hotel_service_map_id']);
 					}
 
 					if($sb_hotel_id != '')
 					{
 						$hrs['sb_hotel_id'] = $sb_hotel_id;
+						// array_push($new_array[$parent], $hrs['sb_hotel_id']);
 						$hrscnt++;
 					}
-					if(array_key_exists("sb_parent_service_id",$order[$j]['order'][$i]))
+					if($order[$j]['sb_parent_service_id'] != '')
 					{
-						$hrs['sb_parent_service_id'] = $order[$j]['order'][$i]['sb_parent_service_id'];
+						$hrs['sb_parent_service_id'] = $order[$j]['sb_parent_service_id'];
+						// array_push($new_array[$parent], $hrs['sb_parent_service_id']);
 						$hrscnt++;
 					}
 					if($sb_hotel_guest_booking_id != '')
 					{
 						$hrs['sb_hotel_guest_booking_id'] = $sb_hotel_guest_booking_id;
+						// array_push($new_array[$parent], $hrs['sb_hotel_guest_booking_id']);
 						$hrscnt++;
 					}
 					if(array_key_exists("sb_guest_allocated_room_no",$order[$j]['order'][$i]))
 					{
 						$hrs['sb_guest_allocated_room_no'] = $order[$j]['order'][$i]['sb_guest_allocated_room_no'];
+						// array_push($new_array[$parent], $hrs['sb_guest_allocated_room_no']);
 						$hrscnt++;
 					}
-					if(array_key_exists("quantity",$order[$j]['order'][$i]))
-					{
-						$hrs['sb_quantity'] = $order[$j]['order'][$i]['quantity'];
-						$hrscnt++;
-					}
+					// if(array_key_exists("quantity",$order[$j]['order'][$i]))
+					// {
+					// 	$hrs['sb_quantity'] = $order[$j]['order'][$i]['quantity'];
+					// 	array_push($new_array[$parent], $hrs['sb_quantity']);
+					// 	$hrscnt++;
+					// }
 
 					if(array_key_exists("sub_child_services_id",$order[$j]['order'][$i]))
 					{
 						$hrs['sub_child_services_id'] = $order[$j]['order'][$i]['sub_child_services_id'];
+						// array_push($new_array[$parent], $hrs['sub_child_services_id']);
 						$hrscnt++;
 					}
 					else
 					{
 						$hrs['sub_child_services_id'] = 0;
+						// array_push($new_array[$parent], $hrs['sub_child_services_id']);
 						$hrscnt++;
 					}
 					
@@ -447,7 +594,6 @@ class Hotel_service extends CI_Controller
 					if(array_key_exists("service_due_time",$order[$j]['order'][$i]))
 					{
 						$hss['sb_hotel_ser_start_time'] = $order[$j]['order'][$i]['service_due_time'];
-						unset($inputArray['service_due_time']);
 						$hsscnt++;
 					}
 					else
@@ -457,23 +603,56 @@ class Hotel_service extends CI_Controller
 					}
 					// print_r($hss);
 					// print_r($hrs); die();
-					if($hrscnt<6 || $hsscnt < 2)
+					if($hrscnt<5 || $hsscnt < 2)
 					{
 						response_fail("Some input is missing");
 					}
 
 					$hrs['sb_service_log'] = json_encode($inputArray);
+					$hrs['order_details'] = '1';
+					
 					// print_r($hrs);
-
-					$data = $this->Hotel_service_model->place_service($hrs, $hss);
-					array_push($arr, $data);
+					array_push($new_array[$parent], $hrs);
+					array_push($new_array1[$parent], $hss);
+					 // print_r($new_array);
+					if($flag == 1)
+					{
+					  $data = $this->Hotel_service_model->place_service($hrs, $hss);
+					  $flag = 0 ;
+					}
+					// array_push($arr, $data);
 
 
 
 				}
-			}
+			 	   print_r($new_array); 
+			// 	 print_r($new_array1);
+			 }
+			// die();
+			 // echo(count($new_array));
+			//  $sam = array();
+			//  $l = 0 ;
+			// foreach ($new_array as $arr)
+			//  {
+			//  	 $sam[$l++] =$arr; 
+			//  }
+			//   print_r($sam)	;
 
-			print_r($arr); die();
+
+			//  }
+			
+			 // print_r($new_array1);
+			 // print_r($new_array); 
+			 // print_r($new_array1);
+			  die();
+			  // print_r($new_array); 
+			// echo(count($new_array)); die();
+			// for($t=0; $t< count($new_array);$t++ )
+			// {
+			// 	print_r($new_array[$t]); die();
+			// 	$data = $this->Hotel_service_model->place_service($new_array[$t], $new_array1[$t]);
+			// }
+			  
 		}
 
 	}
