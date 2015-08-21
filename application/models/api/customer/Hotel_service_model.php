@@ -175,5 +175,10 @@ class Hotel_service_model extends CI_Model
 			}
 			return $data;
 	}
+
+	public function chk_room($arr)
+	{
+
+	}
 }
 ?>
