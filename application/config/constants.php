@@ -112,7 +112,12 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('HOTEL_ADMIN_CREATION_SUCCESS','Hotel User Created Successfully.');
  define('HOTEL_ADMIN_CREATION_ERROR','Error in Hotel User Creation.');
  define('HOTEL_ADMIN_UPDATION_SUCCESS','Hotel User Updated Successfully.');
+ define('PARENT_SERVICE_CREATION_SUCCESS','Parent Service is created Successfully.');
+ define('PARENT_SERVICE_UPDATION_SUCCESS','Parent Service is Updated Successfully.');
+ define('CHILD_SERVICE_UPDATION_SUCCESS','Child Service is Updated Successfully.');
  define('HOTEL_ADMIN_UPDATION_ERROR','Error in Hotel User Updation.');
+ define('CHILD_SERVICE_CREATION_SUCCESS',"Child Services are created successfully excluding services which are already present.");
+ define('CHILD_SERVICE_CREATION_FAILURE',"Child Services with same name are already present.");
  define('FOLDER_BASE_URL','http://localhost/sebastian-admin-panel');
  //define('FOLDER_BASE_URL','http://bizmoapps.com/sebastian');
 
@@ -130,8 +135,8 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  //FOLDER NAMES FOR IMAGE UPLOAD
  define('HOTEL_USER_PIC',"user_data/hotel_user_pic");
  define('HOTEL_PIC',"user_data/hotel_pic");
-
-
-
+ define('PARENT_SERVICE_PIC',"user_data/parent_service_pic");
+ define('CHILD_SERVICE_PIC',"user_data/child_service_pic");
+ define('SUBCHILD_SERVICE_PIC',"user_data/sub_child_service_pic");
  
   

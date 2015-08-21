@@ -147,7 +147,7 @@
 							  <label class="col-xs-3 control-label" for="sbHotelZipcode">Postal Code</label>
 							  <div class="col-xs-6">
 							    <?php if(isset($hoteldata)){?>
-							    	<input id="id_sbHotelZipcode" name="sb_hotel_zipcode" type="text"  placeholder="Type Postal Code Here" class="form-control"  maxlength="5" value="<?php echo $hoteldata['sb_hotel_zipcode']?>">
+							    	<input id="id_sbHotelZipcode" name="sb_hotel_zipcode" type="text"  placeholder="Type Postal Code Here" class="form-control"  maxlength="6" value="<?php echo $hoteldata['sb_hotel_zipcode']?>">
 								<?php } else {?>
 									<input id="id_sbHotelZipcode" name="sb_hotel_zipcode" type="text"  placeholder="Type Postal Code Here" class="form-control"  maxlength="6">
 								<?php }?>	
@@ -297,19 +297,7 @@
 									?>
 								</div>								
 							</div>
-							<div class="form-group classFormInputsBox">
-								<div class="radio">
-                                    <label>
-                                        <input type="radio" checked="" value="option1" id="optionsRadios1" name="optionsRadios"> Option one. only select one option
-                                    </label>
-                                </div>
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" value="option2" id="optionsRadios2" name="optionsRadios"> Option two. only select one option
-                                    </label>
-                                </div>
 							
-							</div>
 		                </div>
 	    			</div>
 	    		</div>

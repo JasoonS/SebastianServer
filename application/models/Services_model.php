@@ -289,14 +289,119 @@ Class Services_model extends CI_Model
 	 * @param string
 	 * return array
 	 */
-	function get_services($tablename)
+	function get_services($tablename,$servicetable='')
 	{
 		$this->db->select('*',false);
+		if($servicetable != ''){
+			if($servicetable == 'sb_hotel_child_services'){
+			    $this->db->select('sb_parent_service_id as service_id');
+				$this->db->select("(SELECT count(*) from $servicetable where sb_parent_service_id = service_id) as servicecount",false);
+			}
+		}
 		$query=$this->db->get($tablename);
 		$result=$query->result_array();
 		return $result;
 	}
-	
+   /* Method To get no of parent services with given name(For validation)
+	* @params string,int
+    * return int
+	*/
+	public function get_parent_service_by_name($service_name,$service_id=0){
+		$this->db->select('count(*) as servicecount');
+		$this->db->where('sb_parent_service_name',$service_name);
+		if($service_id !=0)
+		{
+			$this->db->where('sb_parent_service_id <>',$service_id);
+		}
+		$query=$this->db->get('sb_hotel_parent_services');
+		$result=$query->result_array();
+		return $result[0]['servicecount'];
+	}
+   /* Method To Add Service
+	* @params array
+    * return 1
+	*/
+	public function add_service($data,$tablename){
+		$this->db->insert($tablename,$data);
+		return 1;
+	}		
+	/* Method To Edit Parent Service
+	* @params array
+    * return 1
+	*/
+	public function edit_service($data,$tablename,$service_id){
+		$this->db->where('sb_parent_service_id',$service_id);
+		$this->db->update($tablename,$data);
+		echo $this->db->last_query();
+		return 1;
+	}
+	/* Method To Edit Child Service
+	* @params array
+    * return 1
+	*/
+	public function edit_child_service($data,$tablename,$service_id){
+		$this->db->where('sb_child_service_id',$service_id);
+		$this->db->update($tablename,$data);
+		echo $this->db->last_query();
+		return 1;
+	}
+   /* Method To get no of child services with given name(For validation)
+	* @params string,int
+    * return int
+	*/
+	public function get_child_service_by_name($service_name,$service_id=0){
+		$this->db->select('count(*) as servicecount');
+		$this->db->where('sb_child_servcie_name',$service_name);
+		if($service_id !=0)
+		{
+			$this->db->where('sb_child_service_id <>',$service_id);
+		}
+		$query=$this->db->get('sb_hotel_child_services');
+		$result=$query->result_array();
+		return $result[0]['servicecount'];
+	}	
+	/* Method insert child services 
+	* @params array
+    * return int
+	*/
+	public function create_child_services($data){
+		$this->db->insert_batch('sb_hotel_child_services',$data);
+		return 1;
+	}
+	/* Method To get no of sub child services with given name(For validation)
+	* @params string,int
+    * return int
+	*/
+	public function get_sub_child_service_by_name($service_name,$service_id=0){
+		$this->db->select('count(*) as servicecount');
+		$this->db->where('sb_sub_child_service_name',$service_name);
+		if($service_id !=0)
+		{
+			$this->db->where('sub_child_services_id <>',$service_id);
+		}
+		$query=$this->db->get('sb_sub_child_services');
+		$result=$query->result_array();
+		return $result[0]['servicecount'];
+	}
+   /* Method insert sub child services 
+	* @params array
+    * return int
+	*/
+	public function create_subchild_services($data){
+		$this->db->insert_batch('sb_sub_child_services',$data);
+		//echo $this->db->last_query();exit;
+		return 1;
+	}
+   /* Method To Edit Sub Child Service
+	* @params array
+    * return 1
+	*/
+	public function edit_sub_child_service($data,$tablename,$service_id){
+		$this->db->where('sub_child_services_id',$service_id);
+		$this->db->update($tablename,$data);
+		echo $this->db->last_query();
+		return 1;
+	}	
 	
 }
 ?>
