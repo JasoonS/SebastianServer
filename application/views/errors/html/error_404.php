@@ -1,5 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+//header('Content-type:applicatin/json'); 
+echo '{"status": "0","statusInfo": "404 Page Not Found"}';
+
+/*defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,4 +64,4 @@ p {
 		<?php echo $message; ?>
 	</div>
 </body>
-</html>
+</html>*/
