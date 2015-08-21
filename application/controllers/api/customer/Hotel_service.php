@@ -334,4 +334,147 @@ class Hotel_service extends CI_Controller
 
 		}	
 	}
+
+	/**
+	 * This function will will show all the requests placed by the user.
+	 * return type- 
+	 * created on -20th August 2015
+	 * updated on - 
+	 * created by - Samrat Aher;
+	 */
+
+	function place_order()
+	{
+		$sb_hotel_guest_booking_id = $this->input->post('sb_hotel_guest_booking_id');
+		$sb_hotel_id = $this->input->post('sb_hotel_id');
+		$rooms = $this->Hotel_service_model->get_guest_rooms($sb_hotel_guest_booking_id);
+		$inputArray = $this->input->post('order_details');
+		if(!empty($inputArray))
+		{
+			 // print_r("samrat"); die();
+			$order_details = json_decode($inputArray);
+			for ($i=0; $i < count($order_details); $i++) 
+			{ 
+				$order[] = (array)$order_details[$i];
+				for ($j=0; $j < count($order[$i]['order']); $j++) 
+				{ 
+					$order[$i]['order'][$j] = (array)$order[$i]['order'][$j];
+				}
+
+			}
+			$arr = array();
+			   // print_r($order); die();
+			for($j=0; $j < count($order); $j++)
+			{
+				$wrongRoom = 0;
+				$hrs = array();
+				$hrscnt = 0;
+				$hss = array();
+				$hsscnt = 0;
+					// echo count($order[$j]['order']); die();
+				for($i=0;$i < count($order[$j]['order']); $i++)
+				{
+					// print_r("sam"); die();	
+					if (!in_array($order[$j]['order'][$i]['sb_guest_allocated_room_no'] , $rooms))
+					{
+						  // print_r("sam1"); die();
+						$wrongRoom ++;
+						$result = array(
+							'result' => $rooms
+							);
+						continue;
+					}
+					if(!array_key_exists("quantity",$order[$j]['order'][$i]) && $order[$j]['order'][$i][$j]['quantity'] <= 0 && $order[$j]['order'][$i][$j]['quantity']  == '')
+					{
+						 // print_r("sam"); die();
+						continue;
+					}
+					// print_r($order[$j]['order'][$i]['sb_child_service_id']); die(); 
+					if(array_key_exists("sb_parent_service_id",$order[$j]['order'][$i])  && array_key_exists("sb_child_service_id",$order[$j]['order'][$i])  && $sb_hotel_id != '')
+					{
+						// print_r("sam"); die();
+						$hrs['sb_hotel_service_map_id'] = $this->Hotel_service_model->get_service_map($order[$j]['order'][$i]['sb_parent_service_id'], $order[$j]['order'][$i]['sb_child_service_id'], $sb_hotel_id);
+
+					}
+
+					if($sb_hotel_id != '')
+					{
+						$hrs['sb_hotel_id'] = $sb_hotel_id;
+						$hrscnt++;
+					}
+					if(array_key_exists("sb_parent_service_id",$order[$j]['order'][$i]))
+					{
+						$hrs['sb_parent_service_id'] = $order[$j]['order'][$i]['sb_parent_service_id'];
+						$hrscnt++;
+					}
+					if($sb_hotel_guest_booking_id != '')
+					{
+						$hrs['sb_hotel_guest_booking_id'] = $sb_hotel_guest_booking_id;
+						$hrscnt++;
+					}
+					if(array_key_exists("sb_guest_allocated_room_no",$order[$j]['order'][$i]))
+					{
+						$hrs['sb_guest_allocated_room_no'] = $order[$j]['order'][$i]['sb_guest_allocated_room_no'];
+						$hrscnt++;
+					}
+					if(array_key_exists("quantity",$order[$j]['order'][$i]))
+					{
+						$hrs['sb_quantity'] = $order[$j]['order'][$i]['quantity'];
+						$hrscnt++;
+					}
+
+					if(array_key_exists("sub_child_services_id",$order[$j]['order'][$i]))
+					{
+						$hrs['sub_child_services_id'] = $order[$j]['order'][$i]['sub_child_services_id'];
+						$hrscnt++;
+					}
+					else
+					{
+						$hrs['sub_child_services_id'] = 0;
+						$hrscnt++;
+					}
+					
+					if(array_key_exists("service_due_date",$order[$j]['order'][$i]))
+					{
+						$hss['sb_hotel_ser_start_date'] = $order[$j]['order'][$i]['service_due_date'];
+						$hsscnt++;
+					}
+					else
+					{
+						$hss['sb_hotel_ser_start_date'] = date("Y-m-d");
+						$hsscnt++;
+					}
+					if(array_key_exists("service_due_time",$order[$j]['order'][$i]))
+					{
+						$hss['sb_hotel_ser_start_time'] = $order[$j]['order'][$i]['service_due_time'];
+						unset($inputArray['service_due_time']);
+						$hsscnt++;
+					}
+					else
+					{
+						$hss['sb_hotel_ser_start_time'] = date("h:i:s");
+						$hsscnt++;
+					}
+					// print_r($hss);
+					// print_r($hrs); die();
+					if($hrscnt<6 || $hsscnt < 2)
+					{
+						response_fail("Some input is missing");
+					}
+
+					$hrs['sb_service_log'] = json_encode($inputArray);
+					// print_r($hrs);
+
+					$data = $this->Hotel_service_model->place_service($hrs, $hss);
+					array_push($arr, $data);
+
+
+
+				}
+			}
+
+			print_r($arr); die();
+		}
+
+	}
 }	

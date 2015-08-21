@@ -15,7 +15,7 @@ class Chat_model extends CI_Model
 
 	public function get_chat_messages($sb_hotel_requst_ser_id)
 	{
-		$qry = "SELECT * FROM `sb_chat` WHERE `sb_hotel_requst_ser_id` = '$sb_hotel_requst_ser_id' ORDER BY `created_on` DESC";
+		$qry = "SELECT * FROM `sb_chat` WHERE `sb_hotel_requst_ser_id` = '$sb_hotel_requst_ser_id' ORDER BY `created_on` ASC";
 		$query = $this->db->query($qry);
 		return $query->result_array();
 	}
