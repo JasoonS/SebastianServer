@@ -70,6 +70,7 @@ class Hotel_service extends CI_Controller
 	function place_service()
 	{
 		$inputArray = $this->input->post();
+		//print_r($inputArray);die;
 		if(array_key_exists("room_details",$inputArray))
 		{
 			$room_details = $inputArray['room_details'];
@@ -149,14 +150,14 @@ class Hotel_service extends CI_Controller
 		$hsscnt = 0;
 		if((array_key_exists("sb_parent_service_id",$inputArray)) AND (array_key_exists("sb_child_service_id",$inputArray)) AND (array_key_exists("sb_hotel_id",$inputArray)))
 		{
-			if(array_key_exists("sb_sub_child_service_id",$inputArray))
-			{
-				$hrs['sb_hotel_service_map_id'] = $this->Hotel_service_model->get_service_map($inputArray['sb_parent_service_id'], $inputArray['sb_child_service_id'], $inputArray['sb_hotel_id'] , $inputArray['sb_sub_child_service_id']);
-			}
-			else
-			{
+			// if(array_key_exists("sb_sub_child_service_id",$inputArray))
+			// {
+			// 	$hrs['sb_hotel_service_map_id'] = $this->Hotel_service_model->get_service_map($inputArray['sb_parent_service_id'], $inputArray['sb_child_service_id'], $inputArray['sb_hotel_id'] , $inputArray['sb_sub_child_service_id']);
+			// }
+			// else
+			//{
 				$hrs['sb_hotel_service_map_id'] = $this->Hotel_service_model->get_service_map($inputArray['sb_parent_service_id'], $inputArray['sb_child_service_id'], $inputArray['sb_hotel_id'],0);
-			}
+			//}
 			unset($inputArray['sb_child_service_id']);
 			$hrscnt++;
 		}

@@ -242,4 +242,26 @@ class Tasks extends CI_Controller {
 			}	 
 		}	
 	}
+
+	/**
+	 * This API allow staff to reject item order
+	 * return type- 
+	 * created on - 20th AUG 2015;
+	 * updated on - 
+	 * created by - Akshay Patil;
+	 */
+	public function reject_order_item()
+	{
+		$order_placed_id 	= 	$this->input->post('order_placed_id');
+		
+		if($order_placed_id == '')
+		{
+			response_fail("Please Insert All data correctly");
+		}
+		else
+		{
+			$val = $this->Tasks_model->reject_order_item($order_placed_id);
+			response_ok();
+		}
+	}
 }

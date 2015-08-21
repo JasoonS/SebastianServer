@@ -6,7 +6,7 @@ class Tasks_model extends CI_Model
 		$qry = "SELECT hrs.sb_hotel_requst_ser_id, hrs.sb_guest_allocated_room_no, hrs.sb_service_log,
 				hss.sb_hotel_ser_start_date as service_due_date,  DATE_FORMAT(hss.sb_hotel_ser_start_time,'%l:%i %p') as service_due_time,
 				b.sb_guest_firstName,hss.sb_hotel_service_status, b.sb_guest_lastName,hrs.sb_hotel_guest_booking_id,
-				IF(hrs.sb_hotel_requst_ser_id != '','request', 'request') as service_type
+				IF(hrs.order_details = '0','request', 'order') as service_type
 				FROM `sb_hotel_request_service` as hrs
 				JOIN sb_hotel_services_status as hss
 				ON hrs.`sb_hotel_requst_ser_id` = hss.sb_hotel_requst_ser_id
@@ -18,14 +18,27 @@ class Tasks_model extends CI_Model
 				ORDER BY hss.sb_hotel_ser_start_date DESC, hss.sb_hotel_ser_start_time DESC;";
 		$query = $this->db->query($qry);
 		$data = $query->result_array();
+		//print_r($data);die;
 		if(count($data)>0)
 		{
 			for ($i=0; $i < count($data); $i++) { 
-				$child = $this->getChildServiceDetails($data[$i]['sb_hotel_requst_ser_id']);
 				$data[$i]['sb_child_servcie_name'] = '';
-				if(count($child)>0)
+				if($data[$i]['service_type'] == 'order')
 				{
-					$data[$i]['sb_child_servcie_name'] = $child[0]['sb_child_servcie_name'];
+					$data[$i]['orderDetails'] = array();
+					$orderDetails = $this->getOrderDetails($data[$i]['sb_hotel_requst_ser_id']);
+					if(count($orderDetails)>0)
+					{
+						$data[$i]['orderDetails'] = $orderDetails;
+					}
+				}
+				else
+				{
+					$child = $this->getChildServiceDetails($data[$i]['sb_hotel_requst_ser_id']);
+					if(count($child)>0)
+					{
+						$data[$i]['sb_child_servcie_name'] = $child[0]['sb_child_servcie_name'];
+					}
 				}
 			}			
 		}
@@ -64,7 +77,7 @@ class Tasks_model extends CI_Model
 			}
 		}
 
-		if(count($data)>0)
+		/*if(count($data)>0)
 		{
 			for ($i=0; $i < count($data); $i++) { 
 				$child = $this->getChildServiceDetails($data[$i]['sb_hotel_requst_ser_id']);
@@ -72,6 +85,29 @@ class Tasks_model extends CI_Model
 				if(count($child)>0)
 				{
 					$data[$i]['sb_child_servcie_name'] = $child[0]['sb_child_servcie_name'];
+				}
+			}			
+		}*/
+		if(count($data)>0)
+		{
+			for ($i=0; $i < count($data); $i++) { 
+				$data[$i]['sb_child_servcie_name'] = '';
+				if($data[$i]['service_type'] == 'order')
+				{
+					$data[$i]['orderDetails'] = array();
+					$orderDetails = $this->getOrderDetails($data[$i]['sb_hotel_requst_ser_id']);
+					if(count($orderDetails)>0)
+					{
+						$data[$i]['orderDetails'] = $orderDetails;
+					}
+				}
+				else
+				{
+					$child = $this->getChildServiceDetails($data[$i]['sb_hotel_requst_ser_id']);
+					if(count($child)>0)
+					{
+						$data[$i]['sb_child_servcie_name'] = $child[0]['sb_child_servcie_name'];
+					}
 				}
 			}			
 		}
@@ -151,7 +187,7 @@ class Tasks_model extends CI_Model
 					on b.sb_child_service_id = c.sb_child_service_id
 					WHERE a.sb_hotel_requst_ser_id = '$id';";
 					$query = $this->db->query($qry);
-			
+			return $query->result_array();
 		}
 		else
 		{
@@ -163,10 +199,39 @@ class Tasks_model extends CI_Model
 			$result[0]['sb_sub_child_service_name'] = '';
 			return $result; 
 		}
+	}
 
-		
-		
+	/**
+	 * This model will provide requested oder detail.
+	 * return type- 
+	 * created on - 20th AUG 2015;
+	 * created by - Akshay Patil;
+	 * updated on - 
+	 * updated by - 
+	 */
+	public function getOrderDetails($sb_hotel_requst_ser_id)
+	{
+		$qry = "SELECT a.order_placed_id,a.quantity,a.price,
+				b.sb_sub_child_service_name, b.sb_sub_child_service_details
+				from sb_customer_order_placed as a
+				JOIN sb_paid_services as b
+				ON a.sub_child_services_id = b.sub_child_services_id
+				WHERE a.sb_hotel_requst_ser_id = '$sb_hotel_requst_ser_id'
+				AND a.is_temp_delete = '0'";
+		$query = $this->db->query($qry);
 		return $query->result_array();
 	}
+
+	public function reject_order_item($order_placed_id)
+	{
+		$data = array(
+               'is_temp_delete' => '1'
+            );
+
+		$this->db->where('order_placed_id', $order_placed_id);
+		$this->db->update('sb_customer_order_placed', $data);
+		return 1; 
+	}
+
 }
 ?>	
