@@ -16,7 +16,7 @@ class User_order_model extends CI_Model
 				AND h.sb_hotel_service_status !='rejected'";
 		$query = $this->db->query($qry);
 		$data = $query->result_array();		
-		// echo $qry; die();				 
+			 
 			if(count($data))
 			{
 				for ($i=0, $j=0; $i < count($data) ; $i++)
@@ -46,7 +46,6 @@ class User_order_model extends CI_Model
 
 	public function place_order_details($data)
 	{
-		//print_r($user_order);die;
 		$this->db->insert_batch('sb_customer_order_placed', $data);
 		return 1; 
 	}

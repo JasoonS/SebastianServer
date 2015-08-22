@@ -82,15 +82,6 @@ class User_model extends CI_Model
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
-
-	// function store_log($data)
-	// {
-	// 	$data1 = array(
-	// 		'data'=>$data);
-	// 	$qry = $this->db->insert('log_entry', $data1); 
-	// 	return 1;
-
-	// }
 		
 }
 ?>	

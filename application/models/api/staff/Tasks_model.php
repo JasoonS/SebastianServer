@@ -18,7 +18,6 @@ class Tasks_model extends CI_Model
 				ORDER BY hss.sb_hotel_ser_start_date DESC, hss.sb_hotel_ser_start_time DESC;";
 		$query = $this->db->query($qry);
 		$data = $query->result_array();
-		//print_r($data);die;
 		if(count($data)>0)
 		{
 			for ($i=0; $i < count($data); $i++) { 
