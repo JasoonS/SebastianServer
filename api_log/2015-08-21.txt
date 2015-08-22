@@ -1,2 +1,0 @@
-{"UNIQUE_ID":"Vdb2J38AAQEAAAwtr0sAAAAD","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/staff\/tasks\/get_weekly_tasks","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.90 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_parent_service_id":"1","date":"2015-08-20","sb_hotel_id":"1"}}
-
