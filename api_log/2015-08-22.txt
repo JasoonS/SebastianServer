@@ -1,4 +1,0 @@
-{"UNIQUE_ID":"VdgFpX8AAQEAAA@y9PEAAAAL","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/customer\/User_order\/get_order_record","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.90 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_hotel_guest_booking_id":"1"}}
-
-{"UNIQUE_ID":"VdgFxn8AAQEAAAuIef8AAAAA","HTTP_ORIGIN":"chrome-extension:\/\/fdmmgilgnpjigdojojpjoooidkmcomcm","REQUEST_URI":"\/sebastian-admin-panel\/api\/customer\/User_order\/get_order_record","HTTP_USER_AGENT":"Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/42.0.2311.90 Safari\/537.36","REMOTE_ADDR":"127.0.0.1","REQUEST":{"sb_hotel_guest_booking_id":"1"}}
-

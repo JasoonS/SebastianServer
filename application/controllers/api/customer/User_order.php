@@ -166,7 +166,7 @@ class User_order extends CI_Controller
 				else
 				{
 					$data = $this->Hotel_service_model->place_service($hrs[$l], $hss[$l]);
-					$myTempArry = $user_order[$l];
+					
 					for ($m=0; $m < count($user_order[$l]); $m++) { 
 						$user_order[$l][$m]['sb_hotel_requst_ser_id'] = $data;
 					}
@@ -224,12 +224,8 @@ class User_order extends CI_Controller
 									);
 								$this->load->library('api/Android_push');
 								$val1 = $this->android_push->push_notification($pushdata);
-							}
-							
+							}							
 						}
-						
-						return 1;
-						//response_ok();
 					}
 				}
 			}
@@ -246,16 +242,20 @@ class User_order extends CI_Controller
 
 
 	/**
-	 * This function will get All restraunt for the Hotel
+	 * This function will get All restaurant for the Hotel
 	 * return type- 
 	 * created on - 22st aug 2015;
 	 * updated on - 
 	 * created by - Akshay Patil;
 	 * updated by - 
 	 */
-	public function get_hotel_restraunt()
+	public function get_hotel_restaurant()
 	{
 		$sb_hotel_id = $this->input->post('sb_hotel_id');
-		
+		$hotel_restaurant = $this->User_order_model->get_hotel_restaurant($sb_hotel_id);
+		$result = array(
+			'result' => $hotel_restaurant
+		);
+		response_ok($result);
 	}
 }	

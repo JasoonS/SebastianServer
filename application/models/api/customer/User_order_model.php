@@ -49,5 +49,14 @@ class User_order_model extends CI_Model
 		$this->db->insert_batch('sb_customer_order_placed', $data);
 		return 1; 
 	}
+
+	public function get_hotel_restaurant($sb_hotel_id)
+	{
+		$sql = "SELECT * FROM sb_hotel_restaurant
+				WHERE `sb_hotel_id` = '$sb_hotel_id'
+				AND `is_delete` = '0'";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
 }
 ?>	
