@@ -1,7 +1,7 @@
 <?php
 /* Model handles Common operations For Ajax Datatable (For Single Table)
  */
-Class Subchildservices_model extends CI_Model
+Class Guestgrid_model extends CI_Model
 {
 	function __construct()
 	{
@@ -12,13 +12,12 @@ Class Subchildservices_model extends CI_Model
 	 * @param @string,@int,@int,@array
 	 * return @array on success and False on Fail
 	 */
-	function get_datatables($tablename,$orderkey,$orderdir,$columns,$where_column="",$where_value="")
+	function get_datatables($tablename,$orderkey,$orderdir,$columns)
 	{
-		$this->_get_datatables_query($tablename,$orderkey,$orderdir,$columns,$where_column,$where_value);
+		$this->_get_datatables_query($tablename,$orderkey,$orderdir,$columns);
 		if($this->input->post('length') != -1)
 		$this->db->limit($this->input->post('length'), $this->input->post('start'));
 		$query = $this->db->get();
-		//echo $this->db->last_query();
 		return $query->result();
 	}
 	/* Method To Prepare Query To Get Resultset
@@ -26,26 +25,25 @@ Class Subchildservices_model extends CI_Model
 	 * @param @string,@int,@int,@array
 	 * return @string on success and False on Fail
 	 */
-	private function _get_datatables_query($tablename,$orderkey,$orderdir,$columns,$where_column='',$where_value='')
+	private function _get_datatables_query($tablename,$orderkey,$orderdir,$columns)
 	{
 		$this->db->from($tablename);
-		if($where_column != ''){
-		$this->db->where("($where_column= '".$where_value."')", NULL, FALSE);
-		}
-		
 		$i = 0;
+		$hotel_id =$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->db->where("(sb_hotel_id='$hotel_id' )", NULL, FALSE);
 		$searchArray =$this->input->post('search');
 		if(isset($searchArray['value'])){
-		
-				$this->db->where("(`sub_child_services_id` LIKE '%".$searchArray['value']."%' ESCAPE '!'
-							OR  `sb_sub_child_service_name` LIKE '%".$searchArray['value']."%' ESCAPE '!'
-							)",NULL,FALSE);
+				$this->db->where("(`sb_guest_lastName` LIKE '%".$searchArray['value']."%' ESCAPE '!'
+							OR  `sb_guest_firstName` LIKE '%".$searchArray['value']."%' ESCAPE '!'
+							OR  `sb_guest_email` LIKE '%".$searchArray['value']."%' ESCAPE '!'
+							OR  `sb_guest_contact_no` LIKE '%".$searchArray['value']."%' ESCAPE '!'
+							OR  `sb_guest_rooms_alloted` LIKE '%".$searchArray['value']."%')",NULL,FALSE);
 				}
 		foreach ($columns as $item) 
 		{
 		    $searchArray =$this->input->post('search');
-		   // if(isset($searchArray['value']))
-				//($i===0) ? $this->db->like($item, $searchArray['value']) : $this->db->or_like($item, $searchArray['value']);
+		    /*if(isset($searchArray['value']))
+				($i===0) ? $this->db->like($item, $searchArray['value']) : $this->db->or_like($item, $searchArray['value']);*/
 			$column[$i] = $item;
 			$i++;
 		}
@@ -63,9 +61,9 @@ Class Subchildservices_model extends CI_Model
 	 * @param @string,@int,@int,@array
 	 * return int 
 	 */
-    function count_filtered($tablename,$orderkey,$orderdir,$columns,$where_column='',$where_value='')
+    function count_filtered($tablename,$orderkey,$orderdir,$columns)
 	{
-		$this->_get_datatables_query($tablename,$orderkey,$orderdir,$columns,$where_column,$where_value);
+		$this->_get_datatables_query($tablename,$orderkey,$orderdir,$columns);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
@@ -74,13 +72,11 @@ Class Subchildservices_model extends CI_Model
 	 * @param @string,@int,@int,@array
 	 * return int 
 	 */
-	public function count_all($tablename,$orderkey,$orderdir,$columns,$where_column='',$where_value='')
+	public function count_all($tablename,$orderkey,$orderdir,$columns)
 	{
-	    if($where_column != ''){
-		$this->db->where("($where_column= '".$where_value."')", NULL, FALSE);
-		} 
 		$this->db->from($tablename);
-		
+		$hotel_id =$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->db->where("(sb_hotel_id='$hotel_id' )", NULL, FALSE);
 		return $this->db->count_all_results();
 	}
 }//End Of Common Model

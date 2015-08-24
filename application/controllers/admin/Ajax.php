@@ -72,7 +72,7 @@ class Ajax extends CI_Controller
 				$this->update_hotel_services();
 				break;
 			}
-			//We have used this for vendor grid
+			//We have used this for vendor grid.
 			case 9 :{
 				$output=$this->ajax_vendor_list();
 				//output to json format
@@ -80,13 +80,13 @@ class Ajax extends CI_Controller
 				break;
 			}
 			
-			//This case is to get in vendorname is not repeating
+			//This case is to get in vendorname is not repeating.
 			case 10:{
 			    $output=$this->Vendor_model->find_vendor($this->input->post('vendorname'));
 				echo json_encode($output);
 				break;
 			}
-			//This case is to insert vendor
+			//This case is to insert vendor.
 			case 11:{
 			    $insertData=array(
 						  "vendor_name"=>$this->input->post('vendorname'),
@@ -105,35 +105,44 @@ class Ajax extends CI_Controller
 				break;
 			}
 
-			//This case is to get in vendorname is not repeating for edit
+			//This case is to get in vendorname is not repeating for edit.
 			case 12:{
 			    $output=$this->Vendor_model->find_vendor_edit($this->input->post('vendorname'),$this->input->post('vendor_id'));
 				echo json_encode($output);
 				break;
 			}
 			
-			//This case is to edit vendor
+			//This case is to edit vendor.
 			case 13:{
 				$output=$this->edit_vendor();
 			    echo json_encode($output);
 				break;
 			}
-			//This case is to edit vendor/Soft Delete Or Recover Vendor
+			//This case is to edit vendor/Soft Delete Or Recover Vendor.
 			case 14:{
 			    $output=$this->change_vendor_status();
 				echo json_encode($output);
 				break;
 				 
 			}
-			//This case is to getServices List
+			//This case is to getServices List.
 			case 15:{
 			    $output=$this->get_service_list();
 				echo json_encode($output);
 				//echo json_encode($_POST);
 				break;	 
 			}
+			//This case is to create guest.
 			case 16:{
 				$this->save_guest_data();
+				break;
+			}
+			//This case is to show all guest list.
+			case 17:{
+				$columnnames=['sb_hotel_guest_booking_id','sb_hotel_id','sb_guest_reservation_code','sb_guest_firstName','sb_guest_lastName','sb_guest_email','sb_guest_contact_no','sb_guest_check_in_date','sb_guest_check_out_date','sb_guest_rooms_alloted','sb_guest_created_on'];
+				$output=$this->ajax_guest_list('sb_hotel_guest_bookings',$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames);
+				echo json_encode($output);
+				break;
 			}
 			default:{
 			}
@@ -324,8 +333,6 @@ class Ajax extends CI_Controller
 						'<a class="btn btn-sm btn-dark btn-round" href="'.$serviceurl.'" title="View/Edit" >Services</a>';
 			}
 			$data[] = $row;
-			
-			
 		}
 		$output = array(
 					"draw" => $this->input->post("draw"),
@@ -401,9 +408,7 @@ class Ajax extends CI_Controller
 		{
 			$child_id 	= explode('_',$this->input->post('chkBoxArr')[$cnt]['val']);
 			$check_val	= explode('_',$this->input->post('chkBoxArr')[$cnt]['isChecked']);
-
 			$data       = array('sb_is_service_in_use' => $check_val[0]);
-
 			$this->db->where('sb_hotel_id',$this->input->post('hotelId'));
 			$this->db->where('sb_child_service_id',$child_id[1]);
 			$this->db->update('sb_hotel_service_map',$data);
@@ -429,13 +434,8 @@ class Ajax extends CI_Controller
 	function save_guest_data() 
 	{
 		$this->load->model('Guest_model');
-
 		$hotel_id 			= $this->session->logged_in_user->sb_hotel_id;
-
 		$temp_date			= explode('-',$this->input->post('inoutdates'));
-
-		
-
 		$booking_array  = array('sb_hotel_id' 			=> $hotel_id,
 						   'sb_guest_firstName' 		=> $this->input->post('firstname'),
 						   'sb_guest_lastName'			=> $this->input->post('lastname'),
@@ -447,12 +447,9 @@ class Ajax extends CI_Controller
 						   );
 		// Saving new guest booking
 		$save_guest_booking 	= $this->Guest_model->insert_guest_booking($booking_array);
-
 		// Generating confirmation string 
 		$generate_confm_id		= $this->generate_confirmation_id($save_guest_booking,$hotel_id);
-
-		$insert_confirmation_id	= $this->Guest_model->update_guest_reservation_code($save_guest_booking,$generate_confm_id);
-
+		//$insert_confirmation_id	= $this->Guest_model->update_guest_reservation_code($save_guest_booking,$generate_confm_id);
 		echo $generate_confm_id;
 	}
 
@@ -464,11 +461,7 @@ class Ajax extends CI_Controller
 	function generate_confirmation_id($last_booking_id = null , $hotel_id = null)
 	{
 		$confm_string 		 	 = '#';
-
-
 		$guest_last_booking_data = $this->Guest_model->select_guest_booking($last_booking_id,$hotel_id);
-
-
 		if(!empty($guest_last_booking_data[0]))
 		{
 			foreach($guest_last_booking_data[0] as $key => $val)
@@ -479,10 +472,51 @@ class Ajax extends CI_Controller
 				}					
 			}
 		}
-
 		$confm_string		.= "-".$last_booking_id;
-
 		return $confm_string;
+	}
+
+	public function ajax_guest_list($tablename,$orderkey,$orderdir,$columns)
+	{
+	    $this->load->model('Guestgrid_model');
+		$list = $this->Guestgrid_model->get_datatables($tablename,$orderkey,$orderdir,$columns);
+		$data = array();
+		$no =$this->input->post('start');
+		foreach ($list as $guest) {
+			$no++;
+			$row = array();
+			$row[]				= $guest->sb_hotel_guest_booking_id;
+			$row[] 				= $guest->sb_guest_lastName;
+			$row[] 				= $guest->sb_guest_firstName;
+			$row[] 				= $guest->sb_guest_email;
+			$row[] 				= $guest->sb_guest_contact_no;
+			$row[]				='<span class="label label-warning"><a href="javascript:void(0)">'. $guest->sb_guest_reservation_code.'</a></span>';
+			$row[] 				= $guest->sb_guest_rooms_alloted;
+			$row[]				='<a class="btn btn-sm btn-dark btn-round" id="restore" href="#" onclick="allocateRoom(\''.$guest->sb_guest_reservation_code.'\','.$guest->sb_guest_rooms_alloted.');" data-target="#confirm-delete" title="Restore" ><i class="glyphicon glyphicon-save-file"></i>Allocate Rooms</a>';
+
+			/*if($hotel->is_active == '1'){
+				$row[]=	'<a class="btn btn-sm btn-primary" href="'.$editurl.'"  title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
+						'<a class="btn btn-sm btn-warning" href="'.$viewurl.'"  title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
+						'<a class="btn btn-sm btn-danger"  id="delete" href="#" title="Delete" onclick="changehotelstatus('.$hotel->sb_hotel_id.','.$hotel->is_active.');"><i class="glyphicon glyphicon-trash"></i> Delete</a>'.
+						'<a class="btn btn-sm btn-dark btn-round" href="'.$serviceurl.'" title="View/Edit" >Services</a>';
+		    }
+			else{
+				$row[]=	'<a class="btn btn-sm btn-primary" href="'.$editurl.'"   title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
+				        '<a class="btn btn-sm btn-warning" href="'.$viewurl.'"   title="View" ><i class="glyphicon glyphicon-search"></i> View</a>'.
+						'<a class="btn btn-sm btn-dark btn-round" id="restore" href="#" onclick="changehotelstatus('.$hotel->sb_hotel_id.','.$hotel->is_active.');" data-target="#confirm-delete" title="Restore" ><i class="glyphicon glyphicon-save-file"></i>Restore</a>'.
+						'<a class="btn btn-sm btn-dark btn-round" href="'.$serviceurl.'" title="View/Edit" >Services</a>';
+			}*/
+			$data[] = $row;
+		}
+		$output = array(
+					"draw" => $this->input->post("draw"),
+					"recordsTotal" => $this->Guestgrid_model->count_all($tablename,$orderkey,$orderdir,$columns),
+					"recordsFiltered" => $this->Guestgrid_model->count_filtered($tablename,$orderkey,$orderdir,$columns),
+					"data" => $data,
+				 );
+		//output to json format
+		echo json_encode($output);
+		exit;
 	}
 }//End Of Controller Class
 

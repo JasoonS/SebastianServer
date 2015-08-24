@@ -62,5 +62,30 @@ class Guest_model extends CI_Model
 		$this->db->update('sb_hotel_guest_bookings', $data);
 		return $this->db->affected_rows(); 
 	}
-
+	/* Method get allocated rooms 
+	 * in sb_hotel_guest_reservation_attributes
+	 * @param string
+	 * return int
+	 */
+	function get_allocated_rooms($reservation_code,$hotel_id)
+	{
+		$this->db->select('count(*) as roomscount',false);
+		$this->db->where('sb_guest_reservation_code',$reservation_code);
+		$query=$this->db->get('sb_hotel_guest_reservation_attributes');
+		return $query->result_array();
+	}	
+	/* Method get allocated rooms 
+	 * in sb_hotel_guest_reservation_attributes
+	 * @param string
+	 * return int
+	 */
+	function get_if_room_present($room_no,$hotel_id)
+	{
+		$this->db->select('count(*) as roomscount',false);
+		$this->db->where('sb_room_number',$room_no);
+		$this->db->where('sb_hotel_id',$hotel_id);
+		$this->db->where('sb_room_is_deleted','1');
+		$query=$this->db->get('sb_hotel_rooms');
+		return $query->result_array();
+	}	
 }

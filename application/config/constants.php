@@ -118,6 +118,10 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('HOTEL_ADMIN_UPDATION_ERROR','Error in Hotel User Updation.');
  define('CHILD_SERVICE_CREATION_SUCCESS',"Child Services are created successfully excluding services which are already present.");
  define('CHILD_SERVICE_CREATION_FAILURE',"Child Services with same name are already present.");
+ define('HOTEL_SERVICE_CREATION_SUCCESS','Service for your hotel is created Successfully.');
+ define('HOTEL_SERVICE_CREATION_ERROR','Error in service creation for hotel.');
+ define('HOTEL_SERVICE_UPDATION_SUCCESS','Service for your hotel is updated Successfully.');
+ define('HOTEL_SERVICE_UPDATION_ERROR','Error in service updation for hotel.');
  define('FOLDER_BASE_URL','http://localhost/sebastian-admin-panel');
  //define('FOLDER_BASE_URL','http://bizmoapps.com/sebastian');
 
