@@ -74,6 +74,11 @@ class User_order extends CI_Controller
 		$inputArray = $this->input->post('order_details');
 		$order_details = json_decode($inputArray);
 
+		if($sb_hotel_id <= 0 || $sb_hotel_id == '' || $sb_hotel_guest_booking_id == '' || $sb_hotel_guest_booking_id <= 0)
+		{
+			response_fail("Wrong Input");
+		}
+		
 		for ($i=0; $i < count($order_details); $i++) 
 		{
 		
@@ -121,7 +126,7 @@ class User_order extends CI_Controller
 					}
 					$hrs[$j]['sb_guest_allocated_room_no'] = $new_order[$j]['sb_guest_allocated_room_no'];
 					
-					if($new_order[$j]['price'] > 0)
+					if($new_order[$j]['quantity'] > 0)
 					{
 						$temp = array(
 						"sb_parent_service_id" => $order['sb_parent_service_id'],
@@ -136,7 +141,7 @@ class User_order extends CI_Controller
 				}	
 				else
 				{
-					if($new_order[$j]['price'] > 0)
+					if($new_order[$j]['quantity'] > 0)
 					{
 						$temp = array(
 							"sb_parent_service_id" => $order['sb_parent_service_id'],
@@ -175,11 +180,11 @@ class User_order extends CI_Controller
 					if ($data != 0)
 					{
 						
-			 			$token = $sb_hotel_user = $this->Hotel_service_model->get_staff_ids($hrs[$l]['sb_hotel_id'],$hrs[$j]['sb_parent_service_id']);
+			 			$token = $sb_hotel_user = $this->Hotel_service_model->get_staff_ids($hrs[$l]['sb_hotel_id'],$hrs[$l]['sb_parent_service_id']);
 						
 						if (count($token)>0)
 						{
-							$msg = "New service requested from room no : ".$hrs[$j]['sb_guest_allocated_room_no'] ;
+							$msg = "New service requested from room no : ".$hrs[$l]['sb_guest_allocated_room_no'] ;
 							$message = array(
 								"type" => 'request',
 								"message" => $msg,
