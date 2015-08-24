@@ -35,14 +35,16 @@ class Chat extends CI_Controller
 	 */
 	function get_chat()
 	{
+		// print_r($_POST); die();
 		$type = $this->input->post('type');
 		if($type != 'request' AND $type != 'order')
 		{
 			response_fail("ErrorCode#1, Somthing went wrong, Please Logout and login again");
 		}
-		if($type == 'request')
+		if($type == 'request' || $type == 'order')
 		{
 			$sb_hotel_requst_ser_id = $this->input->post('sb_hotel_requst_ser_id');
+			// print_r($sb_hotel_requst_ser_id); die();
 			if($sb_hotel_requst_ser_id == '')
 			{
 				response_fail("ErrorCode#2, Somthing went wrong, Please Logout and login again");
@@ -58,10 +60,10 @@ class Chat extends CI_Controller
 				);
 			response_ok($arr);			
 		}
-		elseif ($type == 'order')
-		{
-			response_fail("This service is not available");
-		}
+		// elseif ($type == 'order')
+		// {
+		// 	response_fail("This service is not available");
+		// }
 		else
 		{
 			response_fail("ErrorCode#2, Somthing went wrong, Please Logout and login again");
