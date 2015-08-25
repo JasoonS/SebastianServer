@@ -47,7 +47,7 @@
 
         <!-- Storing image data soruce !-->
         <?php foreach($parent_services as $parent_service) { ?>
-            <img class="src-image"src="<?php echo base_url() ?>user_data/hotel_service_images/<?php echo $parent_service['sb_parent_service_image']; ?>" />
+            <img class="src-image"src="<?php echo base_url(PARENT_SERVICE_PIC); ?><?php echo "/".$parent_service['sb_parent_service_image']; ?>" />
         <?php } ?>
     </div>
     <footer>
@@ -108,21 +108,16 @@
 
 <script>
 $(document).ready(function(){
-
-   
-    var jsHotelId       = "<?php echo $hotel_id ?>";
-    var jsTmpArr        = [];
+    var jsHotelId       = "<?php echo $this->session->logged_in_user->sb_hotel_id ?>";
+	var jsTmpArr        = [];
     var jsParentId      = '';
     var jqXHR           = '';
-   
-
     // Defining Page Specfic Funcions
     var jsSaveServices = function () {
 
         var jsChkBoxVals    = [];
         var jsTmpObj        = new Object();
-
-       
+   
         $("#idChidServiceContainer .childChkBoxs").each(function (){
 
             var jsObjChkBox         = new Object;
@@ -135,35 +130,23 @@ $(document).ready(function(){
         jsTmpObj.flag       = 8;
         jsTmpObj.chkBoxArr  = jsChkBoxVals;
         jsTmpObj.hotelId    = jsHotelId;
-
-
         // Update Services
         jqXHRSaveService = $.post(ajax_url,jsTmpObj,function( data ){});
-
         jqXHRSaveService.success(function(data)
         {
-           
            $('#idSucessMsg').html("Service updated successfully").fadeIn('slow') //also show a success message 
         });
     }
-
-
-    
-
 	$('a[id^="idParentService"]').on('click',function(){
 
 		jsTmpArr           = this.id.split('_');
         jsParentId         = jsTmpArr[1];
         jsParentName       = jsTmpArr[2];
-
-       
         //Creating object properties
         var jsTmpObj       = new Object();
         jsTmpObj.flag      = 7;
         jsTmpObj.parentId  = jsParentId;
         jsTmpObj.hotelId   = jsHotelId;
-      
-
         jqXHR = $.post(ajax_url,jsTmpObj,function( data ){});
 
         jqXHR.done(function(data)

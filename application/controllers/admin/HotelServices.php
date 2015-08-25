@@ -23,18 +23,17 @@ Class HotelServices extends CI_Controller
 		$this->load->model('Services_model');
 		$this->load->helper('admin/utility_helper');
 	}
-
-	public function index()
-	{
-
-	}
-
-	public function edit($hotel_id = '')
+   /* This method is used to render Hotel Services Assigned By SuperAdmin to Hotel and Hotel admin can select or deselect services.
+	* @params void
+	* return view 
+    */
+	public function edit()
 	{
 		
 		$this->data['title'] 				= 'Hotel Services';
 		$this->data['parent_services'] 		= $this->Services_model->get_all_parent_services();
-		$this->data['hotel_id']				= $hotel_id;
+	
+		$this->data['hotel_id']				= $this->session->logged_in_user->sb_hotel_id;
 		$this->template->load('page_tpl', 'parent_service_list_vw',$this->data);
 	}
 
@@ -45,7 +44,6 @@ Class HotelServices extends CI_Controller
 		if($hotel_id == '' && $this->session->logged_in_user->sb_hotel_user_type !== 'u')
 		{
 			$hotel_id = $this->session->logged_in_user->sb_hotel_id;
-			
 		}
 		$child_services_for_this_parent = 	$this->Services_model->get_hotel_child_services_by_parent_service($hotel_id,$parent_service_id);
 	}

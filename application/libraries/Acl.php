@@ -71,14 +71,11 @@ Class Acl
             //$roleSQL = "SELECT * FROM `".DB_PREFIX."role_perms` WHERE `roleID` = " . floatval($role) . " ORDER BY `ID` ASC";
             $this->ci->db->where(array('sb_roleid'=>floatval($role)));
         }
-
-
- 
         $this->ci->db->order_by('sb_role_mod_id','asc');
         $sql = $this->ci->db->get('sb_roles_mod'); //$this->db->select($roleSQL);
         $data = $sql->result();
-
         $assigned_mods = array();
+		
         foreach( $data as $row )
         {
             $pK = $this->getPermKeyFromID($row->sb_mod_id);
@@ -90,6 +87,8 @@ Class Acl
             }
             $assigned_mods[$pK] = array('module_key' => $pK,'inheritted' => true,'value' => $hP,'name' => $this->getPermNameFromID($row->sb_mod_id),'id' => $row->sb_mod_id,'is_parent' => $this->getPermParentFlag($row->sb_mod_id),'parent_id'=> $this->getPermParentId($row->sb_mod_id));
         }
+		//echo "<pre>";
+		//print_r($assigned_mods);exit;
         return $assigned_mods;
     }
 
@@ -117,6 +116,7 @@ Class Acl
         //$strSQL = "SELECT `permName` FROM `".DB_PREFIX."permissions` WHERE `ID` = " . floatval($permID) . " LIMIT 1";
         $this->ci->db->select('sb_mod_name');
         $this->ci->db->where('sb_mod_id',floatval($permID));
+		//$this->ci->db->where('sb_mod_status','1');
         $sql = $this->ci->db->get('sb_modules',1);
         $data = $sql->result();
         return $data[0]->sb_mod_name;
@@ -131,6 +131,7 @@ Class Acl
         //$strSQL = "SELECT * FROM `".DB_PREFIX."user_perms` WHERE `userID` = " . floatval($userID) . " ORDER BY `addDate` ASC";
  
         $this->ci->db->where('sb_hotel_user_id',floatval($userID));
+		$this->ci->db->where('sb_user_mod_val','1');
         $this->ci->db->order_by('sb_user_mod_added_on','asc');
         $sql = $this->ci->db->get('sb_user_modules');
         $data = $sql->result();

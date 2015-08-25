@@ -97,6 +97,11 @@ class Request extends CI_Controller
 				echo json_encode($output);
 				break;
 			}
+			case 13:{
+				$output = $this->allocate_rooms();
+				echo json_encode($output);
+				break;
+			}			
 		}
     }
 	 /* This function returns count of child service with same name
@@ -307,7 +312,7 @@ class Request extends CI_Controller
 		return $allocated_rooms;
 	}
 	
-	/* This function is written to get how many rooms are already allocated to particular guest.
+   /* This function is written to get how many rooms are already allocated to particular guest.
     * input -string 
 	* output -int
 	*/
@@ -317,9 +322,32 @@ class Request extends CI_Controller
 		$this->load->model('Guest_model');
 		$room_availability=$this->Guest_model->get_if_room_present($room_no,$hotel_id);
 		//Check if room is created.
-		
-		
 		return $room_availability;
+	}
+	
+   /* This function allocate room.
+    * input -string 
+	* output -int
+	*/
+	public function allocate_rooms(){
+		$roomsarry=$this->input->post("rooms_array");
+		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->load->model('Guest_model');
+		$rooms=array_unique($roomsarry);
+		$i=0;
+		$data =array();
+		while($i<count($rooms)){
+			$single_array=array(
+									'sb_guest_actual_check_in'=>date('Y-m-d h:i:s'),
+									'sb_guest_reservation_code'=>$this->input->post('reservation_code'),
+									'sb_guest_allocated_room_no'=>$rooms[$i],
+									'sb_guest_terms'=>'1'
+								);	
+			array_push($data,$single_array);					
+			$i++;
+		}
+		$this->Guest_model->allocate_rooms($data);
+		return array("sucess"=>true);
 	}
 }//End Of Controller Class
 

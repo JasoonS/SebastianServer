@@ -26,6 +26,7 @@
 	<script src="<?php echo THEME_ASSETS;  ?>js/jquery.min.js"></script>
     <script src="<?php echo THEME_ASSETS;  ?>js/customjs/constants.js"></script>
 	<script src="<?php echo THEME_ASSETS;  ?>js/nicescroll/jquery.nicescroll.min.js"></script>
+	
 
 
 	 

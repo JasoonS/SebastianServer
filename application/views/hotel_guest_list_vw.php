@@ -152,8 +152,6 @@
             </div>
             
             <div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
-				<button type="button" class="btn btn-danger" id="idAllocatedRooms" onclick="allocate();">Allocate</button>	
 				                              
             </div>
 		 </div>
@@ -356,12 +354,15 @@ $(document).ready(function () {
 							'<label class="col-md-4 col-xs-4 control-label" for="sb_vendorname">Room '+room_no+':</label>'+
 							'<div class="col-md-8 col-xs-8">'+
 							'<input id="sb_room_'+room_no+'" name="sb_room_'+room_no+'" type="text" class="form-control" value="" onblur="checkAvailability(this);">'+
-							'<div id="err_vendorname" class="errorclass" style="display:none"></div>'+
+							'<div id="sb_room_'+room_no+'_err" class="errorclass" style="display:none"></div>'+
 							'</div>'+
 							'</div>';
 					i++;
 				}
 				$("#idAllocateRooms .modal-body").html(innerHtml);
+				$("#idAllocateRooms .modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>'+
+				'<button type="button" class="btn btn-danger" id="idAllocatedRooms" onclick="allocate(\''+reservation_code+'\');">Allocate</button>');	
+				
 				$("#idAllocateRooms").modal('show');
 				rescale();
 			}	
@@ -371,23 +372,40 @@ $(document).ready(function () {
 			}
 		});
 	}
-	function allocate(){
+	function allocate(reservation_code){
 	
 		var roomsToAdd =$('[id^="sb_room_"]');
         var room_no_array=[];
 		var i=0;cnt=1;
 		while(i<roomsToAdd.length){
+			checkAvailability($("#sb_room_"+cnt));
+			i++;
+		}
+		var i=0;
+		while(i<roomsToAdd.length){
 			if($("#sb_room_"+cnt).val() != ""){
 				room_no_array.push($("#sb_room_"+cnt).val());
+				
 			}
 			i++;
 			cnt++
 		}
+		alert(room_no_array.length);
 		if(room_no_array.length == 0){
 			alert("Please Allocate atleast one room.");
 		}
+		else{
+				$.ajax({
+					url: request_url,
+					type:"post",
+					data:{"reservation_code":reservation_code,"rooms_array":room_no_array,"flag":13},
+					dataType:"json",
+					success:function(data){
+						$("#idAllocateRooms").modal('hide');
+					}
+				});
+	        }
 	}
-	
 	function checkAvailability(e){
 		var base_url = request_url;
 		$.ajax({
@@ -396,11 +414,12 @@ $(document).ready(function () {
 		data:{"room_no":$("#"+e.id).val(),"flag":12},
 		dataType:"json",
 		success:function(data){
-			
+			alert(data[0].roomscount);
 			if(data[0].roomscount == 0)
 			{
 				$("#"+e.id).val("");
-				alert("This room is not present");
+				$("#"+e.id+"_err").html("This room is invalid.");
+				$("#"+e.id+"_err").show();
 			}
 		},
 		error:function(){

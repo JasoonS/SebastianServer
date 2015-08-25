@@ -26,8 +26,7 @@ class HotelRooms extends CI_Controller
 	public function index()
 	{
 		$data['action']="admin/hotelRooms/hotelRoomsInsert";
-		//$this->load->view('hotel_rooms_vw',$data);
-		//$data['title']  = 'Room Creation Page';
+		$data['title']  = 'Room Creation Page';
 		$this->template->load('page_tpl','hotel_rooms_vw',$data);
 	}
 	/* Method render add Rooms view to perticulr Hotel If User is super administrator
@@ -37,8 +36,7 @@ class HotelRooms extends CI_Controller
 	 */
 
 	public function hotelRoomsInsert()
-	{
-		//print_r($_POST);		
+	{		
 		$hotelRoomsInsert_data=array(
 			'room_num_from'=>$this->input->post('room_num_from'),
 			'room_num_to'=>$this->input->post('room_num_to'),
