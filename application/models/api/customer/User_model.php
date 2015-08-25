@@ -28,8 +28,15 @@ class User_model extends CI_Model
 		{
 			$sb_hotel_id =$custData[0]['sb_hotel_id'];
 
-			$sql1 = "SELECT * FROM `sb_hotel_parent_services` WHERE `sb_parent_service_id` 
+			/*$sql1 = "SELECT * FROM `sb_hotel_parent_services` WHERE `sb_parent_service_id` 
 					in(SELECT distinct(`sb_parent_service_id`) FROM `sb_hotel_service_map` WHERE `sb_hotel_id` = '$sb_hotel_id')";
+			*/
+			$IMP_PATH = base_url().PARENT_SERVICE_PIC."/";
+			$sql1 = "SELECT `sb_parent_service_id`,`sb_parent_service_name`,
+					CONCAT('$IMP_PATH',`sb_parent_service_image`) as `sb_parent_service_image`,`sb_parent_service_color`,
+					`sb_parent_service_created_on` 
+					FROM `sb_hotel_parent_services` 
+					WHERE `sb_parent_service_id` in(SELECT distinct(`sb_parent_service_id`) FROM `sb_hotel_service_map` WHERE `sb_hotel_id` = '$sb_hotel_id')"
 			$query = $this->db->query($sql1);
 			$services = $query->result_array();
 			if(count($services) == 0)
@@ -40,7 +47,15 @@ class User_model extends CI_Model
 			{
 				$service = $services;
 			}
-			$sql1 = "SELECT * FROM sb_hotels WHERE `sb_hotel_id` = '$sb_hotel_id';";
+			$IMP_PATH = base_url().HOTEL_PIC."/";
+			$sql1 = "SELECT `sb_hotel_id`,`sb_hotel_name`,`sb_hotel_country`,
+				`sb_hotel_city`,`sb_hotel_state`, `sb_hotel_zipcode`,
+				`sb_hotel_address`,`sb_hotel_phone`,`sb_hotel_star`,
+				`sb_hotel_category`,`sb_hotel_created_on`,`sb_hotel_website`,
+				CONCAT('$IMP_PATH',`sb_hotel_pic`) as `sb_hotel_pic`,
+				`sb_hotel_owner`, `sb_property_built_month` ,`sb_hotel_email`,`sb_property_built_year`,`sb_property_open_year`,
+				`is_active` 
+				FROM sb_hotels WHERE `sb_hotel_id` = '$sb_hotel_id';";
 			$query = $this->db->query($sql1);
 			$hotel = $query->result_array();
 			if(count($hotel) == 0)

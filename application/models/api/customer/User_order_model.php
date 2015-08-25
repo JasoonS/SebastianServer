@@ -58,5 +58,16 @@ class User_order_model extends CI_Model
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+
+	public function get_paid_service_status($sub_child_services_id)
+	{
+		$sql = "SELECT `sb_sub_child_price`,`sub_child_services_id`,
+				`sb_is_service_in_use` 
+				FROM `sb_paid_services` 
+				WHERE `sub_child_services_id` 
+				IN ($sub_child_services_id);";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
 }
 ?>	
