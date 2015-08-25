@@ -1,20 +1,4 @@
- <script>
-function form_validate()
-{
-	var old_password=document.getElementById("old_password").value;
-	var new_password=document.getElementById("new_password").value;
-	var conf_password=document.getElementById("conf_password").value;
-	if(new_password!=conf_password)
-	{
-		alert("New and Confirm password not same");
-		return false;
-	}
-
-}
-
- </script>
-<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">
-    
+	<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">    
 	<link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">
@@ -40,9 +24,9 @@ function form_validate()
             </div>
         </div>
         <div class="clearfix"></div>
-        <h4 style="color:red"><?php echo $this->session->flashdata('change_success');
-        echo $this->session->flashdata('change_fail'); ?></h4>
-	    <form class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data" role="form" onsubmit="return form_validate()" name="changePassword_form">
+        <h4 style="color:green"><?php echo $this->session->flashdata('UPLOAD_PROFILEPIC_SUCCESS'); ?></h4>
+     	<h4 style="color:red"><?php echo $this->session->flashdata('UPLOAD_PROFILEPIC_FAIL'); ?></h4>
+	    <form class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data" role="form" name="uploadProfilePic_form">
 		    <div class="row">
 	    		<div class = "col-md-6 col-xs-6 classFormBox">
 	    			<div class="x_panel classRequiredPanel">
@@ -56,31 +40,16 @@ function form_validate()
                     			<label for="sbOldPassword" class="col-xs-4 control-label">Enter Old Password : </label>
 							    <div class="col-xs-6">
 							      <!--<input type="email" class="form-control" id="inputEmail3" placeholder="Email">!-->
-							      	<input type="password" name="old_password" id="old_password" placeholder="Old Password" class="form-control" required></input>
-							    </div>
-							</div>
-							<div class = "form-group classFormInputsBox">
-							    <label for="sbNewPassword" class="col-xs-4 control-label" style="margin-left:0px;">Enter New Password : </label>
-							    <div class="col-xs-6">
-							      <!--<input type="email" class="form-control" id="inputEmail3" placeholder="Email">!-->
-							      	<input type="password" name="new_password" id="new_password" placeholder="New Password" class="form-control" required></input>
-							    </div>
-							</div>
-							<div class = "form-group classFormInputsBox">							
-							    <label for="sbConfPassword" class="col-xs-5 control-label">Enter Confirm Password : </label>
-							    <div class="col-xs-6">
-							      <!--<input type="email" class="form-control" id="inputEmail3" placeholder="Email">!-->
-							      	<input type="password" name="conf_password" id="conf_password" placeholder="Confirm Password" class="form-control" required></input>
+							      	<input type="file" name="sb_hotel_user_pic" id="sb_hotel_user_pic" class="form-control" required></input>
 							    </div>
 							</div>
 							<div class="control-group">
 								<div class="controls">
-									<button id="submit"  class="btn btn-primary btn-lg btn-block">Change Password</button>
+									<button id="submit"  class="btn btn-primary btn-lg btn-block">Upload Image</button>
 								</div>
 							</div>	
-                    		</div>
-                    	</div>
-                    </div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</form>

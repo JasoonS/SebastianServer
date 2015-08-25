@@ -111,6 +111,8 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('ROOMS_CREATION_FAIL','Error in Rooms Creation.');
  define('PASSWORD_CHANGE_SUCCESS','Password Changed Successfully.');
  define('PASSWORD_CHANGE_FAIL','Error in Password Updation.');
+ define('UPLOAD_PROFILEPIC_SUCCESS','Image Uploaded Successfully.');
+ //define('UPLOAD_PROFILEPIC_FAIL','Image Uploading Failed.');
  define('HOTEL_UPDATION_SUCCESS','Hotel Updated Successfully.');
  define('HOTEL_UPDATION_FAIL','Error in Hotel Updation.');
  define('HOTEL_ADMIN_CREATION_SUCCESS','Hotel User Created Successfully.');

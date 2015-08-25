@@ -25,6 +25,11 @@ class ChangePassword extends CI_Controller
 		$this->template->load('page_tpl','change_password_vw',$data);
 	}
 
+	/* Method render Change Password View If User is Hotel Admin
+	 * @param void
+	 * return void
+	 */
+
 	public function change_password(){
 		$old_password=$this->input->post('old_password');
 		$new_password=$this->input->post('new_password');
@@ -42,20 +47,12 @@ class ChangePassword extends CI_Controller
 		else
 		{
 			$this->session->set_flashdata('change_fail',PASSWORD_CHANGE_FAIL);
-		}
-
-		// $r=$this->changepassword_model->change_password($old_password,$new_password);	
-		// //echo $r;
-		// if($r!=0)
-		// {
-		// 	$this->session->set_flashdata('change_success',PASSWORD_CHANGE_SUCCESS);
-		// 	//redirect('admin/changePassword');
-		// }	
-		// else
-		// {
-		// 	$this->session->set_flashdata('change_fail',PASSWORD_CHANGE_FAIL);
-		// 	//redirect('admin/changePassword');
-		// }	
+		}		
 		redirect('admin/changePassword');
 	}
+
+/* Method render Change Password after submission of form changePassword_form
+	 * @param old_password, new_password
+	 * return void
+	 */
 }
