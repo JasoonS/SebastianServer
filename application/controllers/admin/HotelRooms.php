@@ -37,9 +37,19 @@ class HotelRooms extends CI_Controller
 
 	public function hotelRoomsInsert()
 	{		
+		$room_num_from=$this->input->post('room_num_from');
+		$room_num_to=$this->input->post('room_num_to');
+		if($room_num_from <10)
+		{
+			$room_num_from=$room_num_from%10;
+		}
+		if($room_num_to <10)
+		{
+			$room_num_to=$room_num_to%10;
+		}		
 		$hotelRoomsInsert_data=array(
-			'room_num_from'=>$this->input->post('room_num_from'),
-			'room_num_to'=>$this->input->post('room_num_to'),
+			'room_num_from'=>$room_num_from,
+			'room_num_to'=>$room_num_to,
 			'room_num_prefix'=>$this->input->post('room_num_prefix'),
 			'room_num_postfix'=>$this->input->post('room_num_postfix')
 		);
