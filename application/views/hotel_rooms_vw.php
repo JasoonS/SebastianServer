@@ -16,6 +16,7 @@
 <script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-formhelpers.min.js"></script>
 <script>
  $("#room_num_prefix").on("keydown",function(e){return e.which !==32;});
  $("#room_num_postfix").on("keydown",function(e){return e.which !==32;});
@@ -65,23 +66,23 @@ function formvalidate()
 		                </div>
 		                <div class = "x_content">
 
-                		<div class = "form-group classFormInputsBox">
+                		<div class = "form-group classFormInputsBox" style="height:34px;">
 					<!-- <div class="form-group" style="">
 					<label for="room_num">Room No.:</label>
 					&nbsp;&nbsp;&nbsp;<br> -->
 							<label for="room_num_from" class="col-xs-4 control-label">Room No.: From:</label>
-							<div class="col-xs-2">
-							<input type="text" class="form-control" data-min="1" data-max="50" data-zeros="true" name="room_num_from" id="room_num_from" required>
+							<div class="col-xs-4">
+							<input type="text" class="form-control bfh-number" data-min="1" data-max="50" data-zeros="true" name="room_num_from" id="room_num_from" required>
 							</div>
-						<!-- </div>	
-						<div class = "form-group classFormInputsBox"> -->
-
-							<label for="room_num_to" class="col-xs-1 control-label">To:</label>
-							<div class="col-xs-2">
-							<input type="text" class="form-control" data-min="1" data-max="50" data-zeros="true" name="room_num_to" id="room_num_to" required>
+						</div>	
+						<div class = "form-group classFormInputsBox" style="height:34px;">
+							<!-- <br/><br/> -->
+							<label for="room_num_to" class="col-xs-4 control-label">To:</label>
+							<div class="col-xs-4">
+							<input type="text" class="form-control bfh-number" data-min="1" data-max="50" data-zeros="true" name="room_num_to" id="room_num_to" required>
 							</div>
 						</div>
-						<br/><br/>
+						<!-- <br/><br/> -->
 						<div class = "form-group classFormInputsBox">
 							<label for="room_num_prefix" class="col-xs-4 control-label">Prefix</label>
 							<div class="col-xs-6">
