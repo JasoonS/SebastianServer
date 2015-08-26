@@ -1,0 +1,1 @@
+ALTER TABLE `sb_customer_order_placed` ADD `sb_customer_order_duedate` DATE NOT NULL AFTER `price`, ADD `sb_customer_order_duetime` TIME NOT NULL AFTER `sb_customer_order_duedate`, ADD `sb_customer_order_comment` TEXT NOT NULL AFTER `sb_customer_order_duetime`;

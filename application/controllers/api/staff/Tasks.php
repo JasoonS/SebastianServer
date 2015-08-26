@@ -260,8 +260,19 @@ class Tasks extends CI_Controller {
 		}
 		else
 		{
-			$val = $this->Tasks_model->reject_order_item($order_placed_id);
-			response_ok();
+			$res = $this->Tasks_model->check_order_item($order_placed_id);
+			if($res === 1)
+			{
+				response_fail("This item is already rejected");
+			}
+			elseif ($res === 0) {
+				$val = $this->Tasks_model->reject_order_item($order_placed_id);
+				response_ok();
+			}
+			else
+			{
+				response_fail("Please try after some time");
+			}
 		}
 	}
 }
