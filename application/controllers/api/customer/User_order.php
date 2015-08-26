@@ -263,4 +263,22 @@ class User_order extends CI_Controller
 		);
 		response_ok($result);
 	}
+
+	/**
+	 * This function will provide latest price and status of paid services
+	 * return type- 
+	 * created on - 24st aug 2015;
+	 * updated on - 
+	 * created by - Akshay Patil;
+	 * updated by - 
+	 */
+	public function get_paid_service_status()
+	{
+		$sub_child_services_id = trim($this->input->post('sub_child_services_id'));
+		$paid_service = $this->User_order_model->get_paid_service_status($sub_child_services_id);
+		$result = array(
+			'result' => $paid_service
+		);
+		response_ok($result);
+	}
 }	

@@ -107,6 +107,12 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('HOTEL_SELECT_SERVICES_SUCCESS','Hotel Services Updated Successfully.');
  define('HOTEL_CREATION_SUCCESS','Hotel Created Successfully.');
  define('HOTEL_CREATION_FAIL','Error in Hotel Creation.');
+ define('ROOMS_CREATION_SUCCESS','Rooms Created Successfully.');
+ define('ROOMS_CREATION_FAIL','Error in Rooms Creation.');
+ define('PASSWORD_CHANGE_SUCCESS','Password Changed Successfully.');
+ define('PASSWORD_CHANGE_FAIL','Error in Password Updation.');
+ define('UPLOAD_PROFILEPIC_SUCCESS','Image Uploaded Successfully.');
+ //define('UPLOAD_PROFILEPIC_FAIL','Image Uploading Failed.');
  define('HOTEL_UPDATION_SUCCESS','Hotel Updated Successfully.');
  define('HOTEL_UPDATION_FAIL','Error in Hotel Updation.');
  define('HOTEL_ADMIN_CREATION_SUCCESS','Hotel User Created Successfully.');
@@ -118,7 +124,12 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('HOTEL_ADMIN_UPDATION_ERROR','Error in Hotel User Updation.');
  define('CHILD_SERVICE_CREATION_SUCCESS',"Child Services are created successfully excluding services which are already present.");
  define('CHILD_SERVICE_CREATION_FAILURE',"Child Services with same name are already present.");
+ define('HOTEL_SERVICE_CREATION_SUCCESS','Service for your hotel is created Successfully.');
+ define('HOTEL_SERVICE_CREATION_ERROR','Error in service creation for hotel.');
+ define('HOTEL_SERVICE_UPDATION_SUCCESS','Service for your hotel is updated Successfully.');
+ define('HOTEL_SERVICE_UPDATION_ERROR','Error in service updation for hotel.');
  define('FOLDER_BASE_URL','http://localhost/sebastian-admin-panel');
+ define('FOLDER_ICONS_URL','http://localhost/sebastian-admin-panel/user_data/');
  //define('FOLDER_BASE_URL','http://bizmoapps.com/sebastian');
 
 

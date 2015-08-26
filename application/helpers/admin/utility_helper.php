@@ -101,7 +101,6 @@ function getAllHotels($format='array')
 	}
 }
 
-
 /*
 	This function gives available User Types according to Logged in User Type.
 	If He is Super administrator He cannot see staff type(cannot add staff)
@@ -147,7 +146,8 @@ function upload_image($folderName,$fieldName)
 			else
 			{
 				$error = array('error' => $CI->upload->display_errors());
-				return $error;
+				//return $error;
+				return "";
 			}
 	}
 
@@ -255,10 +255,8 @@ function redirectWithErr($err_level,$redirect_controller)
 function check_user_access_level()
 {
 	$CI = & get_instance();
-
 	// Get the user's ID and add it to the config array
 	$config = array('userID'=>$CI->session->userdata('logged_in_user')->sb_hotel_user_id);
-
 	// Load the ACL library and pas it the config array
 	$CI->load->library('acl',$config);
 }

@@ -13,10 +13,10 @@
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
-                        <li><a href="javascript:;">  Profile</a>
+                        <li><a href="<?php echo base_url()."admin/uploadProfilePic"?>">  Profile</a>
                         </li>
                         <li>
-                            <a href="javascript:;">
+                            <a href="<?php echo base_url()."admin/changePassword"?>">
                                 <span class="badge bg-red pull-right">50%</span>
                                 <span>Settings</span>
                             </a>

@@ -400,7 +400,14 @@ class User extends CI_Controller
 				$hotelusername=$data['sb_hotel_username'];
 				$data['password']=$password;
 				$data['hotelusername']=$hotelusername;
-				$message = $this->load->view('email/accountcreation',$data,TRUE);
+				
+				if($data['sb_hotel_user_type'] == 's')
+				{
+					$message = $this->load->view('email/staffaccountcreation',$data,TRUE);
+				}
+				else{
+					$message = $this->load->view('email/accountcreation',$data,TRUE);
+				}	
 				sendMail('no-reply@sebastian.com',$data[sb_hotel_useremail],"Administrator Account Creation",$message);
 				//For Time being we are sending an email to developer.
 				//sendMail('no-reply@sebastian.com',"kalyani.joshi@eeshana.com","Administrator Account Creation",$message);
@@ -517,7 +524,6 @@ class User extends CI_Controller
 	    {
 			$this->data['title'] = LABEL_1;
 			$this->data['userinfo']=$this->User_model->get_user_info($user_id);
-		
 			$this->data['hotelusertypes'] = getAvailableHotelUserTypes();
 			$this->data['sb_hotel_name']=$this->Hotel_model->get_hotel_name($this->data['userinfo']->sb_hotel_id);
 			$this->data['designation_list']=$this->User_model->get_all_designations();
@@ -681,8 +687,7 @@ class User extends CI_Controller
 						$count++;
 					}
 					$this->User_model->set_user_permissions($user_module_array);
-					$child_services=$this->Services_model->get_hotel_child_services_by_parent_service($data['sb_hotel_id'],$data['sb_parent_service_id']);	
-               
+					$child_services=$this->Services_model->get_hotel_child_services_by_parent_service($data['sb_hotel_id'],$data['sb_parent_service_id']);	      
 				    $i=0;
 					$insert_user_services=array();
 					while($i<count($child_services)){
@@ -695,7 +700,6 @@ class User extends CI_Controller
 						array_push($insert_user_services,$singlearray);
 						$i++;
 					}
-					
 					$this->Services_model->set_services($insert_user_services,$user_id);	
 				}
 				if($data['sb_hotel_user_type'] == 's'){

@@ -4,7 +4,13 @@ class Hotel_service_model extends CI_Model
 
 	function get_submenu($sb_hotel_id, $sb_parent_service_id)
 	{
-		$qry =  "SELECT DISTINCT m.sb_child_service_id,  c.* from sb_hotel_child_services c 
+		$IMP_PATH = base_url().CHILD_SERVICE_PIC."/";
+		$qry =  "SELECT DISTINCT m.sb_child_service_id,
+				c.`sb_child_service_id`,c.`sb_parent_service_id`,
+				c.`sb_child_servcie_name`,c.`sb_child_servcie_detail`,
+				concat('$IMP_PATH',c.child_service_image) as `child_service_image`,
+				c.`sb_child_service_created_on`,c.`is_service`  
+				from sb_hotel_child_services c 
 				join sb_hotel_service_map m ON c.sb_child_service_id = m.sb_child_service_id
 				join sb_hotel_parent_services s ON s.sb_parent_service_id = m.sb_parent_service_id
 				where m.sb_parent_service_id = '$sb_parent_service_id' AND m.sb_hotel_id = '$sb_hotel_id'
@@ -20,7 +26,12 @@ class Hotel_service_model extends CI_Model
 				$id = $data[$i]['sb_child_service_id'];
 				if($sb_parent_service_id == 3 || $sb_parent_service_id == 6)
 				{
-					$qry1 = "SELECT * from sb_paid_services  where sb_hotel_id = '$sb_hotel_id'
+					$IMP_PATH = base_url().SUBCHILD_SERVICE_PIC."/$sb_hotel_id/";
+					$qry1 = "SELECT `sub_child_services_id`,`sb_hotel_id`,
+					`sb_child_service_id`,`sb_sub_child_service_name`,`sb_sub_child_service_details`,
+					concat('$IMP_PATH',sb_sub_child_service_image) as `sb_sub_child_service_image`,
+					`sb_sub_child_price`,`sb_is_service_in_use`,`created_on` 
+					from sb_paid_services  where sb_hotel_id = '$sb_hotel_id'
 					AND sb_child_service_id = '$id' AND sb_is_service_in_use = '1' ";
 				}
 				else
@@ -31,7 +42,12 @@ class Hotel_service_model extends CI_Model
 							AND m.`sb_parent_service_id` = '$sb_parent_service_id' 
 							AND m.`sb_child_service_id` = '$id'
 							AND sb_is_service_in_use = '1'";*/
-					$qry1 = "SELECT * FROM `sb_sub_child_services` WHERE `sb_child_service_id` ='$id'";
+					$IMP_PATH = base_url().SUBCHILD_SERVICE_PIC."/";
+					$qry1 = "SELECT `sub_child_services_id`,`sb_child_service_id`,
+					`sb_sub_child_service_name`,`sb_sub_child_service_details`,`created_on`,
+					concat('$IMP_PATH',sb_sub_child_service_image) as `sb_sub_child_service_image` 
+					FROM `sb_sub_child_services` 
+					WHERE `sb_child_service_id` ='$id'";
 				}			
 				$query = $this->db->query($qry1);
 				$subChildService = $query->result_array();
