@@ -100,11 +100,9 @@ class Restaurants extends CI_Controller
 				$insert_data1['sb_hotel_restaurant_name'] = $this->input->post('sb_rest_name');
 				$insert_data1['sb_hotel_restaurant_details']  = $this->input->post('sb_rest_desc');
 				$sb_hotel_restaurant_id = $this->input->post('sb_hotel_restaurant_id');
-				// print_r($_FILES['sb_rest_img']); 
-				if(!empty($_FILES))
+				
+				if($_FILES['sb_rest_img']['name'] != '')
 				{
-					echo("sam"); die();
-					
 					$this->unlink_images($sb_hotel_restaurant_id,$insert_data['sb_hotel_id']);	
 					$file_ext = strtolower(substr(strrchr($_FILES['sb_rest_img']['name'],'.'),1));
 					
@@ -122,7 +120,7 @@ class Restaurants extends CI_Controller
 						$insert_data1['sb_rest_image'] = $upload['upload_data']['file_name'];
 					}	
 				}
-
+				
 				$r = $this->Restaurant_model->update_rest($insert_data1, $sb_hotel_restaurant_id,$insert_data['sb_hotel_id']);
 				if ($r>0) 
 				{
@@ -147,9 +145,11 @@ class Restaurants extends CI_Controller
 		$img_name = $this->Restaurant_model->get_img($sb_hotel_restaurant_id, $sb_hotel_id);
 		
 		$name = $img_name[0]['sb_rest_image'];
-		
-		echo $path = './uploads/restaurant/'. $name;
-		unlink($path);
+		if($name != '')
+		{	
+			$path = './uploads/restaurant/'. $name;
+			$a = unlink($path);
+		}	
 		return 1;
 	}		
 	
