@@ -18,26 +18,33 @@ class Template
 	 */
 	function load($tpl_view, $body_view = null, $data = null)
 	{
+		 // print_r($tpl_view); echo(" "); // print_r($body_view); echo(" "); print_r($data); echo(" "); die();
 		if ( ! is_null( $body_view ) )
 		{
 			if ( file_exists( APPPATH.'views/'.$tpl_view.'/'.$body_view ) )
 			{
 				$body_view_path = $tpl_view.'/'.$body_view;
+				 // print_r($body_view_path); die();
 			}
 			else if ( file_exists( APPPATH.'views/'.$tpl_view.'/'.$body_view.'.php' ) )
 			{
 				$body_view_path = $tpl_view.'/'.$body_view.'.php';
+				 // print_r($body_view_path); die();
+
 			}
 			else if ( file_exists( APPPATH.'views/'.$body_view ) )
 			{
 				$body_view_path = $body_view;
+				 // print_r($body_view_path);  die();
 			}
 			else if ( file_exists( APPPATH.'views/'.$body_view.'.php' ) )
 			{
 				$body_view_path = $body_view.'.php';
+				// print_r($body_view_path); die();
 			}
 			else
 			{
+				// echo("sam"); die();
 				show_error('Unable to load the requested file: ' . $tpl_name.'/'.$view_name.'.php');
 			}
 			 
