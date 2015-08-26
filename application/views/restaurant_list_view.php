@@ -159,9 +159,13 @@ function createTable(){
         "aoColumnDefs": [
             {
                 'bSortable': false,
-                'aTargets': [0,2]
+                'aTargets': [0,3,4]
+            }, //disables sorting for column one
+			{
+                'visible': false,
+                'aTargets': [0,3]
             } //disables sorting for column one
-        ],
+		],
         "sPaginationType": "full_numbers",
         "dom": 'T<"clear">lfrtip',
     });

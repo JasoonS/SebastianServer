@@ -17,10 +17,10 @@ class Hotelrooms_model extends CI_Model{
 		$data2=array();
 		for($i=$room_num_from;$i<=$room_num_to;$i++)
 		{
-			if($i<10)
-			{
-				$i=str_pad($i,2,0,STR_PAD_LEFT);
-			}
+			// if($i<10)
+			// {
+			// 	$i=str_pad($i,2,0,STR_PAD_LEFT);
+			// }
 			$temp=array(
 			'sb_hotel_id'=>$this->session->userdata('logged_in_user')->sb_hotel_id,
 			'sb_room_number'=>$room_num_prefix.$i.$room_num_postfix

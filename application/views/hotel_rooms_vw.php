@@ -26,7 +26,11 @@
 <script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
+<<<<<<< HEAD
 
+=======
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-formhelpers.min.js"></script>
+>>>>>>> 9a8c93371fc20e18543271013f2c9a3e88667919
 <script>
  $("#room_num_prefix").on("keydown",function(e){return e.which !==32;});
  $("#room_num_postfix").on("keydown",function(e){return e.which !==32;});
@@ -97,9 +101,10 @@ function formvalidate()
 							<label for="room_num_to" class="col-xs-1 control-label">To:</label>
 							<div class="col-xs-2">
 							<input type="text" class="form-control" data-min="1" data-max="50" data-zeros="true" name="room_num_to" id="room_num_to" onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
+
 							</div>
 						</div>
-						<br/><br/>
+						<!-- <br/><br/> -->
 						<div class = "form-group classFormInputsBox">
 							<label for="room_num_prefix" class="col-xs-4 control-label">Prefix</label>
 							<div class="col-xs-6">
