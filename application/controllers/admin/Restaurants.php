@@ -145,8 +145,7 @@ class Restaurants extends CI_Controller
 		$img_name = $this->Restaurant_model->get_img($sb_hotel_restaurant_id, $sb_hotel_id);
 		
 		$name = $img_name[0]['sb_rest_image'];
-		
-		echo $path = './uploads/restaurant/'. $name;
+	
 		unlink($path);
 		return 1;
 	}		
