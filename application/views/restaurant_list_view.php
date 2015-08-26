@@ -104,15 +104,23 @@
 						</div>
 			    </div>
 
-			    <div class = "form-group classFormInputsBox" class="applypadding2">
-					<label class="col-md-4 col-xs-4 control-label" for="sb_rest_img">Restaurant's Image :</label>	
-						<div class="col-md-8 col-xs-8">
-							<input id="sb_rest_img" name="sb_rest_img" type="file" class="form-control"  >
-							<!-- <button id='btn-upload'>Upload</button> -->
-							<div id="sb_rest_img" class="errorclass" style="display:none"></div>
-						</div>
-			    </div>
-				
+			    <div class="form-group classFormInputsBox">
+								<label class="col-md-4 col-xs-4 control-label" for="sb_sub_child_service_image">Restaurant's Picture :</label>
+								<div class="col-md-8 col-xs-8">
+									    <div class="col-xs-6">
+										<input id="sb_sub_child_service_image" name="sb_sub_child_service_image"  type="file" style="display:none"/>
+										<button id='btn-upload'>Upload</button>
+                                        </div>	
+										<div id="id_filePreview" class="col-xs-6">
+										    <?php if(1){ ?>
+												<img id="id_uploadImage" style="width:100%;height:100%" src="<?php?>" alt="your image" />
+											<?php } else { ?>
+												<img id="id_uploadImage" style="width:100%;height:100%" src="#" alt="your image" />
+										    <?php } ?>
+										</div>
+																			
+									</div>
+				</div>
             
             <div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
