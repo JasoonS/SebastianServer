@@ -6,7 +6,7 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class GuestProfiles extends CI_Controller
+class Guestprofiles extends CI_Controller
 {
 	public $data 			= array();
 	public $guest_info		= array();
@@ -38,14 +38,17 @@ class GuestProfiles extends CI_Controller
 	 */
 	public function guest()
 	{
+	    $requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3);
+	
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}
 		if($this->session->logged_in_user->sb_hotel_id)
 		{
 			$this->data['title'] = 'Guest Profiles';
 			$this->data['guest_list']	= $this->Guest_model->get_guest_data($this->session->logged_in_user->sb_hotel_id);
 			$this->template->load('page_tpl', 'hotel_guest_list_vw',$this->data);
-		}else
-		{
-			die('you are not allowed to access this module');
 		}
 	}
 

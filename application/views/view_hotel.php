@@ -16,6 +16,7 @@
 <script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
 <div class="right_col">	
 	<div class="">
 	<legend>View Hotel</legend>

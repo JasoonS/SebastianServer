@@ -86,9 +86,10 @@ class Guest_model extends CI_Model
 		$this->db->where('sb_room_number',$room_no);
 		$this->db->where('sb_hotel_rooms.sb_hotel_id',$hotel_id);
 		$this->db->where('sb_room_is_deleted','0');
-		$this->db->where('(sb_guest_actual_check_out <> "0000-00-00 00:00:00" AND sb_guest_actual_check_out IS NOT NULL)');
+		$this->db->where('is_available','1');
 		$query=$this->db->get();
 		return $query->result_array();
+		
 	}	
 	/* Method to allocate rooms
 	 * @param array

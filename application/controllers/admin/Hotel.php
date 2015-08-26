@@ -27,11 +27,14 @@ class Hotel extends CI_Controller
 
 	public function index()
 	{
+	    $requested_mod = 'hotel';
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}  
 		$this->data['title']  = 'All Hotel List';
 		$this->data['Hotels'] = $this->Hotel_model->get_hotels();
 		$this->template->load('page_tpl','hotel_list_vw',$this->data);
-		//$this->template->load('page_tpl','test_hotel_list_view',$this->data);
-		//$this->template->load('page_tpl','test_page_modal',$this->data);
 	}
 	/* Method render add Hotel View If User is super administrator
 	 * @param void
@@ -40,6 +43,11 @@ class Hotel extends CI_Controller
 	public function add_hotel()
 	{	
 		//Check If User is logged in otherwise redirect to login page.
+		$requested_mod = 'hotel';
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}  
 		$this->data['action']	= "admin/hotel/create_hotel";
 		$this->data['countrylist'] = getCountryList();
 		$this->data['languagelist']=getAllLanguages();
@@ -55,8 +63,12 @@ class Hotel extends CI_Controller
 	 * return void
 	 */
 	public function create_hotel()
-    {
-
+    { 
+		$requested_mod = 'hotel';
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}  
 		$data = $this->input->post();
 		//Verify Hotel Data
 		$this->validation_rules = array(
@@ -151,6 +163,11 @@ class Hotel extends CI_Controller
 	public function view_hotels()
 	{	
 		//Check If User is logged in otherwise redirect to login page.
+		$requested_mod = 'hotel';
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}  
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
 		    {
 				$this->data['title'] = LABEL_1;
@@ -165,6 +182,11 @@ class Hotel extends CI_Controller
 	public function edit_hotel($hotel_id)
 	{	
 		//Check If User is logged in otherwise redirect to login page.
+		$requested_mod = 'hotel';
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}  
 		$this->data['action']			= "admin/hotel/edit_hotel_action/$hotel_id";
 		$this->data['hotel_id']			= $hotel_id;
 		$this->data['hoteldata'] 		= $this->Hotel_model->get_hotel_data($hotel_id); 
@@ -184,6 +206,11 @@ class Hotel extends CI_Controller
 	public function edit_hotel_action($hotel_id)
 	{	
 		$data = $this->input->post();
+		$requested_mod = 'hotel';
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}  
 		$this->validation_rules = array(
 		    array('field'=>'sb_hotel_country','label'=>'Country','rules'=>'required','class'=>'text-danger'),
 		    array('field'=>'sb_hotel_state','label'=>'State','rules'=>'required','class'=>'text-danger'),
@@ -253,6 +280,11 @@ class Hotel extends CI_Controller
 	 */
 	public function view_hotel($hotel_id)
 	{	
+	    $requested_mod = 'hotel';
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}  
 		$this->data['action']	= "admin/hotel/view_hotel/$hotel_id";
 		$this->data['hotel_id']	= $hotel_id;
 		$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 

@@ -1,5 +1,15 @@
 <!-- page content -->
+
 <div class="right_col" role="main">
+ <!-- This is for Success Message.-->
+		<?php if ($this->session->flashdata('category_success')) { ?>
+	        <div class="alert alert-success"> <?= $this->session->flashdata('category_success') ?> </div>
+	    <?php } ?>
+
+		<!-- This is for Generic Error Message.-->
+		<?php if ($this->session->flashdata('category_error')) { ?>
+	    	<div class="alert alert-danger"> <?= $this->session->flashdata('category_error') ?> </div>
+		<?php } ?>
     <div class="">
     	<div class="page-title">
             <div class="title_left">
