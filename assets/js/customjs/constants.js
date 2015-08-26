@@ -11,3 +11,5 @@ var edit_parent_service_url =proj_url+'admin/HotelServices/editParentService';
 var edit_child_service_url =proj_url+'admin/HotelServices/editChildService';
 var edit_sub_child_service_url =proj_url+'admin/HotelServices/editSubChildService';
 var add_child_service_url=proj_url+'admin/HotelServices/addChildServices';
+var restaurant_pic_url = proj_url+'user_data/restaurant_pic';
+

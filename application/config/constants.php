@@ -90,8 +90,8 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  | Creating Custom Specfic Constants
  |--------------------------------------------------------------------------
  */
-  //define('BASE_URL','http://localhost/sebastian-admin-panel/');
-  define('BASE_URL','http://bizmoapps.com/sebastian/');
+  define('BASE_URL','http://localhost/sebastian-admin-panel/');
+  //define('BASE_URL','http://bizmoapps.com/sebastian/');
   define('THEME_ASSETS',BASE_URL.'assets/');
 
  /*
@@ -128,10 +128,10 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('HOTEL_SERVICE_CREATION_ERROR','Error in service creation for hotel.');
  define('HOTEL_SERVICE_UPDATION_SUCCESS','Service for your hotel is updated Successfully.');
  define('HOTEL_SERVICE_UPDATION_ERROR','Error in service updation for hotel.');
- //define('FOLDER_BASE_URL','http://localhost/sebastian-admin-panel');
- define('FOLDER_ICONS_URL','http://bizmoapps.com/sebastian/user_data/');
-//define('FOLDER_ICONS_URL','http://localhost/sebastian-admin-panel/user_data/');
- define('FOLDER_BASE_URL','http://bizmoapps.com/sebastian');
+ define('FOLDER_BASE_URL','http://localhost/sebastian-admin-panel');
+ //define('FOLDER_ICONS_URL','http://bizmoapps.com/sebastian/user_data/');
+define('FOLDER_ICONS_URL','http://localhost/sebastian-admin-panel/user_data/');
+// define('FOLDER_BASE_URL','http://bizmoapps.com/sebastian');
 
 
  /*

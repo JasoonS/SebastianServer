@@ -108,18 +108,15 @@
 								<label class="col-md-4 col-xs-4 control-label" for="sb_sub_child_service_image">Restaurant's Picture :</label>
 								<div class="col-md-8 col-xs-8">
 									    <div class="col-xs-6">
-										<input id="sb_sub_child_service_image" name="sb_sub_child_service_image"  type="file" style="display:none"/>
+											<input id="sb_sub_child_service_image" name="sb_sub_child_service_image"  type="file" style="display:none"/>
 										<button id='btn-upload'>Upload</button>
                                         </div>	
 										<div id="id_filePreview" class="col-xs-6">
-										    <?php if(1){ ?>
-												<img id="id_uploadImage" style="width:100%;height:100%" src="<?php?>" alt="your image" />
-											<?php } else { ?>
-												<img id="id_uploadImage" style="width:100%;height:100%" src="#" alt="your image" />
-										    <?php } ?>
+										<img id="id_uploadImage" style="width:100%;height:100%" src="" alt="your image" />
+										
 										</div>
 																			
-									</div>
+								</div>
 				</div>
             
             <div class="modal-footer">
@@ -143,8 +140,12 @@
 <script src="<?php echo THEME_ASSETS?>js/nicescroll/jquery.nicescroll.min.js"></script>
 <!-- icheck -->
 <script src="<?php echo THEME_ASSETS?>js/icheck/icheck.min.js"></script>
+
+
+
 <script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/customjs/constants.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/star-rating.js"></script>
 <link href="<?php echo THEME_ASSETS; ?>css/custom.css" rel="stylesheet" type="text/css">
@@ -218,14 +219,17 @@ function addVendor(action)
 	loadStates('id_sbVendorCountry','id_sbVendorState','1','id_sbVendorCity','0','0','0'); 
 	$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><input class="btn btn-danger" type ="submit" onclick="add();"   value = "Add Restaurant" name = "add" id = "submit">');
     $("#add-edit").modal('show');
+    $('#id_uploadImage').attr('src', "#");
 }
 function edit(sb_hotel_restaurant_id, sb_hotel_restaurant_name, sb_hotel_restaurant_details, sb_rest_image)
 {  
-	
+
 	$("#myModalLabel").html("Edit Restaurants");
 	$("#sb_hotel_restaurant_id").val(sb_hotel_restaurant_id);
 	$("#sb_rest_name").val(sb_hotel_restaurant_name);
 	$("#sb_rest_desc").val(sb_hotel_restaurant_details);
+	$('#id_uploadImage').attr('src', restaurant_pic_url+"/"+sb_rest_image);
+
 	// $(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger id="editVendor" onclick="editVendor('+sb_hotel_restaurant_id+',\''+sb_hotel_restaurant_name+'\');">Edit Restaurant</button>');
 	$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><input class="btn btn-danger" type ="submit" value = "Edit Restaurant" onclick="add();" name = "edit" id = "submit">');
     $("#add-edit").modal('show');
@@ -356,7 +360,29 @@ function add()
 	{
 		return true;
 	}
-}          
+} 
+
+function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				
+				reader.onload = function (e) {
+					$("#id_uploadImage").show(200);
+					$('#id_uploadImage').attr('src', e.target.result);
+				}
+				
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+		/* Change Event is bind to Hidden File Upload Control*/
+	$("#sb_sub_child_service_image").change(function(){
+			readURL(this);
+		});	
+		/* Button Click To trigger change event on hidden file upload control*/
+	$('#btn-upload').click(function(e){
+			e.preventDefault();
+			$('#sb_sub_child_service_image').click();
+		});
 </script>
 
 
