@@ -20,8 +20,6 @@ class Restaurants extends CI_Controller
 		{
 			// Get the user's ID and add it to the config array
 			$config = array('userID'=>$this->session->userdata('logged_in_user')->sb_hotel_user_id);
-			// print_r($this->session->userdata()); die();
-			// Load the ACL library and pas it the config array
 			$this->load->library('acl',$config);
 		}
 	}
