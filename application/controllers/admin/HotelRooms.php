@@ -25,6 +25,11 @@ class HotelRooms extends CI_Controller
 
 	public function index()
 	{
+	    $requested_mod = 'HotelRooms';
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}
 		$data['action']="admin/hotelRooms/hotelRoomsInsert";
 		$data['title']  = 'Room Creation Page';
 		$this->template->load('page_tpl','hotel_rooms_vw',$data);
@@ -36,7 +41,12 @@ class HotelRooms extends CI_Controller
 	 */
 
 	public function hotelRoomsInsert()
-	{		
+	{	
+        $requested_mod = 'HotelRooms';
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}  	
 		$hotelRoomsInsert_data=array(
 			'room_num_from'=>$this->input->post('room_num_from'),
 			'room_num_to'=>$this->input->post('room_num_to'),

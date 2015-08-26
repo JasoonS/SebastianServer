@@ -1,6 +1,5 @@
 <div class="right_col" role="main">
-    <div class="">
-	    <!-- This is for Success Message.-->
+        <!-- This is for Success Message.-->
 		<?php if ($this->session->flashdata('category_success')) { ?>
 	        <div class="alert alert-success"> <?= $this->session->flashdata('category_success') ?> </div>
 	    <?php } ?>
@@ -9,7 +8,8 @@
 		<?php if ($this->session->flashdata('category_error')) { ?>
 	    	<div class="alert alert-danger"> <?= $this->session->flashdata('category_error') ?> </div>
 		<?php } ?>
-
+    <div class="">
+	    
     	<div class="page-title">
             <div class="title_left">
                 <h3><?php echo $title; ?></h3>

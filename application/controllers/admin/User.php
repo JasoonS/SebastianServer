@@ -300,7 +300,7 @@ class User extends CI_Controller
                      									
 					$this->User_model->set_user_role($useradminpermissions);
 					$user_module_array=array();
-					$permarray=array('2','4','6','8');
+					$permarray=array('2','4','6','8','9');
 					$count=0;
 					while($count<count($permarray)){
 						$singlearray=array(
@@ -324,7 +324,7 @@ class User extends CI_Controller
                      									
 					$this->User_model->set_user_role($useradminpermissions);
 					$user_module_array=array();
-					$permarray=array('5','7');
+					$permarray=array('5','7','13','15','16','18','19');
 					$count=0;
 					while($count<count($permarray)){
 						$singlearray=array(
@@ -374,7 +374,6 @@ class User extends CI_Controller
 						array_push($insert_user_services,$singlearray);
 						$i++;
 					}
-					
 					$this->Services_model->set_services($insert_user_services,$result);
 				}
 				if($data['sb_hotel_user_type'] == 's'){
@@ -392,11 +391,8 @@ class User extends CI_Controller
 						array_push($insert_user_services,$singlearray);
 						$i++;
 					}
-					
 					$this->Services_model->set_services($insert_user_services,$result);
 				}
-				
-				
 				$hotelusername=$data['sb_hotel_username'];
 				$data['password']=$password;
 				$data['hotelusername']=$hotelusername;
@@ -628,7 +624,7 @@ class User extends CI_Controller
                      									
 					$this->User_model->set_user_role($useradminpermissions);
 					$user_module_array=array();
-					$permarray=array('2','4','6','8');
+					$permarray=array('2','4','6','8','9');
 					$count=0;
 					while($count<count($permarray)){
 						$singlearray=array(
@@ -651,7 +647,7 @@ class User extends CI_Controller
 									);									
 					$this->User_model->set_user_role($useradminpermissions);
 					$user_module_array=array();
-					$permarray=array('5','7');
+					$permarray=array('5','7','13','15','16','18','19');
 					$count=0;
 					while($count<count($permarray)){
 						$singlearray=array(

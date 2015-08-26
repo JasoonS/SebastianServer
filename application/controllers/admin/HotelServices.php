@@ -32,7 +32,6 @@ Class HotelServices extends CI_Controller
 		
 		$this->data['title'] 				= 'Hotel Services';
 		$this->data['parent_services'] 		= $this->Services_model->get_all_parent_services();
-	
 		$this->data['hotel_id']				= $this->session->logged_in_user->sb_hotel_id;
 		$this->template->load('page_tpl', 'parent_service_list_vw',$this->data);
 	}
@@ -55,6 +54,10 @@ Class HotelServices extends CI_Controller
 	
 	public function add()
 	{
+	    if($this->session->logged_in_user->sb_hotel_user_type !== 'u')
+		{
+			redirect('admin/dashboard');
+		}
 		$this->data['action']	= "admin/HotelServices/addService";
 		$this->data['title']	= 'Create Service';
 		$this->data['parent_service_count']=$this->Services_model->get_services_count('sb_hotel_parent_services');
@@ -330,6 +333,11 @@ Class HotelServices extends CI_Controller
 	
 	public function showHotelPaidServices()
 	{
+		$requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3);
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}
 		$this->data['title'] = "Hotel Services";
 		$this->template->load('page_tpl', 'hotel_service_list_vw',$this->data);
 	}

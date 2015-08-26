@@ -378,19 +378,17 @@ $(document).ready(function () {
         var room_no_array=[];
 		var i=0;cnt=1;
 		while(i<roomsToAdd.length){
-			checkAvailability($("#sb_room_"+cnt));
 			i++;
 		}
 		var i=0;
 		while(i<roomsToAdd.length){
 			if($("#sb_room_"+cnt).val() != ""){
 				room_no_array.push($("#sb_room_"+cnt).val());
-				
 			}
 			i++;
 			cnt++
 		}
-		alert(room_no_array.length);
+	
 		if(room_no_array.length == 0){
 			alert("Please Allocate atleast one room.");
 		}
@@ -414,7 +412,6 @@ $(document).ready(function () {
 		data:{"room_no":$("#"+e.id).val(),"flag":12},
 		dataType:"json",
 		success:function(data){
-			alert(data[0].roomscount);
 			if(data[0].roomscount == 0)
 			{
 				$("#"+e.id).val("");

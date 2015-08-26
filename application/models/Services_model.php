@@ -52,7 +52,7 @@ Class Services_model extends CI_Model
 		}
 		
 		$this->db->insert_batch('sb_hotel_service_map',$data);
-		echo $this->db->last_query();exit;
+		
 		return true;
 		//return $query->result_array();
 	}

@@ -9,13 +9,14 @@
 <link href="<?php echo THEME_ASSETS; ?>css/jquery.dataTables.css" rel="stylesheet" type="text/css">
 <script src="<?php echo THEME_ASSETS ?>js/bootstrap.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/star-rating.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/bootstrap-toggle.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
+
 <div class="right_col" role="main">
     <div class="">
 	<legend>View Hotel User</legend>
@@ -39,7 +40,7 @@
 							<td>User Picture</td>
 							<td><img src='<?php echo FOLDER_BASE_URL."/".HOTEL_USER_PIC."/".$userinfo->sb_hotel_user_pic;?>' height="100px" width="100px"/></td>
 						</tr>
-					
+					    <?php if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 's') {?>
 						<tr>
 							<td>User Shift From</td>
 							<td><?php echo date("g:i A",strtotime($userinfo->sb_hotel_user_shift_from));?></td>
@@ -48,6 +49,7 @@
 							<td>User Shift To</td>
 							<td><?php echo date("g:i A",strtotime($userinfo->sb_hotel_user_shift_to));?></td>
 						</tr>
+						<?php }?>
 						<tr>
 							<td>Hotel User Type</td>
 							<td>

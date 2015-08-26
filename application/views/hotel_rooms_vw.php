@@ -1,3 +1,9 @@
+<script src="<?php echo THEME_ASSETS ?>js/customjs/constants.js"></script>
+<!-- Theme specfic js!-->
+<script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
+<!-- chart js -->
+<script src="<?php echo THEME_ASSETS?>js/chartjs/chart.min.js"></script>
+
 <script src="<?php echo THEME_ASSETS ?>js/bootstrap-formhelpers.min.js"></script>
 <script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
 <script>
@@ -28,8 +34,16 @@ function formvalidate()
 
 </script>
 <div class="right_col" role="main">
-<?php   echo $this->session->flashdata('rooms_success');
-					echo $this->session->flashdata('rooms_error'); ?>
+ <!-- This is for Success Message.-->
+		<?php if ($this->session->flashdata('rooms_success')) { ?>
+	        <div class="alert alert-success"> <?= $this->session->flashdata('category_success') ?> </div>
+	    <?php } ?>
+
+		<!-- This is for Generic Error Message.-->
+		<?php if ($this->session->flashdata('category_error')) { ?>
+	    	<div class="alert alert-danger"> <?= $this->session->flashdata('rooms_error') ?> </div>
+		<?php } ?>
+
     <div class="">
 	<h3>Create Room</h3>
 	
