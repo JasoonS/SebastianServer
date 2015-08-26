@@ -147,7 +147,7 @@ function upload_image($folderName,$fieldName)
 			else
 			{
 				$error = array('error' => $CI->upload->display_errors());
-				return $error;
+				return "";//$error;
 			}
 	}
 

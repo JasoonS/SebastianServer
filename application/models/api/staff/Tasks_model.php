@@ -49,7 +49,7 @@ class Tasks_model extends CI_Model
 		$qry = "SELECT hrs.sb_hotel_requst_ser_id,hrs.sb_guest_allocated_room_no,hrs.sb_hotel_ser_reqstd_on, 
 				hss.sb_hotel_ser_assgnd_to_user_id, hss.sb_hotel_ser_start_date as service_due_date,  DATE_FORMAT(hss.sb_hotel_ser_start_time,'%l:%i %p') as service_due_time,
 				hss.sb_hotel_ser_finished_date as service_done_date,  DATE_FORMAT(hss.sb_hotel_ser_finished_time,'%l:%i %p') as service_done_time,
-				hss.sb_hotel_service_status, IF(hrs.sb_hotel_requst_ser_id != '','request', 'request') as service_type,
+				hss.sb_hotel_service_status, IF(hrs.order_details = '0','request', 'order') as service_type,
 				b.sb_guest_firstName,b.sb_guest_lastName,hrs.sb_service_log,hrs.sb_hotel_guest_booking_id
 				FROM `sb_hotel_request_service` as hrs
 				JOIN sb_hotel_services_status as hss
@@ -221,6 +221,14 @@ class Tasks_model extends CI_Model
 		return $query->result_array();
 	}
 
+	/**
+	 * This model will UPDATE sb_customer_order_placed TABLE.
+	 * return type- 
+	 * created on - 20th AUG 2015;
+	 * created by - Akshay Patil;
+	 * updated on - 
+	 * updated by - 
+	 */
 	public function reject_order_item($order_placed_id)
 	{
 		$data = array(
@@ -230,6 +238,36 @@ class Tasks_model extends CI_Model
 		$this->db->where('order_placed_id', $order_placed_id);
 		$this->db->update('sb_customer_order_placed', $data);
 		return 1; 
+	}
+
+	/**
+	 * This model will check sb_customer_order_placed TABLE item status.
+	 * return type- 
+	 * created on - 20th AUG 2015;
+	 * created by - Akshay Patil;
+	 * updated on - 
+	 * updated by - 
+	 */
+	public function check_order_item($order_placed_id)
+	{
+		$sql = "SELECT `is_temp_delete` FROM `sb_customer_order_placed` WHERE `order_placed_id`='$order_placed_id'";
+		$query = $this->db->query($qry);
+		$res = $query->result_array();
+		if(count($res)>0)
+		{
+			if($res[0]['is_temp_delete'] == 1)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		else
+		{
+			return 2;
+		}
 	}
 
 }

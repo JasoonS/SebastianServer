@@ -134,6 +134,9 @@ class User_order extends CI_Controller
 						"sub_child_services_id" => $new_order[$j]['sub_child_services_id'],
 						"quantity" => $new_order[$j]['quantity'],
 						"price" => $new_order[$j]['price'],
+						"sb_customer_order_duedate" => $new_order[$j]['sb_customer_order_duedate'],
+						"sb_customer_order_duetime" => $new_order[$j]['sb_customer_order_duetime'],
+						"sb_customer_order_comment" => $new_order[$j]['sb_customer_order_comment'],
 						);
 						
 						$user_order[$j][] = $temp;
@@ -149,6 +152,9 @@ class User_order extends CI_Controller
 							"sub_child_services_id" => $new_order[$j]['sub_child_services_id'],
 							"quantity" => $new_order[$j]['quantity'],
 							"price" => $new_order[$j]['price'],
+							"sb_customer_order_duedate" => $new_order[$j]['sb_customer_order_duedate'],
+							"sb_customer_order_duetime" => $new_order[$j]['sb_customer_order_duetime'],
+							"sb_customer_order_comment" => $new_order[$j]['sb_customer_order_comment'],
 						);
 						$temp1 = $user_order[$index];
 						array_push($temp1, $temp);
