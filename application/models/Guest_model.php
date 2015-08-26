@@ -62,5 +62,41 @@ class Guest_model extends CI_Model
 		$this->db->update('sb_hotel_guest_bookings', $data);
 		return $this->db->affected_rows(); 
 	}
-
+	/* Method get allocated rooms 
+	 * in sb_hotel_guest_reservation_attributes
+	 * @param string
+	 * return int
+	 */
+	function get_allocated_rooms($reservation_code,$hotel_id)
+	{
+		$this->db->select('count(*) as roomscount',false);
+		$this->db->where('sb_guest_reservation_code',$reservation_code);
+		$query=$this->db->get('sb_hotel_guest_reservation_attributes');
+		return $query->result_array();
+	}	
+	/* Method get if room is present 
+	 * @param string
+	 * return int
+	 */
+	function get_if_room_present($room_no,$hotel_id)
+	{
+		$this->db->select('count(*) as roomscount',false);
+		$this->db->from('sb_hotel_rooms');
+		$this->db->join('sb_hotel_guest_reservation_attributes','sb_hotel_guest_reservation_attributes.sb_guest_allocated_room_no=sb_hotel_rooms.sb_room_number','left');
+		$this->db->where('sb_room_number',$room_no);
+		$this->db->where('sb_hotel_rooms.sb_hotel_id',$hotel_id);
+		$this->db->where('sb_room_is_deleted','0');
+		$this->db->where('(sb_guest_actual_check_out <> "0000-00-00 00:00:00" AND sb_guest_actual_check_out IS NOT NULL)');
+		$query=$this->db->get();
+		return $query->result_array();
+	}	
+	/* Method to allocate rooms
+	 * @param array
+	 * return 1
+	 */
+	function allocate_rooms($data)
+	{
+		$this->db->insert_batch('sb_hotel_guest_reservation_attributes',$data);
+		return 1;
+	}
 }

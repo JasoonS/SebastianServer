@@ -32,25 +32,16 @@ class GuestProfiles extends CI_Controller
 		$this->load->helper('admin/utility_helper');
 	}
 
-	public function index()
-	{
-		
-	}
-
+	/* Method is to get Guest Listing
+	 * input -void
+	 * output -view render
+	 */
 	public function guest()
 	{
-
 		if($this->session->logged_in_user->sb_hotel_id)
 		{
 			$this->data['title'] = 'Guest Profiles';
-
-			// Get  guest list for this hotel
 			$this->data['guest_list']	= $this->Guest_model->get_guest_data($this->session->logged_in_user->sb_hotel_id);
-
-			//echo '<pre>';
-			//print_r($guest_list);
-			//exit;
-
 			$this->template->load('page_tpl', 'hotel_guest_list_vw',$this->data);
 		}else
 		{

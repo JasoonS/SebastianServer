@@ -116,15 +116,13 @@ class Hotel extends CI_Controller
 				{
 					$languageresult =$this->Hotel_model->set_hotel_languages($result,$data['sb_languages']);
 					$this->Services_model->add_all_services_to_hotel($result);
-				
 					$this->session->set_flashdata('category_success', HOTEL_CREATION_SUCCESS);
-					redirect('admin/hotel/add_hotel');
 				}
 				else
 				{
 					$this->session->set_flashdata('category_error', HOTEL_CREATION_FAIL);
-					redirect('admin/hotel/add_hotel');
 				}
+				redirect('admin/hotel/add_hotel');
 			}
 	}	
 	

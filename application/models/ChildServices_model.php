@@ -1,7 +1,7 @@
 <?php
 /* Model handles Common operations For Ajax Datatable (For Single Table)
  */
-Class ChildServices_model extends CI_Model
+Class Childservices_model extends CI_Model
 {
 	function __construct()
 	{

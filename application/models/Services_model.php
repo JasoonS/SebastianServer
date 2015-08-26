@@ -13,13 +13,13 @@ Class Services_model extends CI_Model
 	 */
 	function get_all_services()
 	{
-		$this->db->select('sb_hotel_child_services.sb_parent_service_id,sb_parent_service_name,sb_hotel_child_services.sb_child_service_id,sb_child_servcie_name,sub_child_services_id');
+		$this->db->select('sb_hotel_child_services.sb_parent_service_id,sb_parent_service_name,sb_hotel_child_services.sb_child_service_id,sb_child_servcie_name');
 		$this->db->from('sb_hotel_parent_services');
 		$this->db->join('sb_hotel_child_services','sb_hotel_parent_services.sb_parent_service_id = sb_hotel_child_services.sb_parent_service_id');
-		$this->db->join('sb_sub_child_services','sb_sub_child_services.sb_child_service_id = sb_hotel_child_services.sb_child_service_id','left');
+		//$this->db->join('sb_sub_child_services','sb_sub_child_services.sb_child_service_id = sb_hotel_child_services.sb_child_service_id','left');
 		
 		//$this->db->group_by('sb_parent_service_id');
-		$this->db->order_by('sb_parent_service_id,sb_child_service_id', 'ASC');
+		$this->db->order_by('sb_parent_service_id', 'ASC');
 		$query = $this->db->get();
 	
         return $query->result_array();		
@@ -45,13 +45,14 @@ Class Services_model extends CI_Model
 			$singlearray=array('sb_hotel_id'=>$hotel_id,
 								'sb_parent_service_id'=>$serviceslist[$i]['sb_parent_service_id'],
 								'sb_child_service_id'=>$serviceslist[$i]['sb_child_service_id'],
-								'sb_sub_child_service_id'=>$serviceslist[$i]['sub_child_services_id']
+								
 							  );
 			array_push($data,$singlearray);				  
 			$i++;
 		}
 		
 		$this->db->insert_batch('sb_hotel_service_map',$data);
+		echo $this->db->last_query();exit;
 		return true;
 		//return $query->result_array();
 	}
@@ -332,7 +333,6 @@ Class Services_model extends CI_Model
 	public function edit_service($data,$tablename,$service_id){
 		$this->db->where('sb_parent_service_id',$service_id);
 		$this->db->update($tablename,$data);
-		echo $this->db->last_query();
 		return 1;
 	}
 	/* Method To Edit Child Service
@@ -342,7 +342,6 @@ Class Services_model extends CI_Model
 	public function edit_child_service($data,$tablename,$service_id){
 		$this->db->where('sb_child_service_id',$service_id);
 		$this->db->update($tablename,$data);
-		echo $this->db->last_query();
 		return 1;
 	}
    /* Method To get no of child services with given name(For validation)
@@ -389,7 +388,6 @@ Class Services_model extends CI_Model
 	*/
 	public function create_subchild_services($data){
 		$this->db->insert_batch('sb_sub_child_services',$data);
-		//echo $this->db->last_query();exit;
 		return 1;
 	}
    /* Method To Edit Sub Child Service
@@ -399,9 +397,65 @@ Class Services_model extends CI_Model
 	public function edit_sub_child_service($data,$tablename,$service_id){
 		$this->db->where('sub_child_services_id',$service_id);
 		$this->db->update($tablename,$data);
-		echo $this->db->last_query();
 		return 1;
 	}	
+   /* Method To Get Menu Child Services
+	* @params void
+    * return array
+	*/
+	public function get_menu_child_services(){
+		$this->db->select('*');
+		$this->db->where('is_service','0');
+		$query=$this->db->get('sb_hotel_child_services');
+		$result=$query->result_array();
+		return $result;
+	}
+	
+   /* Method insert sub child paid hotel admin services 
+	* @params array
+    * return int
+	*/
+	public function create_paid_service($data){
+		$this->db->insert('sb_paid_services',$data);
+		return $this->db->insert_id();
+	}
+	
+   /* Method to get hotel service details 
+	* @params int 
+	* return array 
+	*/
+	public function get_hotel_service($paid_service_id){
+		$this->db->select('*');
+		$this->db->where('sub_child_services_id',$paid_service_id);
+		$this->db->from('sb_paid_services');
+		$query=$this->db->get();
+		$result=$query->result_array();
+		return $result;
+	}
+	/* Method To Get Menu Child Services of specific parent
+	* @params int
+    * return array
+	*/
+	public function get_menu_child_services_by_service($parent_id){
+		$this->db->select('*');
+		$this->db->where('is_service','0');
+		$this->db->where('sb_parent_service_id',$parent_id);
+		$query=$this->db->get('sb_hotel_child_services');
+		$result=$query->result_array();
+		return $result;
+	}
+   /* Method To get parent of child menu
+	* input -  int
+    * output - array
+	*/
+	public function get_parent_service_by_child($child_id)
+	{
+		$this->db->select('sb_parent_service_id');
+		$this->db->where('sb_child_service_id',$child_id);
+		$query=$this->db->get('sb_hotel_child_services');
+		$result=$query->result_array();
+		return $result;
+	}
 	
 }
 ?>

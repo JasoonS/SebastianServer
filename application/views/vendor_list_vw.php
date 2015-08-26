@@ -277,7 +277,8 @@ function addVendor(action)
     $("#add-edit").modal('show');
 }
 function edit(vendor_id,vendor_name,country,state,city,address,star,phone1,phone2,web1,web2)
-{   
+{ 
+	  
     $("#myModalLabel").html("Edit Vendor");
 	$("#sb_vendorname").val(vendor_name);
 	$("#id_sbVendorCountry").val(country);
