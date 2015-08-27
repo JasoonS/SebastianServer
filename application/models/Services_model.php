@@ -13,15 +13,15 @@ Class Services_model extends CI_Model
 	 */
 	function get_all_services()
 	{
-		$this->db->select('sb_hotel_child_services.sb_parent_service_id,sb_parent_service_name,sb_hotel_child_services.sb_child_service_id,sb_child_servcie_name');
+		$this->db->select('sb_hotel_parent_services.sb_parent_service_id,sb_parent_service_name,sb_hotel_child_services.sb_child_service_id,sb_child_servcie_name');
 		$this->db->from('sb_hotel_parent_services');
-		$this->db->join('sb_hotel_child_services','sb_hotel_parent_services.sb_parent_service_id = sb_hotel_child_services.sb_parent_service_id');
+		$this->db->join('sb_hotel_child_services','sb_hotel_parent_services.sb_parent_service_id = sb_hotel_child_services.sb_parent_service_id','left');
 		//$this->db->join('sb_sub_child_services','sb_sub_child_services.sb_child_service_id = sb_hotel_child_services.sb_child_service_id','left');
 		
 		//$this->db->group_by('sb_parent_service_id');
 		$this->db->order_by('sb_parent_service_id', 'ASC');
 		$query = $this->db->get();
-	
+		
         return $query->result_array();		
 	}
 	
@@ -157,7 +157,6 @@ Class Services_model extends CI_Model
 	{
 	    $this->db->where('sb_hotel_user_id',$user_id);
 	    $this->db->delete('sb_hotel_user_service_access_map');
-		
 		$this->db->insert_batch('sb_hotel_user_service_access_map',$service_data);
 		return 1;
 	}
@@ -169,11 +168,12 @@ Class Services_model extends CI_Model
 	{
 		$this->db->select('sb_hotel_child_services.sb_child_service_id,sb_child_servcie_name,sb_hotel_service_map_id');
 		$this->db->where('sb_hotel_id',$hotel_id);
-		$this->db->where('sb_hotel_child_services.sb_parent_service_id',$sb_parent_service_id);
-		$this->db->where('sb_hotel_child_services.sb_child_service_id',$sb_child_service_id);
+		$this->db->where('sb_hotel_service_map.sb_parent_service_id',$sb_parent_service_id);
+		$this->db->where('sb_hotel_service_map.sb_child_service_id',$sb_child_service_id);
 		$this->db->from('sb_hotel_service_map');
-		$this->db->join('sb_hotel_child_services','sb_hotel_child_services.sb_child_service_id = sb_hotel_service_map.sb_child_service_id');
+		$this->db->join('sb_hotel_child_services','sb_hotel_child_services.sb_child_service_id = sb_hotel_service_map.sb_child_service_id','left');
 		$query = $this->db->get();
+		
 		return $query->result_array();
 	}
 	/* Method Get Current Hotel User Child Service

@@ -52,9 +52,5 @@ class Guestprofiles extends CI_Controller
 		}
 	}
 
-	public function hotel_guest()
-	{
-		die('access by admin');
-	}
 }
 ?>

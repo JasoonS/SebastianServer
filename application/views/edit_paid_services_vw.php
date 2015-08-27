@@ -129,6 +129,7 @@
         </form>
 	</div>
 </div>
+<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
 <script type="text/javascript">
 /* This Function is used To Show Uploaded image */
 	function readURL(input) {

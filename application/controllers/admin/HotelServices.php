@@ -27,12 +27,19 @@ Class HotelServices extends CI_Controller
 	* @params void
 	* return view 
     */
-	public function edit()
+	public function edit($hotel_id = ' ')
 	{
 		
 		$this->data['title'] 				= 'Hotel Services';
 		$this->data['parent_services'] 		= $this->Services_model->get_all_parent_services();
-		$this->data['hotel_id']				= $this->session->logged_in_user->sb_hotel_id;
+		if($this->session->logged_in_user->sb_hotel_id == 0)
+		{
+			$hotel_id = $hotel_id;
+		}
+		else{
+			$hotel_id = $this->session->logged_in_user->sb_hotel_id;
+		}
+		$this->data['hotel_id']				= $hotel_id;
 		$this->template->load('page_tpl', 'parent_service_list_vw',$this->data);
 	}
 
@@ -415,5 +422,22 @@ Class HotelServices extends CI_Controller
 			redirect($url);
 		}
 	}
-   
+	
+   /* Method To Room Checkout Form Details
+    * input - void
+    * output - void
+	*/
+   public function Roomcheckout($booking_id = ' ')
+   {
+		$requested_mod = 'HotelRooms';
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}
+		$this->data['title'] = "Guest Details";
+		$this->Guest_model->get_guest_data();
+		print_r("Get All Rooms Details");exit;
+		
+		
+   }
 }

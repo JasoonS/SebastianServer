@@ -377,7 +377,10 @@ class User extends CI_Controller
 					$this->Services_model->set_services($insert_user_services,$result);
 				}
 				if($data['sb_hotel_user_type'] == 's'){
-					
+					if(!isset($data['sb_child_service_id']))
+					{
+						$data['sb_child_service_id']='0';
+					}
 					$child_services=$this->Services_model->get_hotel_child_service_map_id($data['sb_hotel_id'],$data['sb_parent_service_id'],$data['sb_child_service_id']);
 				    $i=0;
 					$insert_user_services=array();
@@ -465,12 +468,9 @@ class User extends CI_Controller
 	public function view_hotel_user($user_id)
 	{	
 		$this->data['action']	= "admin/user/view_hotel_users";
-		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
-	    {
-			$this->data['title'] = LABEL_1;
-			$this->data['userinfo']=$this->User_model->get_user_info($user_id);
-			$this->template->load('page_tpl', 'view_hotel_user',$this->data);
-		}
+		$this->data['title'] = LABEL_1;
+		$this->data['userinfo']=$this->User_model->get_user_info($user_id);
+		$this->template->load('page_tpl', 'view_hotel_user',$this->data);
 			
 	}
 	/*	Method Check Edit hotel user Permissions for Adminside Users (1.Hotel Administrator 2.Hotel Manager 3.Hotel Staff)
@@ -699,9 +699,13 @@ class User extends CI_Controller
 					$this->Services_model->set_services($insert_user_services,$user_id);	
 				}
 				if($data['sb_hotel_user_type'] == 's'){
-					
+					if(!isset($data['sb_child_service_id']))
+					{
+						$data['sb_child_service_id']='0';
+					}
 					$child_services=$this->Services_model->get_hotel_child_service_map_id($data['sb_hotel_id'],$data['sb_parent_service_id'],$data['sb_child_service_id']);
-				    $i=0;
+				   
+					$i=0;
 					$insert_user_services=array();
 					while($i<count($child_services)){
 						$singlearray=array(

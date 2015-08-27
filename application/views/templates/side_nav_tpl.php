@@ -29,7 +29,7 @@
         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 
             <div class="menu_section">
-                <h3>General</h3>
+                <h3><?php echo $this->session->userdata('logged_in_user')->sb_hotel_username;?></h3>
                 <ul class="nav side-menu">  
                     <?php foreach($this->acl->perms as $key=>$value) {  ?>                                 
                         <li>

@@ -174,4 +174,16 @@ Class Hotel_model extends CI_Model
 		$result= $query->result_array();
 		return $result;
 	}
+	/* Method get Hotel Image
+	 * inside system 
+	 * @param @string
+	 * return @string on success and False on Fail
+	 */
+	function get_hotel_pic($hotel_id)
+	{
+		$this->db->select('sb_hotel_pic');
+		$this->db->where('sb_hotel_id',$hotel_id);
+		$query=$this->db->get('sb_hotels');
+		return $query->result_array();
+	}
 }//End Of Hotel Model	

@@ -485,7 +485,9 @@ class Ajax extends CI_Controller
 			$row[] 				= $guest->sb_guest_contact_no;
 			$row[]				='<span class="label label-warning"><a href="javascript:void(0)">'. $guest->sb_guest_reservation_code.'</a></span>';
 			$row[] 				= $guest->sb_guest_rooms_alloted;
-			$row[]				='<a id="allocate" href="#" onclick="allocateRoom(\''.$guest->sb_guest_reservation_code.'\','.$guest->sb_guest_rooms_alloted.');"  title="Allocate Rooms" ><img src="'.FOLDER_ICONS_URL."Allocate.png".'" /></a>';
+			$reservation_code	= $guest->sb_hotel_guest_booking_id;   
+			$row[]				='<a id="allocate" href="#" onclick="allocateRoom(\''.$guest->sb_guest_reservation_code.'\','.$guest->sb_guest_rooms_alloted.');"  title="Allocate Rooms" ><img src="'.FOLDER_ICONS_URL."Allocate.png".'" /></a>'." ".
+								  '<a href="'.base_url("admin/HotelRooms/Roomcheckout/$reservation_code").'"  title="View" ><img src="'.FOLDER_ICONS_URL."View-Details.png".'" /></a>';
 			$data[] = $row;
 		}
 		$output = array(

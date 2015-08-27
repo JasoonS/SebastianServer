@@ -8,29 +8,8 @@
 <script src="<?php echo THEME_ASSETS ?>js/bootstrap-formhelpers.min.js"></script>
 <script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
 
-<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">    
-<link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">
-<link href="<?php echo THEME_ASSETS; ?>css/bootstrap-toggle.css" rel="stylesheet" type="text/css">
-<link href="<?php echo THEME_ASSETS; ?>css/fileinput.css" rel="stylesheet" type="text/css">
-<link href="<?php echo THEME_ASSETS; ?>css/jquery-checktree.css" rel="stylesheet" type="text/css">
-<link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
-<link href="<?php echo THEME_ASSETS; ?>css/jquery.dataTables.css" rel="stylesheet" type="text/css">
-<script src="<?php echo THEME_ASSETS ?>js/bootstrap.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/star-rating.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/bootstrap-toggle.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/fileinput.min.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
-<<<<<<< HEAD
 
-=======
-<script src="<?php echo THEME_ASSETS ?>js/bootstrap-formhelpers.min.js"></script>
->>>>>>> 9a8c93371fc20e18543271013f2c9a3e88667919
+
 <script>
  $("#room_num_prefix").on("keydown",function(e){return e.which !==32;});
  $("#room_num_postfix").on("keydown",function(e){return e.which !==32;});
@@ -95,8 +74,7 @@ function formvalidate()
 							<div class="col-xs-2">
 							<input type="text" class="form-control" data-min="1" data-max="50" data-zeros="true" name="room_num_from" id="room_num_from"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
 							</div>
-						<!-- </div>	
-						<div class = "form-group classFormInputsBox"> -->
+					
 
 							<label for="room_num_to" class="col-xs-1 control-label">To:</label>
 							<div class="col-xs-2">
@@ -111,22 +89,23 @@ function formvalidate()
 							<input type="text" class="form-control" name="room_num_prefix" id="room_num_prefix">
 							</div>
 						</div>
-						<br/><br/>
+						
 						<div class = "form-group classFormInputsBox">
 							<label for="room_num_postfix" class="col-xs-4 control-label">Postfix</label>
 							<div class="col-xs-6">
 							<input type="text" class="form-control" name="room_num_postfix" id="room_num_postfix">
 							</div>
 						</div>
-						<br/><br/>
+                       
 					
-						<div class="control-group">
-							<div class="controls">
+							<div class = "form-group classFormInputsBox">
+							<div class="col-xs-12">
 								<input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit"></input>
 								
 							</div>
 						</div>
+						</div>
 				</form>
 			
-	</div>
+	
 </div>

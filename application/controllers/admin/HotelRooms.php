@@ -11,6 +11,8 @@ class HotelRooms extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('hotelrooms_model');
+		$this->load->model('Guest_model');
+		$this->load->model('Hotel_model');
 		if(!$this->session->userdata('logged_in_user'))
 		{
 			redirectWithErr(ERR_MSG_LEVEL_2,'login');
@@ -41,15 +43,14 @@ class HotelRooms extends CI_Controller
 	 */
 
 	public function hotelRoomsInsert()
-<<<<<<< HEAD
 	{	
         $requested_mod = 'HotelRooms';
 		if(!$this->acl->hasPermission($requested_mod))
 		{
 			redirect('admin/dashboard');
 		}  	
-=======
-	{		
+
+			
 		$room_num_from=$this->input->post('room_num_from');
 		$room_num_to=$this->input->post('room_num_to');
 		if($room_num_from <10)
@@ -60,7 +61,6 @@ class HotelRooms extends CI_Controller
 		{
 			$room_num_to=$room_num_to%10;
 		}		
->>>>>>> 9a8c93371fc20e18543271013f2c9a3e88667919
 		$hotelRoomsInsert_data=array(
 			'room_num_from'=>$room_num_from,
 			'room_num_to'=>$room_num_to,
@@ -84,4 +84,54 @@ class HotelRooms extends CI_Controller
 				String(prefix and suffix)->as prefix and postfix to Room number
 	 * return void
 	 */
+	/* Method To Room Checkout Form Details
+    * input - void
+    * output - void
+	*/
+   public function Roomcheckout($booking_id = ' ')
+   {
+		$requested_mod = 'HotelRooms';
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}
+		$this->data['title'] = "Guest Details";
+		$guest_data=$this->Guest_model->get_hotel_guest_data($booking_id);
+		$i=0;
+	 	$checked_out_rooms =0;$checked_in_rooms=0;
+		while($i<count($guest_data))
+		{
+			$room_number =$guest_data[$i]->sb_guest_allocated_room_no;
+			if($guest_data[$i]->sb_guest_actual_check_out != "0000-00-00 00:00:00")
+			{
+				$checked_out_rooms++;
+			}
+			else{
+				$checked_in_rooms++;
+			}
+			$customer_orders=$this->Guest_model->get_hotel_guest_orders($booking_id,$room_number);
+			$count =0;
+			$total_amount =0;
+			while($count < count($customer_orders))
+			{
+			    
+				$total_amount = $total_amount + ($customer_orders[$count]->quantity * $customer_orders[$count]->price);
+				$count++;
+			}
+			$guest_data[$i]->customer_orders=$customer_orders;
+			$guest_data[$i]->total_amount=$total_amount;
+			$i++;
+		}
+	
+		
+		$this->data['guest_data']=$guest_data;
+		$this->data['guest_general_data']=$this->Guest_model->get_hotel_guest_general_data($booking_id);
+		$hotel_pic=HOTEL_PIC;
+		$hotel_image = $this->Hotel_model->get_hotel_pic($this->data['guest_general_data'][0]->sb_hotel_id);
+		$this->data['hotel_pic']=base_url($hotel_pic)."/".$hotel_image[0]['sb_hotel_pic'];
+		$this->data['checked_out_rooms']=$checked_out_rooms;
+		$this->data['checked_in_rooms']=$checked_in_rooms;
+		$this->template->load('page_tpl','hotel_checkout_vw',$this->data);
+
+    }
 }
