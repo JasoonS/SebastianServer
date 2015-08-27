@@ -24,6 +24,7 @@
 	            
 	            <div class="classLoginFrmFields">
 					<input type="submit" id="idSignIn" value="Send Password" name="send_password" class="btn btn-dark">                    
+					<a class="reset_pass" href="<?php echo base_url('admin/login');?>">Login Page</a>
 				</div>
 
 	            <div class="clearfix"></div>

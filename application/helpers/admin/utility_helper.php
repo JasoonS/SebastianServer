@@ -188,8 +188,8 @@ function createHashAndSalt($user_provided_password)
 */
 function sendMail($from = '',$to,$subject,$message)
 {
-	if($from='')
-		$from = 'no-reply@sebastian.com';
+	//if($from='')
+	$from = 'no-reply@sebastian.com';
     include 'email_library.php'; // include the library file
     include "classes/class.phpmailer.php"; // include the class name
     $mail	= new PHPMailer; // call the class 

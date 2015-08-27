@@ -46,7 +46,9 @@ class User extends CI_Controller {
 		$sdt_macid 				= 	$this->input->post('sdt_macid');
 		
 		if($sdt_token == '(null)' || $sdt_token == 'null' || $sdt_token == null || $sdt_token == '')
-			$sdt_token == '';
+			$sdt_token = '';
+		if(strlen($sdt_token) < '10');
+			$sdt_token = '';
 
 		if($sb_hotel_useremail == '' || $sb_hotel_userpasswd == '' ||  $sdt_deviceType == ''|| $sdt_macid=='' )
 		{

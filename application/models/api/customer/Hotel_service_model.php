@@ -160,9 +160,12 @@ class Hotel_service_model extends CI_Model
 
 	function get_request_info($sb_hotel_guest_booking_id)
 	{
+		$IMP_PATH = base_url().CHILD_SERVICE_PIC."/";
 		$qry = "SELECT r.sb_hotel_requst_ser_id , h.sb_hotel_service_assigned, h.sb_hotel_ser_start_date, r.sb_hotel_ser_reqstd_on, 
 				h.sb_hotel_ser_start_time, h.sb_hotel_ser_finished_date , h.sb_hotel_ser_finished_time,h.sb_hotel_ser_assgnd_to_user_id,
-				h.sb_hotel_service_status, r.sb_service_log,c.sb_child_servcie_name, c.child_service_image,h.reject_reason,
+				h.sb_hotel_service_status, r.sb_service_log,c.sb_child_servcie_name, 
+				concat('$IMP_PATH',c.child_service_image) as `child_service_image`,
+				h.reject_reason,
 				r.sb_hotel_ser_reqstd_on
 				from sb_hotel_request_service r join sb_hotel_services_status h
 				ON r.sb_hotel_requst_ser_id = h.sb_hotel_requst_ser_id

@@ -36,7 +36,7 @@ class User_model extends CI_Model
 					CONCAT('$IMP_PATH',`sb_parent_service_image`) as `sb_parent_service_image`,`sb_parent_service_color`,
 					`sb_parent_service_created_on` 
 					FROM `sb_hotel_parent_services` 
-					WHERE `sb_parent_service_id` in(SELECT distinct(`sb_parent_service_id`) FROM `sb_hotel_service_map` WHERE `sb_hotel_id` = '$sb_hotel_id')"
+					WHERE `sb_parent_service_id` in(SELECT distinct(`sb_parent_service_id`) FROM `sb_hotel_service_map` WHERE `sb_hotel_id` = '$sb_hotel_id')";
 			$query = $this->db->query($sql1);
 			$services = $query->result_array();
 			if(count($services) == 0)
