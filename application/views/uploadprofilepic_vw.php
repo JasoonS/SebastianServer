@@ -17,6 +17,15 @@
 	<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 	<script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
 <div class="right_col" role="main">
+	<!-- This is for Success Message.-->
+		<?php if ($this->session->flashdata('category_success')) { ?>
+	        <div class="alert alert-success"> <?= $this->session->flashdata('UPLOAD_PROFILEPIC_SUCCESS') ?> </div>
+	    <?php } ?>
+
+		<!-- This is for Generic Error Message.-->
+		<?php if ($this->session->flashdata('category_error')) { ?>
+	    	<div class="alert alert-danger"> <?= $this->session->flashdata('UPLOAD_PROFILEPIC_FAIL') ?> </div>
+		<?php } ?>
     <div class="">
     	<div class="page-title">
             <div class="title_left">
@@ -24,8 +33,7 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <h4 style="color:green"><?php echo $this->session->flashdata('UPLOAD_PROFILEPIC_SUCCESS'); ?></h4>
-     	<h4 style="color:red"><?php echo $this->session->flashdata('UPLOAD_PROFILEPIC_FAIL'); ?></h4>
+    
 	    <form class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data" role="form" name="uploadProfilePic_form">
 		    <div class="row">
 	    		<div class = "col-md-6 col-xs-6 classFormBox">
@@ -37,15 +45,19 @@
 		                <div class = "x_content">
 
 		                	<div class = "form-group classFormInputsBox">
-                    			<label for="sbOldPassword" class="col-xs-4 control-label">Enter Old Password : </label>
+                    			<label for="sbOldPassword" class="col-xs-4 control-label">User Picture</label>
 							    <div class="col-xs-6">
-							      <!--<input type="email" class="form-control" id="inputEmail3" placeholder="Email">!-->
-							      	<input type="file" name="sb_hotel_user_pic" id="sb_hotel_user_pic" class="form-control" required></input>
-							    </div>
-							</div>
-							<div class="control-group">
+							      <input id="sb_hotel_user_pic" name="sb_hotel_user_pic"  type="file" style="display:none"/>
+								    <button id='btn-upload'>Upload</button>
+                                </div>	
+								<div id="id_filePreview" class="col-xs-6">
+									<img id="id_uploadImage" style="width:100%;height:100%" src="#" alt="your image" />
+								</div>							    
+								</div>
+							
+							<div class="form-group classFormInputsBox">
 								<div class="controls">
-									<button id="submit"  class="btn btn-primary btn-lg btn-block">Upload Image</button>
+									<button id="submit"  class="btn btn-primary btn-lg btn-block">Change Profile Image</button>
 								</div>
 							</div>	
 						</div>
@@ -55,3 +67,27 @@
 		</form>
 	</div>
 </div>
+<script type = "text/javascript">
+/* This Function is used To Show Uploaded image */
+	function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				
+				reader.onload = function (e) {
+					$("#id_uploadImage").show(200);
+					$('#id_uploadImage').attr('src', e.target.result);
+				}
+				
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+		/* Change Event is bind to Hidden File Upload Control*/
+	$("#sb_hotel_user_pic").change(function(){
+			readURL(this);
+		});	
+		/* Button Click To trigger change event on hidden file upload control*/
+	$('#btn-upload').click(function(e){
+			e.preventDefault();
+			$('#sb_hotel_user_pic').click();
+		});
+</script>

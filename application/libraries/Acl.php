@@ -243,11 +243,9 @@ Class Acl
      */
     function hasPermission($permKey) 
     {
-        $permKey = strtolower($permKey);
         if (array_key_exists($permKey,$this->perms))
         {
-
-            if ($this->perms[$permKey]['value'] === '1' || $this->perms[$permKey]['value'] === true)
+			if ($this->perms[$permKey]['value'] === '1' || $this->perms[$permKey]['value'] === true)
             {
                 return true;
             } else {

@@ -1,12 +1,5 @@
 <div class="right_col" role="main">
-    <div class="">
-    	<div class="page-title">
-            <div class="title_left">
-                <h3><?php echo $title; ?></h3>
-            </div>
-        </div>
-
-		<!-- This is for Success Message.-->
+<!-- This is for Success Message.-->
 		<?php if ($this->session->flashdata('category_success')) { ?>
 	        <div class="alert alert-success"> <?= $this->session->flashdata('category_success') ?> </div>
 	    <?php } ?>
@@ -15,6 +8,12 @@
 		<?php if ($this->session->flashdata('category_error')) { ?>
 	    	<div class="alert alert-danger"> <?= $this->session->flashdata('category_error') ?> </div>
 		<?php } ?>
+    <div class="">
+    	<div class="page-title">
+            <div class="title_left">
+                <h3><?php echo $title; ?></h3>
+            </div>
+        </div>
 
 		<form  class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data" >
 			<div class="row">
@@ -200,7 +199,13 @@
 							<?php }?>
 							<div class="control-group">
 								<div class="controls">
-									<button id="submit"  class="btn btn-primary btn-lg btn-block">Create User</button>
+								  <?php
+								    $button_text = "Update User";
+								    if($action_type !="edit"){
+										$button_text="Create User";
+									}
+									?>
+									<button id="submit"  class="btn btn-primary btn-lg btn-block"><?php echo $button_text;?></button>
 								</div>
 							</div>	
 				
@@ -259,6 +264,7 @@ $(function() {
 	function callToChildServices()
 		{
 			hideShowElements();
+			alert("here");
 			populateChildServices('<?php echo $user_type;?>','<?php echo $user_id ?>','<?php echo $hotel_id?>');
         } 
 	/* This method is used to load child services
@@ -269,6 +275,11 @@ $(function() {
 		{
 			
 			var creation_user_type=$("#sb_hotel_user_type").val();
+		
+			<?php	
+				if($action_type == "edit"){ ?>
+				$("#sb_parent_service_id").val('<?php echo $user_child_service[0]["sb_parent_service_id"];?>');
+				<?php }?>
 			var parent_service_id=$("#sb_parent_service_id").val();
 			var base_url = proj_url+'/admin/ajax/get_ajax_data';
 			if(creation_user_type == 's'){
@@ -293,8 +304,9 @@ $(function() {
 						if($action_type == "edit"){			
 							if(($userinfo->sb_hotel_user_type == 's')&&($user_parent_service[0]["sb_parent_service_id"] == $user_child_service[0]["sb_parent_service_id"])){?>	
 							$("#sb_child_service_id").val('<?php echo $user_child_service[0]["sb_child_service_id"];?>')
-						<?php } 
-					} 
+						<?php } ?>
+					
+					<?php } 
 					?>
 			 });
 			}

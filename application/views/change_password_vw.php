@@ -53,21 +53,21 @@ function form_validate()
 		                <div class = "x_content">
 
 		                	<div class = "form-group classFormInputsBox">
-                    			<label for="sbOldPassword" class="col-xs-4 control-label">Enter Old Password : </label>
+                    			<label for="sbOldPassword" class="col-xs-4 control-label">Enter Old Password  </label>
 							    <div class="col-xs-6">
 							      <!--<input type="email" class="form-control" id="inputEmail3" placeholder="Email">!-->
 							      	<input type="password" name="old_password" id="old_password" placeholder="Old Password" class="form-control" required></input>
 							    </div>
 							</div>
 							<div class = "form-group classFormInputsBox">
-							    <label for="sbNewPassword" class="col-xs-4 control-label" style="margin-left:0px;">Enter New Password : </label>
+							    <label for="sbNewPassword" class="col-xs-4 control-label" >Enter New Password  </label>
 							    <div class="col-xs-6">
 							      <!--<input type="email" class="form-control" id="inputEmail3" placeholder="Email">!-->
 							      	<input type="password" name="new_password" id="new_password" placeholder="New Password" class="form-control" required></input>
 							    </div>
 							</div>
 							<div class = "form-group classFormInputsBox">							
-							    <label for="sbConfPassword" class="col-xs-5 control-label">Enter Confirm Password : </label>
+							    <label for="sbConfPassword" class="col-xs-4 control-label">Enter Confirm Password  </label>
 							    <div class="col-xs-6">
 							      <!--<input type="email" class="form-control" id="inputEmail3" placeholder="Email">!-->
 							      	<input type="password" name="conf_password" id="conf_password" placeholder="Confirm Password" class="form-control" required></input>

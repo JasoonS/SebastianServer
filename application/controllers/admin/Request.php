@@ -157,9 +157,9 @@ class Request extends CI_Controller
 					$row[] 				= $service->sb_parent_service_id;
 					$row[] 				= $service->sb_parent_service_name;
 					$row[] 				= $service->sb_parent_service_color;
-					$row[]				='<span class="badge badge-success" id="show_parent_details_'.$service->sb_parent_service_id.'">Show Details</span>'.
-										 '<span class="badge badge-success" id="edit_parent_'.$service->sb_parent_service_id.'">Edit Service</span>'.
-										 '<span class="badge badge-success" id="add_subservices_'.$service->sb_parent_service_id.'">Add Child Services</span>';
+					$row[]				='<a href="#" id="show_parent_details_'.$service->sb_parent_service_id.'"><img src="'.FOLDER_ICONS_URL."View-Details.png".'" /></a>'."  ".
+										 '<a href="#" id="edit_parent_'.$service->sb_parent_service_id.'"><img src="'.FOLDER_ICONS_URL."edit.png".'" /></a>'."  ".
+										 '<a href="#" id="add_subservices_'.$service->sb_parent_service_id.'"><img src="'.FOLDER_ICONS_URL."add.png".'" /></a>';
 					$row[] 				= $service->sb_parent_service_image;
 					$data[] = $row;
 				}
@@ -188,14 +188,14 @@ class Request extends CI_Controller
 					$row[] 				= $service->sb_child_servcie_name;
 					if($service->is_service == 0){
 						$row[] 				= "Yes";				
-						$row[]				='<span class="badge badge-success" id="show_child_details_'.$service->sb_child_service_id.'">Show Details</span>'.
-											 '<span class="badge badge-success" id="edit_child_'.$service->sb_child_service_id.'">Edit Service</span>'.	
-											 '<span class="badge badge-success" id="add_child_subservices_'.$service->sb_child_service_id.'">Add Sub Services</span>';	
+						$row[]				='<a href="#" id="show_child_details_'.$service->sb_child_service_id.'"><img src="'.FOLDER_ICONS_URL."View-Details.png".'" /></a>'."  ".
+											 '<a href="#" id="edit_child_'.$service->sb_child_service_id.'"><img src="'.FOLDER_ICONS_URL."edit.png".'" /></a>'."  ".	
+											 '<a href="#" id="add_child_subservices_'.$service->sb_child_service_id.'"><img src="'.FOLDER_ICONS_URL."add.png".'" /></a>';	
 					}
 					else
 					{
 						$row[] 				= "No";				
-						$row[]				='<span class="badge badge-success" id="edit_child_'.$service->sb_child_service_id.'">Edit Service</span>';	
+						$row[]				='<a href="#" id="edit_child_'.$service->sb_child_service_id.'"><img src="'.FOLDER_ICONS_URL."edit.png".'" /></a>';	
 											 
 					}
 					$row[] 				= $service->sb_child_servcie_detail;
@@ -225,7 +225,7 @@ class Request extends CI_Controller
 					$row = array();
 					$row[] 				= $service->sub_child_services_id;
 					$row[] 				= $service->sb_sub_child_service_name;
-					$row[]				='<span class="badge badge-success" id="edit_sub_child_'.$service->sub_child_services_id.'">Edit</span>';
+					$row[]				='<a href="#" id="edit_sub_child_'.$service->sub_child_services_id.'"><img src="'.FOLDER_ICONS_URL."edit.png".'" /></a>'."  ";
 					$row[] 				= $service->sb_child_service_id;
 					$row[] 				= $service->sb_sub_child_service_image;
 					$row[]				= $service->sb_sub_child_service_details;
@@ -258,12 +258,12 @@ class Request extends CI_Controller
 					$row[] 				= $service->sb_sub_child_price;
 				    $editurl =base_url("admin/HotelServices/editPaidService/".$service->sub_child_services_id);
 						if($service->sb_is_service_in_use == '1'){
-							$row[] ='<a class="btn btn-sm btn-primary" href="'.$editurl.'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
-									'<a class="btn btn-sm btn-danger" id="delete" href="#" onclick="changeservicestatus('.$service->sub_child_services_id.','.$service->sb_is_service_in_use.');" title="Delete" ><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+							$row[] ='<a href="'.$editurl.'" title="Edit" ><img src="'.FOLDER_ICONS_URL."edit.png".'" /></a>'."  ".
+									'<a id="delete" href="#" onclick="changeservicestatus('.$service->sub_child_services_id.','.$service->sb_is_service_in_use.');" title="Delete" ><img src="'.FOLDER_ICONS_URL."active.png".'" /></a>';
 						}
 						else{
-							$row[] ='<a class="btn btn-sm btn-primary" href="'.$editurl.'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>'.
-									'<a class="btn btn-sm btn-success" id="restore" href="#"  onclick="changeservicestatus('.$service->sub_child_services_id.','.$service->sb_is_service_in_use.');" title="Restore" ><i class="glyphicon glyphicon-save-file"></i> Restore</a>';
+							$row[] ='<a href="'.$editurl.'" title="Edit" ><img src="'.FOLDER_ICONS_URL."edit.png".'" /></a>'."  ".
+									'<a id="restore" href="#"  onclick="changeservicestatus('.$service->sub_child_services_id.','.$service->sb_is_service_in_use.');" title="Restore" ><img src="'.FOLDER_ICONS_URL."Inactive.png".'" /></a>';
 						}
 					$data[] = $row;
 				}

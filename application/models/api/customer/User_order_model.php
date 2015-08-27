@@ -19,7 +19,7 @@ class User_order_model extends CI_Model
 			 
 			if(count($data))
 			{
-				for ($i=0, $j=0; $i < count($data) ; $i++)
+				for ($i=0; $i < count($data) ; $i++)
 				 { 
 				 	$sb_hotel_id = $data[$i]['sb_hotel_id'];
 				 	$IMP_PATH = base_url().SUBCHILD_SERVICE_PIC."/$sb_hotel_id/";

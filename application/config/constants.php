@@ -129,8 +129,9 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('HOTEL_SERVICE_UPDATION_SUCCESS','Service for your hotel is updated Successfully.');
  define('HOTEL_SERVICE_UPDATION_ERROR','Error in service updation for hotel.');
  define('FOLDER_BASE_URL','http://localhost/sebastian-admin-panel');
- define('FOLDER_ICONS_URL','http://localhost/sebastian-admin-panel/user_data/');
- //define('FOLDER_BASE_URL','http://bizmoapps.com/sebastian');
+ //define('FOLDER_ICONS_URL','http://bizmoapps.com/sebastian/user_data/');
+define('FOLDER_ICONS_URL','http://localhost/sebastian-admin-panel/user_data/');
+// define('FOLDER_BASE_URL','http://bizmoapps.com/sebastian');
 
 
  /*
@@ -149,5 +150,5 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('PARENT_SERVICE_PIC',"user_data/parent_service_pic");
  define('CHILD_SERVICE_PIC',"user_data/child_service_pic");
  define('SUBCHILD_SERVICE_PIC',"user_data/sub_child_service_pic");
- 
+ define('RESTAURANT_PIC',"user_data/restaurant_pic");
   

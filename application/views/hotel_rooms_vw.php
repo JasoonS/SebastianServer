@@ -1,3 +1,13 @@
+
+<script src="<?php echo THEME_ASSETS ?>js/customjs/constants.js"></script>
+<!-- Theme specfic js!-->
+<script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
+<!-- chart js -->
+<script src="<?php echo THEME_ASSETS?>js/chartjs/chart.min.js"></script>
+
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-formhelpers.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
+
 <link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">    
 <link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -16,6 +26,11 @@
 <script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
+<<<<<<< HEAD
+
+=======
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-formhelpers.min.js"></script>
+>>>>>>> 9a8c93371fc20e18543271013f2c9a3e88667919
 <script>
  $("#room_num_prefix").on("keydown",function(e){return e.which !==32;});
  $("#room_num_postfix").on("keydown",function(e){return e.which !==32;});
@@ -44,6 +59,18 @@ function formvalidate()
 
 </script>
 <div class="right_col" role="main">
+
+ <!-- This is for Success Message.-->
+		<?php if ($this->session->flashdata('category_success')) { ?>
+	        <div class="alert alert-success"> <?= $this->session->flashdata('rooms_success') ?> </div>
+	    <?php } ?>
+
+		<!-- This is for Generic Error Message.-->
+		<?php if ($this->session->flashdata('category_error')) { ?>
+	    	<div class="alert alert-danger"> <?= $this->session->flashdata('rooms_error') ?> </div>
+		<?php } ?>
+
+
     <div class="">
     	<div class="page-title">
             <div class="title_left">
@@ -51,14 +78,11 @@ function formvalidate()
             </div>
         </div>
         <div class="clearfix"></div>
-        <h4 style="color:green"><?php   echo $this->session->flashdata('rooms_success'); ?> </h4>
-		<h4 style="color:red"><?php echo $this->session->flashdata('rooms_error'); ?></h4>
-	   <!--  <div class="">		 -->
-			<!-- <div style="width:20%;margin:auto;padding:auto;">	 -->	
+      
 				<form role="form" method="post" action="<?php   echo BASE_URL.$action ?>" onsubmit="return formvalidate()" class="" name="create_rooms_form">
 					 <div class="row">
 	    			<div class = "col-md-6 col-xs-6 classFormBox">
-	    			<div class="x_panel classRequiredPanel">
+	    			<div class="x_panel ">
 	    				<div class="x_title">
 		                    <h2><b>Mandatory Inputs</b></h2>	                            
 		                    <div class="clearfix"></div>
@@ -66,22 +90,21 @@ function formvalidate()
 		                <div class = "x_content">
 
                 		<div class = "form-group classFormInputsBox">
-					<!-- <div class="form-group" style="">
-					<label for="room_num">Room No.:</label>
-					&nbsp;&nbsp;&nbsp;<br> -->
+				
 							<label for="room_num_from" class="col-xs-4 control-label">Room No.: From:</label>
 							<div class="col-xs-2">
-							<input type="text" class="form-control" data-min="1" data-max="50" data-zeros="true" name="room_num_from" id="room_num_from" required>
+							<input type="text" class="form-control" data-min="1" data-max="50" data-zeros="true" name="room_num_from" id="room_num_from"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
 							</div>
 						<!-- </div>	
 						<div class = "form-group classFormInputsBox"> -->
 
 							<label for="room_num_to" class="col-xs-1 control-label">To:</label>
 							<div class="col-xs-2">
-							<input type="text" class="form-control" data-min="1" data-max="50" data-zeros="true" name="room_num_to" id="room_num_to" required>
+							<input type="text" class="form-control" data-min="1" data-max="50" data-zeros="true" name="room_num_to" id="room_num_to" onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
+
 							</div>
 						</div>
-						<br/><br/>
+						<!-- <br/><br/> -->
 						<div class = "form-group classFormInputsBox">
 							<label for="room_num_prefix" class="col-xs-4 control-label">Prefix</label>
 							<div class="col-xs-6">
@@ -96,18 +119,14 @@ function formvalidate()
 							</div>
 						</div>
 						<br/><br/>
-					<!-- <div class="checkbox">
-					<label><input type="checkbox"> Remember me</label>
-					</div> -->
-					<!-- <input type="submit" class="btn btn-default" value="Submit"></input> -->
+					
 						<div class="control-group">
 							<div class="controls">
 								<input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit"></input>
-								<!-- <button id="submit"  class="btn btn-primary btn-lg btn-block">Upload Image</button> -->
+								
 							</div>
 						</div>
 				</form>
-			<!-- </div>
-		</div> -->
+			
 	</div>
 </div>
