@@ -12,6 +12,7 @@ class Hotelrooms_model extends CI_Model{
 		$room_num_to=$hotelRoomsInsert_data['room_num_to'];
 		$room_num_prefix=$hotelRoomsInsert_data['room_num_prefix'];
 		$room_num_postfix=$hotelRoomsInsert_data['room_num_postfix'];
+		$sb_hotel_room_type=$hotelRoomsInsert_data['sb_hotel_room_type'];
 		//$temp=array();	
 		$data=array();	
 		$data2=array();
@@ -23,7 +24,8 @@ class Hotelrooms_model extends CI_Model{
 			// }
 			$temp=array(
 			'sb_hotel_id'=>$this->session->userdata('logged_in_user')->sb_hotel_id,
-			'sb_room_number'=>$room_num_prefix.$i.$room_num_postfix
+			'sb_room_number'=>$room_num_prefix.$i.$room_num_postfix,
+			'sb_hotel_room_type'=>$sb_hotel_room_type
 			);
 			array_push($data, $temp);
 			$temp2=array(
@@ -47,6 +49,44 @@ class Hotelrooms_model extends CI_Model{
 			$this->db->insert_batch('sb_hotel_rooms',$data);
 			return 1;
 		}		
+	}
+	public function get_ordinary_booked_rooms()
+	{
+		$sb_hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->db->select('sb_room_number');
+		$this->db->from('sb_hotel_rooms');
+		$this->db->where('sb_hotel_id', $sb_hotel_id);
+		$this->db->where('sb_hotel_room_type','0');
+		$query=$this->db->get();
+		if($query->num_rows()>0)
+		{
+			return $query->result_array();
+		}
+		else
+		{
+			return array();
+		}
+	}
+	public function get_booked_rooms($room_type_value)
+	{
+		$sb_hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		// $this->db->select('sb_room_number');
+		// $this->db->from('sb_hotel_rooms');
+		// $this->db->where('sb_hotel_id', $sb_hotel_id);
+		// $this->db->where('sb_hotel_room_type','$room_type_value');
+		// echo '<pre>';
+		// $query=$this->db->get();
+		// echo "select sb_room_number from sandbox_sebastian.sb_hotel_rooms where sb_hotel_id=$sb_hotel_id and sb_hotel_room_type='$room_type_value'";
+	  	$query=$this->db->query("select sb_room_number from sandbox_sebastian.sb_hotel_rooms where sb_hotel_id=$sb_hotel_id and sb_hotel_room_type='$room_type_value'");
+		if($query->num_rows()>0)
+		{
+			//print_r($query->result_array());
+			return $query->result_array();
+		}
+		else
+		{
+			return array();
+		}
 	}
 
 }
