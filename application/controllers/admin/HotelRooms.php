@@ -33,7 +33,17 @@ class HotelRooms extends CI_Controller
 			redirect('admin/dashboard');
 		}
 		$data['action']="admin/hotelRooms/hotelRoomsInsert";
+		$data['ajaxurl']="admin/hotelRooms/";
 		$data['title']  = 'Room Creation Page';
+		$data['rooms_booked']=$this->hotelrooms_model->get_ordinary_booked_rooms();
+		$room_array=$data['rooms_booked'];
+		//$temparray=array();
+		// $chunk = 5;
+		// for ($i=0,$j=sizeof($room_array);$i<$j; $i+=$chunk) {
+		    $temparray = array_chunk($room_array, 5);
+		    // do whatever
+		//}
+		$data['rooms_booked']=$temparray;
 		$this->template->load('page_tpl','hotel_rooms_vw',$data);
 	}
 	/* Method render add Rooms view to perticulr Hotel If User is super administrator
@@ -48,8 +58,7 @@ class HotelRooms extends CI_Controller
 		if(!$this->acl->hasPermission($requested_mod))
 		{
 			redirect('admin/dashboard');
-		}  	
-	
+		}			
 		$room_num_from=$this->input->post('room_num_from');
 		$room_num_to=$this->input->post('room_num_to');
 		if($room_num_from <10)
@@ -64,7 +73,8 @@ class HotelRooms extends CI_Controller
 			'room_num_from'=>$room_num_from,
 			'room_num_to'=>$room_num_to,
 			'room_num_prefix'=>$this->input->post('room_num_prefix'),
-			'room_num_postfix'=>$this->input->post('room_num_postfix')
+			'room_num_postfix'=>$this->input->post('room_num_postfix'),
+			'sb_hotel_room_type'=>$this->input->post('sb_hotel_room_type')
 		);
 		$r=$this->hotelrooms_model->hotelRoomsInsert($hotelRoomsInsert_data);
 		if($r!=0)
@@ -207,4 +217,21 @@ class HotelRooms extends CI_Controller
 		$this->data['guest_data']=$guest_data;
 		$this->template->load('page_tpl','hotel_checkout_bill_vw',$this->data);
     }		
+
+    public function get_booked_rooms()
+    {
+    	$room_type_value=$this->input->post('room_type_value');
+    	$rooms_type_booked=$this->hotelrooms_model->get_booked_rooms($room_type_value);    	
+    	if(count($rooms_type_booked)>0)
+    	{
+    	 	$room_array=$rooms_type_booked;
+    		$temparray = array_chunk($room_array, 5);
+    		echo json_encode($temparray);
+    	}
+    	else
+    	{
+    		echo 0;
+    	}
+    }
+
 }
