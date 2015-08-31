@@ -381,8 +381,9 @@ class User extends CI_Controller
 					{
 						$data['sb_child_service_id']='0';
 					}
-					$child_services=$this->Services_model->get_hotel_child_service_map_id($data['sb_hotel_id'],$data['sb_parent_service_id'],$data['sb_child_service_id']);
-				    $i=0;
+					//$child_services=$this->Services_model->get_hotel_child_service_map_id($data['sb_hotel_id'],$data['sb_parent_service_id'],$data['sb_child_service_id']);
+				    	$child_services=$this->Services_model->get_hotel_child_services_by_parent_service($data['sb_hotel_id'],$data['sb_parent_service_id']);	
+					$i=0;
 					$insert_user_services=array();
 					while($i<count($child_services)){
 						$singlearray=array(
@@ -696,6 +697,7 @@ class User extends CI_Controller
 						array_push($insert_user_services,$singlearray);
 						$i++;
 					}
+					
 					$this->Services_model->set_services($insert_user_services,$user_id);	
 				}
 				if($data['sb_hotel_user_type'] == 's'){
@@ -703,8 +705,9 @@ class User extends CI_Controller
 					{
 						$data['sb_child_service_id']='0';
 					}
-					$child_services=$this->Services_model->get_hotel_child_service_map_id($data['sb_hotel_id'],$data['sb_parent_service_id'],$data['sb_child_service_id']);
-				   
+					//$child_services=$this->Services_model->get_hotel_child_service_map_id($data['sb_hotel_id'],$data['sb_parent_service_id'],$data['sb_child_service_id']);
+				   $child_services=$this->Services_model->get_hotel_child_services_by_parent_service($data['sb_hotel_id'],$data['sb_parent_service_id']);	      
+				  
 					$i=0;
 					$insert_user_services=array();
 					while($i<count($child_services)){
@@ -714,6 +717,7 @@ class User extends CI_Controller
 											'sb_parent_service_id'=>$data['sb_parent_service_id'],
 											'sb_service_rel_status'=>'1'
 										);
+					
 						array_push($insert_user_services,$singlearray);
 						$i++;
 					}

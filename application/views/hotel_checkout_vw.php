@@ -32,7 +32,7 @@
 											</li>
 											<li>
 												
-												<button class="btn btn-success" >Show Details</button>
+												<a href="<?php echo base_url('admin/HotelRooms/details')."/".$guest_general_data[0]->sb_hotel_guest_booking_id; ?>" class="btn btn-success" >Show Details</a>
 												<button class="btn btn-danger" onclick="showAllCheckoutModel('<?php echo $guest_general_data[0]->sb_guest_reservation_code;?>');">Checkout All </button>
 																			            
 											</li>
@@ -111,7 +111,7 @@
                                     <td class=" "><?php echo $guest_data[$i]->sb_guest_firstName." ".$guest_data[$i]->sb_guest_lastName;?></td>
                                     <td class="a-right a-right "><?php echo count ($guest_data[$i]->customer_orders);?></td>
                                     <td class="a-right a-right "><?php echo $guest_data[$i]->total_amount;?></td>
-                                    <td class=" last"><a href="#"><img src="<?php echo FOLDER_ICONS_URL ?>View-Details.png" /></a><?php echo "  ";?>
+                                    <td class=" last"><a href="<?php echo base_url('admin/HotelRooms/detail')."/".$guest_general_data[0]->sb_hotel_guest_booking_id."/".$guest_data[$i]->sb_guest_allocated_room_no; ?>"><img src="<?php echo FOLDER_ICONS_URL ?>View-Details.png" /></a><?php echo "  ";?>
 									    <?php if($guest_data[$i]->sb_guest_actual_check_out== "0000-00-00 00:00:00"){?>
 									    <a href="#" onclick="showCheckoutModel('<?php echo $guest_data[$i]->sb_guest_allocated_room_no;?>','<?php echo $guest_data[$i]->sb_guest_reservation_code;?>');"><img src="<?php echo FOLDER_ICONS_URL ?>active.png" /></a>   
                                         <?php } else {?>
