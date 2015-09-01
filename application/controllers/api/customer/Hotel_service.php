@@ -91,7 +91,7 @@ class Hotel_service extends CI_Controller
 					{
 						$wrongRoom ++;
 						$result = array(
-							'result' => $rooms
+							'sb_guest_allocated_room_no' => $rooms
 							);
 						continue;
 						// response_fail("Wrong Room Number",$result);

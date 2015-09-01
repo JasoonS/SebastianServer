@@ -251,7 +251,7 @@ class Tasks extends CI_Controller {
 	 * created by - Akshay Patil;
 	 */
 	public function reject_order_item()
-	{ 
+	{
 		$order_placed_id 	= 	$this->input->post('order_placed_id');
 		
 		if($order_placed_id == '')

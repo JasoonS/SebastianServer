@@ -106,21 +106,22 @@ class Chat extends CI_Controller
 					if($result)
 					{
 							$id = $this->Chat_model->get_ids($sb_hotel_requst_ser_id , $sb_sender_type);
+							
 							if($id)
 							{
 								$token = $this->Chat_model->get_token($id , $sb_sender_type);
-								 // print_r($token); die();
+								//print_r($token); die();
 
 								if (count($token) > 0)
 								{
 									$user_name = $this->Chat_model->get_name($id , $sb_sender_type);
-									// print_r($user_name); die();
-									$title = "New Message from : ".$user_name ;
+									//print_r($user_name); die();
+									$title = "New Message";// from : ".$user_name ;
 									$message = array(
 										"type" => 'Message',
 										"message" => $sb_chat_message,
-										"title" => 'New Service Request',
-										"id" => $result
+										"title" => $title,
+										"id" => $sb_hotel_requst_ser_id
 										);
 									$android_token = array();
 									$ios_token = array();
@@ -138,12 +139,14 @@ class Chat extends CI_Controller
 											}	
 										}	
 									}
-
-									
+									if($sb_sender_type==1)
+										$userType = "staff";
+									else
+										$userType = "customer";
 									if(count($ios_token)>0)
 									{
 										$ipushdata  = array('deviceToken'=> $ios_token,
-													'user'=> "staff",
+													'user'=> $userType,
 													'message' => $message
 													);
 										$this->load->library('api/Iospush');
@@ -156,7 +159,7 @@ class Chat extends CI_Controller
 										$pushdata = array(
 											'message'=> $message,
 											'deviceTokens'=> $android_token,
-											'user'=> "staff"
+											'user'=> $userType
 											);
 										$this->load->library('api/Android_push');
 										$val1 = $this->android_push->push_notification($pushdata);

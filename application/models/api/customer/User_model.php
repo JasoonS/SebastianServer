@@ -17,7 +17,8 @@ class User_model extends CI_Model
 		$qry = "SELECT * FROM `sb_hotel_guest_bookings` 
 				JOIN `sb_hotel_guest_reservation_attributes`
 				ON `sb_hotel_guest_reservation_attributes`.`sb_guest_reservation_code` = `sb_hotel_guest_bookings`.`sb_guest_reservation_code`
-				where `sb_hotel_guest_bookings`.`sb_guest_reservation_code` = '$sb_guest_reservation_code'";
+				where `sb_hotel_guest_bookings`.`sb_guest_reservation_code` = '$sb_guest_reservation_code'
+				AND `sb_hotel_guest_reservation_attributes`.sb_guest_actual_check_out ='0000-00-00 00:00:00'";
 		$query = $this->db->query($qry);
 		$custData = $query->result_array();
 		$roomNumbers = array();
@@ -48,7 +49,7 @@ class User_model extends CI_Model
 				$service = $services;
 			}
 			$IMP_PATH = base_url().HOTEL_PIC."/";
-			$sql1 = "SELECT `sb_hotel_id`,`sb_hotel_name`,`sb_hotel_country`,
+			$sql1 = "SELECT `sb_hotel_id`,`sb_hotel_name`,`sb_hotel_country`,sb_hotel_description,
 				`sb_hotel_city`,`sb_hotel_state`, `sb_hotel_zipcode`,
 				`sb_hotel_address`,`sb_hotel_phone`,`sb_hotel_star`,
 				`sb_hotel_category`,`sb_hotel_created_on`,`sb_hotel_website`,
