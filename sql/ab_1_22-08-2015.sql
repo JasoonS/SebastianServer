@@ -6,4 +6,6 @@ CREATE TABLE IF NOT EXISTS `sb_hotel_rooms` (
   `sb_room_is_deleted` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0: Not Deleted, 1: Deleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+ALTER TABLE `sb_hotel_rooms` ADD `sb_hotel_room_type` ENUM('0','1','2') NOT NULL DEFAULT '0' COMMENT '0: Ordinary, 1: Deluxe, 2:Semi-Deluxe' AFTER `sb_room_number`;
+
 

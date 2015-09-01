@@ -83,9 +83,12 @@
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Close</button>
                 </div>
+				
+				<?php if($this->session->userdata('logged_in_user')->sb_hotel_user_type != 'u') {?>
                 <div class="btn-group" role="group">
                     <button type="button" id="idSaveService" class="btn btn-default btn-hover-green" data-action="save" role="button">Save</button>
                 </div>
+				<?php }?>
             </div>
         </div>
     </div>
@@ -108,7 +111,7 @@
 
 <script>
 $(document).ready(function(){
-    var jsHotelId       = "<?php echo $this->session->logged_in_user->sb_hotel_id ?>";
+    var jsHotelId       = "<?php echo $hotel_id ?>";
 	var jsTmpArr        = [];
     var jsParentId      = '';
     var jqXHR           = '';
@@ -155,7 +158,7 @@ $(document).ready(function(){
             $("#idLineModalLabel").html(jsParentName);
 
             jsParsedData = jQuery.parseJSON(data);
-
+            
 
             for(var cnt = 0; cnt < jsParsedData.length; cnt++ )
             {
@@ -170,7 +173,18 @@ $(document).ready(function(){
                var jsNewElement = '<div class = "checkbox"><label>'+childInputs+'</label></div>';
                $("#idChidServiceContainer").append(jsNewElement);                
             }
-
+            if( jsParsedData.length  == 0){
+				$("#idChidServiceContainer").html("No Child Services are present in this parent service.");
+				$("#idSaveService").hide();
+				
+			}
+			else{
+					var user_type ='<?php $this->session->userdata('logged_in_user')->sb_hotel_user_type; ?>';
+					if(user_type != 'u'){
+						$("#idSaveService").show();
+					}			  
+            }			
+			
             // Intialize modal
             $('#idChildServiceModal').modal({
                 show: true,

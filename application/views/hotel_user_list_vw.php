@@ -27,7 +27,7 @@
 							}
 						?>
                         <ul class="nav navbar-right panel_toolbox">
-                            <a class="btn btn-sm btn-success" id="add_hotel_user" href="<?php echo site_url('/admin/user/add_hotel_user');?>"  title="Add Hotel User"><i class="glyphicon glyphicon-plus"></i> Add Hotel Admin</a>
+                            <a class="btn btn-sm btn-success" id="add_hotel_user" href="<?php echo site_url('/admin/user/add_hotel_user');?>"  title="Add Hotel User"><i class="glyphicon glyphicon-plus"></i> Add Hotel User</a>
                         </ul>
                         <div class="clearfix"></div>
                     </div>

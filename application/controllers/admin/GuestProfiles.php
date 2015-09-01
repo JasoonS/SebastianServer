@@ -44,17 +44,14 @@ class Guestprofiles extends CI_Controller
 		{
 			redirect('admin/dashboard');
 		}
-		if($this->session->logged_in_user->sb_hotel_id)
+
+		if($this->session->userdata('logged_in_user')->sb_hotel_id !=0)
 		{
 			$this->data['title'] = 'Guest Profiles';
-			$this->data['guest_list']	= $this->Guest_model->get_guest_data($this->session->logged_in_user->sb_hotel_id);
+			$this->data['guest_list']	= $this->Guest_model->get_guest_data($this->session->userdata('logged_in_user')->sb_hotel_id);
 			$this->template->load('page_tpl', 'hotel_guest_list_vw',$this->data);
 		}
 	}
 
-	public function hotel_guest()
-	{
-		die('access by admin');
-	}
 }
 ?>

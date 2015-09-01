@@ -147,7 +147,7 @@ Class Hotel_model extends CI_Model
 	function get_hotel_data($hotel_id)
 	{
 		$this->db->select('sb_hotels.sb_hotel_id,GROUP_CONCAT(sb_languages.lang_name) as lang_name,GROUP_CONCAT(sb_hotel_lang_map.lang_id) as lang_id,sb_hotel_address,sb_hotel_city,sb_hotel_country,sb_hotel_category',false);
-		$this->db->select('sb_hotel_email,sb_hotel_name,sb_hotel_owner,sb_hotel_pic,sb_hotel_star,sb_hotel_state');
+		$this->db->select('sb_hotel_email,sb_hotel_name,sb_hotel_owner,sb_hotel_pic,sb_hotel_star,sb_hotel_state,sb_hotel_phone');
 		$this->db->select('(select name from states where id=sb_hotel_state) as state_name',false);
 		$this->db->select('(select name from cities where id=sb_hotel_city) as city_name',false);
 		$this->db->select('(select name from countries where id=sb_hotel_country) as country_name',false);
@@ -173,5 +173,17 @@ Class Hotel_model extends CI_Model
 		$query=$this->db->get();
 		$result= $query->result_array();
 		return $result;
+	}
+	/* Method get Hotel Image
+	 * inside system 
+	 * @param @string
+	 * return @string on success and False on Fail
+	 */
+	function get_hotel_pic($hotel_id)
+	{
+		$this->db->select('sb_hotel_pic');
+		$this->db->where('sb_hotel_id',$hotel_id);
+		$query=$this->db->get('sb_hotels');
+		return $query->result_array();
 	}
 }//End Of Hotel Model	

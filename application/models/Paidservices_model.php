@@ -29,14 +29,24 @@ Class Paidservices_model extends CI_Model
 	{
 		$this->db->from($tablename);
 		$this->db->join('sb_hotel_child_services', 'sb_hotel_child_services.sb_child_service_id= sb_paid_services.sb_child_service_id');
+		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		
+		$this->db->where("(sb_paid_services.sb_hotel_id='$hotel_id')", NULL, FALSE);
 		$i = 0;
+		if(isset($searchArray['value'])){
+		
+				$this->db->where("(`sb_paid_services.sb_child_service_id` LIKE '%".$searchArray['value']."%' ESCAPE '!'
+							OR  `sub_child_services_id` LIKE '%".$searchArray['value']."%' ESCAPE '!'
+							OR  `sb_sub_child_price` LIKE '%".$searchArray['value']."%' ESCAPE '!'
+							OR  `sb_is_service_in_use` LIKE '%".$searchArray['value']."%' ESCAPE '!'
+							OR  `sb_child_servcie_name` LIKE '%".$searchArray['value']."%' ESCAPE '!'
+							OR  `sb_sub_child_service_name` LIKE '%".$searchArray['value']."%' ESCAPE '!')",NULL,FALSE);
+				}
 		foreach ($columns as $item) 
 		{
 		 		
 		    $searchArray =$this->input->post('search');
-		    if(isset($searchArray['value']))
-				($i===0) ? $this->db->like($item, $searchArray['value']) : $this->db->or_like($item, $searchArray['value']);
-			$column[$i] = $item;
+		  	$column[$i] = $item;
 			$i++;
 		}
 		if($this->input->post('order') != null)
@@ -68,6 +78,9 @@ Class Paidservices_model extends CI_Model
 	{
 		$this->db->from($tablename);
 		$this->db->join('sb_hotel_child_services', 'sb_hotel_child_services.sb_child_service_id= sb_paid_services.sb_child_service_id');
+		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		
+		$this->db->where("(sb_paid_services.sb_hotel_id='$hotel_id')", NULL, FALSE);
 		return $this->db->count_all_results();
 	}
 	

@@ -326,6 +326,7 @@ $(document).ready(function () {
 		/*CALCULATE SIZE*/
 		var offset = 20;
 		var offsetBody = 150;
+		console.log(size);
 		$('#idAllocateRooms').css('height', size.height - offset );
 		$('#idAllocateRooms .modal-body').css('height', size.height - (offset + offsetBody));
 		$('#idAllocateRooms').css('top', 0);
@@ -353,7 +354,7 @@ $(document).ready(function () {
 					innerHtml +='<div class = "form-group classFormInputsBox" class="applypadding2">'+
 							'<label class="col-md-4 col-xs-4 control-label" for="sb_vendorname">Room '+room_no+':</label>'+
 							'<div class="col-md-8 col-xs-8">'+
-							'<input id="sb_room_'+room_no+'" name="sb_room_'+room_no+'" type="text" class="form-control" value="" onblur="checkAvailability(this);">'+
+							'<input id="sb_room_'+room_no+'" name="sb_room_'+room_no+'" type="text" class="form-control" value="" >'+
 							'<div id="sb_room_'+room_no+'_err" class="errorclass" style="display:none"></div>'+
 							'</div>'+
 							'</div>';
@@ -373,21 +374,19 @@ $(document).ready(function () {
 		});
 	}
 	function allocate(reservation_code){
-	
-		var roomsToAdd =$('[id^="sb_room_"]');
+	    var roomsToAdd =$('[id^="sb_room_"]');
         var room_no_array=[];
-		var i=0;cnt=1;
+		var i=0,cnt=1;
 		while(i<roomsToAdd.length){
-			i++;
-		}
-		var i=0;
-		while(i<roomsToAdd.length){
+			checkAvailability("sb_room_"+cnt);
+			console.log("#sb_room_"+cnt);
+			
 			if($("#sb_room_"+cnt).val() != ""){
 				room_no_array.push($("#sb_room_"+cnt).val());
 			}
-			i++;
-			cnt++
+			i++;cnt++;
 		}
+		console.log(room_no_array);
 	
 		if(room_no_array.length == 0){
 			alert("Please Allocate atleast one room.");
@@ -406,17 +405,19 @@ $(document).ready(function () {
 	}
 	function checkAvailability(e){
 		var base_url = request_url;
+		console.log(e);
 		$.ajax({
 		url: base_url,
 		type:"post",
-		data:{"room_no":$("#"+e.id).val(),"flag":12},
+		data:{"room_no":$("#"+e).val(),"flag":12},
 		dataType:"json",
+		async: false,
 		success:function(data){
 			if(data[0].roomscount == 0)
 			{
-				$("#"+e.id).val("");
-				$("#"+e.id+"_err").html("This room is invalid.");
-				$("#"+e.id+"_err").show();
+				$("#"+e).val("");
+				$("#"+e+"_err").html("This room is invalid.");
+				$("#"+e+"_err").show();
 			}
 		},
 		error:function(){

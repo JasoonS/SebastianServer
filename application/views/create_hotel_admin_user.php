@@ -1,5 +1,5 @@
 <div class="right_col" role="main">
-<!-- This is for Success Message.-->
+        <!-- This is for Success Message.-->
 		<?php if ($this->session->flashdata('category_success')) { ?>
 	        <div class="alert alert-success"> <?= $this->session->flashdata('category_success') ?> </div>
 	    <?php } ?>
@@ -235,7 +235,7 @@
 
 <script type="text/javascript">
 $(function() {
-        populateChildServices('<?php echo $user_type;?>','<?php echo $user_id ?>','<?php echo $hotel_id?>')
+        populateChildServices('<?php echo $user_type;?>','<?php echo $user_id ?>','<?php echo $hotel_id?>','0')
         hideShowElements();
 		<?php if($action_type == "create"){?>
 		$('#sb_hotel_user_shift_from').timepicker({
@@ -259,31 +259,31 @@ $(function() {
                
             });
 		$('#id_uploadImage').attr('src','<?php echo FOLDER_BASE_URL."/".HOTEL_USER_PIC."/".$userinfo->sb_hotel_user_pic;?>');
-		<?php }?>
-	});
-	function callToChildServices()
-		{
-			hideShowElements();
-			alert("here");
-			populateChildServices('<?php echo $user_type;?>','<?php echo $user_id ?>','<?php echo $hotel_id?>');
-        } 
-	/* This method is used to load child services
-	 * params 
-	 *
-	 */
-	function populateChildServices(loggedusertype,userid,hotelid)
-		{
-			
-			var creation_user_type=$("#sb_hotel_user_type").val();
 		
 			<?php	
 				if($action_type == "edit"){ ?>
 				$("#sb_parent_service_id").val('<?php echo $user_child_service[0]["sb_parent_service_id"];?>');
 				<?php }?>
+		<?php }?>
+	});
+	function callToChildServices()
+		{
+			hideShowElements();
+			populateChildServices('<?php echo $user_type;?>','<?php echo $user_id ?>','<?php echo $hotel_id?>','1');
+        } 
+	/* This method is used to load child services
+	 * params 
+	 *
+	 */
+	function populateChildServices(loggedusertype,userid,hotelid,change)
+		{
+			
+			var creation_user_type=$("#sb_hotel_user_type").val();
+		
 			var parent_service_id=$("#sb_parent_service_id").val();
 			var base_url = proj_url+'/admin/ajax/get_ajax_data';
 			if(creation_user_type == 's'){
-				$("#child_services_control").show(2000);
+				//$("#child_services_control").show(2000);
 				$.ajax({
 					url: base_url,
 					type:"post",
@@ -291,22 +291,31 @@ $(function() {
 					dataType:"json",
 					success:function(msg){
 								var data = msg;
+								console.log(data);
 								$("#sb_child_service_id").html(""); 
 								$.each(data, function() {
 									$('#sb_child_service_id').append( $('<option value="' + this.sb_child_service_id + '">' + this.sb_child_servcie_name + '</option>' ));
 								});
+								
 							},
 					error:function(msg){
 						alert("failure");
 					}
 				}).done(function (){
+
 					<?php
-						if($action_type == "edit"){			
-							if(($userinfo->sb_hotel_user_type == 's')&&($user_parent_service[0]["sb_parent_service_id"] == $user_child_service[0]["sb_parent_service_id"])){?>	
-							$("#sb_child_service_id").val('<?php echo $user_child_service[0]["sb_child_service_id"];?>')
+						/*if($action_type == "edit"){	?>		
+							<?php if(($userinfo->sb_hotel_user_type == 's')&&($user_parent_service[0]["sb_parent_service_id"] == $user_child_service[0]["sb_parent_service_id"])){?>	
+							console.log(<?php echo $user_child_service[0]["sb_child_service_id"];?>);
+							if(change == 0){
+							$("#sb_child_service_id").val(<?php echo $user_child_service[0]["sb_child_service_id"];?>);
+						    }
+							else{
+								$("#sb_child_service_id").val($("#sb_child_service_id option:first").val());
+							}
 						<?php } ?>
 					
-					<?php } 
+					<?php } */
 					?>
 			 });
 			}

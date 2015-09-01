@@ -100,4 +100,125 @@ class Guest_model extends CI_Model
 		$this->db->insert_batch('sb_hotel_guest_reservation_attributes',$data);
 		return 1;
 	}
+	
+	/* Method to make rooms unavailable
+	 * @param array
+	 * return 1
+	 */
+	function make_rooms_unavailable($data)
+	{
+	    $update_data=array(
+						"is_available"=>'0'
+					 );
+	    $hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+	    $this->db->where('sb_hotel_id',$hotel_id);
+		$this->db->where_in('sb_room_number',$data);
+		$this->db->update('sb_hotel_rooms', $update_data); 
+		return 1;
+	}
+	/* Method get guest data by rooms
+	 * @param int
+	 * return array
+	 */
+	function get_hotel_guest_data($booking_id,$room_no = 0)
+	{
+	    $this->db->select('*');
+		$this->db->from('sb_hotel_guest_bookings');
+		$this->db->join('sb_hotel_guest_reservation_attributes','sb_hotel_guest_bookings.sb_guest_reservation_code = sb_hotel_guest_reservation_attributes.sb_guest_reservation_code');
+		$this->db->where('sb_hotel_guest_booking_id',$booking_id);
+		if($room_no !=0)
+		{
+			$this->db->where('sb_guest_allocated_room_no',$room_no);
+		}
+		$query = $this->db->get();
+		return $query->result();
+	}
+	/* Method to get room orders data
+	 * @param int,int
+	 * return array
+	 */
+	function get_hotel_guest_orders($booking_id,$room_no)
+	{
+	    $this->db->select('*');
+		$sub_child_service_image_url=base_url(SUBCHILD_SERVICE_PIC)."/";
+		$this->db->select('sb_customer_order_placed.sub_child_services_id as subchildservice',false);
+		$this->db->select('(SELECT sb_sub_child_service_name from sb_paid_services WHERE sub_child_services_id = subchildservice ) as service_name');
+		$this->db->select('(SELECT CONCAT("'.$sub_child_service_image_url.'", `sb_hotel_id` ,"/", `sb_sub_child_service_image`) from sb_paid_services WHERE sub_child_services_id = subchildservice ) as service_image',false);	
+		$this->db->from('sb_hotel_request_service');
+		$this->db->join('sb_customer_order_placed','sb_hotel_request_service.sb_hotel_requst_ser_id = sb_customer_order_placed.sb_hotel_requst_ser_id');
+		$this->db->where('sb_hotel_guest_booking_id',$booking_id);
+		$this->db->where('sb_guest_allocated_room_no',$room_no);
+		$this->db->where('order_details','1');
+		$this->db->where('is_temp_delete','0');
+		$query = $this->db->get();
+		return $query->result();
+	}
+	/* Method to get guest general data
+	 * @param int
+	 * return array
+	 */
+	function get_hotel_guest_general_data($booking_id)
+	{
+	    $this->db->select('*');
+		$this->db->from('sb_hotel_guest_bookings');
+		$this->db->where('sb_hotel_guest_booking_id',$booking_id);
+		$query = $this->db->get();
+		return $query->result();
+	}
+	/* Method to release the hotel room
+	 * @param int
+	 * return array
+	 */
+	function release_room($room_no,$hotel_id,$reservation_code)
+	{
+	    $date=date('y-m-d h:i:s');
+		$update_data=array(
+		            'sb_guest_actual_check_out'=>$date
+					);   
+		$this->db->where('sb_guest_reservation_code',$reservation_code);
+		$this->db->where('sb_guest_allocated_room_no',$room_no);	
+		$this->db->update('sb_hotel_guest_reservation_attributes',$update_data);
+		$room_data=array(
+					'is_available'=>'1'
+					);
+		$this->db->where('sb_room_number',$room_no);
+		$this->db->where('sb_hotel_id',$hotel_id);
+		$this->db->update('sb_hotel_rooms',$room_data);
+		return true;
+	}
+	/* Method to get allocated room nos to particular reservation code/booking
+	 * @param int
+	 * return array
+	 */
+	function get_allocated_room_numbers($reservation_code,$hotel_id)
+	{
+		$this->db->select('sb_guest_allocated_room_no');
+		$this->db->where('sb_guest_actual_check_out',"0000-00-00 00:00:00");
+		$this->db->where('sb_guest_reservation_code',$reservation_code);
+		$this->db->from('sb_hotel_guest_reservation_attributes');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	/* Method to release the hotel rooms
+	 * @param int
+	 * return array
+	 */
+	function release_rooms($room_nos,$hotel_id,$reservation_code)
+	{
+	    $date=date('y-m-d h:i:s');
+		$update_data=array(
+		            'sb_guest_actual_check_out'=>$date
+					);   
+		$this->db->where('sb_guest_reservation_code',$reservation_code);
+		$this->db->where_in('sb_guest_allocated_room_no',$room_nos);	
+		$this->db->update('sb_hotel_guest_reservation_attributes',$update_data);
+		$room_data=array(
+					'is_available'=>'1'
+					);
+		$this->db->where_in('sb_room_number',$room_nos);
+		$this->db->where('sb_hotel_id',$hotel_id);
+		$this->db->update('sb_hotel_rooms',$room_data);
+		return true;
+	}
+	
 }

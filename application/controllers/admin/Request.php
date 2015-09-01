@@ -97,8 +97,22 @@ class Request extends CI_Controller
 				echo json_encode($output);
 				break;
 			}
+			//This case is written to allocate room.
 			case 13:{
 				$output = $this->allocate_rooms();
+				echo json_encode($output);
+				break;
+			}
+			//This case is written to release room.
+			case 14:{
+				$output = $this->release_room();
+				
+				echo json_encode(array("success"=>true));
+				break;
+			}
+			//This case is written to release all allocated rooms at once.
+			case 15:{
+				$output =$this->release_all_rooms();
 				echo json_encode($output);
 				break;
 			}			
@@ -311,6 +325,17 @@ class Request extends CI_Controller
 		$allocated_rooms=$this->Guest_model->get_allocated_rooms($reservation_code,$hotel_id);
 		return $allocated_rooms;
 	}
+	 /* This function is written to get how many rooms are already allocated to particular guest.
+    * input -string 
+	* output -int
+	*/
+	public function get_allocated_room_numbers(){
+		$reservation_code=$this->input->post("reservation_code");
+		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->load->model('Guest_model');
+		$allocated_rooms=$this->Guest_model->get_allocated_room_numbers($reservation_code,$hotel_id);
+		return $allocated_rooms;
+	}
 	
    /* This function is written to get how many rooms are already allocated to particular guest.
     * input -string 
@@ -347,7 +372,46 @@ class Request extends CI_Controller
 			$i++;
 		}
 		$this->Guest_model->allocate_rooms($data);
-		return array("sucess"=>true);
+		$this->Guest_model->make_rooms_unavailable($rooms);
+		return array("success"=>true);
+	}
+	/* This function is written to release room
+    * input -string 
+	* output -int
+	*/
+	public function release_room(){
+		$room_no=$this->input->post("room_no");
+		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$reservation_code=$this->input->post("reservation_code");
+		$this->load->model('Guest_model');
+		$room_availability=$this->Guest_model->release_room($room_no,$hotel_id,$reservation_code);
+		//Check if room is created.
+		return $room_availability;
+	}
+	/*Method To release all allocated rooms
+	* params void
+    *	output -array
+	*/
+	public function release_all_rooms(){
+		$allocated_rooms = $this->get_allocated_room_numbers();
+		$i=0;
+		$rooms_array=array();
+		while($i<count($allocated_rooms))
+			{
+				array_push($rooms_array,$allocated_rooms[$i]['sb_guest_allocated_room_no']);
+				$i++;
+			}
+			if(count($rooms_array)>0)
+				{
+					$this->load->model('Guest_model');
+					$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+					$reservation_code=$this->input->post('reservation_code');
+					$this->Guest_model->release_rooms($rooms_array,$hotel_id,$reservation_code);
+					return array("success"=>true);
+				}
+			else{
+					return array("success"=>false,"reason"=>"User has already checked out from all the rooms.");
+				}
 	}
 }//End Of Controller Class
 
