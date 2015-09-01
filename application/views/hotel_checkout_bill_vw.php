@@ -62,7 +62,12 @@
                                                 <br>
                                                 <br>
                                                 <b>Booking Creation Date:</b> <?php echo date("d/m/Y",strtotime($guest_general_data[0]->sb_guest_created_on));?>
-                                                <!--<br>
+                                                <br>
+                                                <b>Booking Check In Date:</b> <?php echo date("d/m/Y",strtotime($guest_general_data[0]->sb_guest_check_in_date));?>
+												<br>
+                                                <b>Booking Check Out Date:</b> <?php echo date("d/m/Y",strtotime($guest_general_data[0]->sb_guest_check_out_date));?>
+                                               
+												<!--<br>
                                                 <b>Payment Due:</b> 2/22/2014
                                                 <br>
                                                 <b>Account:</b> 968-34567-->

@@ -70,23 +70,28 @@ class Hotelrooms_model extends CI_Model{
 	public function get_booked_rooms($room_type_value)
 	{
 		$sb_hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
-		// $this->db->select('sb_room_number');
-		// $this->db->from('sb_hotel_rooms');
-		// $this->db->where('sb_hotel_id', $sb_hotel_id);
-		// $this->db->where('sb_hotel_room_type','$room_type_value');
-		// echo '<pre>';
-		// $query=$this->db->get();
-		// echo "select sb_room_number from sandbox_sebastian.sb_hotel_rooms where sb_hotel_id=$sb_hotel_id and sb_hotel_room_type='$room_type_value'";
-	  	$query=$this->db->query("select sb_room_number from sandbox_sebastian.sb_hotel_rooms where sb_hotel_id=$sb_hotel_id and sb_hotel_room_type='$room_type_value'");
+		$this->db->select('sb_room_number');
+		$this->db->from('sb_hotel_rooms');
+		$this->db->where('sb_hotel_id', $sb_hotel_id);
+		$this->db->where('sb_hotel_room_type',$room_type_value);
+		$query=$this->db->get();
 		if($query->num_rows()>0)
 		{
-			//print_r($query->result_array());
 			return $query->result_array();
 		}
 		else
 		{
 			return array();
 		}
+	}
+	public function getAvailableRoomTypes(){
+		$this->db->select('DISTINCT sb_hotel_room_type',false);
+		$sb_hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->db->where('sb_hotel_id', $sb_hotel_id);
+		$this->db->from('sb_hotel_rooms');
+		$query=$this->db->get();
+		return $query->result_array();
+		
 	}
 
 }

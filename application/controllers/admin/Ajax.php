@@ -429,20 +429,24 @@ class Ajax extends CI_Controller
 		$this->load->model('Guest_model');
 		$hotel_id 			= $this->session->logged_in_user->sb_hotel_id;
 		$temp_date			= explode('-',$this->input->post('inoutdates'));
+		
 		$booking_array  = array('sb_hotel_id' 			=> $hotel_id,
 						   'sb_guest_firstName' 		=> $this->input->post('firstname'),
 						   'sb_guest_lastName'			=> $this->input->post('lastname'),
 						   'sb_guest_email'				=> $this->input->post('email'),
 						   'sb_guest_contact_no'		=> $this->input->post('phone'),
 						   'sb_guest_rooms_alloted'		=> $this->input->post('noOfrooms'),
-						   'sb_guest_check_in_date'		=> $temp_date[0],
-						   'sb_guest_check_out_date'	=> $temp_date[1],
+						   'sb_guest_check_in_date'		=> date("Y-m-d h:i:s",strtotime($temp_date[0])),
+						   'sb_guest_check_out_date'	=> date("Y-m-d h:i:s",strtotime($temp_date[1])),
+						   
 						   );
 		// Saving new guest booking
 		$save_guest_booking 	= $this->Guest_model->insert_guest_booking($booking_array);
 		// Generating confirmation string 
-		$generate_confm_id		= $this->generate_confirmation_id($save_guest_booking,$hotel_id);
+		//$generate_confm_id		= $this->generate_confirmation_id($save_guest_booking,$hotel_id);
+		$generate_confm_id 			= $this->input->post('confId');
 		$insert_confirmation_id	= $this->Guest_model->update_guest_reservation_code($save_guest_booking,$generate_confm_id);
+		
 		echo $generate_confm_id;
 	}
 

@@ -31,6 +31,9 @@
 											<?php echo " Booking Check In Date -<b>".$guest_general_data[0]->sb_guest_check_in_date."</b>";?>
 											</li>
 											<li>
+											<?php echo " Booking Check Out Date -<b>".$guest_general_data[0]->sb_guest_check_out_date."</b>";?>
+											</li>
+											<li>
 												
 												<a href="<?php echo base_url('admin/HotelRooms/details')."/".$guest_general_data[0]->sb_hotel_guest_booking_id; ?>" class="btn btn-success" >Show Details</a>
 												<button class="btn btn-danger" onclick="showAllCheckoutModel('<?php echo $guest_general_data[0]->sb_guest_reservation_code;?>');">Checkout All </button>

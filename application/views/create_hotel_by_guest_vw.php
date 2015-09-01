@@ -1,4 +1,10 @@
- <div class="right_col" role="main" style="background-color:white">
+<style>
+body{
+ background-color:white;
+}
+</style>
+
+ <div class="right_col" role="main" >
 	<div class="" >    
 	<div class="x_content">
             <div id="wizard" class="form_wizard wizard_horizontal">
@@ -183,7 +189,7 @@
 		                </div>  
 						<div id="step-2">
                             <h2 class="StepTitle">Step 2 Content</h2>
-                            <div class = "form-group classFormInputsBox">
+                            <div class = "form-group classFormInputsBox row">
                     			<label for="sbHotelStar" class="col-xs-3 control-label">Hotel Star :</label>
                     			<div class="col-xs-6">
                     				<?php if(isset($hoteldata)){?>
@@ -194,21 +200,17 @@
                     			</div>
                     		</div>
 
-                    		<div class="form-group classFormInputsBox">
+                    		<div class="form-group classFormInputsBox row">
 									<label for="sbHotelPic" class="col-xs-3 control-label">Hotel Picture :</label>
-									<div class="col-xs-6">
-									     <div class="col-xs-6">
+									    <div class="col-xs-6">
 										<input id="id_sbHotelPic" name="sb_hotel_pic"  type="file" style="display:none"/>
 										<button id='btn-upload'>Upload</button>
-                                        </div>	
-										<div id="id_filePreview" class="col-xs-6">
-										    <img id="id_uploadImage" style="width:100%;height:100%" src="#" alt="your image" />
+										
+										<img id="id_uploadImage" style="width:100%;height:100%" src="#" alt="your image" />
 										</div>
-																			
-									</div>
-								</div>
+							</div>
 
-							<div class="form-group classFormInputsBox">
+							<div class="form-group classFormInputsBox row">
 								<label for="sbHotelOwner" class="col-xs-3 control-label">Hotel Owner :</label>
 								<div class="col-xs-6">
 								<?php if(isset($hoteldata)){?>
@@ -221,7 +223,7 @@
 								</div>
 							</div>
 
-							<div class="form-group classFormInputsBox">
+							<div class="form-group classFormInputsBox row">
 								<label for="sbPropertyBuiltMonth" class="col-xs-3 control-label">Hotel Built-In (Month) </label>
 								<div class="col-xs-6">
 									<select id="id_sbPropertyBuiltMonth" name="sb_property_built_month" class="form-control">
@@ -249,7 +251,7 @@
 								</div>
 							</div>
 
-							<div class="form-group classFormInputsBox">
+							<div class="form-group classFormInputsBox row">
 								<label for="sbPropertyBuiltYear" class="col-xs-3 control-label" >Hotel Built-In (Year)</label>
 								<div class="col-xs-6">
 									<?php if(isset($hoteldata)){?>
@@ -261,7 +263,7 @@
 								</div>
 							</div>
 
-							<div class="form-group classFormInputsBox">
+							<div class="form-group classFormInputsBox row">
 								<label for="sbPropertyOpenYear" class="col-xs-3 control-label">Hotel Opened (Year)</label>
 								<div class="col-xs-6">
 									<?php if(isset($hoteldata)){?>
@@ -273,7 +275,7 @@
 								</div>
 							</div>
 
-							<div class="form-group classFormInputsBox">
+							<div class="form-group classFormInputsBox row">
 								<label class="col-xs-3 control-label" for="sbHotelZipcode">Language Set :</label>
 								<div class="col-xs-6">
 									<?php
@@ -307,33 +309,32 @@
 								</div>								
 							</div>
                         </div>
-                                        <div id="step-3">
-                                            <h2 class="StepTitle">Step 3 Content</h2>
-                                            <p>
-                                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                            </p>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                            </p>
-                                        </div>
-                                        <div id="step-4">
-                                            <h2 class="StepTitle">Step 4 Content</h2>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                            </p>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                            </p>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                            </p>
-                                        </div>
-
-                                    </div>
-		</div>
-	</div>
-                                    <!-- End SmartWizard Content -->
+                        <div id="step-3">
+                            <h2 class="StepTitle">Step 3 Content</h2>
+                            <p>
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </p>
+                            <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </p>
+                        </div>
+                        <div id="step-4">
+                            <h2 class="StepTitle">Step 4 Content</h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </p>
+                            <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </p>
+                            <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </p>
+                        </div>
+					</div>
+				</div>
+			</div>
+        </div>                            <!-- End SmartWizard Content -->
      <link href="<?php echo THEME_ASSETS;?>css/bootstrap.min.css" rel="stylesheet">
-
+	<link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">
     <link href="<?php echo THEME_ASSETS;?>fonts/css/font-awesome.min.css" rel="stylesheet">
     <link href="<?php echo THEME_ASSETS;?>css/animate.min.css" rel="stylesheet">
 
@@ -345,7 +346,8 @@
     <script src="<?php echo THEME_ASSETS;?>js/jquery.min.js"></script>
  
     <script src="<?php echo THEME_ASSETS;?>js/bootstrap.min.js"></script>
-
+    <script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
+	<script src="<?php echo THEME_ASSETS ?>js/star-rating.js"></script>
     <!-- chart js -->
     <script src="<?php echo THEME_ASSETS;?>js/chartjs/chart.min.js"></script>
     <!-- bootstrap progress js -->

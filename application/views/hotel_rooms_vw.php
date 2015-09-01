@@ -12,11 +12,10 @@
 <script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
 
 <script>
-// $(document).ready(function(){
-// 	$("#room_type").change(function(){
-function getroombooked(room_type_value)
+
+function getroombooked()
 {
-	//alert(room_type_value);
+	var room_type_value= $("#room_type").val();
 	$("#room_booked_view").empty();
 	base_url ="<?php echo BASE_URL.$ajaxurl; ?>";
 	$.ajax({		  
@@ -27,8 +26,7 @@ function getroombooked(room_type_value)
 	success:function(data){
 		if(data!=0)
 		{
-			//$('#calendar').fullCalendar('removeEvents',event._id);	
-			//alert(data[0][0].sb_room_number);			
+				
 			var html = '<table class="table table-striped table-bordered">';
 			for (var i = 0, len = data.length; i < len; ++i) {
 			    html += '<tr>';
@@ -42,8 +40,7 @@ function getroombooked(room_type_value)
 		}
 		else		
 		{
-			//alert("Sorry!!!You can't delete the task...");
-			//alert(room_type_value);
+			
 		}
 	},
 	error: function(){
@@ -80,17 +77,27 @@ function formvalidate()
 	}
 
 }
-
+function specifyRoomType()
+{
+    if($("#room_type").val() == "not specified"){ 
+		$("#idNewRoomType").show(200);
+	}
+	else
+	{
+		$("#idNewRoomType").hide(200);
+	}
+}
+getroombooked();
 </script>
 <div class="right_col" role="main">
 
  <!-- This is for Success Message.-->
-		<?php if ($this->session->flashdata('category_success')) { ?>
+		<?php if ($this->session->flashdata('rooms_success')) { ?>
 	        <div class="alert alert-success"> <?= $this->session->flashdata('rooms_success') ?> </div>
 	    <?php } ?>
 
 		<!-- This is for Generic Error Message.-->
-		<?php if ($this->session->flashdata('category_error')) { ?>
+		<?php if ($this->session->flashdata('rooms_error')) { ?>
 	    	<div class="alert alert-danger"> <?= $this->session->flashdata('rooms_error') ?> </div>
 		<?php } ?>
 
@@ -108,7 +115,7 @@ function formvalidate()
 	    			<div class = "col-md-7 col-xs-7 classFormBox">
 	    			<div class="x_panel ">
 	    				<div class="x_title">
-		                    <h2><b>Mandatory Inputs</b></h2>	                            
+		                    <h2><b>Create Room</b></h2>	                            
 		                    <div class="clearfix"></div>
 		                </div>
 		                <div class = "x_content">
@@ -119,8 +126,8 @@ function formvalidate()
 							<div class="col-xs-4">
 							<input type="text" class="form-control bfh-number" data-min="1" data-max="50" data-zeros="true" name="room_num_from" id="room_num_from"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
 							</div>
-						</div>
-						<div class = "form-group classFormInputsBox">
+						<!--</div>
+						<div class = "form-group classFormInputsBox">-->
 							<label for="room_num_to" class="col-xs-1 control-label">To:</label>
 							<div class="col-xs-4">
 							<input type="text" class="form-control bfh-number" data-min="1" data-max="50" data-zeros="true" name="room_num_to" id="room_num_to" onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
@@ -145,16 +152,32 @@ function formvalidate()
 						<div class = "form-group classFormInputsBox">
 							<label for="room_type" class="col-xs-4 control-label">Room Type</label>
 							<div class="col-xs-6">
-							<select class="form-control" name="sb_hotel_room_type" id="room_type" onchange="getroombooked(this.value)">
-						   		<option value="0">Ordinary</option>
-								<option value="1">Deluxe</option>
-								<option value="2">Semi Deluxe</option>
-								<!-- <option>4</option> -->
+							<!--<input type="text" class="form-control" name="sb_hotel_room_type" id="room_type">-->
+							<input type="button" class="btn btn-primary btn-lg btn-block" value="Check Availability" onclick="getroombooked()"></input>
+				
+							<select class="form-control" name="sb_hotel_room_type" id="room_type" onchange="specifyRoomType();">
+						   	    <?php 
+									$i=0;
+									while($i<count($room_types))
+									{ 
+										echo "<option value='".$room_types[$i]['sb_hotel_room_type']."'>".$room_types[$i]['sb_hotel_room_type']."</option>";
+										$i++;
+									}
+								?>
+								<option value="not specified">Not Specified</option>
 							</select>
+													
+
+							
 							</div>
 						</div>
-                       
-					
+                        <div id="idNewRoomType" style="display:none;" class = "form-group classFormInputsBox">
+							
+							<label for="new_room_type" class="col-xs-4 control-label">Specify Room Type</label>
+							<div class="col-xs-6">
+							<input type="text" class="form-control" name="sb_hotel_new_room_type" id="new_room_type">
+							</div>
+					    </div>
 							<div class = "form-group classFormInputsBox">
 							<div class="col-xs-12">
 								<input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit"></input>

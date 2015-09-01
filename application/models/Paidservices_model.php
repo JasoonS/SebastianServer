@@ -32,6 +32,9 @@ Class Paidservices_model extends CI_Model
 		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
 		
 		$this->db->where("(sb_paid_services.sb_hotel_id='$hotel_id')", NULL, FALSE);
+		if($this->input->post('parent_service_id')!=null){
+			$this->db->where("(sb_hotel_child_services.sb_parent_service_id='".$this->input->post('parent_service_id')."')", NULL, FALSE);
+		}
 		$i = 0;
 		if(isset($searchArray['value'])){
 		
@@ -78,9 +81,13 @@ Class Paidservices_model extends CI_Model
 	{
 		$this->db->from($tablename);
 		$this->db->join('sb_hotel_child_services', 'sb_hotel_child_services.sb_child_service_id= sb_paid_services.sb_child_service_id');
+		
 		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
 		
 		$this->db->where("(sb_paid_services.sb_hotel_id='$hotel_id')", NULL, FALSE);
+		if($this->input->post('parent_service_id')!=null){
+			$this->db->where("(sb_hotel_child_services.sb_parent_service_id='".$this->input->post('parent_service_id')."')", NULL, FALSE);
+		}
 		return $this->db->count_all_results();
 	}
 	

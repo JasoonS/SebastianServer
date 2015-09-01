@@ -34,15 +34,11 @@ class HotelRooms extends CI_Controller
 		}
 		$data['action']="admin/hotelRooms/hotelRoomsInsert";
 		$data['ajaxurl']="admin/hotelRooms/";
-		$data['title']  = 'Room Creation Page';
+		$data['title']  = 'Room Creation';
 		$data['rooms_booked']=$this->hotelrooms_model->get_ordinary_booked_rooms();
-		$room_array=$data['rooms_booked'];
-		//$temparray=array();
-		// $chunk = 5;
-		// for ($i=0,$j=sizeof($room_array);$i<$j; $i+=$chunk) {
-		    $temparray = array_chunk($room_array, 5);
-		    // do whatever
-		//}
+		$data['room_types']=$this->hotelrooms_model->getAvailableRoomTypes();
+		$room_array=$data['rooms_booked'];	
+		$temparray = array_chunk($room_array, 5);
 		$data['rooms_booked']=$temparray;
 		$this->template->load('page_tpl','hotel_rooms_vw',$data);
 	}
@@ -68,13 +64,19 @@ class HotelRooms extends CI_Controller
 		if($room_num_to <10)
 		{
 			$room_num_to=$room_num_to%10;
-		}		
+		}	
+		$sb_hotel_room_type = $this->input->post('sb_hotel_room_type');
+		
+        if($this->input->post('sb_hotel_room_type') == "not specified")
+        {
+			$sb_hotel_room_type=$this->input->post('sb_hotel_new_room_type');
+        }  		
 		$hotelRoomsInsert_data=array(
 			'room_num_from'=>$room_num_from,
 			'room_num_to'=>$room_num_to,
 			'room_num_prefix'=>$this->input->post('room_num_prefix'),
 			'room_num_postfix'=>$this->input->post('room_num_postfix'),
-			'sb_hotel_room_type'=>$this->input->post('sb_hotel_room_type')
+			'sb_hotel_room_type'=>$sb_hotel_room_type
 		);
 		$r=$this->hotelrooms_model->hotelRoomsInsert($hotelRoomsInsert_data);
 		if($r!=0)
@@ -88,11 +90,7 @@ class HotelRooms extends CI_Controller
 		}
 		redirect('admin/HotelRooms');	
 	}
-	/* Method render create Rooms After submission Of create_rooms_form If User is super administrator
-	 * @param -	Number(From and To )->room number limit
-				String(prefix and suffix)->as prefix and postfix to Room number
-	 * return void
-	 */
+
 	/* Method To Room Checkout Form Details
     * input - void
     * output - void
