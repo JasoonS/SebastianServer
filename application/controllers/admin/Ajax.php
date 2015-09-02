@@ -144,6 +144,13 @@ class Ajax extends CI_Controller
 				echo json_encode($output);
 				break;
 			}
+			//This case is to show all guest list.
+			case 18:{
+				$columnnames=['sb_hotel_guest_booking_id','sb_hotel_id','sb_guest_reservation_code','sb_guest_firstName','sb_guest_lastName','sb_guest_email','sb_guest_contact_no','sb_guest_check_in_date','sb_guest_check_out_date','sb_guest_rooms_alloted','sb_guest_created_on'];
+				$output=$this->ajax_arrival_list('sb_hotel_guest_bookings',$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames);
+				echo json_encode($output);
+				break;
+			}
 			default:{
 			}
 		}
@@ -275,15 +282,28 @@ class Ajax extends CI_Controller
 				}
 			$editurl =base_url("admin/user/edit_hotel_user/".$hotel->sb_hotel_user_id);
 			$viewurl =base_url("admin/user/view_hotel_user/".$hotel->sb_hotel_user_id);
+			$viewserviceurl = base_url("admin/staffreport/index/".$hotel->sb_hotel_user_id);
 				if($hotel->sb_hotel_user_status == '1'){
-					$row[] ='<a  href="'.$editurl.'" title="Edit" ><img src="'.FOLDER_ICONS_URL."edit.png".'"></a>'."  ".
-					'<a href="'.$viewurl.'" title="View" ><img src="'.FOLDER_ICONS_URL."View-Details.png".'" /></a>'."  ".
-					'<a  id="delete" href="#"  onclick="changehoteluserstatus('.$hotel->sb_hotel_user_id.','.$hotel->sb_hotel_user_status.');" title="Delete" ><img src="'.FOLDER_ICONS_URL."active.png".'" /></a>';
+					$tbl_row='<a  href="'.$editurl.'" title="Edit" ><img src="'.FOLDER_ICONS_URL."edit.png".'"></a>'."  ".
+					'<a href="'.$viewurl.'" title="View" ><img src="'.FOLDER_ICONS_URL."details.png".'" /></a>'."  ";
+					if($hotel->sb_hotel_user_type == 's')
+					{ 
+					  $tbl_row =$tbl_row ."  ".'<a href="'.$viewserviceurl.'" title="View" ><img src="'.FOLDER_ICONS_URL."View-Details.png".'" /></a>';
+					}
+                    $tbl_row = $tbl_row."  ".'<a  id="delete" href="#"  onclick="changehoteluserstatus('.$hotel->sb_hotel_user_id.','.$hotel->sb_hotel_user_status.');" title="Delete" ><img src="'.FOLDER_ICONS_URL."active.png".'" /></a>';
+				  					
+				    $row[]=$tbl_row; 
 				}
 				else{
-					$row[] ='<a  href="'.$editurl.'" title="Edit" ><img src="'.FOLDER_ICONS_URL."edit.png".'"></a>'."  ".
-					'<a  href="'.$viewurl.'" title="View" ><img src="'.FOLDER_ICONS_URL."View-Details.png".'" /></a>'."  ".
-					'<a  id="restore" href="#"  onclick="changehoteluserstatus('.$hotel->sb_hotel_user_id.','.$hotel->sb_hotel_user_status.');" title="Restore" ><img src="'.FOLDER_ICONS_URL."Inactive.png".'" /></a>';
+					$tbl_row ='<a  href="'.$editurl.'" title="Edit" ><img src="'.FOLDER_ICONS_URL."edit.png".'"></a>'."  ".
+					'<a  href="'.$viewurl.'" title="View" ><img src="'.FOLDER_ICONS_URL."details.png".'" /></a>'."  ";
+					if($hotel->sb_hotel_user_type == 's')
+					{ 
+					  $tbl_row =$tbl_row."  ".'<a href="'.$viewserviceurl.'" title="View" ><img src="'.FOLDER_ICONS_URL."View-Details.png".'" /></a>';
+					}
+					$tbl_row =$tbl_row."  ".'<a  id="restore" href="#"  onclick="changehoteluserstatus('.$hotel->sb_hotel_user_id.','.$hotel->sb_hotel_user_status.');" title="Restore" ><img src="'.FOLDER_ICONS_URL."Inactive.png".'" /></a>';
+ 	
+				    $row[]=$tbl_row; 
 				}
 			$data[] = $row;
 		}
@@ -472,7 +492,11 @@ class Ajax extends CI_Controller
 		$confm_string		.= "-".$last_booking_id;
 		return $confm_string;
 	}
-
+    /* Method generate list of guests
+	 * booking 
+	 * @param string,int,int,array
+	 * return array
+	 */
 	public function ajax_guest_list($tablename,$orderkey,$orderdir,$columns)
 	{
 	    $this->load->model('Guestgrid_model');
@@ -498,6 +522,42 @@ class Ajax extends CI_Controller
 					"draw" => $this->input->post("draw"),
 					"recordsTotal" => $this->Guestgrid_model->count_all($tablename,$orderkey,$orderdir,$columns),
 					"recordsFiltered" => $this->Guestgrid_model->count_filtered($tablename,$orderkey,$orderdir,$columns),
+					"data" => $data,
+				 );
+		//output to json format
+		echo json_encode($output);
+		exit;
+	}
+	/* Method generate list of todays arriving guests
+	 * booking 
+	 * @param string,int,int,array
+	 * return array
+	 */
+	public function ajax_arrival_list($tablename,$orderkey,$orderdir,$columns)
+	{
+	    $this->load->model('Arrivalgrid_model');
+		$list = $this->Arrivalgrid_model->get_datatables($tablename,$orderkey,$orderdir,$columns);
+		$data = array();
+		$no =$this->input->post('start');
+		foreach ($list as $guest) {
+			$no++;
+			$row = array();
+			$row[]				= $guest->sb_hotel_guest_booking_id;
+			$row[] 				= $guest->sb_guest_lastName;
+			$row[] 				= $guest->sb_guest_firstName;
+			$row[] 				= $guest->sb_guest_email;
+			$row[] 				= $guest->sb_guest_contact_no;
+			$row[]				='<span class="label label-warning"><a href="javascript:void(0)">'. $guest->sb_guest_reservation_code.'</a></span>';
+			$row[] 				= $guest->sb_guest_rooms_alloted;
+			$reservation_code	= $guest->sb_hotel_guest_booking_id;   
+			$row[]				='<a id="allocate" href="#" onclick="allocateRoom(\''.$guest->sb_guest_reservation_code.'\','.$guest->sb_guest_rooms_alloted.');"  title="Allocate Rooms" ><img src="'.FOLDER_ICONS_URL."Allocate.png".'" /></a>'." ".
+								  '<a href="'.base_url("admin/HotelRooms/Roomcheckout/$reservation_code").'"  title="View" ><img src="'.FOLDER_ICONS_URL."View-Details.png".'" /></a>';
+			$data[] = $row;
+		}
+		$output = array(
+					"draw" => $this->input->post("draw"),
+					"recordsTotal" => $this->Arrivalgrid_model->count_all($tablename,$orderkey,$orderdir,$columns),
+					"recordsFiltered" => $this->Arrivalgrid_model->count_filtered($tablename,$orderkey,$orderdir,$columns),
 					"data" => $data,
 				 );
 		//output to json format

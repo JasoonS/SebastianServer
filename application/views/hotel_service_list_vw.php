@@ -66,8 +66,8 @@
             </div>
             
             <div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
-				<button type="button" class="btn btn-danger" id="idChangeHotelStats">Change</button>	                              
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-danger" id="idChangeHotelStats">Proceed</button>	                              
             </div>
         </div>
     </div>
@@ -146,7 +146,7 @@ $(document).ready(function () {
 
 function changeservicestatus(id,servicestatus)
 {   
-    $(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger id="idChangeHotelStats" onclick="changestatus('+id+','+servicestatus+');">Change</button>');
+    $(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button><button type="button" class="btn btn-danger id="idChangeHotelStats" onclick="changestatus('+id+','+servicestatus+');">Proceed</button>');
     $("#confirm-delete").modal('show');
 }
 

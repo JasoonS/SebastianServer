@@ -124,13 +124,13 @@ getroombooked();
 				
 							<label for="room_num_from" class="col-xs-3 control-label">Room No.: From:</label>
 							<div class="col-xs-4">
-							<input type="text" class="form-control bfh-number" data-min="1" data-max="50" data-zeros="true" name="room_num_from" id="room_num_from"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
+							<input type="text" class="form-control bfh-number" data-min="1"  data-zeros="true" name="room_num_from" id="room_num_from"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
 							</div>
 						<!--</div>
 						<div class = "form-group classFormInputsBox">-->
 							<label for="room_num_to" class="col-xs-1 control-label">To:</label>
 							<div class="col-xs-4">
-							<input type="text" class="form-control bfh-number" data-min="1" data-max="50" data-zeros="true" name="room_num_to" id="room_num_to" onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
+							<input type="text" class="form-control bfh-number" data-min="1"  data-zeros="true" name="room_num_to" id="room_num_to" onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
 
 							</div>
 						</div>

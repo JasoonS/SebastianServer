@@ -158,7 +158,7 @@ function recreateTable()
 }
 function changehoteluserstatus(id,status)
 {
-    $(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger" onclick=changeuserstatus('+id+','+status+');>Change</button>');
+    $(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button><button type="button" class="btn btn-danger" onclick=changeuserstatus('+id+','+status+');>Proceed</button>');
     $("#confirm-delete").modal('show');
 			
 }
