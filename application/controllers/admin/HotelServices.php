@@ -279,6 +279,7 @@ Class HotelServices extends CI_Controller
 		$this->data['action_type'] 			= "create";
 	    $this->template->load('page_tpl', 'edit_paid_services_vw',$this->data);
 	}
+	
 
 	/*This method is used for Create Paid Sub Child Service Task 
 	 *@params void
@@ -347,6 +348,24 @@ Class HotelServices extends CI_Controller
 		}
 		$this->data['title'] = "Hotel Services";
 		$this->template->load('page_tpl', 'hotel_service_list_vw',$this->data);
+	}
+    /* Method To show all Hotel Menus
+    * input - void
+    * output - void
+	*/
+	
+	public function showHotelMenus()
+	{
+		$requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3);
+		$this->data['hotel_id'] 			= $this->session->userdata('logged_in_user')->sb_hotel_id;
+		
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}
+	
+		$this->data['title'] = "Hotel Menus";
+		$this->template->load('page_tpl', 'hotel_menu_list_vw',$this->data);
 	}
    
    /* Method To show Hotel Service edit view by hotel admin
@@ -423,21 +442,5 @@ Class HotelServices extends CI_Controller
 		}
 	}
 	
-   /* Method To Room Checkout Form Details
-    * input - void
-    * output - void
-	*/
-   public function Roomcheckout($booking_id = ' ')
-   {
-		$requested_mod = 'HotelRooms';
-		if(!$this->acl->hasPermission($requested_mod))
-		{
-			redirect('admin/dashboard');
-		}
-		$this->data['title'] = "Guest Details";
-		$this->Guest_model->get_guest_data();
-		print_r("Get All Rooms Details");exit;
-		
-		
-   }
+   
 }

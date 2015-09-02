@@ -115,7 +115,8 @@ class Request extends CI_Controller
 				$output =$this->release_all_rooms();
 				echo json_encode($output);
 				break;
-			}			
+			}	
+            			
 		}
     }
 	 /* This function returns count of child service with same name

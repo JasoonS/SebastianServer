@@ -283,7 +283,7 @@ $(function() {
 			var parent_service_id=$("#sb_parent_service_id").val();
 			var base_url = proj_url+'/admin/ajax/get_ajax_data';
 			if(creation_user_type == 's'){
-				$("#child_services_control").show(2000);
+				//$("#child_services_control").show(2000);
 				$.ajax({
 					url: base_url,
 					type:"post",
@@ -304,7 +304,7 @@ $(function() {
 				}).done(function (){
 
 					<?php
-						if($action_type == "edit"){	?>		
+						/*if($action_type == "edit"){	?>		
 							<?php if(($userinfo->sb_hotel_user_type == 's')&&($user_parent_service[0]["sb_parent_service_id"] == $user_child_service[0]["sb_parent_service_id"])){?>	
 							console.log(<?php echo $user_child_service[0]["sb_child_service_id"];?>);
 							if(change == 0){
@@ -315,7 +315,7 @@ $(function() {
 							}
 						<?php } ?>
 					
-					<?php } 
+					<?php } */
 					?>
 			 });
 			}

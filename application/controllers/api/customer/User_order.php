@@ -170,7 +170,7 @@ class User_order extends CI_Controller
 				{
 					$wrongRoom ++;
 					$result = array(
-						'result' => $rooms
+						'sb_guest_allocated_room_no' => $rooms
 					);
 					continue;
 				}

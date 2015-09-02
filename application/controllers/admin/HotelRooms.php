@@ -34,15 +34,11 @@ class HotelRooms extends CI_Controller
 		}
 		$data['action']="admin/hotelRooms/hotelRoomsInsert";
 		$data['ajaxurl']="admin/hotelRooms/";
-		$data['title']  = 'Room Creation Page';
+		$data['title']  = 'Room Creation';
 		$data['rooms_booked']=$this->hotelrooms_model->get_ordinary_booked_rooms();
-		$room_array=$data['rooms_booked'];
-		//$temparray=array();
-		// $chunk = 5;
-		// for ($i=0,$j=sizeof($room_array);$i<$j; $i+=$chunk) {
-		    $temparray = array_chunk($room_array, 5);
-		    // do whatever
-		//}
+		$data['room_types']=$this->hotelrooms_model->getAvailableRoomTypes();
+		$room_array=$data['rooms_booked'];	
+		$temparray = array_chunk($room_array, 5);
 		$data['rooms_booked']=$temparray;
 		$this->template->load('page_tpl','hotel_rooms_vw',$data);
 	}
@@ -68,13 +64,19 @@ class HotelRooms extends CI_Controller
 		if($room_num_to <10)
 		{
 			$room_num_to=$room_num_to%10;
-		}		
+		}	
+		$sb_hotel_room_type = $this->input->post('sb_hotel_room_type');
+		
+        if($this->input->post('sb_hotel_room_type') == "not specified")
+        {
+			$sb_hotel_room_type=$this->input->post('sb_hotel_new_room_type');
+        }  		
 		$hotelRoomsInsert_data=array(
 			'room_num_from'=>$room_num_from,
 			'room_num_to'=>$room_num_to,
 			'room_num_prefix'=>$this->input->post('room_num_prefix'),
 			'room_num_postfix'=>$this->input->post('room_num_postfix'),
-			'sb_hotel_room_type'=>$this->input->post('sb_hotel_room_type')
+			'sb_hotel_room_type'=>$sb_hotel_room_type
 		);
 		$r=$this->hotelrooms_model->hotelRoomsInsert($hotelRoomsInsert_data);
 		if($r!=0)
@@ -88,11 +90,7 @@ class HotelRooms extends CI_Controller
 		}
 		redirect('admin/HotelRooms');	
 	}
-	/* Method render create Rooms After submission Of create_rooms_form If User is super administrator
-	 * @param -	Number(From and To )->room number limit
-				String(prefix and suffix)->as prefix and postfix to Room number
-	 * return void
-	 */
+
 	/* Method To Room Checkout Form Details
     * input - void
     * output - void
@@ -131,8 +129,7 @@ class HotelRooms extends CI_Controller
 			$guest_data[$i]->total_amount=$total_amount;
 			$i++;
 		}
-	
-		
+
 		$this->data['guest_data']=$guest_data;
 		$this->data['guest_general_data']=$this->Guest_model->get_hotel_guest_general_data($booking_id);
 		$hotel_pic=HOTEL_PIC;
@@ -141,8 +138,83 @@ class HotelRooms extends CI_Controller
 		$this->data['checked_out_rooms']=$checked_out_rooms;
 		$this->data['checked_in_rooms']=$checked_in_rooms;
 		$this->template->load('page_tpl','hotel_checkout_vw',$this->data);
-
     }
+	/* Method To Show All Order Details
+    * input - void
+    * output - void
+	*/
+	public function details($booking_id = ' ')
+    {
+		$requested_mod = 'HotelRooms';
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}
+		$this->data['title'] = "Invoice Details";
+		$this->data['hotel_data'] = $this->Hotel_model->get_hotel_data($this->session->userdata('logged_in_user')->sb_hotel_id);
+		$this->data['guest_general_data']=$this->Guest_model->get_hotel_guest_general_data($booking_id);
+		$guest_data=$this->Guest_model->get_hotel_guest_data($booking_id);
+		$i=0;
+		while($i<count($guest_data))
+		{
+			$room_number =$guest_data[$i]->sb_guest_allocated_room_no;
+			
+			$customer_orders=$this->Guest_model->get_hotel_guest_orders($booking_id,$room_number);
+			$count =0;
+			$total_amount =0;
+			
+			while($count < count($customer_orders))
+			{
+			    
+				$total_amount = $total_amount + ($customer_orders[$count]->quantity * $customer_orders[$count]->price);
+				$count++;
+			}
+			$guest_data[$i]->customer_orders=$customer_orders;
+			$guest_data[$i]->total_amount=$total_amount;
+			$i++;
+		}
+		$this->data['guest_data']=$guest_data;
+		$this->template->load('page_tpl','hotel_checkout_bill_vw',$this->data);
+    }	
+
+	/* Method To Show All Order Details For Paricular Room In the Booking
+    * input - void
+    * output - void
+	*/
+	public function detail($booking_id = ' ',$room_no = ' ')
+    {
+	   
+		$requested_mod = 'HotelRooms';
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}
+		$this->data['title'] = "Invoice Details";
+		$this->data['hotel_data'] = $this->Hotel_model->get_hotel_data($this->session->userdata('logged_in_user')->sb_hotel_id);
+		$this->data['guest_general_data']=$this->Guest_model->get_hotel_guest_general_data($booking_id);
+		$guest_data=$this->Guest_model->get_hotel_guest_data($booking_id,$room_no);
+		$i=0;
+		while($i<count($guest_data))
+		{
+			$room_number =$guest_data[$i]->sb_guest_allocated_room_no;
+			
+			$customer_orders=$this->Guest_model->get_hotel_guest_orders($booking_id,$room_number);
+			$count =0;
+			$total_amount =0;
+			
+			while($count < count($customer_orders))
+			{
+			    
+				$total_amount = $total_amount + ($customer_orders[$count]->quantity * $customer_orders[$count]->price);
+				$count++;
+			}
+			$guest_data[$i]->customer_orders=$customer_orders;
+			$guest_data[$i]->total_amount=$total_amount;
+			$i++;
+		}
+		$this->data['guest_data']=$guest_data;
+		$this->template->load('page_tpl','hotel_checkout_bill_vw',$this->data);
+    }		
 
     public function get_booked_rooms()
     {
@@ -159,4 +231,5 @@ class HotelRooms extends CI_Controller
     		echo 0;
     	}
     }
+
 }

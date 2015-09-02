@@ -44,7 +44,9 @@ class User extends CI_Controller
 		$cdt_macid 				= 	$this->input->post('cdt_macid');
 		
 		if($cdt_token == '(null)' || $cdt_token == 'null' || $cdt_token == null || $cdt_token == '')
-			$cdt_token == '';
+			$cdt_token = '';
+		if(strlen($cdt_token) < '10')
+			$cdt_token = '';
 
 		if($sb_guest_reservation_code == '' ||  $cdt_deviceType == ''|| $cdt_macid=='' )
 		{

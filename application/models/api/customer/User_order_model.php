@@ -43,8 +43,11 @@ class User_order_model extends CI_Model
 						$sb_hotel_user_id = $data[$i]['sb_hotel_ser_assgnd_to_user_id'];
 						$qry1 = "Select sb_hotel_user_id,sb_hotel_username from sb_hotel_users where sb_hotel_user_id = '$sb_hotel_user_id'";
 						$query1 = $this->db->query($qry1);
-						$data1 = $query1->result_array();	
-						$data[$i]['sb_hotel_ser_assgnd_to_username'] = $data1[0]['sb_hotel_username'];
+						$data1 = $query1->result_array();
+						if(count($data1)>0)
+							$data[$i]['sb_hotel_ser_assgnd_to_username'] = $data1[0]['sb_hotel_username'];
+						else
+							$data[$i]['sb_hotel_ser_assgnd_to_username'] = '';
 
 					}
 				 }	

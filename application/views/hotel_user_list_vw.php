@@ -164,7 +164,7 @@ function changehoteluserstatus(id,status)
 }
 function changeuserstatus(id,status)
 {
-	var base_url = ajax_url;
+	var base_url = '<?php echo site_url('admin/ajax/get_ajax_data')?>';
 	$.ajax({
 		url: base_url,
 		type:"post",

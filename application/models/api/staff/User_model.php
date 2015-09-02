@@ -23,6 +23,7 @@ class User_model extends CI_Model
 				WHERE hu.sb_hotel_useremail = '$sb_hotel_useremail' 
 				AND hu.sb_hotel_user_status = '1' AND hu.sb_hotel_user_type != 'a'
 				";
+		// echo($qry); die();
 		$query = $this->db->query($qry);
 		$result_array = $query->result_array();
 		if(count($result_array)>0)

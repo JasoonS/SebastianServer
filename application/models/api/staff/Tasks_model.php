@@ -251,7 +251,7 @@ class Tasks_model extends CI_Model
 	public function check_order_item($order_placed_id)
 	{
 		$sql = "SELECT `is_temp_delete` FROM `sb_customer_order_placed` WHERE `order_placed_id`='$order_placed_id'";
-		$query = $this->db->query($qry);
+		$query = $this->db->query($sql);
 		$res = $query->result_array();
 		if(count($res)>0)
 		{

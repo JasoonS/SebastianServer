@@ -82,12 +82,12 @@ class Chat_model extends CI_Model
 		if($sb_sender_type == 1)
 		{
 			$qry = "SELECT concat('Mr',' ',u.`sb_hotel_username`,' ','(',d.`sb_staff_designation_name`,')') AS user_name FROM `sb_hotel_users` u join `sb_hotel_staff_designation` d on u.`sb_staff_designation_id` = d.`sb_staff_designation_id` where `sb_hotel_user_id` = '$id'";
-			// $qry = "SELECT CONCAT('Mr',' ',`sb_guest_firstName`,'.',`sb_guest_lastName`) AS user_name FROM `sb_hotel_guest_bookings` WHERE`sb_hotel_guest_booking_id` = '$id' ";
+			//$qry = "SELECT CONCAT('Mr',' ',`sb_guest_firstName`,'.',`sb_guest_lastName`) AS user_name FROM `sb_hotel_guest_bookings` WHERE`sb_hotel_guest_booking_id` = '$id' ";
 		}
 		else
 		{
 			$qry = "SELECT CONCAT('Mr',' ',`sb_guest_firstName`,'.',`sb_guest_lastName`) AS user_name FROM `sb_hotel_guest_bookings` WHERE`sb_hotel_guest_booking_id` = '$id' ";
-			// $qry = "SELECT concat('Mr',' ',u.`sb_hotel_username`,' ','(',d.`sb_staff_designation_name`,')') AS user_name FROM `sb_hotel_users` u join `sb_hotel_staff_designation` d on u.`sb_staff_designation_id` = d.`sb_staff_designation_id` where `sb_hotel_user_id` = '$id'";
+			//$qry = "SELECT concat('Mr',' ',u.`sb_hotel_username`,' ','(',d.`sb_staff_designation_name`,')') AS user_name FROM `sb_hotel_users` u join `sb_hotel_staff_designation` d on u.`sb_staff_designation_id` = d.`sb_staff_designation_id` where `sb_hotel_user_id` = '$id'";
 		}
 
 		$query = $this->db->query($qry);

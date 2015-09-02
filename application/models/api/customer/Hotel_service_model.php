@@ -165,8 +165,7 @@ class Hotel_service_model extends CI_Model
 				h.sb_hotel_ser_start_time, h.sb_hotel_ser_finished_date , h.sb_hotel_ser_finished_time,h.sb_hotel_ser_assgnd_to_user_id,
 				h.sb_hotel_service_status, r.sb_service_log,c.sb_child_servcie_name, 
 				concat('$IMP_PATH',c.child_service_image) as `child_service_image`,
-				h.reject_reason,
-				r.sb_hotel_ser_reqstd_on
+				h.reject_reason,r.sb_hotel_ser_reqstd_on
 				from sb_hotel_request_service r join sb_hotel_services_status h
 				ON r.sb_hotel_requst_ser_id = h.sb_hotel_requst_ser_id
 				join sb_hotel_service_map m ON r.sb_hotel_service_map_id = m.sb_hotel_service_map_id
@@ -188,7 +187,11 @@ class Hotel_service_model extends CI_Model
 					$qry1 = "Select sb_hotel_user_id,sb_hotel_username from sb_hotel_users where sb_hotel_user_id = '$sb_hotel_user_id'";
 					$query1 = $this->db->query($qry1);
 					$data1 = $query1->result_array();	
-					$data[$i]['sb_hotel_ser_assgnd_to_username'] = $data1[0]['sb_hotel_username'];
+					// $data[$i]['sb_hotel_ser_assgnd_to_username'] = $data1[0]['sb_hotel_username'];
+					if(count($data1)>0)
+						$data[$i]['sb_hotel_ser_assgnd_to_username'] = $data1[0]['sb_hotel_username'];
+					else
+						$data[$i]['sb_hotel_ser_assgnd_to_username'] = '';
 				}
 			}	
 		}
