@@ -1,8 +1,26 @@
-<?php // echo '<pre>'; print_r($rooms_booked);die; ?>
+<!-- Page specfic css !-->
+<link href="<?php echo THEME_ASSETS; ?>css/bootstrap-toggle.css" rel="stylesheet" type="text/css">
+<link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
+
+<!-- Page specific js !-->
+<script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
+<!-- Theme specfic js!-->
+<script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-toggle.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-formhelpers.min.js"></script>
+
+<!-- bootstrap progress js -->
+<script src="<?php echo THEME_ASSETS?>js/progressbar/bootstrap-progressbar.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/nicescroll/jquery.nicescroll.min.js"></script>
+<!-- icheck -->
+<script src="<?php echo THEME_ASSETS?>js/icheck/icheck.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
+
 
 <script>
-// $(document).ready(function(){
-// 	$("#room_type").change(function(){
+
 function getroombooked(room_type_value)
 {
 	//alert(room_type_value);
@@ -45,8 +63,7 @@ function getroombooked(room_type_value)
 
 </script>
 <script>
- $("#room_num_prefix").on("keydown",function(e){return e.which !==32;});
- $("#room_num_postfix").on("keydown",function(e){return e.which !==32;});
+ 
 function formvalidate()
 {
 	var room_num_from = document.getElementById("room_num_from").value;
@@ -71,15 +88,18 @@ function formvalidate()
 }
 
 </script>
+
+
+
 <div class="right_col" role="main">
         <!-- This is for Success Message.-->
-		<?php if ($this->session->flashdata('category_success')) { ?>
-	        <div class="alert alert-success"> <?= $this->session->flashdata('category_success') ?> </div>
+		<?php if ($this->session->flashdata('rooms_success')) { ?>
+	        <div class="alert alert-success"> <?= $this->session->flashdata('rooms_success') ?> </div>
 	    <?php } ?>
 
 		<!-- This is for Generic Error Message.-->
-		<?php if ($this->session->flashdata('category_error')) { ?>
-	    	<div class="alert alert-danger"> <?= $this->session->flashdata('category_error') ?> </div>
+		<?php if ($this->session->flashdata('rooms_error')) { ?>
+	    	<div class="alert alert-danger"> <?= $this->session->flashdata('rooms_error') ?> </div>
 		<?php } ?>
     <div class="">
     	<div class="page-title">
@@ -88,7 +108,7 @@ function formvalidate()
             </div>
         </div>
 
-		<form  class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data" >
+		<form  class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data" onsubmit="return formvalidate()" >
 			<div class="row">
 				<div class = "col-md-8 col-xs-12 col-md-offset-2 classFormBox">
 					<div class="x_panel classRequiredPanel">
@@ -101,11 +121,11 @@ function formvalidate()
 			                <div class = "form-group classFormInputsBox" id="from_room">				
 								<label for="room_num_from" class="col-xs-4 control-label">Room No.: From:</label>
 								<div class="col-xs-3">
-									<input type="text" class="form-control bfh-number" data-min="1" data-max="50" data-zeros="true" name="room_num_from" id="room_num_from"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
+									<input type="text" class="form-control bfh-number" data-min="1" data-max="50" data-zeros="true" name="room_num_from" id="room_num_from" onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
 								</div>
 							<!-- </div>
-
-							<div class = "form-group classFormInputsBox"> -->
+						
+							<div class = "form-group classFormInputsBox"> onkeypress='return event.charCode >= 48 && event.charCode <= 57'-->
 								<label for="room_num_to" class="col-xs-1 control-label">To:</label>
 								<div class="col-xs-3">
 									<input type="text" class="form-control bfh-number" data-min="1" data-max="50" data-zeros="true" name="room_num_to" id="room_num_to" onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
@@ -115,14 +135,14 @@ function formvalidate()
 							<div class = "form-group classFormInputsBox">
 								<label for="room_num_prefix" class="col-xs-4 control-label">Prefix</label>
 								<div class="col-xs-4">
-									<input type="text" class="form-control" name="room_num_prefix" id="room_num_prefix">
+									<input type="text" class="form-control" name="room_num_prefix" id="room_num_prefix" onkeypress='return event.charCode!=32' >
 								</div>
 							</div>
 
 							<div class = "form-group classFormInputsBox">
 								<label for="room_num_postfix" class="col-xs-4 control-label">Postfix</label>
 								<div class="col-xs-4">
-									<input type="text" class="form-control" name="room_num_postfix" id="room_num_postfix">
+									<input type="text" class="form-control" name="room_num_postfix" id="room_num_postfix" onkeypress='return event.charCode!=32'>
 								</div>
 							</div>
 
@@ -170,27 +190,6 @@ function formvalidate()
 		</div>	
 	</div>
 </div>
-<!-- Page specfic css !-->
-<link href="<?php echo THEME_ASSETS; ?>css/bootstrap-toggle.css" rel="stylesheet" type="text/css">
-<link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
-
-<!-- Page specific js !-->
-<script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
-<!-- Theme specfic js!-->
-<script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/bootstrap-toggle.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/bootstrap-formhelpers.min.js"></script>
-
-<!-- bootstrap progress js -->
-<script src="<?php echo THEME_ASSETS?>js/progressbar/bootstrap-progressbar.min.js"></script>
-<script src="<?php echo THEME_ASSETS?>js/nicescroll/jquery.nicescroll.min.js"></script>
-<!-- icheck -->
-<script src="<?php echo THEME_ASSETS?>js/icheck/icheck.min.js"></script>
-<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
-
-
 
 
 
