@@ -125,7 +125,7 @@ function formvalidate()
         </div>
 
 
-		<form  class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data" >
+		<form  class="form-horizontal" action="<?php echo base_url().$action?>" method="post" enctype="multipart/form-data" onsubmit="return formvalidate()" >
 			<div class="row">
 				<div class = "col-md-8 col-xs-12 col-md-offset-2 classFormBox">
 					<div class="x_panel classRequiredPanel">
@@ -154,14 +154,14 @@ function formvalidate()
 						<div class = "form-group classFormInputsBox">
 							<label for="room_num_prefix" class="col-xs-4 control-label">Prefix</label>
 							<div class="col-xs-6">
-							<input type="text" class="form-control" name="room_num_prefix" id="room_num_prefix">
+							<input type="text" class="form-control" name="room_num_prefix" id="room_num_prefix" onkeypress='return event.charCode!=32'>
 							</div>
 						</div>
 						
 						<div class = "form-group classFormInputsBox">
 							<label for="room_num_postfix" class="col-xs-4 control-label">Postfix</label>
 							<div class="col-xs-6">
-							<input type="text" class="form-control" name="room_num_postfix" id="room_num_postfix">
+							<input type="text" class="form-control" name="room_num_postfix" id="room_num_postfix" onkeypress='return event.charCode!=32'>
 							</div>
 						</div>
 
