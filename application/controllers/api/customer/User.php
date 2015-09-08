@@ -146,11 +146,11 @@ class User extends CI_Controller
 	}
 
 	/**
-	 * This function is for forgot Reservation code.
+	 * This function is for new Signup/login process.
 	 * return type- 
-	 * created on - 21th July 2015;
+	 * created on - 08th Sept 2015;
 	 * updated on - 
-	 * created by - Samrat Aher;
+	 * created by - Akshay PAtil;
 	 */
 	public function signup()
 	{
@@ -158,6 +158,11 @@ class User extends CI_Controller
 		$sb_guest_lastName 	= 	$this->input->post('sb_guest_lastName');
 		$sb_guest_email 	= 	$this->input->post('sb_guest_email');
 		$sb_hotel_id 		= 	$this->input->post('sb_hotel_id');
+
+		if($sb_hotel_id == '' || $sb_guest_email == '')
+		{
+			response_fail("Please insert all the fields");
+		}
 
 		$cdt_token			= 	$this->input->post('cdt_token');
 		$cdt_deviceType		=   $this->input->post('cdt_deviceType');
