@@ -280,16 +280,15 @@ function randomPassword() {
  * This helper works for multiple image upload
  * $PATH : Provide path where you want to upload images
   */
-  function multiple_upload($FILE,$path,$num)
+  function multiple_upload($FILE,$path)
 		{		
 		for($i=0;$i<count($FILE['upload']['name']);$i++)
 			{
-			if(!move_uploaded_file($FILE['upload']['tmp_name'][$i],$path.$num))
+			if(!move_uploaded_file($FILE['upload']['tmp_name'][$i],$path.$FILE['upload']['name'][$i]))
 				{
 					$data['failuer'] ="Failed to upload";
 				}
-				$num++;
 							
 		}
-			return true;
+			echo "Success";
 		}

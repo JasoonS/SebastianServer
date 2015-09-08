@@ -6,7 +6,7 @@ Class Hoteluser_model extends CI_Model
 	function __construct()
 	{
 		parent::__construct();
-		$this->user_id= $this->session->userdata('logged_in_user')->sb_hotel_user_id; 
+		
 	}
 	/* Method To Get Datatable
 	 * inside system 
