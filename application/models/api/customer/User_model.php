@@ -114,5 +114,22 @@ class User_model extends CI_Model
 		$query = $this->db->query($qry);
 		return $query->result_array();
 	}
+
+	public function get_hotel($sb_hotel_name)
+	{
+		if ($sb_hotel_name == '') 
+		{
+			$this->db->select('sb_hotel_id, sb_hotel_name');
+			$query = $this->db->get('sb_hotels');
+		}
+		else
+		{
+			$qry = "Select sb_hotel_id, sb_hotel_name from sb_hotels where sb_hotel_name LIKE '%$sb_hotel_name%'";
+			$query = $this->db->query($qry);
+		}
+		
+		return $query->result_array();
+
+	}
 }
 ?>	

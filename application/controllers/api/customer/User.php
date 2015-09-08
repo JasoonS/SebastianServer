@@ -15,8 +15,8 @@ class User extends CI_Controller
 
 			SOF
 		*/
-		$this->load->helper('api/device_log');
-		device_log($_SERVER,$_REQUEST);
+		// $this->load->helper('api/device_log');
+		// device_log($_SERVER,$_REQUEST);
 		$this->load->library('user_agent');
 		if($this->agent->is_browser())
 		{
@@ -141,6 +141,29 @@ class User extends CI_Controller
 				response_ok();
 			}				
 		}
+	}
+
+	public function get_hotel_names()
+	{
+		$sb_hotel_name = '';
+		if (!empty($_POST)) 
+		{
+			$sb_hotel_name = $this->input->post('sb_hotel_name');
+		}
+
+		$result = $this->User_model->get_hotel($sb_hotel_name);
+		if (!empty($result)) 
+		{
+			$resp = array(
+	    	        'result' =>$result
+	    	        );
+			response_ok($resp);
+		}
+		else
+		{
+			response_fail("No Hotel Exists");
+		}
+		
 	}
 
 	
