@@ -67,8 +67,8 @@
             </div>
             
             <div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
-				<button type="button" class="btn btn-danger" id="idChangeVendorStats">Change</button>	
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-danger" id="idChangeVendorStats">Proceed</button>	
 				                              
             </div>
         </div>
@@ -120,8 +120,8 @@
 				</div>
             
             <div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
-				<button type="button" class="btn btn-danger" id="idChangeVendorStats">Change</button>	
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-danger" id="idChangeVendorStats">Proceed</button>	
 				                              
             </div>
         </div>
@@ -208,7 +208,7 @@ $(document).ready(function () {
 
 function changevendorstatus(id,vendorstatus)
 {  
-	$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><button type="button" class="btn btn-danger id="idChangeHotelStats" onclick="changestatus('+id+','+vendorstatus+');">Change</button>');
+	$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button><button type="button" class="btn btn-danger id="idChangeHotelStats" onclick="changestatus('+id+','+vendorstatus+');">Proceed</button>');
     $("#confirm-delete").modal('show');
 }
 
@@ -217,7 +217,7 @@ function addVendor(action)
     $("#myModalLabel").html("Create Vendor");
 	$("#sb_vendorname").val('');
 	loadStates('id_sbVendorCountry','id_sbVendorState','1','id_sbVendorCity','0','0','0'); 
-	$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button><input class="btn btn-danger" type ="submit" onclick="add();"   value = "Add Restaurant" name = "add" id = "submit">');
+	$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button><input class="btn btn-danger" type ="submit" onclick="add();"   value = "Add Restaurant" name = "add" id = "submit">');
     $("#add-edit").modal('show');
     $('#id_uploadImage').attr('src', "#");
 }
@@ -237,6 +237,7 @@ function edit(sb_hotel_restaurant_id, sb_hotel_restaurant_name, sb_hotel_restaur
 
 function changestatus(id,vendorstatus)
 {
+	
     $.ajax({
         url: "<?php echo site_url('admin/Restaurants/status_change');?>",
         type:"post",

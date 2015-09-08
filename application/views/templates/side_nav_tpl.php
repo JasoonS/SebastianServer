@@ -1,4 +1,4 @@
-<div class="col-md-3 left_col">
+<div class="col-md-3 left_col non-printable">
     <div class="left_col scroll-view">
 
         <div class="navbar nav_title" style="border: 0;">

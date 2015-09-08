@@ -34,27 +34,13 @@
         			</tfoot>
 
                     <tbody>
-                        <?php /*foreach($guest_list as $list) { ?>
-                            <tr id="idRow_"<?php echo $list->sb_guest_reservation_code ?>>
-                                <td><?php echo $list->sb_guest_lastName ?></td>
-                                <td><?php echo $list->sb_guest_firstName ?></td>
-                                <td><?php echo $list->sb_guest_email ?></td>
-                                <td><?php echo $list->sb_guest_contact_no ?></td>
-                                <td><span class="label label-warning"><a href="javascript:void(0)"><?php echo $list->sb_guest_reservation_code ?></a></span></td>
-								<td><?php echo $list->sb_guest_rooms_alloted; ?></td>
-							</tr>
-                        <?php } */?>
+                      
                     </tbody>
                 </table>
         	</div>
 			</div>
         </div>
-       <!-- <div class = "row">
-        	<div class = "col-md-2 classBtn">
-        		<button class="btn btn-info btn-sm" id="idAddNewGuest" type="button">Add new guest</button>
-        	</div>
-        	
-        </div>-->
+    
     </div>
     <!-- footer content -->
     <footer>
@@ -201,7 +187,7 @@ $(document).ready(function () {
 		"bDestroy":true,	
         "ajax": {
             "url": "<?php echo site_url('admin/ajax/get_ajax_data');?>",
-            "data":{flag:'17',tablename:'tbname',orderkey: ' sb_hotel_id ',orderdir:' desc '},
+            "data":{flag:'18',tablename:'tbname',orderkey: ' sb_hotel_id ',orderdir:' desc '},
             "type": "POST",
          
         },

@@ -1,7 +1,11 @@
- <?php
- 
- ?>
- <div class="right_col" role="main">
+<style type="text/css" media="print">
+    @page 
+    {
+        size: auto;   /* auto is the initial value */
+        margin: 0mm;  /* this affects the margin in the printer settings */
+    }
+</style>
+ <div class="right_col" role="main" >
 
                 <div class="">
                     <div class="page-title">
@@ -172,9 +176,9 @@
                 </div>
 
                 <!-- footer content -->
-                <footer>
+                <footer class ="no-print">
                     <div class="">
-                        <p class="pull-right"> |
+                        <p class="pull-right "> |
                             <span class="lead"> <i class="fa fa-paw"></i> Sebastian Admin</span>
                         </p>
                     </div>

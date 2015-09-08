@@ -42,26 +42,6 @@ Class User_model extends CI_Model
 		else
 			return FALSE;
 	}
-
-	/* Method return user records relative
-	 * to admin type
-	 * @param string,string
-	 * return array on success , false on failure
-	 *
-	function authenticated_admin_records($admin_user_name,$admin_passwd_salt)
-	{
-		$this->db->select('admin_uname,admin_email,admin_type,admin_last_logged_in');
-		$this->db->from('sb_admin');
-		$this->db->where('admin_uname',$admin_user_name);
-		$this->db->where('admin_password_salt',$admin_passwd_salt);
-		$query = $this->db->get();
-
-		if($query->num_rows() > 0)
-			return $row = $query->row();
-		else
-			return FALSE;
-	}*/
-
 	/* Method return user records relative
 	 * to hotleir
 	 * @param string,string
@@ -90,12 +70,16 @@ Class User_model extends CI_Model
 	 */
 	function get_user_info($user_id)
 	{
-		$this->db->select('sb_hotel_user_id,sb_hotel_users.sb_hotel_id,sb_hotel_username,sb_hotel_name');
+		$this->db->select('sb_hotel_users.sb_hotel_user_id,sb_hotel_users.sb_hotel_id,sb_hotel_username,sb_hotel_name');
 		$this->db->select('sb_hotel_useremail,sb_hotel_user_pic,sb_hotel_user_type');
-		$this->db->select('sb_hotel_user_shift_from,sb_hotel_user_shift_to,sb_staff_designation_id');
+		$this->db->select('sb_hotel_user_shift_from,sb_hotel_user_shift_to,sb_staff_designation_name,sb_parent_service_name,sb_hotel_user_service_access_map.sb_parent_service_id');
 		$this->db->from('sb_hotel_users');
 		$this->db->join('sb_hotels','sb_hotels.sb_hotel_id=sb_hotel_users.sb_hotel_id','left');
-		$this->db->where('sb_hotel_user_id',$user_id);
+		$this->db->join('sb_hotel_staff_designation','sb_hotel_staff_designation.sb_staff_designation_id=sb_hotel_users.sb_staff_designation_id','left');
+		$this->db->join('sb_hotel_user_service_access_map','sb_hotel_user_service_access_map.sb_hotel_user_id=sb_hotel_users.sb_hotel_user_id','left');
+		$this->db->join('sb_hotel_parent_services','sb_hotel_parent_services.sb_parent_service_id=sb_hotel_user_service_access_map.sb_parent_service_id','left');
+		
+		$this->db->where('sb_hotel_users.sb_hotel_user_id',$user_id);
 		$query = $this->db->get();
 		if($query->num_rows() > 0)
 			return $row = $query->row();
@@ -168,5 +152,78 @@ Class User_model extends CI_Model
 		$this->db->where('sb_hotel_useremail',$user_email);
 		$query=$this->db->get('sb_hotel_users');
 		return $query->result_array();
+	}
+	/* Method return user name
+	 * to hotleir
+	 * @param int
+	 * return array on success , false on failure
+	 */
+	function get_user_name($user_id)
+	{
+		$this->db->select('sb_hotel_username');
+	    $this->db->from('sb_hotel_users');
+		$this->db->where('sb_hotel_user_id',$user_id);
+		$query = $this->db->get();
+		if($query->num_rows() > 0)
+			return $row = $query->row();
+		else
+			return FALSE;
+	}
+	/* Method return user parent service id
+	 * to hotleir
+	 * @param int
+	 * return array on success , false on failure
+	 */
+	function get_user_parent_service($user_id)
+	{
+		$this->db->select('DISTINCT sb_parent_service_id',false);
+	    $this->db->from('sb_hotel_user_service_access_map');
+		$this->db->where('sb_hotel_user_id',$user_id);
+		$query = $this->db->get();
+		if($query->num_rows() > 0)
+			return $row = $query->row();
+		else
+			return FALSE;
+	}
+	
+	/* Method to get device token of provided hotel staff user.
+	 *@param array
+     * return array
+	 */
+	function get_staff_device_tokens($user_ids)
+	{
+	    $this->db->select('sdt_token,sdt_deviceType');
+		$this->db->from('sb_staff_devicetoken');
+		$this->db->where_in('sb_hotel_user_id',$user_ids);
+		$query =$this->db->get();
+		return $query->result_array();	
+	}
+	/* Method to get Role Modules.
+	 *@param array
+     * return array
+	 */
+	function get_role_modules($role_id)
+	{
+	    $this->db->select('sb_roleid,sb_mod_id');
+		$this->db->from('sb_roles_mod');
+		$this->db->where('sb_roleid',$role_id);
+		$query =$this->db->get();
+		return $query->result_array();	
+	}
+	/* Method return user hotel id
+	 * to hotleir
+	 * @param int
+	 * return array on success , false on failure
+	 */
+	function get_user_hotel_id($user_id)
+	{
+		$this->db->select('sb_hotel_id');
+	    $this->db->from('sb_hotel_users');
+		$this->db->where('sb_hotel_user_id',$user_id);
+		$query = $this->db->get();
+		if($query->num_rows() > 0)
+			return $row = $query->row();
+		else
+			return FALSE;
 	}
 }//End Of Model

@@ -192,11 +192,10 @@ class Hotel extends CI_Controller
 		$this->data['hoteldata'] 		= $this->Hotel_model->get_hotel_data($hotel_id); 
 		$this->data['countrylist'] 		= getCountryList();
 		$this->data['languagelist']		=getAllLanguages();
-		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
-	    {
-			$this->data['title'] = LABEL_1;
+
+			$this->data['title'] = "Edit Hotel";
 			$this->template->load('page_tpl', 'create_hotel_vw',$this->data);
-	    }	
+
 	}
 	
 	/* Method Have Hotel Data updation logic super administrator/Hotel Administrator
@@ -206,18 +205,19 @@ class Hotel extends CI_Controller
 	public function edit_hotel_action($hotel_id)
 	{	
 		$data = $this->input->post();
+
 		$requested_mod = 'hotel';
 		if(!$this->acl->hasPermission($requested_mod))
 		{
 			redirect('admin/dashboard');
-		}  
+		}
+			
 		$this->validation_rules = array(
 		    array('field'=>'sb_hotel_country','label'=>'Country','rules'=>'required','class'=>'text-danger'),
 		    array('field'=>'sb_hotel_state','label'=>'State','rules'=>'required','class'=>'text-danger'),
 		    array('field'=>'sb_hotel_city','label'=>'City','rules'=>'required','class'=>'text-danger'),
 			array('field'=>'sb_hotel_address','label'=>'Address','rules'=>'required','class'=>'text-danger'),
 			array('field'=>'sb_hotel_zipcode','label'=>'Postal Code','rules'=>'required','class'=>'text-danger'),
-			array('field'=>'sb_hotel_owner','label'=>'Hotel Owner','rules'=>'required','class'=>'text-danger'),
 			array('field'=>'sb_hotel_website','label'=>'Hotel Website','rules'=>'required|prep_url','class'=>'text-danger'),
 			array('field'=>'sb_hotel_email','label'=>'Hotel Email','rules'=>'required|valid_email','class'=>'text-danger')
 		);
@@ -229,8 +229,10 @@ class Hotel extends CI_Controller
 			$this->data['countrylist'] = getCountryList();
 			$this->data['languagelist']=getAllLanguages();
 			$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
-			$this->template->load('page_tpl', 'create_hotel',$this->data);
+			$this->data['title'] = "Edit Hotel";
+			$this->template->load('page_tpl', 'create_hotel_vw',$this->data);
 		}else{
+		        
 		        $this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
 				$data["sb_hotel_pic"] =$this->data['hoteldata']['sb_hotel_pic'];
 		        if(!empty($_FILES['sb_hotel_pic']['name']))
@@ -259,7 +261,7 @@ class Hotel extends CI_Controller
 								'sb_property_open_year'=>$data['sb_property_open_year']	
 							); 
 				$result=$this->Hotel_model->edit_hotel($hoteldata,$hotel_id);
-
+                
 				if($result == '1')
 				{
 					$languageresult =$this->Hotel_model->set_hotel_languages($hotel_id,$data['sb_languages']);

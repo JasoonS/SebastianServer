@@ -181,21 +181,24 @@ class Restaurants extends CI_Controller
 	public function status_change()
 	{
 	    $requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3);
-		if(!$this->acl->hasPermission($requested_mod))
+	 //    if(!$this->acl->hasPermission($requested_mod))
+		// {
+		// 	redirect('admin/dashboard');
+		// }
+		// else
 		{
-			redirect('admin/dashboard');
-		}
-		$sb_hotel_restaurant_id = $this->input->post('sb_hotel_restaurant_id');
-		$is_delete = $this->input->post('is_delete');
-		if($is_delete == 1)
-		{
-			$is_delete = 0;
-		}
-		else
-		{
-			$is_delete = 1;
-		}
-		$r = $this->Restaurant_model->change_status($sb_hotel_restaurant_id,$is_delete);
+			$sb_hotel_restaurant_id = $this->input->post('sb_hotel_restaurant_id');
+			$is_delete = $this->input->post('is_delete');
+			if($is_delete == 1)
+			{
+				$is_delete = 0;
+			}
+			else
+			{
+				$is_delete = 1;
+			}
+			$r = $this->Restaurant_model->change_status($sb_hotel_restaurant_id,$is_delete);
+		}	
 		echo json_encode($r);
 	}
 	

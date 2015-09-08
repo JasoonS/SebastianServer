@@ -71,6 +71,7 @@ class Hotelrooms_model extends CI_Model{
 	{
 		$sb_hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
 		$this->db->select('sb_room_number');
+		$this->db->select('is_available');
 		$this->db->from('sb_hotel_rooms');
 		$this->db->where('sb_hotel_id', $sb_hotel_id);
 		$this->db->where('sb_hotel_room_type',$room_type_value);
@@ -91,7 +92,30 @@ class Hotelrooms_model extends CI_Model{
 		$this->db->from('sb_hotel_rooms');
 		$query=$this->db->get();
 		return $query->result_array();
-		
+	}
+	public function getHotelAvailableRooms($hotel_id,$room_type,$room_number){
+		$this->db->select('sb_room_number,sb_hotel_room_type',false);
+		$sb_hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->db->where('sb_hotel_id', $sb_hotel_id);
+		$this->db->where('is_available','1');
+		$this->db->where('sb_room_is_deleted','0');
+		$this->db->where('sb_hotel_room_type',$room_type);
+		$this->db->from('sb_hotel_rooms');
+		$query=$this->db->get();
+	
+		return $query->result_array();
+	}
+	public function getIfRoomAvailable($room_type,$room_number){
+		$this->db->select('sb_room_number,sb_hotel_room_type',false);
+		$sb_hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->db->where('sb_hotel_id', $sb_hotel_id);
+		$this->db->where('is_available','1');
+		$this->db->where('sb_room_is_deleted','0');
+		$this->db->where('sb_hotel_room_type',$room_type);
+		$this->db->where('sb_room_number',$room_number);
+		$this->db->from('sb_hotel_rooms');
+		$query=$this->db->get();
+		return $query->result_array();
 	}
 
 }

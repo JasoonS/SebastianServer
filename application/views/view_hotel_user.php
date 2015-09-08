@@ -40,7 +40,8 @@
 							<td>User Picture</td>
 							<td><img src='<?php echo FOLDER_BASE_URL."/".HOTEL_USER_PIC."/".$userinfo->sb_hotel_user_pic;?>' height="100px" width="100px"/></td>
 						</tr>
-					    <?php if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 's') {?>
+						
+					    <?php if(($userinfo->sb_hotel_user_type == 's')||($userinfo->sb_hotel_user_type == 'm')) {?>
 						<tr>
 							<td>User Shift From</td>
 							<td><?php echo date("g:i A",strtotime($userinfo->sb_hotel_user_shift_from));?></td>
@@ -48,6 +49,14 @@
 						<tr>
 							<td>User Shift To</td>
 							<td><?php echo date("g:i A",strtotime($userinfo->sb_hotel_user_shift_to));?></td>
+						</tr>
+						<tr>
+							<td>Designation</td>
+							<td><?php echo $userinfo->sb_staff_designation_name;?></td>
+						</tr>
+						<tr>
+							<td>Service</td>
+							<td><?php echo $userinfo->sb_parent_service_name;?></td>
 						</tr>
 						<?php }?>
 						<tr>

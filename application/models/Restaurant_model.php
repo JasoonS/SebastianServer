@@ -15,7 +15,7 @@ Class Restaurant_model extends CI_Model
 	public function change_status($sb_hotel_restaurant_id,$is_delete)
 	{
 		$sb_hotel_id = $this->session->userdata('logged_in_user')->sb_hotel_id;
-		$qry = "UPDATE `sb_hotel_restaurant` SET `is_delete`='$is_delete' WHERE `sb_hotel_restaurant_id` = '$sb_hotel_restaurant_id' AND `sb_hotel_id`='$sb_hotel_id'";
+		$qry = "UPDATE `sb_hotel_restaurant` SET `is_delete` = '$is_delete' WHERE `sb_hotel_restaurant_id` = '$sb_hotel_restaurant_id' AND `sb_hotel_id`='$sb_hotel_id'";
 		$query = $this->db->query($qry);
 		return $query;
 	}
