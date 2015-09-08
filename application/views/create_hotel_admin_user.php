@@ -172,8 +172,8 @@
 									</div>
 							    </div>
 							<?php }?>
-							
-							<?php if($user_type == 'a' || $user_type == 'm'){?>
+							<?php //print_r($userinfo);?>
+							<?php if($user_type == 'a' || $user_type == 'm' ){?>
 								<div class="form-group">
 									<label class="col-md-4 col-xs-4 control-label" for="sb_parent_service_id">User Parent Service</label>
 										<div class="col-md-8 col-xs-8">
@@ -181,7 +181,12 @@
 												<?php
 												foreach($parent_services as $key=>$value)
 												{
+												  if(($action_type =="edit")&&($userinfo->sb_parent_service_id == $value['sb_parent_service_id'])){
+													echo "<option value='".$value['sb_parent_service_id']."' selected>".$value['sb_parent_service_name']."</option>";
+												  }
+												  else{
 													echo "<option value='".$value['sb_parent_service_id']."'>".$value['sb_parent_service_name']."</option>";
+												 }	
 												}
 											   ?> 
 											</select>
@@ -204,6 +209,7 @@
 								    if($action_type !="edit"){
 										$button_text="Create User";
 									}
+									
 									?>
 									<button id="submit"  class="btn btn-primary btn-lg btn-block"><?php echo $button_text;?></button>
 								</div>
@@ -235,8 +241,8 @@
 
 <script type="text/javascript">
 $(function() {
-        populateChildServices('<?php echo $user_type;?>','<?php echo $user_id ?>','<?php echo $hotel_id?>','0')
-        hideShowElements();
+        populateChildServices('<?php echo $user_type;?>','<?php echo $user_id ?>','<?php echo $hotel_id?>','0');
+		hideShowElements();
 		<?php if($action_type == "create"){?>
 		$('#sb_hotel_user_shift_from').timepicker({
 						showSeconds: true,
@@ -259,13 +265,13 @@ $(function() {
                
             });
 		$('#id_uploadImage').attr('src','<?php echo FOLDER_BASE_URL."/".HOTEL_USER_PIC."/".$userinfo->sb_hotel_user_pic;?>');
-		
-			<?php	
-				if($action_type == "edit"){ ?>
-				$("#sb_parent_service_id").val('<?php echo $user_child_service[0]["sb_parent_service_id"];?>');
-				<?php }?>
+	    console.log('<?php echo $user_type?>');
+			
 		<?php }?>
-	});
+       });
+	   // hideShowElements();
+		/*
+	});*/
 	function callToChildServices()
 		{
 			hideShowElements();
@@ -282,7 +288,7 @@ $(function() {
 		
 			var parent_service_id=$("#sb_parent_service_id").val();
 			var base_url = proj_url+'/admin/ajax/get_ajax_data';
-			if(creation_user_type == 's'){
+		
 				//$("#child_services_control").show(2000);
 				$.ajax({
 					url: base_url,
@@ -304,26 +310,21 @@ $(function() {
 				}).done(function (){
 
 					<?php
-						/*if($action_type == "edit"){	?>		
+						if($action_type == "edit"){	?>		
 							<?php if(($userinfo->sb_hotel_user_type == 's')&&($user_parent_service[0]["sb_parent_service_id"] == $user_child_service[0]["sb_parent_service_id"])){?>	
 							console.log(<?php echo $user_child_service[0]["sb_child_service_id"];?>);
-							if(change == 0){
-							$("#sb_child_service_id").val(<?php echo $user_child_service[0]["sb_child_service_id"];?>);
-						    }
-							else{
+							
 								$("#sb_child_service_id").val($("#sb_child_service_id option:first").val());
-							}
+							
 						<?php } ?>
 					
-					<?php } */
+					<?php } 
 					?>
-			 });
+					});
 			}
-			else
-			{
-				$("#child_services_control").hide(2000);
-			}
-		}
+			
+			
+		
 	/* This Function is used To Show Uploaded image */
 	function readURL(input) {
 			if (input.files && input.files[0]) {
@@ -356,10 +357,10 @@ $(function() {
 			if(user_type == 'u')
 			{
 				$("#sb_hotel_id").val('0');
-				$("#id_HotelElement").hide();
+				//$("#id_HotelElement").hide();
 			}
 			else{
-				$("#id_HotelElement").show();
+				//$("#id_HotelElement").show();
 			}
 			//alert(user_type); 
 			if((user_type == 'u')||(user_type=='a'))

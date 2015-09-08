@@ -116,6 +116,19 @@ class Request extends CI_Controller
 				echo json_encode($output);
 				break;
 			}	
+			//This case is written to check avaiablity of rooms by type.
+			case 16:{
+				$output =$this->get_available_rooms();
+				echo json_encode($output);
+				break;
+			}	
+			
+			//This case is written to send notification to staff.
+			case 17:{
+				$output =$this->notify_staff();
+				echo json_encode($output);
+				break;
+			}	
             			
 		}
     }
@@ -413,6 +426,91 @@ class Request extends CI_Controller
 			else{
 					return array("success"=>false,"reason"=>"User has already checked out from all the rooms.");
 				}
+	}
+	
+	/*This function is used to get all available rooms of particular type
+	*@input - void
+	*output -array
+	*/
+	function get_available_rooms()
+	{
+		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$room_type=$this->input->post('room_type');
+		$room_number=$this->input->post('room_number');
+		$this->load->model('Hotelrooms_model');
+		$data=$this->Hotelrooms_model->getHotelAvailableRooms($hotel_id,$room_type,$room_number);
+		return $data;
+	}
+	/*This function is used to send notification to staff.
+	*@input - void
+	*output -array
+	*/
+	function notify_staff()
+	{
+		$this->load->model('Services_model');
+		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$staffUsers=$this->Services_model->get_staff_users($this->input->post('staff_type'));
+		$staffUserIds=array();
+		$i=0;
+		while($i<count($staffUsers))
+		{
+		   
+			array_push($staffUserIds,$staffUsers[$i]['sb_hotel_user_id']);
+			$i++;
+		}
+		$this->load->model('User_model');
+		$device_tokens=$this->User_model->get_staff_device_tokens($staffUserIds);
+		$ios_token=array();
+		$android_token=array();
+		$userType = "staff";
+		$message=$this->input->post('staff_message');
+	
+		$count=0;
+		for ($i=0; $i < count($device_tokens); $i++) 
+			{ 
+				if($device_tokens[$i]['sdt_deviceType'] == 'android' AND $device_tokens[$i]['sdt_token'] != NULL AND $device_tokens[$i]['sdt_token'] != (null))
+				{
+					array_push($android_token,$device_tokens[$i]['sdt_token']);
+				}
+				else
+				{
+					if($device_tokens[$i]['sdt_token'] != "" AND $device_tokens[$i]['sdt_token'] != NULL AND $device_tokens[$i]['sdt_token'] != (null))
+						{
+							array_push($ios_token,$device_tokens[$i]['sdt_token']);
+						}	
+				}	
+			}
+		if(count($ios_token)>0)
+			{
+				$ipushdata  = array('deviceToken'=> $ios_token,
+									'user'=> $userType,
+									'message' => "$message"
+				);
+				//print_r($ipushdata);
+				$this->load->library('api/Iospush');
+				$val = $this->iospush->iospush_notification($ipushdata);
+			}
+			// array for android
+		if(count($android_token)>0)
+			{
+				$pushdata = array(
+									'message'=> "$message",
+									'deviceTokens'=> $android_token,
+									'user'=> $userType
+								);
+				//print_r($pushdata);exit;				
+				$this->load->library('api/Android_push');
+				$val1 = $this->android_push->push_notification($pushdata);
+			}	
+		if((count($android_token)==0)&&(count($ios_token)==0))	{
+			$data=array("status"=>false,"message"=>"No Staff Present to send notification.");
+			return $data;
+		}
+		else{
+			$data=array("status"=>true,"message"=>"Notification sent successfully.");
+			return $data;
+		}
+
 	}
 }//End Of Controller Class
 
