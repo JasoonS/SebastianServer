@@ -237,6 +237,7 @@ function edit(sb_hotel_restaurant_id, sb_hotel_restaurant_name, sb_hotel_restaur
 
 function changestatus(id,vendorstatus)
 {
+	
     $.ajax({
         url: "<?php echo site_url('admin/Restaurants/status_change');?>",
         type:"post",
