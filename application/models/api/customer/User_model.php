@@ -17,7 +17,8 @@ class User_model extends CI_Model
 		$qry = "SELECT * FROM `sb_hotel_guest_bookings` 
 				JOIN `sb_hotel_guest_reservation_attributes`
 				ON `sb_hotel_guest_reservation_attributes`.`sb_guest_reservation_code` = `sb_hotel_guest_bookings`.`sb_guest_reservation_code`
-				where `sb_hotel_guest_bookings`.`sb_guest_reservation_code` = '$sb_guest_reservation_code'";
+				where `sb_hotel_guest_bookings`.`sb_guest_reservation_code` = '$sb_guest_reservation_code'
+				AND `sb_hotel_guest_reservation_attributes`.sb_guest_actual_check_out ='0000-00-00 00:00:00'";
 		$query = $this->db->query($qry);
 		$custData = $query->result_array();
 		$roomNumbers = array();
@@ -48,7 +49,7 @@ class User_model extends CI_Model
 				$service = $services;
 			}
 			$IMP_PATH = base_url().HOTEL_PIC."/";
-			$sql1 = "SELECT `sb_hotel_id`,`sb_hotel_name`,`sb_hotel_country`,
+			$sql1 = "SELECT `sb_hotel_id`,`sb_hotel_name`,`sb_hotel_country`,sb_hotel_description,
 				`sb_hotel_city`,`sb_hotel_state`, `sb_hotel_zipcode`,
 				`sb_hotel_address`,`sb_hotel_phone`,`sb_hotel_star`,
 				`sb_hotel_category`,`sb_hotel_created_on`,`sb_hotel_website`,
@@ -72,7 +73,8 @@ class User_model extends CI_Model
 			$result = array(
 				"userInfo" => $custData[0],
 				"services" => $service,
-				"hotelInfo" => $hotelInfo
+				"hotelInfo" => $hotelInfo,
+				"hasBooked" => "1"
 				);
 			return $result;
 		}
@@ -131,5 +133,93 @@ class User_model extends CI_Model
 		return $query->result_array();
 
 	}
+
+	function check_reservation($sb_guest_email, $sb_hotel_id)
+	{
+		$qry = "SELECT * FROM `sb_hotel_guest_bookings` 
+				WHERE `sb_hotel_id` = '{$sb_hotel_id}' 
+				AND `sb_guest_email` = '{$sb_guest_email}'
+				AND `is_checkedout` = '0'";
+		$query = $this->db->query($qry);
+		return $query->result_array();
+	}
+
+	function check_visitor($visitor_email, $sb_hotel_id)
+	{
+		$qry = "SELECT * FROM `sb_visitor` 
+				WHERE `visitor_email` = '{$visitor_email}' 
+				AND `sb_hotel_id` = '{$sb_hotel_id}'";
+		$query = $this->db->query($qry);
+		return $query->result_array();
+	}
+
+	function new_visitor($new_visitor)
+	{
+		$this->db->insert('sb_visitor', $new_visitor);
+		return $this->db->insert_id();
+	}
+
+	public function update_visitor($visitor_id)
+	{
+		$qry = "UPDATE `sb_visitor` SET `visit_cout`= visit_cout +1 WHERE `visitor_id` = '{$visitor_id}'";
+		$query = $this->db->query($qry);
+		return 1;
+	}
+
+	public function get_visitor_menu($sb_hotel_id)
+	{
+		//$sb_hotel_id =$new_visitor['sb_hotel_id'];
+
+		$IMP_PATH = base_url().PARENT_SERVICE_PIC."/";
+		
+		$sql1 = "SELECT `sb_parent_service_id`,`sb_parent_service_name`,
+					CONCAT('$IMP_PATH',`sb_parent_service_image`) as `sb_parent_service_image`,`sb_parent_service_color`,
+					`sb_parent_service_created_on` 
+					FROM `sb_hotel_parent_services` 
+					WHERE `sb_parent_service_id` in(SELECT distinct(`sb_parent_service_id`) FROM `sb_hotel_service_map` WHERE `sb_hotel_id` = '$sb_hotel_id')";
+		$query = $this->db->query($sql1);
+		$services = $query->result_array();
+		if(count($services) == 0)
+		{
+			$service =array();
+		}
+		else
+		{
+			$service = $services;
+		}
+		
+		$IMP_PATH = base_url().HOTEL_PIC."/";
+		$sql1 = "SELECT `sb_hotel_id`,`sb_hotel_name`,`sb_hotel_country`,sb_hotel_description,
+				`sb_hotel_city`,`sb_hotel_state`, `sb_hotel_zipcode`,
+				`sb_hotel_address`,`sb_hotel_phone`,`sb_hotel_star`,
+				`sb_hotel_category`,`sb_hotel_created_on`,`sb_hotel_website`,
+				CONCAT('$IMP_PATH',`sb_hotel_pic`) as `sb_hotel_pic`,
+				`sb_hotel_owner`, `sb_property_built_month` ,`sb_hotel_email`,`sb_property_built_year`,`sb_property_open_year`,
+				`is_active` 
+				FROM sb_hotels WHERE `sb_hotel_id` = '$sb_hotel_id';";
+		$query = $this->db->query($sql1);
+		$hotel = $query->result_array();
+		if(count($hotel) == 0)
+		{
+			$hotelInfo =array();
+		}
+		else
+		{
+			$hotelInfo = $hotel[0];
+		}
+		//$this->guest_deviceToken($cdt_token, $cdt_deviceType ,$cdt_macid, $custData[0]['sb_hotel_guest_booking_id']);
+		//unset($custData[0]['sb_guest_terms']);
+		//$custData[0]['sb_guest_allocated_room_no'] = $roomNumbers;
+		$result = array(
+			//"userInfo" => $custData[0],
+			"services" => $service,
+			"hotelInfo" => $hotelInfo,
+			"hasBooked" => "0"
+			);
+		return $result;
+	}
+
+
+
 }
 ?>	

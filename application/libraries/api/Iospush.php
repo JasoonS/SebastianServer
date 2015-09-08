@@ -11,6 +11,7 @@ class Iospush {
 	*/
     public function iospush_notification($iospushdata)
     {
+    	error_reporting(0);
     	 // print_r($iospushdata); die();
 		$server = "dev";
 
@@ -45,7 +46,7 @@ class Iospush {
 			$pemPath = 'push/customer/SebastianCustomerCK.pem';
 		else
 			$pemPath = 'push/staff/SebastianStaffCK.pem';
-		
+		// echo $pemPath; die;
 		$arrContextOptions=array(
 		    "ssl"=>array(
 		        "verify_peer"=>false,
@@ -78,11 +79,14 @@ class Iospush {
 			// Encode the payload as JSON
 			$payload = json_encode($body);
 			$result ='';
+			//print_r($deviceToken);
 			for($i=0; $i<count($deviceToken); $i++)
 			{// Build the binary notification
 				$msg = chr(0) . pack('n', 32) . pack('H*', $deviceToken[$i]) . pack('n', strlen($payload)) . $payload;
 			
 			// Send it to the server
+				//echo strlen($msg);
+				usleep(2000);
 				$result = fwrite($fp, $msg, strlen($msg));
 			}
 			if (!$result)

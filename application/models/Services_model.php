@@ -116,6 +116,24 @@ Class Services_model extends CI_Model
 		$this->db->from('sb_hotel_service_map');
 		$this->db->join('sb_hotel_parent_services','sb_hotel_parent_services.sb_parent_service_id = sb_hotel_service_map.sb_parent_service_id');
 		$this->db->group_by('sb_hotel_parent_services.sb_parent_service_id');
+		
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	
+	/* Method Get All Unique Hotel Parent Services
+	 * inside system 
+	 * @param @int
+	 * return @array
+	 */
+	function get_hotel_selected_parent_services($hotel_id)
+	{
+		$this->db->select('sb_hotel_parent_services.sb_parent_service_id,sb_parent_service_name');
+		$this->db->where('sb_hotel_id',$hotel_id);
+		$this->db->where('sb_is_service_in_use',1);
+		$this->db->from('sb_hotel_service_map');
+		$this->db->join('sb_hotel_parent_services','sb_hotel_parent_services.sb_parent_service_id = sb_hotel_service_map.sb_parent_service_id');
+		$this->db->group_by('sb_hotel_parent_services.sb_parent_service_id');
 		$query = $this->db->get();
 		return $query->result_array();
 	}
@@ -453,6 +471,29 @@ Class Services_model extends CI_Model
 		$this->db->select('sb_parent_service_id');
 		$this->db->where('sb_child_service_id',$child_id);
 		$query=$this->db->get('sb_hotel_child_services');
+		$result=$query->result_array();
+		return $result;
+	}
+	
+	/* Method To Get Staff Users
+	* input -  int
+    * output - array
+	*/
+	public function get_staff_users($staff_type)
+	{
+		$sb_hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->db->select('sb_hotel_users.sb_hotel_user_id');
+		if($staff_type!="all")
+		{
+			$this->db->where('sb_parent_service_id',$staff_type);
+		}
+		$this->db->where('sb_hotel_users.sb_hotel_id',$sb_hotel_id);
+		$this->db->where('sb_hotel_users.sb_hotel_user_type','s');
+		$this->db->group_by('sb_hotel_users.sb_hotel_user_id');
+		$this->db->from('sb_hotel_users');
+		$this->db->join('sb_hotel_user_service_access_map','sb_hotel_user_service_access_map.sb_hotel_user_id = sb_hotel_users.sb_hotel_user_id');
+	
+		$query=$this->db->get();
 		$result=$query->result_array();
 		return $result;
 	}

@@ -4,23 +4,46 @@
 <link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
 <link href="<?php echo THEME_ASSETS; ?>css/custom.css" rel="stylesheet" type="text/css">
 <link href="<?php echo THEME_ASSETS?>css/calendar/fullcalendar.css" rel="stylesheet">
-<link href="<?php echo THEME_ASSETS?>css/calendar/fullcalendar.print.css" rel="stylesheet" media="print">
-   <script src="<?php echo THEME_ASSETS?>js/moment.min.js"></script>
+<!--<link href="<?php echo THEME_ASSETS?>css/calendar/fullcalendar.print.css" rel="stylesheet" media="print">-->
+
+<script src="<?php echo THEME_ASSETS?>js/moment.min.js"></script>
 <script src="<?php echo THEME_ASSETS?>js/nicescroll/jquery.nicescroll.min.js"></script>
 <script src="<?php echo THEME_ASSETS?>js/calendar/fullcalendar.min.js"></script>
+<style>
+.eventClass{
+	color :'#000 !important';
+}
+.Colordiv {   
+    float: left;
+    width: 15px;
+    height: 15px;
+    margin: 1px 20px 0px 5px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(0,0,0,.2);
+}
+
+.fc-slats tr {
+    border: 1px red;
+}
+#calendar {
+		max-width: 900px;
+		margin: 0 auto;
+	}
+</style>
 <div class="right_col" role="main">
     <div class="">
 		<div class="page-title">
 			<div class="title_left">
                 <h3>
-					Calender
-                        <small>
+					Staff Work Details
+                        <!--<small>
 							Click to add/edit events
-                        </small>
+                        </small>-->
                 </h3>
             </div>
 
-            <div class="title_right">
+            <!--<div class="title_right">
                 <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search for...">
@@ -29,14 +52,57 @@
                         </span>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
 		<div class="clearfix"></div>
+		<!-- Upper Widgets -->
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="row">
+                <div class="animated flipInY col-lg-2 col-md-2 col-sm-4 col-xs-12">
+					<div class="tile-stats">
+						<div class="count" id="idPendingRequest">0</div>
+							<h3>Pending Requests</h3>
+						</div>
+			     </div>
+				<div class="animated flipInY col-lg-2 col-md-2 col-sm-4 col-xs-12">
+					<div class="tile-stats">
+						<div class="count" id="idAcceptedRequest">0</div>
+							<h3>Accepted Requests</h3>
+						</div>
+			    </div>
+                <div class="animated flipInY col-lg-2 col-md-2 col-sm-4 col-xs-12">
+					<div class="tile-stats">
+						<div class="count" id="idCompletedRequest">0</div>
+							<h3>Completed Requests</h3>
+						</div>
+			     </div> 
+                 <div class="animated flipInY col-lg-2 col-md-2 col-sm-4 col-xs-12">
+					<div class="tile-stats">
+						<div class="count" id="idRejectedRequest">0</div>
+							<h3>Rejected Requests</h3>
+						</div>
+			     </div>
+				<div class="animated flipInY col-lg-3 col-md-3 col-sm-4 col-xs-12">
+					<div class="tile-stats">
+					   
+						<div>
+							<div class="Colordiv" style="background-color:red;"></div><div>Pending Requests</div><br>
+							<div class="Colordiv" style="background-color:orange;"></div><div>Accepted Requests</div><br>
+							<div class="Colordiv" style="background-color:green;"></div><div>Completed Requests</div><br>
+							<div class="Colordiv" style="background-color:blue;"></div><div>Rejected Requests</div>
+						</div>
+						
+				    </div>
+			    </div>	
+            </div>
+		</div>
+		
+		<!-- -->
 		<div class="row">
             <div class="col-md-12">
                 <div class="x_panel">
                     <div class="x_title">
-                    <h2>Calender Events <small>Sessions</small></h2>
+                    <h2>Staff Name :<?php echo $hotel_user_name;?></h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -138,19 +204,49 @@
                 var y = date.getFullYear();
                 var started;
                 var categoryClass;
-
+                var acceptedrequests =0;
+				var rejectedrequests =0;
+                var pendingrequests	 =0;
+                var completedrequests =0;				
                 var calendar = $('#calendar').fullCalendar({
                     header: {
                         left: 'prev,next today',
                         center: 'title',
                         right: 'month,agendaWeek,agendaDay'
                     },
+					defaultView: 'agendaDay',
+					 eventLimit: true, // for all non-agenda views
+  
+	 views: {
+        basic: {
+            // options apply to basicWeek and basicDay views
+        },
+        agenda: {
+            // options apply to agendaWeek and agendaDay views
+			 eventLimit: 2,
+			  eventLimit: true
+        },
+        week: {
+            // options apply to basicWeek and agendaWeek views
+			 eventLimit: 2,
+			  eventLimit: true
+        },
+        day: {
+            // options apply to basicDay and agendaDay views
+			 eventLimit: 2,
+			  eventLimit: true
+        }
+    },
+	   
+					//slotMinutes: 60,
+					//defaultEventMinutes: 120,			   
+					allDaySlot: true,
+					allDayText:"Notes",
                     selectable: true,
                     selectHelper: true,
                     select: function (start, end, allDay) {
-					
-					 
-                        $('#fc_create').click();
+					   
+                      /*  $('#fc_create').click();
 
                         started = start;
                         ended = end
@@ -178,12 +274,12 @@
                             $('.antoclose').click();
 
                             return false;
-                        });
+                        });*/
                     },
                     eventClick: function (calEvent, jsEvent, view) {
                         //alert(calEvent.title, jsEvent, view);
 
-                        $('#fc_edit').click();
+                       /* $('#fc_edit').click();
                         $('#title2').val(calEvent.title);
                         categoryClass = $("#event_type").val();
 
@@ -193,43 +289,67 @@
                             calendar.fullCalendar('updateEvent', calEvent);
                             $('.antoclose2').click();
                         });
-                        calendar.fullCalendar('unselect');
+                        calendar.fullCalendar('unselect');*/
                     },
-                    editable: true,
-                    events: [
-                        {
-                            title: 'All Day Event',
-                            start: new Date(y, m, 1)
-                    },
-                        {
-                            title: 'Long Event',
-                            start: new Date(y, m, d - 5),
-                            end: new Date(y, m, d - 2)
-                    },
-                        {
-                            title: 'Meeting',
-                            start: new Date(y, m, d, 10, 30),
-                            allDay: false
-                    },
-                        {
-                            title: 'Lunch',
-                            start: new Date(y, m, d + 14, 12, 0),
-                            end: new Date(y, m, d, 14, 0),
-                            allDay: false
-                    },
-                        {
-                            title: 'Birthday Party',
-                            start: new Date(y, m, d + 1, 19, 0),
-                            end: new Date(y, m, d + 1, 22, 30),
-                            allDay: false
-                    },
-                        {
-                            title: 'Click for Google',
-                            start: new Date(y, m, 28),
-                            end: new Date(y, m, 29),
-                            url: 'http://google.com/'
-                    }
-                ]
+					eventRender: function(event, element,view) {
+							/*element.qtip({
+								content: event.description
+							});*/
+						   /* var row = $(".fc-slats tr:contains('"+ moment(event.start).format('ha') + "')");
+							if (moment(event.start).format('mm') != '00')
+							{
+								row = row.next();
+							}
+							console.log(element);*/
+						//row.height(element.height()+row.height());
+							if(event.backgroundColor == "orange"){
+								acceptedrequests=acceptedrequests +1;				
+							}
+							if(event.backgroundColor == "blue"){
+								rejectedrequests=rejectedrequests +1;
+							}
+							if(event.backgroundColor == "red"){
+								pendingrequests=pendingrequests+1;
+								
+							}
+							if(event.backgroundColor == "green"){
+								completedrequests=completedrequests+1;
+							}
+							
+							//data-toggle="tooltip" data-placement="bottom" title="Tooltip bottom"
+							element.attr('data-toggle',"tooltip" );
+							element.attr('data-placement',"top");
+							element.attr('title',event.description);
+					},
+					 eventAfterRender: function( event, element, view ) { 
+						/*var row = $(".fc-slats tr:contains('"+ moment(event.start).format('ha') + "')");
+							console.log("dsa");
+							console.log(moment(event.start).format('mm'));
+							if (moment(event.start).format('hh') != '00')
+							{
+								row = row.next();
+							}
+							console.log(element);
+						row.height(element.height()+row.height());*/
+					},
+					eventAfterAllRender:function( event, element, view)
+					{
+						
+						$("#idAcceptedRequest").html(acceptedrequests);
+						$("#idRejectedRequest").html(rejectedrequests);
+						$("#idPendingRequest").html(pendingrequests);
+						$("#idCompletedRequest").html(completedrequests);
+						acceptedrequests = 0;
+						rejectedrequests = 0;
+						pendingrequests=0;
+						completedrequests =0;
+						
+					},
+					editable: true,
+					eventSources: {
+						url : '<?php echo base_url('admin/Staffreport/staffTasks')."/".$hotel_user_id;?>'
+					}
+                  
                 });
             });
         </script>

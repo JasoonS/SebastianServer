@@ -33,18 +33,20 @@ class User extends CI_Controller
 	 * return type- 
 	 * created on - 20th July 2015;
 	 * updated on - 
+	 * update 	  -
 	 * created by - Akshay Patil;
 	 */
-	function login()
+	function login($sb_guest_reservation_code,$cdt_token,$cdt_deviceType,$cdt_macid)
 	{
-
-		$sb_guest_reservation_code = 	$this->input->post('sb_guest_reservation_code');
-		$cdt_token				= 	$this->input->post('cdt_token');
-		$cdt_deviceType		    =   $this->input->post('cdt_deviceType');
-		$cdt_macid 				= 	$this->input->post('cdt_macid');
+		// $sb_guest_reservation_code = 	$this->input->post('sb_guest_reservation_code');
+		// $cdt_token				= 	$this->input->post('cdt_token');
+		// $cdt_deviceType		    =   $this->input->post('cdt_deviceType');
+		// $cdt_macid 				= 	$this->input->post('cdt_macid');
 		
 		if($cdt_token == '(null)' || $cdt_token == 'null' || $cdt_token == null || $cdt_token == '')
-			$cdt_token == '';
+			$cdt_token = '';
+		if(strlen($cdt_token) < '10')
+			$cdt_token = '';
 
 		if($sb_guest_reservation_code == '' ||  $cdt_deviceType == ''|| $cdt_macid=='' )
 		{
@@ -143,6 +145,7 @@ class User extends CI_Controller
 		}
 	}
 
+
 	public function get_hotel_names()
 	{
 		$sb_hotel_name = '';
@@ -164,6 +167,69 @@ class User extends CI_Controller
 			response_fail("No Hotel Exists");
 		}
 		
+	}
+
+
+	/**
+	 * This function is for forgot Reservation code.
+	 * return type- 
+	 * created on - 21th July 2015;
+	 * updated on - 
+	 * created by - Samrat Aher;
+	 */
+	public function signup()
+	{
+		$sb_guest_firstName = 	$this->input->post('sb_guest_firstName');
+		$sb_guest_lastName 	= 	$this->input->post('sb_guest_lastName');
+		$sb_guest_email 	= 	$this->input->post('sb_guest_email');
+		$sb_hotel_id 		= 	$this->input->post('sb_hotel_id');
+
+		$cdt_token			= 	$this->input->post('cdt_token');
+		$cdt_deviceType		=   $this->input->post('cdt_deviceType');
+		$cdt_macid			= 	$this->input->post('cdt_macid');
+
+		$check_reservation =  $this->User_model->check_reservation($sb_guest_email, $sb_hotel_id);
+		if(count($check_reservation)>0)
+		{
+			$sb_guest_reservation_code = $check_reservation[0]['sb_guest_reservation_code'];
+			$this->login($sb_guest_reservation_code,$cdt_token,$cdt_deviceType,$cdt_macid);
+		}
+		else
+		{
+			$check_visitor = $this->User_model->check_visitor($sb_guest_email, $sb_hotel_id);
+			if(count($check_visitor)>0)
+			{
+				$result = $this->User_model->update_visitor($check_visitor[0]['visitor_id']);
+				if($result != 0)
+				{
+					$data = $this->User_model->get_visitor_menu($sb_hotel_id);
+					response_ok($data);
+				}
+				else
+				{
+					response_fail("ErrorCode#1,Something Went Wrong");
+				}
+			}
+			else
+			{
+				$new_visitor = array(
+					"visitor_firstName" =>$sb_guest_firstName,
+					"visitor_lastName"=>$sb_guest_lastName,
+					"visitor_email" =>$sb_guest_email,
+					"sb_hotel_id" =>$sb_hotel_id
+					);
+				$result = $this->User_model->new_visitor($new_visitor);
+				if($result != 0)
+				{
+					$data = $this->User_model->get_visitor_menu($sb_hotel_id);
+					response_ok($data);
+				}
+				else
+				{
+					response_fail("ErrorCode#2,Something Went Wrong");
+				}
+			}
+		}
 	}
 
 	

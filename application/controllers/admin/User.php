@@ -40,6 +40,7 @@ class User extends CI_Controller
 		{
 			redirect('admin/dashboard');
 		}
+		$data['grid_user_type']=$this->uri->segment(4);
 		// If user is admin get hotel list and then after selection list out admins
 		// If user is hotel admin , he can see all managers and staff
 		// If manager then show him staff under him
@@ -57,6 +58,7 @@ class User extends CI_Controller
 			$data['user_type']		= 	'a';
 			$data['page_type']		=	$this->uri->segment(4);
 			$data['sb_hotel_id']	=	$this->session->userdata('logged_in_user')->sb_hotel_id;
+			$data['parent_services']=$this->Services_model->get_hotel_selected_parent_services($data['sb_hotel_id']);
 			$data['sb_hotel_name']	=	$this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
 			$data['title']			=   'Hotel Users';
 		}
@@ -65,6 +67,7 @@ class User extends CI_Controller
 			$data['user_type']		= 	'm';
 			$data['page_type']		=	$this->uri->segment(4);
 			$data['sb_hotel_id']	=	$this->session->userdata('logged_in_user')->sb_hotel_id;
+			$data['parent_services']=   $this->Services_model->get_hotel_selected_parent_services($data['sb_hotel_id']);
 			$data['sb_hotel_name']	=	$this->Hotel_model->get_hotel_name($data['sb_hotel_id']);
 			$data['title']			=   'Hotel Users';
 		}
@@ -72,7 +75,8 @@ class User extends CI_Controller
 			$data['title']			=   'Super Admins';
 			$this->template->load('page_tpl', 'superadmin_user_list_vw',$data);
 		}
-		else{	
+		else{
+
 			$this->template->load('page_tpl', 'hotel_user_list_vw',$data);
 		}
 	}
@@ -135,7 +139,7 @@ class User extends CI_Controller
 				$hotel_user_id=$this->session->userdata('logged_in_user')->sb_hotel_user_id;
 				$this->data['user_id']=$hotel_user_id;
 				$this->data['parent_services']=$this->Services_model->get_hotel_unique_parent_services($this->data['hotel_id']);
-        
+                
 				if (($key = array_search('u',$this->data['hotelusertypes'])) !== false) {
 						unset($this->data['hotelusertypes'][$key]);
 				}
@@ -179,6 +183,8 @@ class User extends CI_Controller
 		$this->data['action']	= "admin/user/create_hotel_admin_user/".$hotel_id;
 		$this->data['title']	= 'Add hotel admin';
 		$this->data['hotel_id']=$hotel_id;
+		$this->load->model('Services_model');
+		$this->data['parent_services']=$this->Services_model->get_hotel_unique_parent_services($hotel_id);
 		$result=$this->Hotel_model->get_hotel_name($hotel_id);
 		if($hotel_id == 0)
 		{
@@ -203,7 +209,7 @@ class User extends CI_Controller
 		$data =$this->input->post();
 		$this->validation_rules = array(
 		    array('field'=>'sb_hotel_username','label'=>'Hotel User','rules'=>'required|callback_validate_hoteluser','class'=>'text-danger'),
-		    array('field'=>'sb_hotel_useremail','label'=>'Hotel User Email','rules'=>'required|valid_email|callback_validate_hoteluseremail','class'=>'text-danger'),
+		    array('field'=>'sb_hotel_useremail','label'=>'Hotel User Email','rules'=>'required|valid_email','class'=>'text-danger'),
 		    array('field'=>'sb_hotel_user_shift_from','label'=>'Hotel User Shift From','rules'=>'required','class'=>'text-danger'),
 		    array('field'=>'sb_hotel_user_shift_to','label'=>'Hotel User Shift To','rules'=>'required','class'=>'text-danger'),
 			
@@ -211,7 +217,7 @@ class User extends CI_Controller
 		$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
 		$this->form_validation->set_rules($this->validation_rules);
 		$this->form_validation->set_message('validate_hoteluser','Hotel User with this name is already Exists.');
-		$this->form_validation->set_message('validate_hoteluseremail','Hotel User with this email is already Exists.');
+		//$this->form_validation->set_message('validate_hoteluseremail','Hotel User with this email is already Exists.');
 		$this->form_validation->set_message('valid_email','Please Enter Valid Email.');
 		if ($this->form_validation->run() == FALSE)
 		{
@@ -324,7 +330,15 @@ class User extends CI_Controller
                      									
 					$this->User_model->set_user_role($useradminpermissions);
 					$user_module_array=array();
-					$permarray=array('5','7','13','15','16','18','19');
+					$role_modules=$this->User_model->get_role_modules(2);
+					$permarray=array();
+						$i=0;
+					while($i<count($role_modules))
+					{
+					   array_push($permarray,$role_modules[$i]['sb_mod_id']);
+						$i++;
+					}
+					
 					$count=0;
 					while($count<count($permarray)){
 						$singlearray=array(
@@ -381,8 +395,9 @@ class User extends CI_Controller
 					{
 						$data['sb_child_service_id']='0';
 					}
-					$child_services=$this->Services_model->get_hotel_child_service_map_id($data['sb_hotel_id'],$data['sb_parent_service_id'],$data['sb_child_service_id']);
-				    $i=0;
+					//$child_services=$this->Services_model->get_hotel_child_service_map_id($data['sb_hotel_id'],$data['sb_parent_service_id'],$data['sb_child_service_id']);
+				    	$child_services=$this->Services_model->get_hotel_child_services_by_parent_service($data['sb_hotel_id'],$data['sb_parent_service_id']);	
+					$i=0;
 					$insert_user_services=array();
 					while($i<count($child_services)){
 						$singlearray=array(
@@ -558,8 +573,11 @@ class User extends CI_Controller
 	public function edit_hotel_user($user_id)
 	{	
 		$this->data['action']	= "admin/user/edit_hotel_user_action/".$user_id;
+		$this->data['action_type']	= "edit";
 		$this->data['userinfo']=$this->User_model->get_user_info($user_id);
-	  
+	    $this->data['hotel_id']=$data['sb_hotel_id']=$this->data['userinfo']->sb_hotel_id;	;
+		$this->load->model('Services_model');
+		$this->data['parent_services']=$this->Services_model->get_hotel_unique_parent_services($this->data['hotel_id']);
 		if($this->data['userinfo']->sb_hotel_user_type !='a'){
 			$this->data['user_parent_service']=$this->Services_model->get_hotel_user_parent_service($user_id);
 			$this->data['user_child_service']=$this->Services_model->get_hotel_user_child_service($user_id);
@@ -647,7 +665,16 @@ class User extends CI_Controller
 									);									
 					$this->User_model->set_user_role($useradminpermissions);
 					$user_module_array=array();
-					$permarray=array('5','7','13','15','16','18','19');
+					$role_modules=$this->User_model->get_role_modules(2);
+					$permarray =array();
+					$i=0;
+					while($i<count($role_modules))
+					{
+					    array_push($permarray,$role_modules[$i]['sb_mod_id']);
+						$i++;
+					}
+					
+					//$permarray=array('5','7','13','15','16','18','19');
 					$count=0;
 					while($count<count($permarray)){
 						$singlearray=array(
@@ -696,6 +723,7 @@ class User extends CI_Controller
 						array_push($insert_user_services,$singlearray);
 						$i++;
 					}
+					
 					$this->Services_model->set_services($insert_user_services,$user_id);	
 				}
 				if($data['sb_hotel_user_type'] == 's'){
@@ -703,8 +731,9 @@ class User extends CI_Controller
 					{
 						$data['sb_child_service_id']='0';
 					}
-					$child_services=$this->Services_model->get_hotel_child_service_map_id($data['sb_hotel_id'],$data['sb_parent_service_id'],$data['sb_child_service_id']);
-				   
+					//$child_services=$this->Services_model->get_hotel_child_service_map_id($data['sb_hotel_id'],$data['sb_parent_service_id'],$data['sb_child_service_id']);
+				   $child_services=$this->Services_model->get_hotel_child_services_by_parent_service($data['sb_hotel_id'],$data['sb_parent_service_id']);	      
+				  
 					$i=0;
 					$insert_user_services=array();
 					while($i<count($child_services)){
@@ -714,6 +743,7 @@ class User extends CI_Controller
 											'sb_parent_service_id'=>$data['sb_parent_service_id'],
 											'sb_service_rel_status'=>'1'
 										);
+					
 						array_push($insert_user_services,$singlearray);
 						$i++;
 					}
@@ -732,5 +762,7 @@ class User extends CI_Controller
 				}
 			}
 	}
+	
+	
 }//End Of Controller Class.
 

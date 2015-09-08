@@ -99,6 +99,12 @@
                                 <input type="text" class="form-control" id="idGuestLastName" placeholder="guest last name">
                             </div>
                         </div>
+						<div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Reservation Code</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input type="text" class="form-control" id="idReservationCode" placeholder="Reservation Code">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Email Id</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
@@ -235,6 +241,7 @@ $(document).ready(function () {
     	jsFrmGuestObj.email 	 = $("#idGuestEmail").val();
     	jsFrmGuestObj.phone 	 = $("#idGuestPhoneno").val();
     	jsFrmGuestObj.noOfrooms  = $("#idGuestNoOfRooms").val();
+		jsFrmGuestObj.confId	 = $("#idReservationCode").val();	
     	jsFrmGuestObj.flag       = 16;
     	// Update Services
         jqXHRSaveGuest = $.post(ajax_url,jsFrmGuestObj,function( data ){});
@@ -325,8 +332,8 @@ $(document).ready(function () {
 		var size = {width: $(window).width() , height: $(window).height() }
 		/*CALCULATE SIZE*/
 		var offset = 20;
-		var offsetBody = 150;
-		console.log(size);
+		var offsetBody = 50;
+
 		$('#idAllocateRooms').css('height', size.height - offset );
 		$('#idAllocateRooms .modal-body').css('height', size.height - (offset + offsetBody));
 		$('#idAllocateRooms').css('top', 0);
@@ -361,7 +368,7 @@ $(document).ready(function () {
 					i++;
 				}
 				$("#idAllocateRooms .modal-body").html(innerHtml);
-				$("#idAllocateRooms .modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>'+
+				$("#idAllocateRooms .modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>'+
 				'<button type="button" class="btn btn-danger" id="idAllocatedRooms" onclick="allocate(\''+reservation_code+'\');">Allocate</button>');	
 				
 				$("#idAllocateRooms").modal('show');
@@ -386,8 +393,7 @@ $(document).ready(function () {
 			}
 			i++;cnt++;
 		}
-		console.log(room_no_array);
-	
+
 		if(room_no_array.length == 0){
 			alert("Please Allocate atleast one room.");
 		}

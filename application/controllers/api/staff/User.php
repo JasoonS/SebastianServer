@@ -39,6 +39,7 @@ class User extends CI_Controller {
 	 */
 	public function login()
 	{
+		 // print_r($_POST); die();
 		$sb_hotel_useremail 	= 	$this->input->post('sb_hotel_useremail');
 		$sb_hotel_userpasswd	= 	$this->input->post('sb_hotel_userpasswd');
 		$sdt_token				= 	$this->input->post('sdt_token');
@@ -47,7 +48,7 @@ class User extends CI_Controller {
 		
 		if($sdt_token == '(null)' || $sdt_token == 'null' || $sdt_token == null || $sdt_token == '')
 			$sdt_token = '';
-		if(strlen($sdt_token) < '10');
+		if(strlen($sdt_token) < '10')
 			$sdt_token = '';
 
 		if($sb_hotel_useremail == '' || $sb_hotel_userpasswd == '' ||  $sdt_deviceType == ''|| $sdt_macid=='' )

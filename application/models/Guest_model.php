@@ -120,12 +120,16 @@ class Guest_model extends CI_Model
 	 * @param int
 	 * return array
 	 */
-	function get_hotel_guest_data($booking_id)
+	function get_hotel_guest_data($booking_id,$room_no = 0)
 	{
 	    $this->db->select('*');
 		$this->db->from('sb_hotel_guest_bookings');
 		$this->db->join('sb_hotel_guest_reservation_attributes','sb_hotel_guest_bookings.sb_guest_reservation_code = sb_hotel_guest_reservation_attributes.sb_guest_reservation_code');
 		$this->db->where('sb_hotel_guest_booking_id',$booking_id);
+		if($room_no !=0)
+		{
+			$this->db->where('sb_guest_allocated_room_no',$room_no);
+		}
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -216,5 +220,6 @@ class Guest_model extends CI_Model
 		$this->db->update('sb_hotel_rooms',$room_data);
 		return true;
 	}
+	
 	
 }

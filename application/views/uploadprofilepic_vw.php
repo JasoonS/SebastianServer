@@ -1,4 +1,4 @@
-	<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">    
+<?php /*	<link href="<?php echo THEME_ASSETS; ?>font-awesome/css/font-awesome.css" rel="stylesheet">    
 	<link href="<?php echo THEME_ASSETS; ?>css/style.css" rel="stylesheet" type="text/css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">
@@ -16,6 +16,9 @@
 	<script src="<?php echo THEME_ASSETS ?>js/jquery-checktree.js"></script>
 	<script src="<?php echo THEME_ASSETS ?>js/jquery-ui.js"></script>
 	<script src="<?php echo THEME_ASSETS ?>js/jquery.dataTables.js"></script>
+*/?>
+<script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
 <div class="right_col" role="main">
 	<!-- This is for Success Message.-->
 		<?php if ($this->session->flashdata('category_success')) { ?>
@@ -51,7 +54,8 @@
 								    <button id='btn-upload'>Upload</button>
                                 </div>	
 								<div id="id_filePreview" class="col-xs-6">
-									<img id="id_uploadImage" style="width:100%;height:100%" src="#" alt="your image" />
+									<img id="id_uploadImage" style="width:100%;height:100%" src="<?php echo base_url(HOTEL_USER_PIC).'/'.$this->session->logged_in_user->sb_hotel_user_pic; ?>" alt="your image" />
+									
 								</div>							    
 								</div>
 							
