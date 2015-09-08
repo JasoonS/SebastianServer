@@ -104,6 +104,8 @@ class HotelRooms extends CI_Controller
 		}
 		$this->data['title'] = "Guest Details";
 		$guest_data=$this->Guest_model->get_hotel_guest_data($booking_id);
+		
+		//$this->data['room_types']=$this->Hotelrooms_model->getAvailableRoomTypes
 		$i=0;
 	 	$checked_out_rooms =0;$checked_in_rooms=0;
 		while($i<count($guest_data))
@@ -138,6 +140,58 @@ class HotelRooms extends CI_Controller
 		$this->data['checked_out_rooms']=$checked_out_rooms;
 		$this->data['checked_in_rooms']=$checked_in_rooms;
 		$this->template->load('page_tpl','hotel_checkout_vw',$this->data);
+    }
+	/* Method To Room Checkin 
+    * input - void
+    * output - void
+	*/
+   public function Roomcheckin($booking_id = ' ',$alloted_rooms = ' ')
+   {
+		$requested_mod = 'HotelRooms';
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}
+		$this->data['title'] = "Allocate Room";
+		$this->data['action']="admin/hotelRooms/allocate_rooms";
+		$this->data['booking_id']=$booking_id;
+		$this->data['alloted_rooms']=$alloted_rooms;
+		$this->data['guest_general_data']=$this->Guest_model->get_hotel_guest_general_data($booking_id);
+		$this->data['room_types']=$this->hotelrooms_model->getAvailableRoomTypes();
+		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->load->model('Guest_model');
+		$allocated_rooms=$this->Guest_model->get_allocated_rooms($this->data['guest_general_data'][0]->sb_guest_reservation_code,$hotel_id);
+		$hotel_pic=HOTEL_PIC;
+		$hotel_image = $this->Hotel_model->get_hotel_pic($this->data['guest_general_data'][0]->sb_hotel_id);
+		$this->data['hotel_pic']=base_url($hotel_pic)."/".$hotel_image[0]['sb_hotel_pic'];
+		$this->data['allocated_rooms']=$allocated_rooms;
+		$guest_data=$this->Guest_model->get_hotel_guest_data($booking_id);
+		$i=0;
+	 	$checked_out_rooms =0;$checked_in_rooms=0;
+		while($i<count($guest_data))
+		{
+			$room_number =$guest_data[$i]->sb_guest_allocated_room_no;
+			if($guest_data[$i]->sb_guest_actual_check_out != "0000-00-00 00:00:00")
+			{
+				$checked_out_rooms++;
+			}
+			else{
+				$checked_in_rooms++;
+			}
+			
+			$i++;
+		}
+
+		$this->data['guest_data']=$guest_data;
+		$this->data['guest_general_data']=$this->Guest_model->get_hotel_guest_general_data($booking_id);
+		$hotel_pic=HOTEL_PIC;
+		$hotel_image = $this->Hotel_model->get_hotel_pic($this->data['guest_general_data'][0]->sb_hotel_id);
+		$this->data['hotel_pic']=base_url($hotel_pic)."/".$hotel_image[0]['sb_hotel_pic'];
+		$this->data['checked_out_rooms']=$checked_out_rooms;
+		$this->data['checked_in_rooms']=$checked_in_rooms;
+		
+		$this->data['roomsToAlloted']=($this->data['guest_general_data'][0]->sb_guest_rooms_alloted - $checked_in_rooms )- $checked_out_rooms;
+		$this->template->load('page_tpl','hotel_checkin_vw',$this->data);
     }
 	/* Method To Show All Order Details
     * input - void
@@ -204,7 +258,6 @@ class HotelRooms extends CI_Controller
 			
 			while($count < count($customer_orders))
 			{
-			    
 				$total_amount = $total_amount + ($customer_orders[$count]->quantity * $customer_orders[$count]->price);
 				$count++;
 			}
@@ -215,7 +268,10 @@ class HotelRooms extends CI_Controller
 		$this->data['guest_data']=$guest_data;
 		$this->template->load('page_tpl','hotel_checkout_bill_vw',$this->data);
     }		
-
+    /* Method To get Booked Rooms
+    * input - void
+    * output - void
+	*/
     public function get_booked_rooms()
     {
     	$room_type_value=$this->input->post('room_type_value');
@@ -230,6 +286,58 @@ class HotelRooms extends CI_Controller
     	{
     		echo 0;
     	}
+    }
+   /* Method To Rooms Data
+    * input - void
+    * output - void
+	*/
+    public function allocate_rooms()
+    {
+		$room_array = array();
+	    $length =count($this->input->post())-3;
+		$postDataLength=$length/2;
+		$i=0;
+		while($i<$postDataLength)
+		{
+			if(trim($this->input->post("sb_room_number_".$i))!=""){
+				$this->load->model('Hotelrooms_model');
+				$data=$this->Hotelrooms_model->getIfRoomAvailable($this->input->post("sb_hotel_room_type_".$i),$this->input->post("sb_room_number_".$i));
+				if(count($data)>0)
+				{
+					array_push($room_array,$data[0]['sb_room_number']);
+				}
+			}
+			$i++;
+		}
+
+		if(count($room_array)>0){
+			$unique_rooms=array();
+			$unique_rooms=array_unique($room_array);
+			$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+			$this->load->model('Guest_model');
+			$i=0;
+			$Roomdata =array();
+			while($i<count($unique_rooms)){
+				$single_array=array(
+										'sb_guest_actual_check_in'=>date('Y-m-d h:i:s'),
+										'sb_guest_reservation_code'=>$this->input->post('reservation_code'),
+										'sb_guest_allocated_room_no'=>$unique_rooms[$i],
+										'sb_guest_terms'=>'1'
+									);	
+				array_push($Roomdata,$single_array);					
+				$i++;
+			}
+			$this->Guest_model->allocate_rooms($Roomdata);
+			$this->Guest_model->make_rooms_unavailable($unique_rooms);
+			$totalRooms=count($unique_rooms);
+			$this->session->set_flashdata('category_success', "$totalRooms  rooms are alloted succesfully.");
+		}
+		else{
+			$this->session->set_flashdata('category_error', 'No valid rooms provided to allocate.');
+		}
+		$booking_id=$this->input->post('booking_id');
+		$alloted_rooms=$this->input->post('alloted_rooms');
+		redirect("admin/HotelRooms/Roomcheckin/$booking_id/$alloted_rooms");
     }
 
 }

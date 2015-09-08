@@ -58,10 +58,10 @@ class Staffreport extends CI_Controller
 		while($i<count($tasks))
 		{
 		    $eventObject = new stdClass;
-			$eventObject->start= date('Y-m-d h:i:s',strtotime($tasks[$i]['sb_hotel_ser_start_date']." ".$tasks[$i]['sb_hotel_ser_start_time']));
+			$eventObject->start= date('Y-m-d',strtotime($tasks[$i]['sb_hotel_ser_start_date']." ".$tasks[$i]['sb_hotel_ser_start_time']))."T".date('h:i:s',strtotime($tasks[$i]['sb_hotel_ser_start_date']." ".$tasks[$i]['sb_hotel_ser_start_time']));
 		    if($tasks[$i]['sb_hotel_ser_finished_date'] != "0000-00-00")
 			{
-				$eventObject->end= date('Y-m-d h:i:s',strtotime($tasks[$i]['sb_hotel_ser_finished_date']." ".$tasks[$i]['sb_hotel_ser_finished_time']));
+				//$eventObject->end= date('Y-m-d h:i:s',strtotime($tasks[$i]['sb_hotel_ser_finished_date']." ".$tasks[$i]['sb_hotel_ser_finished_time']));
 			}
 			$eventObject->id=$tasks[$i]['sb_hotel_requst_ser_id'];
 			$eventObject->description="Request From ".$tasks[$i]['sb_guest_firstName']." ".$tasks[$i]['sb_guest_lastName']." "." Room No :"." ".$tasks[$i]['sb_guest_allocated_room_no'];
@@ -82,24 +82,29 @@ class Staffreport extends CI_Controller
 									$eventObject->backgroundColor = "green" ;
 									$eventObject->textColor = 'white !important';
 									$eventObject->className = 'eventClass';
+									//$eventObject->allDay=true;
+									//$eventObject->overlap= false;
 									break;
 								}	
 				case 'pending':{
 								$eventObject->backgroundColor = "red" ;
 								$eventObject->textColor = 'white !important';
 								$eventObject->className = 'eventClass';
+								//$eventObject->overlap= false;
 								break;
 							}
 				case 'accepted':{
 								$eventObject->backgroundColor = "orange" ;
 								$eventObject->textColor = 'white !important';
 								$eventObject->className = 'eventClass';
+								//$eventObject->overlap= false;
 								break;
 							}
 				case 'rejected':{
 								$eventObject->backgroundColor = "blue" ;
 								$eventObject->textColor = 'white !important';
 								$eventObject->className = 'eventClass';
+								//$eventObject->overlap= false;
 								break;
 							}
 			}

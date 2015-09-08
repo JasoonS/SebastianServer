@@ -27,6 +27,14 @@
 							}
 						?>
                         <ul class="nav navbar-right panel_toolbox">
+						<?php
+							if($grid_user_type == 'hotel-staff')
+							{
+						?>
+								 <a class="btn btn-sm btn-success" id="idSendMessage" href="#" onclick="openSendMessagePopup();"  title="Send Message"><i class="glyphicon glyphicon-envelope"></i> Send Message</a>
+                        <?php 						
+							}
+						?>
                             <a class="btn btn-sm btn-success" id="add_hotel_user" href="<?php echo site_url('/admin/user/add_hotel_user');?>"  title="Add Hotel User"><i class="glyphicon glyphicon-plus"></i> Add Hotel User</a>
                         </ul>
                         <div class="clearfix"></div>
@@ -78,6 +86,61 @@
                 <p class="debug-url"></p>
             </div>
             <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<!--Confirmation Dialog For Delete Hotel -->
+<div class="modal fade" id="send_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Send Message To Staff</h4>
+				<div id="successDiv" class="alert alert-success alert-dismissible fade in" role="alert" style="display:none;">
+				<span id="success_message"></span>
+				</div>
+				<div id="errorDiv" class="alert alert-error alert-dismissible fade in" role="alert" style="display:none;">
+				<span id="error_message"></span>
+				</div>
+            </div>
+        
+            <div class="modal-body">
+			    <p> 
+                <div class = "row form-group classFormInputsBox" >
+					 <label class="col-md-3 col-xs-3 control-label" for="id_staffType">To Staff </label>
+						<div class="col-md-9 col-xs-9">
+							<select id="id_staffType" name="id_staffType" class="form-control" required="">
+								<option value="all">All</option>
+								<?php
+								if($user_type != 'u'){ 
+									$i=0;
+									while($i<count($parent_services))
+									{
+										echo "<option value=".$parent_services[$i]['sb_parent_service_id'].">".$parent_services[$i]['sb_parent_service_name']."</option>";
+										$i++;
+									}
+								}	
+								?>
+							</select>
+						</div>
+				</div>
+				</p>
+				<p>
+				<div class = "row form-group classFormInputsBox" >
+					<label class="col-md-3 col-xs-3 control-label" for="id_staffMessage">Message</label>	
+						<div class="col-md-9 col-xs-9">
+							<textarea id="id_staffMessage" name="staff_message" class="form-control"></textarea>		  
+							<div id="err_staff_message" class="errorclass" style="display:none"></div>		
+						</div>
+			    </div>
+				</p>
+                <p class="debug-url"></p>
+            </div>
+            <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-danger" onclick="sendMessage();">Proceed</button>
             </div>
         </div>
     </div>
@@ -158,13 +221,13 @@ function recreateTable()
 }
 function changehoteluserstatus(id,status)
 {
-    $(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button><button type="button" class="btn btn-danger" onclick=changeuserstatus('+id+','+status+');>Proceed</button>');
+    $("#confirm-delete .modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button><button type="button" class="btn btn-danger" onclick=changeuserstatus('+id+','+status+');>Proceed</button>');
     $("#confirm-delete").modal('show');
 			
 }
 function changeuserstatus(id,status)
 {
-	var base_url = '<?php echo site_url('admin/ajax/get_ajax_data')?>';
+	var base_url = ajax_url;
 	$.ajax({
 		url: base_url,
 		type:"post",
@@ -184,6 +247,52 @@ function setRedirectUrl()
 	var base_url = '<?php echo site_url('admin/ajax/get_ajax_data')?>';
 	var hotel_id=$("#sb_hotel_id").val();
 	$("#add_hotel_user").attr("href",'<?php echo site_url('admin/user/add_hotel_user/')?>'+'/'+hotel_id);
+	
+}
+function openSendMessagePopup()
+{
+    $("#id_staffMessage").val("");
+    $("#err_staff_message").hide();
+	$("#successDiv").hide();
+	$("#errorDiv").hide();
+	$("#send_message").modal('show');
+}
+function sendMessage()
+{
+	var staffMessage=$("#id_staffMessage").val();
+	var staffType=$("#id_staffType").val();
+	if(staffMessage=="")
+	{
+		$("#err_staff_message").html("Please Provide message to send.");
+		$("#err_staff_message").show();
+		$("#successDiv").hide();
+		$("#errorDiv").hide();
+	}
+	else{
+	    $("#err_staff_message").hide();
+		$.ajax({
+		url: request_url,
+		type:"post",
+		data:{"staff_type":staffType,"staff_message":staffMessage,"flag":17},
+		dataType:"json",
+		success:function(msg){
+			console.log(msg);
+			if(msg.status==true)
+			{
+			    $("#success_message").html(msg.message);
+				$("#successDiv").show();
+			}
+			else{
+				$("#error_message").html(msg.message);
+				$("#errorDiv").show();
+			}
+		},
+		error:function(){
+					alert("Error");
+			}
+		});
+		
+	}
 	
 }
 </script>

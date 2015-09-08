@@ -182,7 +182,7 @@ $(document).ready(function () {
 		    //Event Attachment For Showing Child Services Grid
 			$("#show_parent_details_"+value[0]).click(function(e){
 				e.preventDefault();
-				$("#id_ChildServicesGridWrap").hide();
+				$("#id_ChildServicesGridWrap").show();
 				$("#idChildServiceCreationWrap").hide();
 				$("#idChildSubServiceCreationWrap").hide();
 				$("#id_ChildSubServicesGridWrap").hide();

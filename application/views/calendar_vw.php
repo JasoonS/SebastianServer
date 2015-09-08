@@ -22,6 +22,14 @@
     border-style: solid;
     border-color: rgba(0,0,0,.2);
 }
+
+.fc-slats tr {
+    border: 1px red;
+}
+#calendar {
+		max-width: 900px;
+		margin: 0 auto;
+	}
 </style>
 <div class="right_col" role="main">
     <div class="">
@@ -204,9 +212,36 @@
                     header: {
                         left: 'prev,next today',
                         center: 'title',
-                        right: 'month,basicWeek,basicDay'
+                        right: 'month,agendaWeek,agendaDay'
                     },
-					defaultView: 'basicDay',
+					defaultView: 'agendaDay',
+					 eventLimit: true, // for all non-agenda views
+  
+	 views: {
+        basic: {
+            // options apply to basicWeek and basicDay views
+        },
+        agenda: {
+            // options apply to agendaWeek and agendaDay views
+			 eventLimit: 2,
+			  eventLimit: true
+        },
+        week: {
+            // options apply to basicWeek and agendaWeek views
+			 eventLimit: 2,
+			  eventLimit: true
+        },
+        day: {
+            // options apply to basicDay and agendaDay views
+			 eventLimit: 2,
+			  eventLimit: true
+        }
+    },
+	   
+					//slotMinutes: 60,
+					//defaultEventMinutes: 120,			   
+					allDaySlot: true,
+					allDayText:"Notes",
                     selectable: true,
                     selectHelper: true,
                     select: function (start, end, allDay) {
@@ -256,11 +291,17 @@
                         });
                         calendar.fullCalendar('unselect');*/
                     },
-					eventRender: function(event, element) {
+					eventRender: function(event, element,view) {
 							/*element.qtip({
 								content: event.description
 							});*/
-						
+						   /* var row = $(".fc-slats tr:contains('"+ moment(event.start).format('ha') + "')");
+							if (moment(event.start).format('mm') != '00')
+							{
+								row = row.next();
+							}
+							console.log(element);*/
+						//row.height(element.height()+row.height());
 							if(event.backgroundColor == "orange"){
 								acceptedrequests=acceptedrequests +1;				
 							}
@@ -280,7 +321,18 @@
 							element.attr('data-placement',"top");
 							element.attr('title',event.description);
 					},
-					eventAfterAllRender:function()
+					 eventAfterRender: function( event, element, view ) { 
+						/*var row = $(".fc-slats tr:contains('"+ moment(event.start).format('ha') + "')");
+							console.log("dsa");
+							console.log(moment(event.start).format('mm'));
+							if (moment(event.start).format('hh') != '00')
+							{
+								row = row.next();
+							}
+							console.log(element);
+						row.height(element.height()+row.height());*/
+					},
+					eventAfterAllRender:function( event, element, view)
 					{
 						
 						$("#idAcceptedRequest").html(acceptedrequests);
@@ -291,8 +343,9 @@
 						rejectedrequests = 0;
 						pendingrequests=0;
 						completedrequests =0;
+						
 					},
-                    editable: true,
+					editable: true,
 					eventSources: {
 						url : '<?php echo base_url('admin/Staffreport/staffTasks')."/".$hotel_user_id;?>'
 					}

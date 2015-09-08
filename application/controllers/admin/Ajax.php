@@ -16,7 +16,7 @@ class Ajax extends CI_Controller
 		$this->load->helper('admin/utility');
 		$this->load->model('Hotel_model');
 		$this->load->model('Common_model');
-		$this->load->model('Hoteluser_model');
+		//$this->load->model('Hoteluser_model');
 		$this->load->model('User_model');
 		$this->load->model('Services_model');
 		$this->load->model('Vendor_model');
@@ -144,7 +144,7 @@ class Ajax extends CI_Controller
 				echo json_encode($output);
 				break;
 			}
-			//This case is to show all guest list.
+			//This case is to show arrival guest list.
 			case 18:{
 				$columnnames=['sb_hotel_guest_booking_id','sb_hotel_id','sb_guest_reservation_code','sb_guest_firstName','sb_guest_lastName','sb_guest_email','sb_guest_contact_no','sb_guest_check_in_date','sb_guest_check_out_date','sb_guest_rooms_alloted','sb_guest_created_on'];
 				$output=$this->ajax_arrival_list('sb_hotel_guest_bookings',$this->input->post('orderkey'),$this->input->post('orderdir'),$columnnames);
@@ -263,6 +263,7 @@ class Ajax extends CI_Controller
 	 */
 	public function ajax_user_list($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type,$pagetype,$by_parent_service)
 	{
+		$this->load->model('Hoteluser_model');
 		$list = $this->Hoteluser_model->get_datatables($tablename,$orderkey,$orderdir,$columns,$hotel_id,$type,$pagetype,$by_parent_service);
 		$data = array();
 		$no =$this->input->post('start');
@@ -514,7 +515,9 @@ class Ajax extends CI_Controller
 			$row[]				='<span class="label label-warning"><a href="javascript:void(0)">'. $guest->sb_guest_reservation_code.'</a></span>';
 			$row[] 				= $guest->sb_guest_rooms_alloted;
 			$reservation_code	= $guest->sb_hotel_guest_booking_id;   
-			$row[]				='<a id="allocate" href="#" onclick="allocateRoom(\''.$guest->sb_guest_reservation_code.'\','.$guest->sb_guest_rooms_alloted.');"  title="Allocate Rooms" ><img src="'.FOLDER_ICONS_URL."Allocate.png".'" /></a>'." ".
+			$guestalloted		= $guest->sb_guest_rooms_alloted;	
+			//onclick="allocateRoom(\''.$guest->sb_guest_reservation_code.'\','.$guest->sb_guest_rooms_alloted.');" 
+			$row[]				='<a id="allocate" href="'.base_url("admin/HotelRooms/Roomcheckin/$reservation_code/$guestalloted").'"  title="Allocate Rooms" ><img src="'.FOLDER_ICONS_URL."Allocate.png".'" /></a>'." ".
 								  '<a href="'.base_url("admin/HotelRooms/Roomcheckout/$reservation_code").'"  title="View" ><img src="'.FOLDER_ICONS_URL."View-Details.png".'" /></a>';
 			$data[] = $row;
 		}
@@ -550,8 +553,11 @@ class Ajax extends CI_Controller
 			$row[]				='<span class="label label-warning"><a href="javascript:void(0)">'. $guest->sb_guest_reservation_code.'</a></span>';
 			$row[] 				= $guest->sb_guest_rooms_alloted;
 			$reservation_code	= $guest->sb_hotel_guest_booking_id;   
-			$row[]				='<a id="allocate" href="#" onclick="allocateRoom(\''.$guest->sb_guest_reservation_code.'\','.$guest->sb_guest_rooms_alloted.');"  title="Allocate Rooms" ><img src="'.FOLDER_ICONS_URL."Allocate.png".'" /></a>'." ".
+			//$row[]				='<a id="allocate" href="#" onclick="allocateRoom(\''.$guest->sb_guest_reservation_code.'\','.$guest->sb_guest_rooms_alloted.');"  title="Allocate Rooms" ><img src="'.FOLDER_ICONS_URL."Allocate.png".'" /></a>'." ".
+				//				  '<a href="'.base_url("admin/HotelRooms/Roomcheckout/$reservation_code").'"  title="View" ><img src="'.FOLDER_ICONS_URL."View-Details.png".'" /></a>';
+			$row[]				='<a id="allocate" href="'.base_url("admin/HotelRooms/Roomcheckin/$reservation_code/$guestalloted").'"  title="Allocate Rooms" ><img src="'.FOLDER_ICONS_URL."Allocate.png".'" /></a>'." ".
 								  '<a href="'.base_url("admin/HotelRooms/Roomcheckout/$reservation_code").'"  title="View" ><img src="'.FOLDER_ICONS_URL."View-Details.png".'" /></a>';
+		
 			$data[] = $row;
 		}
 		$output = array(
