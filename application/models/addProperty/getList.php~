@@ -1,0 +1,22 @@
+<?php 
+class GetList extends CI_Model
+{
+	function __construct()
+	{
+		$this->load->database();
+	}
+
+	public function getStateCity($option)
+	{
+		$data = array(
+		'country_id'=> $option
+		);		
+		$this->db->where($data);	
+		$this->db->select('state_name','state_id');
+		$this->db->from('state');
+		$res = $this->db->get();
+		return $res->result();
+	}
+
+}
+?>
