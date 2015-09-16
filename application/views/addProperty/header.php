@@ -20,9 +20,10 @@
 	<div class="container-fluid" id="header">
 		<div class="row">	
 			<div class="col-md-6" id="logo">
-				logo
+				
 			</div>
 			<div class="col-md-6">
 				
 			</div>		
-			
+		</div>
+	</div>		

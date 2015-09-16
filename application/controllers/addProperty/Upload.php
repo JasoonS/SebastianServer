@@ -15,8 +15,6 @@
 		function index()
 		{
 			$data = array();
-			
-			
 			if($this->input->post('submit'))
 			{
 					if($_FILES['upload']['size'][0]==0)
@@ -25,52 +23,44 @@
 					}
 					else
 					{
-				//Call to helper function for multiple upload	
-				$num = FLOOR(RAND() * 101);
-				multiple_upload($_FILES,APPPATH.'../user_data/hotel_pic/',$num);
-		
-				//Insertion of Multiple data
-				$data = array();	
-				for($i=0;$i<count($_FILES['upload']['name']);$i++)
-			{
-				$path = $_FILES['upload']['name'][$i];
-				$ext = pathinfo($path, PATHINFO_EXTENSION);
+						//Call to helper function for multiple upload	
+						$num = FLOOR(RAND() * 101);
+						multiple_upload($_FILES,APPPATH.'../user_data/hotel_pic/',$num);
+						//Insertion of Multiple data
+						$data = array();	
+						for($i=0;$i<count($_FILES['upload']['name']);$i++)
+						{
+							$path = $_FILES['upload']['name'][$i];
+							$ext = pathinfo($path, PATHINFO_EXTENSION);
 
-					$singleArray =array('hotel_id'=>$this->session->userdata('addproperty_id'),'sb_hotel_pic'=>$num.".".$ext);			
-				array_push($data,$singleArray);
-				$num++;	
-			}
-				$result=$this->File_upload->upload('sb_hotel_album',$data);
-				if($result==1)
-			{
-				$this->session->sess_destroy();
-				redirect('addProperty/Hotel');
-			}
+							$singleArray =array('hotel_id'=>$this->session->userdata('addproperty_id'),'sb_hotel_pic'=>$num.".".$ext);			
+							array_push($data,$singleArray);
+							$num++;	
+						}
+						$result=$this->File_upload->upload('sb_hotel_album',$data);
+						if($result==1)
+						{
+							$this->session->sess_destroy();
+							redirect('addProperty/Hotel');
+						}
 			
-			}
+					}
 			}
 			else{
-			$to_mails=$this->User_model->get_all_active_superadministrators();
-					$toarray=array();
-				
+					$to_mails=$this->User_model->get_all_active_superadministrators();
+					$toarray=array();			
 					$emailData['hotel_name']=$this->session->userdata('property_name');
-					$message1 = $this->load->view('email/hotelcreationnotification',$emailData,TRUE);
-					//$mail=sendMail("","kalyani.joshi@eeshana.com","New Hotel Created1",$message1); 
-					//$mail=sendMail("",$to,$subject,$message); 
-					//$message1 = $this->load->view('email/hotelcreationnotification',$emailData,TRUE);
+					$message1 = $this->load->view('email/hotelcreationnotification',$emailData,TRUE);					
 					$counter=0;
 					while($counter<count($to_mails))
 					{
-						//array_push($toarray,$to_mails[$counter]['sb_hotel_useremail']);
-						//echo $to_mails[$counter]['sb_hotel_useremail'];
-						$mail1=sendMail('',$to_mails[0]['sb_hotel_useremail'],"New Hotel Created",$message1);
+						array_push($toarray,$to_mails[$counter]['sb_hotel_useremail']);
 						$counter++;
 					}
-			$this->load->view('addProperty/uploadImage',$data);
+					
+					$mail1=sendBulkMail('',$toarray,"New Hotel Created",$message1);
+					$this->load->view('addProperty/uploadImage',$data);
+				}
 			}
-			}
-		
-		
-		
 	}
 ?>

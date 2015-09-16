@@ -1,8 +1,6 @@
 <?php include('header.php'); ?>
-</div>
-	</div>	
-		<div class="container-fluid" id="container">
-			<div class="row">	
+	<div class="container-fluid" id="container">
+		<div class="row">	
 			<?php include("menu.php"); ?>
 			<div class="col-md-10">
 				<div id="cotaints">

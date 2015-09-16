@@ -236,8 +236,13 @@ function sendBulkMail($from = '',$to,$subject,$message)
 	$mail->SetFrom($from, "Sebastian"); //From address of the mail
 		// put your while loop here like below,
 	$mail->Subject = $subject; //Subject od your mail
-	$mail->AddAddress(implode(",", $to)); //To address who will receive this email
-	
+	//$mail->AddAddress(implode(",", $to)); //To address who will receive this email
+	$counter=0;
+	while($counter<count($to)){
+	      
+		$mail->AddAddress($to[$counter], ""); //To address who will receive this email
+		$counter++;
+	}
 	$mail->MsgHTML( $message); //Put your body of the message you can place html code here
 		//$mail->AddAttachment("images/asif18-logo.png"); //Attach a file here if any or comment this line, 
 	$send = $mail->Send();

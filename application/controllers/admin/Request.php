@@ -149,7 +149,7 @@ class Request extends CI_Controller
 				echo json_encode($output);
 				break;
 			}
-			//This case is written to get add Chat Message
+			//This case is written to get add Chat Message for customer/client.
             case 21:{
 			     
 				$output = $this->add_message();
@@ -161,9 +161,117 @@ class Request extends CI_Controller
 				$output = $this->get_registered_staff();
 				echo json_encode($output);
 				break;
+			}
+			//This case is written to get add Chat Message to staff
+            case 23:{
+			     
+				$output = $this->add_staff_message();
+				echo json_encode($output);
+				break;
+			}
+			//This case is written to get staff chat history
+            case 24:{
+			     
+				$output = $this->get_staff_chat_history();
+				echo json_encode($output);
+				break;
 			}			
 		}
     }
+	 /* This function gets information of forum history according to booking_id
+    * @input void
+	* output array
+	*/
+	public function get_staff_chat_history(){
+		$this->load->model('Staff_model');
+		if($this->input->post('hotel_user_type') == "singleuser")
+		{
+			$this->Staff_model->mark_as_read($this->input->post('hotel_user_id'));
+		}
+		print_r($this->input->post());
+		//$this->Guest_model->mark_as_read($this->input->post('guest_booking_id'));
+		//$output = $this->Guest_model->get_customer_chat_history($this->input->post('guest_booking_id'));
+		//return $output;
+	}
+   /* This function inserts Hotel Admin message to Staff Chat
+    * @input void
+	* output array
+	*/
+	public function add_staff_message(){
+			$insertArray=array(
+							'chat_msg'=>$this->input->post('postMessage'),
+							'created_on'=>date('Y-m-d h:i:s'),
+							'hotel_id'=>$this->session->userdata('logged_in_user')->sb_hotel_id,
+							'sender_id'=>$this->session->userdata('logged_in_user')->sb_hotel_user_id,
+							'receiver_id'=>$this->input->post('hotel_user_id'),
+							'sender_type'=>$this->session->userdata('logged_in_user')->sb_hotel_user_type
+						);
+			$this->load->model('Staff_model');
+			$this->Staff_model->add_message($insertArray);
+			
+			//Notifiy Staff About new message From Hotel Admin//
+			$this->load->model('User_model');
+			$staffUserIds=array($this->input->post('hotel_user_id'));
+			$device_tokens=$this->User_model->get_staff_device_tokens($staffUserIds);
+			$ios_token=array();
+			$android_token=array();
+			$userType = "staff";
+			$staffmessage=$this->input->post('postMessage');
+			$message = array(
+			  "type" => 'team',
+			  "message" => $staffmessage,
+			  "title" => "Message From Hotel Admin",
+			  "id" => $this->session->userdata('logged_in_user')->sb_hotel_id
+			  ); 
+			$count=0;
+			for ($i=0; $i < count($device_tokens); $i++) 
+				{ 
+					if($device_tokens[$i]['sdt_deviceType'] == 'android' AND $device_tokens[$i]['sdt_token'] != NULL AND $device_tokens[$i]['sdt_token'] != (null))
+					{
+						array_push($android_token,$device_tokens[$i]['sdt_token']);
+					}
+					else
+					{
+						if($device_tokens[$i]['sdt_token'] != "" AND $device_tokens[$i]['sdt_token'] != NULL AND $device_tokens[$i]['sdt_token'] != (null))
+							{
+								array_push($ios_token,$device_tokens[$i]['sdt_token']);
+							}	
+					}	
+				}
+			if(count($ios_token)>0)
+				{
+					$ipushdata  = array('deviceToken'=> $ios_token,
+										'user'=> $userType,
+										'message' => $message
+					);
+					//print_r($ipushdata);
+					$this->load->library('api/Iospush');
+					$val = $this->iospush->iospush_notification($ipushdata);
+				}
+				// array for android
+			if(count($android_token)>0)
+				{
+					$pushdata = array(
+										'message'=> $message,
+										'deviceTokens'=> $android_token,
+										'user'=> $userType
+									);
+					//print_r($pushdata);exit;				
+					$this->load->library('api/Android_push');
+					$val1 = $this->android_push->push_notification($pushdata);
+				}	
+			if((count($android_token)==0)&&(count($ios_token)==0))	{
+				$data=array("status"=>false,"message"=>"No Staff Present to send notification.");
+				return $data;
+			}
+			else{
+				$data=array("status"=>true,"message"=>"Notification sent successfully.");
+				return $data;
+			}
+
+			return array("status"=>"success");
+	}
+	
 	/* This function inserts Admin message to Forum Chat
     * @input void
 	* output array

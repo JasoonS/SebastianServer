@@ -15,9 +15,7 @@
                             <h3>
 								Chat With Staff
                             </h3>
-                        </div>
-
-                      
+                        </div>  
                     </div>
                     <div class="clearfix"></div>
 
@@ -36,8 +34,6 @@
                                            
 										</div>
                                         <!-- /MAIL LIST -->
-
-
                                         <!-- CONTENT MAIL -->
                                         <div class="col-sm-9 mail_view " >
                                             <div class="inbox-body">
@@ -99,13 +95,13 @@ function postAnswer()
 		  $.ajax({
 					url: request_url,
 					type:"post",
-					data:{flag:"21","hotel_user_id":hotel_user_id,"postMessage":postMessage},
+					data:{flag:"23","hotel_user_id":hotel_user_id,"postMessage":postMessage},
 					dataType:"json",
 					async: "false",
 					success:function(msg){
 								var data = msg;
 								$("#idPostMessage").val("");
-								makeActive(hotel_user_id,guestName);
+								makeActive(hotel_user_id,hotelUserName);
 							},
 					error:function(msg){
 						console.log("failuer");
@@ -152,7 +148,7 @@ function makeActive(user_id,name)
 	    $.ajax({
 					url: request_url,
 					type:"post",
-					data:{flag:"20","hotel_user_id":hotel_user_id},
+					data:{flag:"24","hotel_user_id":hotel_user_id,"hotel_user_type":"singleuser"},
 					dataType:"json",
 					async: "false",
 					success:function(msg){
@@ -160,7 +156,7 @@ function makeActive(user_id,name)
 								var html="";
 								$.each(data, function() {
 								console.log(data);
-									if(this.sender_type == "customer")
+									if(this.sender_id == "<?php echo $this->session->userdata('logged_in_user')->sb_hotel_user_id?>")
 									{
 										html= html + "<div class='row'><div class='col-md-6 pull-left'>"+"<div style='width:30%;display:inline;float:left'> <b><img style='height:30%;width:30%' src="+user_pic_url+"/"+'1440675235.jpg'+" class='img-circle profile_img' /><br>"+guestName+"</b></div><div style='width:70%;float:right'><p class='triangle-right left'>"+this.forum_msg+"</p></div></div></div>";
 										//html= html + "<div class='row'><div class='col-md-6 pull-left'>"+"<p class='triangle-right<b>"+guestName+" Said :"+"</b></p><p class='triangle-right left'>"+this.forum_msg+"</p></div></div>";
@@ -180,7 +176,7 @@ function makeActive(user_id,name)
 	$("div").removeClass("customeractive");
 	$("#"+hotel_user_id).addClass("customeractive");
 	$("#idCustomerName").html("<h4>"+hotelUserName+"</h4>");
-	  $(".view-mail").scrollTop = $(".view-mail").scrollHeight;
+	$(".view-mail").scrollTop = $(".view-mail").scrollHeight;
 }
 function updateLeftPanel()
 	{
@@ -192,11 +188,10 @@ function updateLeftPanel()
 					async: "false",
 					success:function(msg){
 								var data = msg;
-								console.log(data);
 								var html="";
 								$.each(data, function() {
 									html =html+	'<div class="mail_list" style="min-height:50px;" id="'+this.sb_hotel_user_id+'" onclick="makeActive('+this.sb_hotel_user_id+','+"'"+this.sb_hotel_username+"'"+')"><div class="left" style="padding-left:1%"><span class="badge badge-success">'+"0"+'</span> </div><div class="right" style="padding-left:3%">'+								
-																	 '<h3>'+this.sb_hotel_username+'</h3><br><small>'+this.sb_parent_service_name+'</small><br> <small>';
+																	 '<h3>'+this.sb_hotel_username+'</h3><small>'+this.sb_parent_service_name+'</small><br> <small>';
 																	if(this.created_on !=null){
 																		html =html+ formatdate(this.created_on)+'</small></div></div>';
 																	}

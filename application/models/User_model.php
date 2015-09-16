@@ -253,6 +253,7 @@ Class User_model extends CI_Model
 	{
 		$sb_hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
 		$this->db->select('*');
+	
 		$this->db->join('sb_hotel_user_service_access_map','sb_hotel_user_service_access_map.sb_hotel_user_id=sb_hotel_users.sb_hotel_user_id','left');
 	    $this->db->join('sb_hotel_parent_services','sb_hotel_parent_services.sb_parent_service_id=sb_hotel_user_service_access_map.sb_parent_service_id');
 	    $this->db->from('sb_hotel_users');
