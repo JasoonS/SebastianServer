@@ -2,6 +2,7 @@
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lobster" />
+	<link rel="icon" href="<?php echo THEME_ASSETS; ?>images/favicon.ico"> 
 	<link rel="stylesheet" href="<?php echo THEME_ASSETS; ?>css/addProperty/admin.css">
 	<link rel="stylesheet" href="<?php echo THEME_ASSETS; ?>css/addProperty/menu.css">
 	<link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">

@@ -17,18 +17,27 @@ class User_model extends CI_Model
 		$qry = "SELECT * FROM `sb_hotel_guest_bookings` 
 				JOIN `sb_hotel_guest_reservation_attributes`
 				ON `sb_hotel_guest_reservation_attributes`.`sb_guest_reservation_code` = `sb_hotel_guest_bookings`.`sb_guest_reservation_code`
-				where `sb_hotel_guest_bookings`.`sb_guest_reservation_code` = '$sb_guest_reservation_code'
-				AND `sb_hotel_guest_reservation_attributes`.sb_guest_actual_check_out ='0000-00-00 00:00:00'";
+				where `sb_hotel_guest_bookings`.`sb_guest_reservation_code` = '$sb_guest_reservation_code'";
+				//AND `sb_hotel_guest_reservation_attributes`.sb_guest_actual_check_out ='0000-00-00 00:00:00'";
 		$query = $this->db->query($qry);
 		$custData = $query->result_array();
-		$roomNumbers = array();
+		/*$roomNumbers = array();
 		for ($i=0; $i < count($custData); $i++) { 
 			array_push($roomNumbers,$custData[$i]['sb_guest_allocated_room_no']);
-		}
+		}*/
 		if(count($custData)>0)
 		{
 			$sb_hotel_id =$custData[0]['sb_hotel_id'];
-
+			$roomNumbers = array();
+			$sql4 = "SELECT `sb_guest_allocated_room_no` 
+					FROM `sb_hotel_guest_reservation_attributes` 
+					WHERE `sb_guest_reservation_code` = '$sb_guest_reservation_code' 
+					AND sb_guest_actual_check_out ='0000-00-00 00:00:00'";
+			$query4 = $this->db->query($sql4);
+			$roomData = $query4->result_array();
+			for ($i=0; $i < count($roomData); $i++) { 
+				array_push($roomNumbers,$roomData[$i]['sb_guest_allocated_room_no']);
+			}
 			/*$sql1 = "SELECT * FROM `sb_hotel_parent_services` WHERE `sb_parent_service_id` 
 					in(SELECT distinct(`sb_parent_service_id`) FROM `sb_hotel_service_map` WHERE `sb_hotel_id` = '$sb_hotel_id')";
 			*/
