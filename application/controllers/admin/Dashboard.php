@@ -31,10 +31,14 @@ class Dashboard extends CI_Controller
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
 		{
 			$this->data['title'] = LABEL_1;
+			$this->load->model('Guest_model');
+			$this->data['visitor']=$this->Guest_model->getAllVisitors();
 			$this->template->load('page_tpl','admin_dashboard_vw',$this->data);
 		}else
 		{
 			$this->data['title'] = LABEL_2;
+			$this->load->model('Guest_model');
+			$this->data['visitor']=$this->Guest_model->getTotalVisitors();
 			$this->template->load('page_tpl','hotelier_dashboard_vw',$this->data);
 		}	
 	}

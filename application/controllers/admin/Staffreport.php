@@ -25,7 +25,7 @@ class Staffreport extends CI_Controller
 
 		}
 	}
-    /*This method decides which dashboard to show according to user is Hotel Administrator or Super Administrator
+    /*This Shows Calendar view to the Hotel Administrator
 	 * params void
 	 * return void
      */	 
@@ -35,6 +35,9 @@ class Staffreport extends CI_Controller
 		$this->data['hotel_user_id']=$hotel_user_id;
 		$this->data['hotel_user_name']=$this->User_model->get_user_name($hotel_user_id)->sb_hotel_username;
 		$this->data['parent_service_id']=$this->User_model->get_user_parent_service($hotel_user_id)->sb_parent_service_id;
+		$other_staff = $this->User_model->get_staff($this->data['parent_service_id']);
+		$this->data['other_staff']=$other_staff;
+
 		$this->template->load('page_tpl','calendar_vw',$this->data);
 			
 	}
@@ -52,13 +55,43 @@ class Staffreport extends CI_Controller
 		$user_ids=array('0',$hotel_user_id);
 		$parent_service_id=$this->User_model->get_user_parent_service($hotel_user_id)->sb_parent_service_id;
 		$tasks = $this->Staffreport_model->getTasks($sb_hotel_id,$_GET['start'],$_GET['end'],$user_ids,$parent_service_id);
-		//print_r($tasks);
-		$i=0;
+		$this->load->model('Notes_model');
+		$this->load->model('User_model');
+		
+		$notes = $this->Notes_model->get_notes($_GET['start'],$_GET['end']);
 		$eventData=array();
+		$counter=0;
+		while($counter<count($notes))
+		{
+			$eventObject = new stdClass;
+			$eventObject->start= date('Y-m-d h:i:s',strtotime($notes[$counter]['sb_note_time']));
+		    $eventObject->id=$notes[$counter]['note_id'];
+			$eventObject->title=$notes[$counter]['sb_note'];
+			$eventObject->description=$notes[$counter]['sb_note'];
+			$eventObject->allDay=true;
+			switch($notes[$counter]['sb_note_type'])
+			{
+				case 'Guest Note':{
+									$eventObject->backgroundColor = "white" ;
+									break;
+								}
+				case 'Internal Note':{
+					//$eventObject->backgroundColor = "red" ;
+						$eventObject->backgroundColor ="#ADD8E6";
+						break;
+					}
+			}
+			array_push($eventData,$eventObject);
+			$counter++;
+		}
+		
+		
+		$i=0;
+		
 		while($i<count($tasks))
 		{
 		    $eventObject = new stdClass;
-			$eventObject->start= date('Y-m-d',strtotime($tasks[$i]['sb_hotel_ser_start_date']." ".$tasks[$i]['sb_hotel_ser_start_time']))."T".date('h:i:s',strtotime($tasks[$i]['sb_hotel_ser_start_date']." ".$tasks[$i]['sb_hotel_ser_start_time']));
+			$eventObject->start= date('Y-m-d h:i:s',strtotime($tasks[$i]['sb_hotel_ser_start_date']." ".$tasks[$i]['sb_hotel_ser_start_time']));
 		    if($tasks[$i]['sb_hotel_ser_finished_date'] != "0000-00-00")
 			{
 				//$eventObject->end= date('Y-m-d h:i:s',strtotime($tasks[$i]['sb_hotel_ser_finished_date']." ".$tasks[$i]['sb_hotel_ser_finished_time']));

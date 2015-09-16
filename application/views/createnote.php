@@ -60,17 +60,20 @@
 									<?php echo form_error('sb_hotel_note'); ?>
 								</div>
 			                </div>
-							<div class="form-group" id="id_shiftFrom">
-								<label class="col-md-4 col-xs-4 control-label" for="sb_note_event">Shift From</label>
-								<div class="col-md-8 col-xs-8">
+							
+                            
+							<div class="form-group">
+								<label class="col-md-4 col-xs-4 control-label" for="sb_hotel_note_time">Note Time</label>
+								<div class="col-md-4 col-xs-4">
+									<input type="text" class="form-control" id="idNoteEventDay" name="note_event_day" required>
+								</div>    
+								<div class="col-md-4 col-xs-4">
 									<div class="input-append bootstrap-timepicker">
-										<input id="sb_hotel_user_shift_from" name="sb_hotel_user_shift_from" type="text" class="timepicker input-small">
-										<span class="add-on"><i class="icon-time"></i></span>
+											<input id="sb_hotel_note_time" name="sb_hotel_note_time" type="text" class="form-control timepicker input-small" required>
+											<span class="add-on"><i class="icon-time"></i></span>
 									</div>
-									<?php echo form_error('sb_hotel_user_shift_from'); ?>
 								</div>
 							</div>
-
 			                
 							<div class="form-group">
 								<label class="col-md-4 col-xs-4 control-label" for="sb_hotel_note_type">Note Type</label>
@@ -81,7 +84,10 @@
 									</select>
 								</div>
 							</div>
+						    
+							
 						
+							
 							<div class="control-group">
 								<div class="controls">
 								  <?php
@@ -109,7 +115,8 @@
 <!-- Theme specfic js!-->
 <script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/bootstrap-toggle.js"></script>
-<script src="<?php echo THEME_ASSETS ?>js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="<?php echo THEME_ASSETS?>js/datepicker/daterangepicker.js"></script>
+<script src="<?php echo THEME_ASSETS ?>js/bootstrap-timepicker.js"></script>
 
 <!-- bootstrap progress js -->
 <script src="<?php echo THEME_ASSETS?>js/progressbar/bootstrap-progressbar.min.js"></script>
@@ -117,4 +124,9 @@
 <!-- icheck -->
 <script src="<?php echo THEME_ASSETS?>js/icheck/icheck.min.js"></script>
 <script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
-
+<script type="text/javascript">
+	$('#sb_hotel_note_time').timepicker({
+						showSeconds: true,
+					});
+	$( "#idNoteEventDay" ).datepicker();				
+</script>

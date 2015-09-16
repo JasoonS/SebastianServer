@@ -129,10 +129,136 @@ class Request extends CI_Controller
 				echo json_encode($output);
 				break;
 			}	
-            			
+			
+			//This case is written assign task to staff.
+			case 18:{
+				$output =$this->assign_req_to_staff();
+				echo json_encode($output);
+				break;
+			}	
+            //This case is written to get Customer list which have booking
+            case 19:{
+				$output = $this->get_registered_customers();;
+				echo json_encode($output);
+				break;
+			}	
+			 //This case is written to get forum history
+            case 20:{
+			     
+				$output = $this->get_forum_history();
+				echo json_encode($output);
+				break;
+			}
+			//This case is written to get add Chat Message
+            case 21:{
+			     
+				$output = $this->add_message();
+				echo json_encode($output);
+				break;
+			}	
+             //This case is written to get Staff list which is in service.
+            case 22:{
+				$output = $this->get_registered_staff();
+				echo json_encode($output);
+				break;
+			}			
 		}
     }
-	 /* This function returns count of child service with same name
+	/* This function inserts Admin message to Forum Chat
+    * @input void
+	* output array
+	*/
+	public function add_message(){
+		$this->load->model('Guest_model');
+		$output = $this->Guest_model->addMessage($this->input->post('guest_booking_id'),$this->input->post('postMessage'));
+		
+		//Notifiy Customer That Admin Answered Him/Her//
+		$device_tokens=$this->Guest_model->getdevicetoken($this->input->post('guest_booking_id'));
+						$ios_token=array();
+						$android_token=array();
+						$userType = "customer";
+						$customermessage=$this->input->post('postMessage');
+						$message = array(
+											"type" => 'forum',
+											"message" => $customermessage,
+											"title" => "Checkout Message From Hotel Admin",
+											"id" =>$this->session->userdata('logged_in_user')->sb_hotel_id,
+											"sender_type"=>"HotelAdmin",
+											"created_on"=>date('Y-m-d h:i:s')
+									); 
+						$count=0;
+						for ($i=0; $i < count($device_tokens); $i++) 
+						{ 
+							if($device_tokens[$i]['cdt_deviceType'] == 'android' AND $device_tokens[$i]['cdt_token'] != NULL AND $device_tokens[$i]['cdt_token'] != (null))
+							{
+								array_push($android_token,$device_tokens[$i]['cdt_token']);
+							}
+							else
+							{
+								if($device_tokens[$i]['cdt_token'] != "" AND $device_tokens[$i]['cdt_token'] != NULL AND $device_tokens[$i]['cdt_token'] != (null))
+								{
+									array_push($ios_token,$device_tokens[$i]['cdt_token']);
+								}	
+							}	
+						}
+						if(count($ios_token)>0)
+						{
+							$ipushdata  = array('deviceToken'=> $ios_token,
+												'user'=> $userType,
+												'message' => $message
+											);
+							//print_r($ipushdata);
+							$this->load->library('api/Iospush');
+							$val = $this->iospush->iospush_notification($ipushdata);
+						}
+						// array for android
+						if(count($android_token)>0)
+						{
+							$pushdata = array(
+									'message'=> $message,
+									'deviceTokens'=> $android_token,
+									'user'=> $userType
+								);
+							//print_r($pushdata);exit;				
+							$this->load->library('api/Android_push');
+							$val1 = $this->android_push->push_notification($pushdata);
+						}	
+						if((count($android_token)==0)&&(count($ios_token)==0))	{
+							$data=array("status"=>false,"message"=>"No Customer device present to receive push notification.");
+							
+						}	
+		return array("status"=>"success");
+	}
+	 /* This function gets information of forum history according to booking_id
+    * @input void
+	* output array
+	*/
+	public function get_forum_history(){
+		$this->load->model('Guest_model');
+		$this->Guest_model->mark_as_read($this->input->post('guest_booking_id'));
+		$output = $this->Guest_model->get_customer_chat_history($this->input->post('guest_booking_id'));
+		return $output;
+	}	
+	
+   /* This function gets information of currently registered customers to hotel
+    * @input void
+	* output array
+	*/
+	public function get_registered_customers(){
+		$this->load->model('Guest_model');
+		$output = $this->Guest_model->get_customer_list();
+		return $output;
+	}
+   /* This function gets information of currently registered customers to hotel
+    * @input void
+	* output array
+	*/
+	public function get_registered_staff(){
+		$this->load->model('User_model');
+		$output = $this->User_model->get_staff_list(0);
+		return $output;
+	}	
+   /* This function returns count of child service with same name
 	* @param void
 	* return int
 	*/
@@ -398,7 +524,87 @@ class Request extends CI_Controller
 		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
 		$reservation_code=$this->input->post("reservation_code");
 		$this->load->model('Guest_model');
+		$booking_id=$this->Guest_model->getBookingId($reservation_code,$hotel_id);
+		$this->data['guest_general_data']=$this->Guest_model->get_hotel_guest_general_data($booking_id[0]['sb_hotel_guest_booking_id']);
+		$guest_data=$this->Guest_model->get_hotel_guest_data($booking_id[0]['sb_hotel_guest_booking_id']);
+		$i=0;
+		$flag =0;
+	 	$checked_out_rooms =0;$checked_in_rooms=0;
+		while($i<count($guest_data))
+		{
+			$room_number =$guest_data[$i]->sb_guest_allocated_room_no;
+			if($guest_data[$i]->sb_guest_actual_check_out != "0000-00-00 00:00:00")
+			{
+				$checked_out_rooms++;
+			}
+			else{
+				$checked_in_rooms++;
+			}
+			$i++;
+		}
+     	if($checked_in_rooms == 1)
+        {
+			$flag =1;
+        }		
 		$room_availability=$this->Guest_model->release_room($room_no,$hotel_id,$reservation_code);
+		if($flag == 1){
+						$this->Guest_model->change_status($reservation_code,$hotel_id);
+						//We Also Need To Send Notification to customer from here...
+						
+						$device_tokens=$this->Guest_model->getdevicetoken($booking_id[0]['sb_hotel_guest_booking_id']);
+						$ios_token=array();
+						$android_token=array();
+						$userType = "customer";
+						$customermessage="You have checked out.Thanks For Visiting us.Please visit again.";
+						$message = array(
+											"type" => 'checkout',
+											"message" => $customermessage,
+											"title" => "Checkout Message From Hotel Admin",
+											"id" => $hotel_id
+									); 
+						$count=0;
+						for ($i=0; $i < count($device_tokens); $i++) 
+						{ 
+							if($device_tokens[$i]['cdt_deviceType'] == 'android' AND $device_tokens[$i]['cdt_token'] != NULL AND $device_tokens[$i]['cdt_token'] != (null))
+							{
+								array_push($android_token,$device_tokens[$i]['cdt_token']);
+							}
+							else
+							{
+								if($device_tokens[$i]['cdt_token'] != "" AND $device_tokens[$i]['cdt_token'] != NULL AND $device_tokens[$i]['cdt_token'] != (null))
+								{
+									array_push($ios_token,$device_tokens[$i]['cdt_token']);
+								}	
+							}	
+						}
+						if(count($ios_token)>0)
+						{
+							$ipushdata  = array('deviceToken'=> $ios_token,
+												'user'=> $userType,
+												'message' => $message
+											);
+							//print_r($ipushdata);
+							$this->load->library('api/Iospush');
+							$val = $this->iospush->iospush_notification($ipushdata);
+						}
+						// array for android
+						if(count($android_token)>0)
+						{
+							$pushdata = array(
+									'message'=> $message,
+									'deviceTokens'=> $android_token,
+									'user'=> $userType
+								);
+							//print_r($pushdata);exit;				
+							$this->load->library('api/Android_push');
+							$val1 = $this->android_push->push_notification($pushdata);
+						}	
+						if((count($android_token)==0)&&(count($ios_token)==0))	{
+							$data=array("status"=>false,"message"=>"No Customer device present to receive push notification.");
+							return $data;
+						}
+					
+					}
 		//Check if room is created.
 		return $room_availability;
 	}
@@ -408,6 +614,35 @@ class Request extends CI_Controller
 	*/
 	public function release_all_rooms(){
 		$allocated_rooms = $this->get_allocated_room_numbers();
+		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$reservation_code=$this->input->post('reservation_code');
+		$booking_id=$this->Guest_model->getBookingId($reservation_code,$hotel_id);
+		$this->data['guest_general_data']=$this->Guest_model->get_hotel_guest_general_data($booking_id[0]['sb_hotel_guest_booking_id']);
+		$guest_data=$this->Guest_model->get_hotel_guest_data($booking_id[0]['sb_hotel_guest_booking_id']);
+		$rooms_in_booking=$this->data['guest_general_data'][0]->sb_guest_rooms_alloted;
+		$flag=0;
+		if(count($allocated_rooms) == $rooms_in_booking)
+		{
+			$flag =1;
+		}
+		$i=0;
+	 	$checked_out_rooms =0;$checked_in_rooms=0;
+		while($i<count($guest_data))
+		{
+			$room_number =$guest_data[$i]->sb_guest_allocated_room_no;
+			if($guest_data[$i]->sb_guest_actual_check_out != "0000-00-00 00:00:00")
+			{
+				$checked_out_rooms++;
+			}
+			else{
+				$checked_in_rooms++;
+			}
+			$i++;
+		}	
+		if(($checked_out_rooms+count($allocated_rooms))==$rooms_in_booking)	
+		{
+			$flag = 1;
+		}
 		$i=0;
 		$rooms_array=array();
 		while($i<count($allocated_rooms))
@@ -421,6 +656,64 @@ class Request extends CI_Controller
 					$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
 					$reservation_code=$this->input->post('reservation_code');
 					$this->Guest_model->release_rooms($rooms_array,$hotel_id,$reservation_code);
+				
+					if($flag == 1){
+						$this->Guest_model->change_status($reservation_code,$hotel_id);
+						//We Also Need To Send Notification to customer from here...
+						$device_tokens=$this->Guest_model->getdevicetoken($booking_id[0]['sb_hotel_guest_booking_id']);
+						
+						$ios_token=array();
+						$android_token=array();
+						$userType = "customer";
+						$customermessage="You have checked out.Thanks For Visiting us.Please visit again.";
+						$message = array(
+											"type" => 'checkout',
+											"message" => $customermessage,
+											"title" => "Checkout Message From Hotel Admin",
+											"id" => $hotel_id
+									); 
+						$count=0;
+						for ($i=0; $i < count($device_tokens); $i++) 
+						{ 
+							if($device_tokens[$i]['cdt_deviceType'] == 'android' AND $device_tokens[$i]['cdt_token'] != NULL AND $device_tokens[$i]['sdt_token'] != (null))
+							{
+								array_push($android_token,$device_tokens[$i]['cdt_token']);
+							}
+							else
+							{
+								if($device_tokens[$i]['cdt_token'] != "" AND $device_tokens[$i]['cdt_token'] != NULL AND $device_tokens[$i]['sdt_token'] != (null))
+								{
+									array_push($ios_token,$device_tokens[$i]['cdt_token']);
+								}	
+							}	
+						}
+						if(count($ios_token)>0)
+						{
+							$ipushdata  = array('deviceToken'=> $ios_token,
+												'user'=> $userType,
+												'message' => $message
+											);
+							//print_r($ipushdata);
+							$this->load->library('api/Iospush');
+							$val = $this->iospush->iospush_notification($ipushdata);
+						}
+						// array for android
+						if(count($android_token)>0)
+						{
+							$pushdata = array(
+									'message'=> $message,
+									'deviceTokens'=> $android_token,
+									'user'=> $userType
+								);
+							//print_r($pushdata);exit;				
+							$this->load->library('api/Android_push');
+							$val1 = $this->android_push->push_notification($pushdata);
+						}	
+						if((count($android_token)==0)&&(count($ios_token)==0))	{
+							$data=array("status"=>false,"message"=>"No Customer device present to receive push notification.");
+							return $data;
+						}
+					}
 					return array("success"=>true);
 				}
 			else{
@@ -441,6 +734,7 @@ class Request extends CI_Controller
 		$data=$this->Hotelrooms_model->getHotelAvailableRooms($hotel_id,$room_type,$room_number);
 		return $data;
 	}
+	
 	/*This function is used to send notification to staff.
 	*@input - void
 	*output -array
@@ -449,6 +743,7 @@ class Request extends CI_Controller
 	{
 		$this->load->model('Services_model');
 		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		//print_r($this->session->userdata('logged_in_user'));exit;
 		$staffUsers=$this->Services_model->get_staff_users($this->input->post('staff_type'));
 		$staffUserIds=array();
 		$i=0;
@@ -463,8 +758,13 @@ class Request extends CI_Controller
 		$ios_token=array();
 		$android_token=array();
 		$userType = "staff";
-		$message=$this->input->post('staff_message');
-	
+		$staffmessage=$this->input->post('staff_message');
+	    $message = array(
+          "type" => 'team',
+          "message" => $staffmessage,
+          "title" => "Message From Hotel Admin",
+          "id" => $hotel_id
+          ); 
 		$count=0;
 		for ($i=0; $i < count($device_tokens); $i++) 
 			{ 
@@ -484,7 +784,7 @@ class Request extends CI_Controller
 			{
 				$ipushdata  = array('deviceToken'=> $ios_token,
 									'user'=> $userType,
-									'message' => "$message"
+									'message' => $message
 				);
 				//print_r($ipushdata);
 				$this->load->library('api/Iospush');
@@ -494,7 +794,7 @@ class Request extends CI_Controller
 		if(count($android_token)>0)
 			{
 				$pushdata = array(
-									'message'=> "$message",
+									'message'=> $message,
 									'deviceTokens'=> $android_token,
 									'user'=> $userType
 								);
@@ -511,6 +811,80 @@ class Request extends CI_Controller
 			return $data;
 		}
 
+	}
+	/* This function is written to assign task to staff user.
+    * input -void
+	* output -void
+	*/
+	public function assign_req_to_staff(){
+		$this->load->model('Services_model');
+		$task_id=$this->input->post('req_id');
+		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$data=array(
+					'sb_hotel_service_assigned'=>'y',
+					'sb_hotel_ser_assgnd_to_user_id'=>$this->input->post('hotel_staff_id'),
+					'sb_hotel_service_status'=>'accepted'
+				);
+		$output = $this->Services_model->assign_task($data,$task_id);
+		$this->load->model('User_model');
+		$device_tokens=$this->User_model->get_staff_device_tokens(array($this->input->post('hotel_staff_id')));
+		$ios_token=array();
+		$android_token=array();
+		$userType = "staff";
+		$staffmessage="New Service is assigned to you.";
+	    $message = array(
+          "type" => 'team',
+          "message" => $staffmessage,
+          "title" => "Message From Hotel Admin",
+          "id" => $hotel_id
+          ); 
+		$count=0;
+		for ($i=0; $i < count($device_tokens); $i++) 
+			{ 
+				if($device_tokens[$i]['sdt_deviceType'] == 'android' AND $device_tokens[$i]['sdt_token'] != NULL AND $device_tokens[$i]['sdt_token'] != (null))
+				{
+					array_push($android_token,$device_tokens[$i]['sdt_token']);
+				}
+				else
+				{
+					if($device_tokens[$i]['sdt_token'] != "" AND $device_tokens[$i]['sdt_token'] != NULL AND $device_tokens[$i]['sdt_token'] != (null))
+						{
+							array_push($ios_token,$device_tokens[$i]['sdt_token']);
+						}	
+				}	
+			}
+		if(count($ios_token)>0)
+			{
+				$ipushdata  = array('deviceToken'=> $ios_token,
+									'user'=> $userType,
+									'message' => $message
+				);
+				//print_r($ipushdata);
+				$this->load->library('api/Iospush');
+				$val = $this->iospush->iospush_notification($ipushdata);
+			}
+			// array for android
+		if(count($android_token)>0)
+			{
+				$pushdata = array(
+									'message'=> $message,
+									'deviceTokens'=> $android_token,
+									'user'=> $userType
+								);
+				//print_r($pushdata);exit;				
+				$this->load->library('api/Android_push');
+				$val1 = $this->android_push->push_notification($pushdata);
+			}	
+		if((count($android_token)==0)&&(count($ios_token)==0))	{
+			$data=array("status"=>true,"message"=>"No Staff Present to send notification.");
+			return $data;
+		}
+		else{
+			$data=array("status"=>true,"message"=>"Notification sent successfully.");
+			return $data;
+		}
+		//$output=$this->input->post();
+		//return $output;
 	}
 }//End Of Controller Class
 

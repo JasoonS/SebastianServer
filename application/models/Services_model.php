@@ -362,6 +362,7 @@ Class Services_model extends CI_Model
 		$this->db->update($tablename,$data);
 		return 1;
 	}
+
    /* Method To get no of child services with given name(For validation)
 	* @params string,int
     * return int
@@ -496,6 +497,15 @@ Class Services_model extends CI_Model
 		$query=$this->db->get();
 		$result=$query->result_array();
 		return $result;
+	}
+	/* Method To Assign Task To Staff
+	* @params array
+    * return 1
+	*/
+	public function assign_task($data,$task_id){
+		$this->db->where('sb_hotel_requst_ser_id',$task_id);
+		$this->db->update('sb_hotel_services_status',$data);
+		return 1;
 	}
 	
 }

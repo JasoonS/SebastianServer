@@ -13,8 +13,7 @@
 					<form method="post" class="form" enctype="multipart/form-data">
 						<div class="row">
 							<div class="col-md-6">
-								<div id="cotaints">
-									
+								<div id="cotaints">									
 									<label>Hotel Name</label>
 									<input type="text" name="hotel_name" class="form-control" />
 									<span class="error"><?php echo form_error('hotel_name'); ?></span><br /><br />
@@ -50,19 +49,17 @@
 										
 									</select><br />
 								
-									<label for="sbHotelStar" class="col-xs-3 control-label">Hotel Star :</label>
-                    			<div class="col-xs-6">
-                    				
-		<!--<input id="id_sbHotelStar" name="hotel_star" value="0" type="number" class="rating" data-stars=7 min=0 max=7 step=1 data-size="xs" data-glyphicon="false"/>-->
-									
-                    			</div>
+									<label for="sbHotelStar" >Hotel Star :</label>
+										<div class="col-xs-6">
+											<input id="id_sbHotelStar" name="hotel_star" value="0" type="number" class="rating" data-stars=7 min=0 max=7 step=1 data-size="xs" data-glyphicon="false"/>
+										</div>
 									</div>
 							</div>
 							<div class="col-md-6">
 								<div id="cotaints">	
 									<label>Address</label>
 									<input type="text" name="address" class="form-control" />
-									<span class="error"><?php echo form_error('email'); ?></span>
+									<span class="error"><?php echo form_error('address'); ?></span>
 									<br /><br />
 									<label>Postal Code</label>
 									<input type="text" name="postal_code" class="form-control" id="id_sbHotelZipcode" required"/>
@@ -75,7 +72,7 @@
 									<br />
 									<br />	
 									<label>Picture</label>
-									<input type="file" name="upload" /><br />	
+									<input type="file" name="sb_hotel_pic" id="sb_hotel_pic" /><br />	
 									<label>Establishment Month</label>
 									<select id="id_sbPropertyBuiltMonth" name="month" class="form-control">
 													<?php 
@@ -83,8 +80,8 @@
 													$i=0;
 													while($i<count($monthArray))
 													{
-			echo "<option value='".$i."'>".$monthArray[$i]."</option>";
-													$i++;														
+														echo "<option value='".$i."'>".$monthArray[$i]."</option>";
+														$i++;														
 													}
 													?>
 									</select>

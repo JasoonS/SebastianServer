@@ -7,9 +7,9 @@
             <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
                 <div class="left"></div>
                 <div class="right">
-                    <span class="count_top"><i class="fa fa-user"></i> Total Users</span>
-                    <div class="count">2500</div>
-                    <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+                    <span class="count_top"><i class="fa fa-user"></i> Total Visitors</span>
+                    <div class="count"><?php echo $visitor;?></div>
+                    
                 </div>
             </div>
             <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">

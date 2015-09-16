@@ -6,24 +6,9 @@ class Hotel_model extends CI_Model
 		$this->load->database();
 	}
 
-	public function create_hotel($post,$num)
+	public function create_hotel($data)
 	{
-		$data = array(
-		'sb_hotel_name'=> $post['hotel_name'],
-		'sb_hotel_country' => $post['country'],
-		'sb_hotel_state' => $post['state'],
-		'sb_hotel_city' =>$post['city'],
-		'sb_hotel_category' =>$post['category'],
-		'sb_hotel_email'=>$post['email'],
-		'sb_hotel_website'=>$post['website'],
-		'sb_hotel_owner'=> $post['owner_name'],
-      	'sb_hotel_address'=>$post['address'],
-		'sb_hotel_zipcode'=>$post['postal_code'],
-		'sb_property_built_month'=>$post['month'],
-		'sb_property_built_year'=>$post['built_calender'],
-		'sb_property_open_year'	=>$post['opening_calender'],
-		'sb_hotel_pic' => $num.'.jpg'
-		);		
+				
 		$this->db->insert('sb_hotels',$data);	
 			
 		return $this->db->insert_id();

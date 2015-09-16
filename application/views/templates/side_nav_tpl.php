@@ -31,6 +31,8 @@
             <div class="menu_section">
                 <h3><?php echo $this->session->userdata('logged_in_user')->sb_hotel_username;?></h3>
                 <ul class="nav side-menu">  
+				<?php //echo "<pre>";
+				      //print_r($this->acl->perms);?> 
                     <?php foreach($this->acl->perms as $key=>$value) {  ?>                                 
                         <li>
                             <?php if($value['is_parent'] == 'y' && $value['parent_id'] == 0 ) { $subModules = $this->acl->getSubModules($value['id']); ?>

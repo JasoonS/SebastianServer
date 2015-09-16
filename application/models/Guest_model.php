@@ -220,6 +220,155 @@ class Guest_model extends CI_Model
 		$this->db->update('sb_hotel_rooms',$room_data);
 		return true;
 	}
+	/* Method to update checkout flag when all rooms are checkout
+	 * @param int
+	 * return array
+	 */
+	function change_status($reservation_code,$hotel_id)
+	{
+		$guest_booking_data=array(
+					'is_checkedout'=>'1'
+					);
+		$this->db->where('sb_guest_reservation_code',$reservation_code);
+		$this->db->where('sb_hotel_id',$hotel_id);
+		$this->db->update('sb_hotel_guest_bookings',$guest_booking_data);
+		return true;
+	}
+   
+   /* Method to get booking_id from reservation_code
+    * @param string
+	* return int
+	*/
+    function getBookingId($reservation_code,$hotel_id)
+    {
+		$this->db->select('sb_hotel_guest_booking_id');
+		$this->db->where('sb_guest_reservation_code',$reservation_code);
+		$this->db->where('sb_hotel_id',$hotel_id);
+		$query=$this->db->get('sb_hotel_guest_bookings');
+		return $query->result_array();
+		
+    } 
+   /* Method to get device token for guest
+    * @param string
+	* return int
+	*/
+    function getdevicetoken($booking_id)
+    {
+		$this->db->select('cdt_token,cdt_deviceType');
+		$this->db->where('sb_hotel_guest_booking_id',$booking_id);
+		$query=$this->db->get('sb_guest_devicetoken');
+		return $query->result_array();
+		
+    }
+    /* Method To get Total Hotel Visitor Users
+	 * for passed hotel id
+	 * @param int
+	 * return array
+	 */
+	function getTotalVisitors()
+	{
+		$hotel_id = $this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->db->select_sum('visit_cout');
+		$this->db->from('sb_visitor');
+		$this->db->where('sb_hotel_id',$hotel_id);
+		$query = $this->db->get();
+		//echo $this->db->last_query();
+		return $query->row()->visit_cout;
+	}
+
+    /* Method To get Total Visitor Users
+	 * for passed hotel id
+	 * @param int
+	 * return array
+	 */
+	function getAllVisitors()
+	{
+		//$hotel_id = $this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->db->select_sum('visit_cout');
+		$this->db->from('sb_visitor');
+		
+		$query = $this->db->get();
+		//echo $this->db->last_query();
+		return $query->row()->visit_cout;
+	}
+
+	/* Method return customer data
+	 * for passed hotel id
+	 * @param void
+	 * return array
+	 */
+	function get_customer_list()
+	{
+		$this->hotel_id =  $this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->db->select('*');
+		$this->db->select('sb_hotel_guest_bookings.sb_hotel_guest_booking_id as booking_id');
+		$this->db->select('(SELECT count(*) FROM sb_forum WHERE read_status=\'0\' AND sender_type="customer" AND sb_hotel_guest_booking_id=booking_id ) as unread_count',false);
+		$this->db->from('sb_hotel_guest_bookings');
+		$this->db->join('sb_forum','sb_forum.sb_hotel_guest_booking_id = sb_hotel_guest_bookings.sb_hotel_guest_booking_id','left');
 	
+		$this->db->where('sb_hotel_guest_bookings.sb_hotel_id',$this->hotel_id);
+		$this->db->where('is_checkedout','0');
+		$this->db->where('sb_guest_firstName<>','');
+		$this->db->group_by('sb_hotel_guest_bookings.sb_hotel_guest_booking_id');
+		$this->db->order_by('sb_forum.created_on','desc');
+		
+		$query = $this->db->get();
+		return $query->result();
+	}	
+	/* Method return customer chat history
+	 * for passed booking_id
+	 * @param void
+	 * return array
+	 */
+	function get_customer_chat_history($booking_id)
+	{
+		$this->db->select('*');
+		$this->db->where('sb_hotel_guest_booking_id',$booking_id);
+		$this->db->from('sb_forum');
+		$this->db->join('sb_hotel_users','sb_hotel_users.sb_hotel_user_id = sb_forum.hotel_user_id','left');
 	
+		$this->db->order_by('sb_forum.created_on','asc');
+		$query = $this->db->get();
+		return $query->result();
+	}	
+		
+	/* Method make messages as read
+	 * for passed booking_id
+	 * @param void
+	 * return array
+	 */
+	function mark_as_read($booking_id)
+	{
+		$update_data=array(
+		            'read_status'=>'1'
+					);   
+		$this->db->where('sb_hotel_guest_booking_id',$booking_id);
+		$this->db->where('sender_type',"customer");
+		
+		$this->db->update('sb_forum',$update_data);
+		return 1;
+		
+	}	
+    /* Method add Admin Post in forum
+	 * for passed booking_id
+	 * @param void
+	 * return array
+	 */
+	function addMessage($booking_id,$postMessage)
+	{
+		$hotel_user_id = $this->session->userdata('logged_in_user')->sb_hotel_user_id;
+		$hotel_id = $this->session->userdata('logged_in_user')->sb_hotel_id;
+		$insert_data=array(
+		            'sb_hotel_id'=>$hotel_id,
+					'sb_hotel_guest_booking_id'=>$booking_id,
+					'forum_msg'=>$postMessage,
+					'sender_type'=>"hoteladmin",
+					'read_status'=>'0',
+					'hotel_user_id'=>$hotel_user_id
+					);   
+		
+		$this->db->insert('sb_forum',$insert_data);
+		return 1;
+		
+	}		
 }

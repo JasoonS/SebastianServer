@@ -5,7 +5,7 @@
 		{
 			parent::__construct();
 			$this->load->model('addProperty/File_upload');
-			
+			$this->load->model('User_model');
 			if($this->session->userdata('addproperty_id')=='')
 			{
 				redirect("addProperty/Hotel");
@@ -49,8 +49,25 @@
 			
 			}
 			}
-			
+			else{
+			$to_mails=$this->User_model->get_all_active_superadministrators();
+					$toarray=array();
+				
+					$emailData['hotel_name']=$this->session->userdata('property_name');
+					$message1 = $this->load->view('email/hotelcreationnotification',$emailData,TRUE);
+					//$mail=sendMail("","kalyani.joshi@eeshana.com","New Hotel Created1",$message1); 
+					//$mail=sendMail("",$to,$subject,$message); 
+					//$message1 = $this->load->view('email/hotelcreationnotification',$emailData,TRUE);
+					$counter=0;
+					while($counter<count($to_mails))
+					{
+						//array_push($toarray,$to_mails[$counter]['sb_hotel_useremail']);
+						//echo $to_mails[$counter]['sb_hotel_useremail'];
+						$mail1=sendMail('',$to_mails[0]['sb_hotel_useremail'],"New Hotel Created",$message1);
+						$counter++;
+					}
 			$this->load->view('addProperty/uploadImage',$data);
+			}
 			}
 		
 		
