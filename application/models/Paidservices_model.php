@@ -101,4 +101,17 @@ Class Paidservices_model extends CI_Model
 		$this->db->update('sb_paid_services',$data);
 		return 1;
 	}
+	
+	/*
+	*/
+	public function get_paid_service($service_name)
+	{
+		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->db->select("count(*) as count");
+		$this->db->where('sb_hotel_id',$hotel_id);
+		$this->db->where('sb_sub_child_service_name',$service_name);
+		$this->db->from("sb_paid_services");
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 }//End Of Common Model

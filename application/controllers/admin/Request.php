@@ -175,10 +175,45 @@ class Request extends CI_Controller
 				$output = $this->get_staff_chat_history();
 				echo json_encode($output);
 				break;
-			}			
+			}	
+			//This case is written to check if reservation code is already present for hotel  
+            case 25:{
+			     
+				$output = $this->get_reservation_code();
+				echo json_encode($output);			
+				break;
+			}	
+			
+			//This case is written to check if restaurant is already present for hotel  
+            case 26:{
+			     
+				$output = $this->get_restaurant();
+				echo json_encode($output);			
+				break;
+			}	
 		}
     }
-	 /* This function gets information of forum history according to booking_id
+	/* This function checks if restaurant is already present for particular hotel
+    * @input void
+	* output array
+	*/
+	public function get_restaurant(){
+		$this->load->model('Restaurant_model');
+		$output=$this->Restaurant_model->get_restaurant_count($this->input->post('sb_rest_name'));
+		//print_r($this->input->post());
+		//$output=$this->input->post();
+		return $output;
+	}
+   /* This function checks if reservation code is not already present for particular hotel
+    * @input void
+	* output array
+	*/
+	public function get_reservation_code(){
+		$this->load->model('Guest_model');
+		$output=$this->Guest_model->get_reservation_code($this->input->post('confId'));
+		return $output;
+	}
+   /* This function gets information of staff chat history according to hotel_user_id
     * @input void
 	* output array
 	*/
@@ -187,11 +222,10 @@ class Request extends CI_Controller
 		if($this->input->post('hotel_user_type') == "singleuser")
 		{
 			$this->Staff_model->mark_as_read($this->input->post('hotel_user_id'));
+			$output=$this->Staff_model->get_staff_chat_history($this->input->post('hotel_user_id'));
 		}
-		print_r($this->input->post());
-		//$this->Guest_model->mark_as_read($this->input->post('guest_booking_id'));
-		//$output = $this->Guest_model->get_customer_chat_history($this->input->post('guest_booking_id'));
-		//return $output;
+		
+		return $output;
 	}
    /* This function inserts Hotel Admin message to Staff Chat
     * @input void

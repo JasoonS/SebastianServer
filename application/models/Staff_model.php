@@ -61,14 +61,18 @@ Class Staff_model extends CI_Model
 	function get_staff_chat_history($sender_id)
 	{
 		$this->db->select('*');
-		$this->db->where_in('sender_id',array($sender_id,userdata('logged_in_user')->sb_hotel_user_id));
-			$this->db->or_where_in('receiver_id',array($sender_id,userdata('logged_in_user')->sb_hotel_user_id));
+		$this->db->select(" (SELECT sb_hotel_user_pic from sb_hotel_users WHERE sb_hotel_user_id=sender_id) as hotel_user_pic ");
+		$this->db->select(" (SELECT sb_hotel_username from sb_hotel_users WHERE sb_hotel_user_id=sender_id) as hotel_user_name ");
+		
+		$this->db->where((array('sender_id' => $sender_id, 'receiver_id' => $this->session->userdata('logged_in_user')->sb_hotel_user_id)));
+		$this->db->or_where("(sender_id = {$this->session->userdata('logged_in_user')->sb_hotel_user_id} AND receiver_id = $sender_id)");
 		$this->db->from('sb_hotel_staff_chat');
 		//$this->db->join('sb_hotel_users','sb_hotel_users.sb_hotel_user_id = sb_hotel_staff_chat.hotel_user_id','left');
 	
 		$this->db->order_by('sb_hotel_staff_chat.created_on','asc');
-		echo $this->db->last_query();
+		
 		$query = $this->db->get();
+		//echo $this->db->last_query();
 		return $query->result();
 	}		
 }

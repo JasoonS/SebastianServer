@@ -17,7 +17,7 @@
 	            <?php } ?>
 
 	            <div class="classLoginFrmFields" id="idLoginFields">
-					<input type="text" class="form-control" placeholder="Email" id="idEmail" name="email" value="<?php echo set_value('username');?>" required="" />
+					<input type="text" class="form-control" placeholder="UserName" id="idUsername" name="username" value="<?php echo set_value('username');?>" required="" />
 					<?php echo form_error('username'); ?>
 				</div>
 

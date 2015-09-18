@@ -138,8 +138,6 @@ function makeActive(user_id,name)
 {
 	hotel_user_id=user_id;
 	hotelUserName=name;
-	console.log("We need to get populate right panel now..");
-	console.log(hotel_user_id);
 	if(hotel_user_id == ""){
 		$(".view-mail").html("<h1>Please Select Staff From Left Panel to Read Message.</h1>");
 		
@@ -156,13 +154,13 @@ function makeActive(user_id,name)
 								var html="";
 								$.each(data, function() {
 								console.log(data);
-									if(this.sender_id == "<?php echo $this->session->userdata('logged_in_user')->sb_hotel_user_id?>")
+									if(this.sender_id == hotel_user_id)
 									{
-										html= html + "<div class='row'><div class='col-md-6 pull-left'>"+"<div style='width:30%;display:inline;float:left'> <b><img style='height:30%;width:30%' src="+user_pic_url+"/"+'1440675235.jpg'+" class='img-circle profile_img' /><br>"+guestName+"</b></div><div style='width:70%;float:right'><p class='triangle-right left'>"+this.forum_msg+"</p></div></div></div>";
+										html= html + "<div class='row'><div class='col-md-6 pull-left'>"+"<div style='width:30%;display:inline;float:left'> <b><img style='height:30%;width:30%' src="+user_pic_url+"/"+this.hotel_user_pic+" class='img-circle profile_img' /><br>"+this.hotel_user_name+"</b></div><div style='width:70%;float:right'><p class='triangle-right left'>"+this.chat_msg+"</p></div></div></div>";
 										//html= html + "<div class='row'><div class='col-md-6 pull-left'>"+"<p class='triangle-right<b>"+guestName+" Said :"+"</b></p><p class='triangle-right left'>"+this.forum_msg+"</p></div></div>";
 									}
 									else{
-										html= html + "<div class='row'><div class='col-md-6 pull-right'>"+"<div style='width:67%;display:inline;float:left'><p class='triangle-right right'>"+this.forum_msg+"</p></div><div style='width:30%;float:right'><b><img style='height:30%;width:30%' src="+user_pic_url+"/"+this.sb_hotel_user_pic+" class='img-circle profile_img' /><br>"+this.sb_hotel_username+"</b></div></div></div>";
+										html= html + "<div class='row'><div class='col-md-6 pull-right'>"+"<div style='width:67%;display:inline;float:left'><p class='triangle-right right'>"+this.chat_msg+"</p></div><div style='width:30%;float:right'><b><img style='height:30%;width:30%' src="+user_pic_url+"/"+this.hotel_user_pic+" class='img-circle profile_img' /><br>"+this.hotel_user_name+"</b></div></div></div>";
 
 									}
 				          		});

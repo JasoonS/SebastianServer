@@ -272,7 +272,6 @@ class Guest_model extends CI_Model
 		$this->db->from('sb_visitor');
 		$this->db->where('sb_hotel_id',$hotel_id);
 		$query = $this->db->get();
-		//echo $this->db->last_query();
 		return $query->row()->visit_cout;
 	}
 
@@ -283,12 +282,9 @@ class Guest_model extends CI_Model
 	 */
 	function getAllVisitors()
 	{
-		//$hotel_id = $this->session->userdata('logged_in_user')->sb_hotel_id;
 		$this->db->select_sum('visit_cout');
-		$this->db->from('sb_visitor');
-		
+		$this->db->from('sb_visitor');	
 		$query = $this->db->get();
-		//echo $this->db->last_query();
 		return $query->row()->visit_cout;
 	}
 
@@ -305,13 +301,11 @@ class Guest_model extends CI_Model
 		$this->db->select('(SELECT count(*) FROM sb_forum WHERE read_status=\'0\' AND sender_type="customer" AND sb_hotel_guest_booking_id=booking_id ) as unread_count',false);
 		$this->db->from('sb_hotel_guest_bookings');
 		$this->db->join('sb_forum','sb_forum.sb_hotel_guest_booking_id = sb_hotel_guest_bookings.sb_hotel_guest_booking_id','left');
-	
 		$this->db->where('sb_hotel_guest_bookings.sb_hotel_id',$this->hotel_id);
 		$this->db->where('is_checkedout','0');
 		$this->db->where('sb_guest_firstName<>','');
 		$this->db->group_by('sb_hotel_guest_bookings.sb_hotel_guest_booking_id');
-		$this->db->order_by('sb_forum.created_on','desc');
-		
+		$this->db->order_by('sb_forum.created_on','desc');	
 		$query = $this->db->get();
 		return $query->result();
 	}	
@@ -326,7 +320,6 @@ class Guest_model extends CI_Model
 		$this->db->where('sb_hotel_guest_booking_id',$booking_id);
 		$this->db->from('sb_forum');
 		$this->db->join('sb_hotel_users','sb_hotel_users.sb_hotel_user_id = sb_forum.hotel_user_id','left');
-	
 		$this->db->order_by('sb_forum.created_on','asc');
 		$query = $this->db->get();
 		return $query->result();
@@ -344,7 +337,6 @@ class Guest_model extends CI_Model
 					);   
 		$this->db->where('sb_hotel_guest_booking_id',$booking_id);
 		$this->db->where('sender_type',"customer");
-		
 		$this->db->update('sb_forum',$update_data);
 		return 1;
 		
@@ -370,5 +362,18 @@ class Guest_model extends CI_Model
 		$this->db->insert('sb_forum',$insert_data);
 		return 1;
 		
-	}		
+	}
+   /* Method to get booking_id from reservation_code
+    * @param string
+	* return int
+	*/
+    function get_reservation_code($reservation_code)
+    {
+		$this->db->select('count(*) as count',false);
+		$this->db->where('sb_guest_reservation_code',$reservation_code);
+		$this->db->where('sb_hotel_id',$this->session->userdata('logged_in_user')->sb_hotel_id);
+		$query=$this->db->get('sb_hotel_guest_bookings');
+		return $query->result_array();
+		
+    } 	
 }

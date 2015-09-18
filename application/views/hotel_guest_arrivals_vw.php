@@ -77,7 +77,8 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">First Name</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input type="text" class="form-control" id="idGuestFirstName" placeholder="guest first name">
-                            </div>
+								<div class="error" id="idGuestFirstName_error"></div> 
+							</div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Last Name</label>
@@ -89,24 +90,28 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Reservation Code</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input type="text" class="form-control" id="idReservationCode" placeholder="Reservation Code">
-                            </div>
+								<div class="error" id="idReservationCode_error"></div>  
+							</div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Email Id</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input type="text" class="form-control" id="idGuestEmail">
+								<div class="error" id="idGuestEmail_error"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Phone no</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input type="text" class="form-control" id="idGuestPhoneno" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="10">
-                            </div>
+								<div class="error" id="idGuestPhoneno_error"></div>
+							</div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">No of rooms</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input type="text" class="form-control" id="idGuestNoOfRooms">
+								<div class="error" id="idGuestNoOfRooms_error"></div>
                             </div>
                         </div>
                     </form>
@@ -166,6 +171,68 @@
 <script src="<?php echo THEME_ASSETS ?>js/customjs/constants.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
 <script type="text/javascript">
+function IsEmail(email) {
+  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  return regex.test(email);
+}
+function validateForm(jsFrmGuestObj)
+{
+	var errorarray=[];	
+	if($.isNumeric(jsFrmGuestObj.noOfrooms) == false)
+	{
+		var errorObj = new Object();
+		errorObj.field = "idGuestNoOfRooms_error";
+		errorObj.message = "Please Enter Valid No of Rooms.";
+		errorarray.push(errorObj);
+		console.log("Error Object For empty");
+	}
+	else{
+		if(jsFrmGuestObj.noOfrooms <= 0){
+			var errorObj = new Object();
+			errorObj.field = "idGuestNoOfRooms_error";
+			errorObj.message = "Please Enter Valid No of Rooms.";
+			errorarray.push(errorObj);
+			console.log("Cannot reserve 0 rooms");
+		}
+	}
+	if(IsEmail(jsFrmGuestObj.email) == false)
+	{
+		var errorObj = new Object();
+		errorObj.field = "idGuestEmail_error";
+		errorObj.message = "Please Enter Valid Email.";
+		errorarray.push(errorObj);
+	}
+	if(jsFrmGuestObj.confId == ""){
+		var errorObj = new Object();
+		errorObj.field = "idReservationCode_error";
+		errorObj.message = "Please Provide Reservation Code.";
+		errorarray.push(errorObj);
+	}
+	else{
+		var requestObj = new Object();
+		requestObj.confId=jsFrmGuestObj.confId;
+		requestObj.flag=25;
+		jqXHRSaveGuest = $.post(request_url,requestObj,function( data ){});
+			jqXHRSaveGuest.success(function(data)
+			{
+				var obj = jQuery.parseJSON( data );
+				if(obj[0].count>0){
+					var errorObj = new Object();
+					errorObj.field = "idReservationCode_error";
+					errorObj.message = "Sorry This reservation code is already in use.";
+					errorarray.push(errorObj);
+				}
+			});
+	}
+	if(jsFrmGuestObj.firstname == ""){
+		var errorObj = new Object();
+		errorObj.field = "idGuestFirstName_error";
+		errorObj.message = "Please Provide Guest First Name";
+	}
+	
+	return errorarray;
+	
+}
 $(document).ready(function () {
 	var jsFrmGuestObj = new Object();
 	var jsFrmGuesrArr = [];
@@ -173,11 +240,7 @@ $(document).ready(function () {
         checkboxClass: 'icheckbox_flat-green',
         radioClass: 'iradio_flat-green'
     });
-	// Setup - add a text input to each footer cell
-   /* $('#example thead th').each( function () {
-        var title = $('#example tfoot th').eq( $(this).index() ).text();
-        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-    } );*/  
+	
     // DataTable
     var table = $('#idGuest').DataTable({
     	"ordering": true,
@@ -230,14 +293,25 @@ $(document).ready(function () {
 		jsFrmGuestObj.confId	 = $("#idReservationCode").val();	
     	jsFrmGuestObj.flag       = 16;
     	// Update Services
-        jqXHRSaveGuest = $.post(ajax_url,jsFrmGuestObj,function( data ){});
-        jqXHRSaveGuest.success(function(data)
-        {
-           if(data)
-           {
-            $("#idAddGuestModal #idSucessMsg").html('New guest booking added.Reservation Code -'+data).delay(5000).fadeOut(function(){ window.location.reload(); });
-           }
-        });
+        var errorarray=validateForm(jsFrmGuestObj);
+		if(errorarray.length == 0){
+			jqXHRSaveGuest = $.post(ajax_url,jsFrmGuestObj,function( data ){});
+			jqXHRSaveGuest.success(function(data)
+			{
+				if(data)
+				{
+					$("#idAddGuestModal #idSucessMsg").html('New guest booking added.Reservation Code -'+data).delay(5000).fadeOut(function(){ window.location.reload(); });
+				}
+			});
+		}
+		else{
+			//alert("We need to display errors Here");
+			$.each(errorarray, function(key, value) {
+			    $("#"+value.field).html(value.message);
+				$("#"+value.field).show();
+				//alert(value.field + ", " + value.message);
+			});
+		}
     })
 
     var cb = function (start, end, label) {

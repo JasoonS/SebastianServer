@@ -289,11 +289,12 @@ Class HotelServices extends CI_Controller
 	    
 		$data =$this->input->post();
 		$this->validation_rules = array(
-		    array('field'=>'sb_sub_child_service_name','label'=>'Service Name','rules'=>'required','class'=>'text-danger'),
+		    array('field'=>'sb_sub_child_service_name','label'=>'Service Name','rules'=>'required|callback_validate_paid_service','class'=>'text-danger'),
 			array('field'=>'sb_sub_child_price','label'=>'Service Price','rules'=>'required|numeric','class'=>'text-danger')
 		);
 		$this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
 		$this->form_validation->set_rules($this->validation_rules);
+		$this->form_validation->set_message('validate_paid_service','This service is already exists.');
 		if ($this->form_validation->run() == FALSE)
 		{
 			$this->data['title'] 				= 'Hotel Services';
@@ -411,6 +412,7 @@ Class HotelServices extends CI_Controller
 			$this->template->load('page_tpl', 'edit_paid_services_vw',$this->data);
 		}
 		else{
+		             
 			$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
 			$hotel_name=	$this->Hotel_model->get_hotel_name($hotel_id)[0]['sb_hotel_name'];
 			
@@ -441,6 +443,20 @@ Class HotelServices extends CI_Controller
 			redirect($url);
 		}
 	}
-	
-   
+	/* Method Validate Hotel Paid Service
+    * input - String
+    * output - boolean
+	*/
+    function validate_paid_service($fieldvalue)
+	{
+	    $this->load->model('PaidServices_model');
+		$result=$this->PaidServices_model->get_paid_service($fieldvalue);
+		if($result[0]['count']>0){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+    	
 }

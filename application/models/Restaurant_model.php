@@ -34,4 +34,18 @@ Class Restaurant_model extends CI_Model
 		$val = $this->db->update('sb_hotel_restaurant', $insert_data1);
 		return $val;
 	}
+   /* Method to get if restaurant is actually present with specific name
+	* input - string
+	* output - array
+	*/
+	public function get_restaurant_count($restaurant_name)
+	{
+		$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->db->select("count(*) as count");
+		$this->db->where('sb_hotel_id',$hotel_id);
+		$this->db->where('sb_hotel_restaurant_name',$restaurant_name);
+		$this->db->from("sb_hotel_restaurant");
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 }	
