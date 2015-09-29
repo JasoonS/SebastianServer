@@ -27,7 +27,7 @@ function getroombooked()
 	success:function(data){
 		if(data!=0)
 		{
-			html =	'<div class="row" ><div class = "col-md-8 col-xs-12 col-md-offset-2 classFormBox"><div class="x_panel">';		
+			html =	'<div class="row" ><div class = "col-md-8 col-xs-12 col-md-offset-2 classFormBox"><div class="x_panel"><div><h1>'+room_type_value+' rooms in hotel</h1></div>';		
 			html += '<table class="table table-striped table-bordered" >';
 			for (var i = 0, len = data.length; i < len; ++i) {
 			    html += '<tr>';
@@ -50,7 +50,8 @@ function getroombooked()
 		}
 		else		
 		{
-			
+			html ='<div class="row" ><div class = "col-md-8 col-xs-12 col-md-offset-2 classFormBox"><div class="x_panel"><div><h1>No Rooms Of this type are created.</h1></div></div></div></div>';
+			$(html).appendTo('#room_booked_view');	
 		}
 	},
 	error: function(){
@@ -68,7 +69,10 @@ function specifyRoomType()
 		$("#idNewRoomType").hide(200);
 	}
 }
-getroombooked();
+$( document ).ready(function() {
+  getroombooked();
+});
+
 
 </script>
 <script>
@@ -130,7 +134,7 @@ function formvalidate()
 				<div class = "col-md-8 col-xs-12 col-md-offset-2 classFormBox">
 					<div class="x_panel classRequiredPanel">
 						<div class="x_title">
-		                    <h2><b>Mandatory Inputs</b></h2>	                            
+		                    <h2><b>Create Rooms</b></h2>	                            
 		                    <div class="clearfix"></div>
 		                </div>
 		                <div class = "x_content">
@@ -167,22 +171,25 @@ function formvalidate()
 
 						<div class = "form-group classFormInputsBox">
 							<label for="room_type" class="col-xs-4 control-label">Room Type</label>
-							<div class="col-xs-6">
-							<!--<input type="text" class="form-control" name="sb_hotel_room_type" id="room_type">-->
-							<input type="button" class="btn btn-primary btn-lg btn-block" value="Check Availability" onclick="getroombooked()"></input>
-				
+							<div class="col-xs-3">
 							<select class="form-control" name="sb_hotel_room_type" id="room_type" onchange="specifyRoomType();">
 						   	    <?php 
-									$i=0;
+									/*$i=0;
 									while($i<count($room_types))
 									{ 
 										echo "<option value='".$room_types[$i]['sb_hotel_room_type']."'>".$room_types[$i]['sb_hotel_room_type']."</option>";
 										$i++;
-									}
+									}*/
 								?>
-								<option value="not specified">Not Specified</option>
+								<option value="Ordinary">Ordinary</option>
+								<option value="Semi-Deluxe">Semi-Deluxe</option>
+								<option value="Deluxe">Deluxe</option>
 							</select>
-													
+							</div>
+							<div class="col-xs-3">
+							<!--<input type="text" class="form-control" name="sb_hotel_room_type" id="room_type">-->
+							<input type="button" class="btn btn-primary btn-sm btn-block" value="Check Availability" onclick="getroombooked()"></input>
+				            </div> 						
 
 							
 							</div>
@@ -197,7 +204,7 @@ function formvalidate()
 
 							<div class = "form-group classFormInputsBox">
 							<div class="col-xs-12">
-								<input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit"></input>
+								<input type="submit" class="btn btn-primary btn-sm btn-block" value="Submit"></input>
 							</div>
 							</div>
 						</div>  <!-- x-content -->

@@ -306,7 +306,15 @@ class User extends CI_Controller
                      									
 					$this->User_model->set_user_role($useradminpermissions);
 					$user_module_array=array();
-					$permarray=array('2','4','6','8','9');
+					$role_modules=$this->User_model->get_role_modules(1);
+					$permarray=array();
+						$i=0;
+					while($i<count($role_modules))
+					{
+					   array_push($permarray,$role_modules[$i]['sb_mod_id']);
+						$i++;
+					}
+					
 					$count=0;
 					while($count<count($permarray)){
 						$singlearray=array(
@@ -362,7 +370,15 @@ class User extends CI_Controller
 									);
 					$this->User_model->set_user_role($useradminpermissions);
 					$user_module_array=array();
-					$permarray=array('7');
+					$role_modules=$this->User_model->get_role_modules(3);
+					$permarray=array();
+						$i=0;
+					while($i<count($role_modules))
+					{
+					   array_push($permarray,$role_modules[$i]['sb_mod_id']);
+						$i++;
+					}
+					
 					$count=0;
 					while($count<count($permarray)){
 						$singlearray=array(
@@ -642,7 +658,16 @@ class User extends CI_Controller
                      									
 					$this->User_model->set_user_role($useradminpermissions);
 					$user_module_array=array();
-					$permarray=array('2','4','6','8','9');
+					$role_modules=$this->User_model->get_role_modules(1);
+					$permarray =array();
+					$i=0;
+					while($i<count($role_modules))
+					{
+					    array_push($permarray,$role_modules[$i]['sb_mod_id']);
+						$i++;
+					}
+					
+					//$permarray=array('5','7','13','15','16','18','19');
 					$count=0;
 					while($count<count($permarray)){
 						$singlearray=array(
@@ -698,7 +723,16 @@ class User extends CI_Controller
 									);
 					$this->User_model->set_user_role($useradminpermissions);
 					$user_module_array=array();
-					$permarray=array('7');
+					$role_modules=$this->User_model->get_role_modules(3);
+					$permarray =array();
+					$i=0;
+					while($i<count($role_modules))
+					{
+					    array_push($permarray,$role_modules[$i]['sb_mod_id']);
+						$i++;
+					}
+					
+					//$permarray=array('5','7','13','15','16','18','19');
 					$count=0;
 					while($count<count($permarray)){
 						$singlearray=array(

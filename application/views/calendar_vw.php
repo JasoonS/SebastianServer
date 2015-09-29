@@ -119,12 +119,12 @@
 	<!-- footer content -->
     <footer>
 		<div class="">
-			<p class="pull-right">Gentelella Alela! a Bootstrap 3 template by <a>Kimlabs</a>. |
-                <span class="lead"> <i class="fa fa-paw"></i> Gentelella Alela!</span>
-            </p>
-        </div>
-        <div class="clearfix"></div>
-    </footer>
+		    <p class="pull-right">Sebastian Admin |
+		        <span class="lead"> <i class="fa fa-paw"></i></span>
+		    </p>
+		</div>
+		<div class="clearfix"></div>
+	</footer>
     <!-- /footer content -->
     <div id="fc_create" data-toggle="modal" data-target="#CalenderModalNew"></div>
     <div id="fc_edit" data-toggle="modal" data-target="#CalenderModalEdit"></div>
@@ -221,26 +221,16 @@
                     },
 					defaultView: 'agendaDay',
 					eventLimit: true, // for all non-agenda views
-  
+                    default:true, 
 					views: {
-						basic: {
-							// options apply to basicWeek and basicDay views
-						},
+						
 						agenda: {
 							// options apply to agendaWeek and agendaDay views
 							eventLimit: 2,
+							default:true
 							
 						},
-						week: {
-							// options apply to basicWeek and agendaWeek views
-							eventLimit: 2,
-							
-						},
-						day: {
-							// options apply to basicDay and agendaDay views
-							eventLimit: 2,
-							
-						}
+						
     },
 	   
 					//slotMinutes: 60,

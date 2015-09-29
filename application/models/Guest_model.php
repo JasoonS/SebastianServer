@@ -371,8 +371,9 @@ class Guest_model extends CI_Model
     {
 		$this->db->select('count(*) as count',false);
 		$this->db->where('sb_guest_reservation_code',$reservation_code);
-		$this->db->where('sb_hotel_id',$this->session->userdata('logged_in_user')->sb_hotel_id);
+		//$this->db->where('sb_hotel_id',$this->session->userdata('logged_in_user')->sb_hotel_id);
 		$query=$this->db->get('sb_hotel_guest_bookings');
+	
 		return $query->result_array();
 		
     } 	

@@ -73,6 +73,38 @@ class Guestprofiles extends CI_Controller
 			$this->template->load('page_tpl', 'hotel_guest_arrivals_vw',$this->data);
 		}
 	}
+	/* Method is to get Guest History
+	 * input -void
+	 * output -view render
+	 */
+	public function guest_history()
+	{
+	    $requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3);
+	
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}
+		$this->data['title'] = 'Guest History';
+		$this->template->load('page_tpl', 'modules_vw',$this->data);
+		
+	}
+	/* Method is to get Guest Feedback
+	 * input -void
+	 * output -view render
+	 */
+	public function feedback()
+	{
+	    $requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3);
+	
+		if(!$this->acl->hasPermission($requested_mod))
+		{
+			redirect('admin/dashboard');
+		}
+		$this->data['title'] = 'Guest Feedback';
+		$this->template->load('page_tpl', 'modules_vw',$this->data);
+		
+	}
 
 }
 ?>

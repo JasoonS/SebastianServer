@@ -1,6 +1,6 @@
 /*Project Location Path in javascript are defined here*/
-//var proj_url		=	location.protocol + "//" + location.host+'/sebastian-admin-panel/';
-var proj_url		=	location.protocol + "//" + location.host+'/sebastian/';
+var proj_url		=	location.protocol + "//" + location.host+'/sebastian-admin-panel/';
+//var proj_url		=	location.protocol + "//" + location.host+'/sebastian/';
 var ajax_url		=	proj_url+'admin/ajax/get_ajax_data';
 var request_url		=	proj_url+'admin/request/get_request_data';
 var add_parent_service_url =proj_url+'admin/HotelServices/addParentService';

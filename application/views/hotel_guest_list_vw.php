@@ -185,6 +185,7 @@ function validateForm(jsFrmGuestObj)
 		errorObj.message = "Please Enter Valid No of Rooms.";
 		errorarray.push(errorObj);
 		console.log("Error Object For empty");
+		//return errorarray;
 	}
 	else{
 		if(jsFrmGuestObj.noOfrooms <= 0){
@@ -201,34 +202,48 @@ function validateForm(jsFrmGuestObj)
 		errorObj.field = "idGuestEmail_error";
 		errorObj.message = "Please Enter Valid Email.";
 		errorarray.push(errorObj);
+		//return errorarray;
 	}
 	if(jsFrmGuestObj.confId == ""){
 		var errorObj = new Object();
 		errorObj.field = "idReservationCode_error";
 		errorObj.message = "Please Provide Reservation Code.";
 		errorarray.push(errorObj);
+		//return errorarray;
 	}
 	else{
 		var requestObj = new Object();
 		requestObj.confId=jsFrmGuestObj.confId;
 		requestObj.flag=25;
+		$.ajaxSetup({async:false});
 		jqXHRSaveGuest = $.post(request_url,requestObj,function( data ){});
 			jqXHRSaveGuest.success(function(data)
 			{
 				var obj = jQuery.parseJSON( data );
+				console.log(obj);
 				if(obj[0].count>0){
 					var errorObj = new Object();
+					
 					errorObj.field = "idReservationCode_error";
 					errorObj.message = "Sorry This reservation code is already in use.";
+					
 					errorarray.push(errorObj);
+					//return errorarray;
+					console.log(errorarray);
 				}
 			});
+		$.ajaxSetup({async:true});
 	}
+
 	if(jsFrmGuestObj.firstname == ""){
 		var errorObj = new Object();
 		errorObj.field = "idGuestFirstName_error";
 		errorObj.message = "Please Provide Guest First Name";
+		errorarray.push(errorObj);
+		//return errorarray;
 	}
+
+	console.log(errorarray);
 	
 	return errorarray;
 	
@@ -306,7 +321,9 @@ $(document).ready(function () {
     	// Update Services
 		
 		
-		var errorarray=validateForm(jsFrmGuestObj);
+		var errorarray  =  validateForm(jsFrmGuestObj);
+		console.log(errorarray);
+		console.log(errorarray + errorarray.length + "HERE");
 		if(errorarray.length == 0){
 			jqXHRSaveGuest = $.post(ajax_url,jsFrmGuestObj,function( data ){});
 			jqXHRSaveGuest.success(function(data)

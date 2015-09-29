@@ -54,6 +54,8 @@ Class Acl
 
         //then, get the individual user permissions
         $this->perms = array_merge($this->perms,$this->getUserMods($this->userID));
+		//echo "<pre>";
+		//print_r($this->perms);exit;
     }
 
     /* Method returns all permissions
@@ -73,20 +75,26 @@ Class Acl
         }
         $this->ci->db->order_by('sb_role_mod_id','asc');
         $sql = $this->ci->db->get('sb_roles_mod'); //$this->db->select($roleSQL);
+		//echo $this->ci->db->last_query();exit;
         $data = $sql->result();
-        $assigned_mods = array();
+        //print_r($data);exit;
+		$assigned_mods = array();
 		
         foreach( $data as $row )
         {
+		   // echo "<pre>"; print_r($row);
             $pK = $this->getPermKeyFromID($row->sb_mod_id);
+			$order = $this->getOrderKeyFromID($row->sb_mod_id);
             if ($pK == '') { continue; }
             if ($row->sb_role_mod_val === '1') {
                 $hP = true;
             } else {
                 $hP = false;
             }
-            $assigned_mods[$pK] = array('module_key' => $pK,'inheritted' => true,'value' => $hP,'name' => $this->getPermNameFromID($row->sb_mod_id),'id' => $row->sb_mod_id,'is_parent' => $this->getPermParentFlag($row->sb_mod_id),'parent_id'=> $this->getPermParentId($row->sb_mod_id));
-        }
+            $assigned_mods[$pK] = array('order'=>$order,'module_key' => $pK,'inheritted' => true,'value' => $hP,'name' => $this->getPermNameFromID($row->sb_mod_id),'id' => $row->sb_mod_id,'is_parent' => $this->getPermParentFlag($row->sb_mod_id),'parent_id'=> $this->getPermParentId($row->sb_mod_id));
+       
+		
+		}
 		//echo "<pre>";
 		//print_r($assigned_mods);exit;
         return $assigned_mods;
@@ -103,7 +111,17 @@ Class Acl
         $this->ci->db->where('sb_mod_id',floatval($permID));
         $sql = $this->ci->db->get('sb_modules',1);
         $data = $sql->result();
+		//print_r($data);
         return $data[0]->sb_mod_key;
+    }
+	function getOrderKeyFromID($permID) 
+    {
+        //$strSQL = "SELECT `permKey` FROM `".DB_PREFIX."permissions` WHERE `ID` = " . floatval($permID) . " LIMIT 1";
+        $this->ci->db->select('mod_order');
+        $this->ci->db->where('sb_mod_id',floatval($permID));
+        $sql = $this->ci->db->get('sb_modules',1);
+        $data = $sql->result();
+        return $data[0]->mod_order;
     }
 
     /* Method returns permission name
@@ -134,19 +152,24 @@ Class Acl
 		$this->ci->db->where('sb_user_mod_val','1');
         $this->ci->db->order_by('sb_user_mod_added_on','asc');
         $sql = $this->ci->db->get('sb_user_modules');
-        $data = $sql->result();
+		//echo $this->ci->db->last_query();exit;
+	   $data = $sql->result();
  
         $assigned_mods = array();
         foreach( $data as $row )
         {
+		    
             $pK = $this->getPermKeyFromID($row->sb_mod_id);
+			$order = $this->getOrderKeyFromID($row->sb_mod_id);
+			
             if ($pK == '') { continue; }
             if ($row->sb_user_mod_val == '1') {
                 $hP = true;
             } else {
                 $hP = false;
             }
-            $assigned_mods[$pK] = array('module_key' => $pK,'inheritted' => false,'value' => $hP,'name' => $this->getPermNameFromID($row->sb_mod_id),'id' => $row->sb_mod_id,'is_parent' => $this->getPermParentFlag($row->sb_mod_id),'parent_id'=> $this->getPermParentId($row->sb_mod_id));
+			//$hP = true;
+            $assigned_mods[$pK] = array('order'=>$order,'module_key' => $pK,'inheritted' => false,'value' => $hP,'name' => $this->getPermNameFromID($row->sb_mod_id),'id' => $row->sb_mod_id,'is_parent' => $this->getPermParentFlag($row->sb_mod_id),'parent_id'=> $this->getPermParentId($row->sb_mod_id));
         }
         return $assigned_mods;
     }
@@ -219,6 +242,7 @@ Class Acl
     {
 
         $Modules    = array();
+		//echo "<pre>";print_r($this->perms);exit;
         foreach($this->perms as $key=>$value)
         {
             if($value['parent_id'] !== $parentId)

@@ -190,9 +190,75 @@ class Request extends CI_Controller
 				$output = $this->get_restaurant();
 				echo json_encode($output);			
 				break;
-			}	
+			}
+
+			//This case is written to get Email Data  
+            case 27:{
+			     
+				$output = $this->get_Email();
+				echo json_encode($output);			
+				break;
+			}
+			//This case is written to get Send Email  
+            case 28:{
+			     
+				$output = $this->Send_Email();
+				echo json_encode($output);			
+				break;
+			}			
 		}
     }
+	/* This function is written to send Email
+    * @input void
+	* output array
+	*/
+	public function Send_Email(){
+		$this->load->model('Email_mod');
+		$toUsers=explode(",",$this->input->post('inputTo'));
+		$result=$this->Email_mod->getToUsers($toUsers);
+		$userIds=array();
+		$i=0;
+		while($i<count($result))
+		{
+			array_push($userIds,$result[$i]->sb_hotel_user_id);
+			$i++;
+		}
+		
+		$subject=$this->input->post("inputSubject");
+		$email=$this->input->post("email_message");
+		
+		$insertData=array();
+		$i=0;
+		while($i<count($userIds))
+		{
+		    $singlearray=array(
+								'hotel_id'=>$this->session->userdata('logged_in_user')->sb_hotel_id,
+								'receiver_id'=>$userIds[$i],
+								'email_to'=>$toUsers[$i],
+								'email_subject'=>$subject,
+								'sender_id'=>$this->session->userdata('logged_in_user')->sb_hotel_user_id,
+								'email_message'=>$email,
+								'email_from'=>$this->session->userdata('logged_in_user')->sb_hotel_username
+						);	
+			array_push($insertData,$singlearray);			
+			$i++;
+		}
+		$result=$this->Email_mod->sendEmail($insertData);
+		if($result == 1)
+		{
+			$output =array("status"=>"success");
+		}
+		return $output;
+	}
+	/* This function is written to get Email Data
+    * @input void
+	* output array
+	*/
+	public function get_Email(){
+		$this->load->model('Email_mod');
+		$output=$this->Email_mod->getEmail($this->input->post('email_id'));
+		return $output;
+	}
 	/* This function checks if restaurant is already present for particular hotel
     * @input void
 	* output array
@@ -200,8 +266,6 @@ class Request extends CI_Controller
 	public function get_restaurant(){
 		$this->load->model('Restaurant_model');
 		$output=$this->Restaurant_model->get_restaurant_count($this->input->post('sb_rest_name'));
-		//print_r($this->input->post());
-		//$output=$this->input->post();
 		return $output;
 	}
    /* This function checks if reservation code is not already present for particular hotel
@@ -210,7 +274,7 @@ class Request extends CI_Controller
 	*/
 	public function get_reservation_code(){
 		$this->load->model('Guest_model');
-		$output=$this->Guest_model->get_reservation_code($this->input->post('confId'));
+		$output=$this->Guest_model->get_reservation_code(trim($this->input->post('confId')));
 		return $output;
 	}
    /* This function gets information of staff chat history according to hotel_user_id
@@ -278,7 +342,6 @@ class Request extends CI_Controller
 										'user'=> $userType,
 										'message' => $message
 					);
-					//print_r($ipushdata);
 					$this->load->library('api/Iospush');
 					$val = $this->iospush->iospush_notification($ipushdata);
 				}

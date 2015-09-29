@@ -108,7 +108,7 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('HOTEL_CREATION_SUCCESS','Hotel Created Successfully.');
  define('HOTEL_CREATION_FAIL','Error in Hotel Creation.');
  define('ROOMS_CREATION_SUCCESS','Rooms Created Successfully.');
- define('ROOMS_CREATION_FAIL','Error in Rooms Creation.');
+ define('ROOMS_CREATION_FAIL','Room with same number is already present.');
  define('PASSWORD_CHANGE_SUCCESS','Password Changed Successfully.');
  define('PASSWORD_CHANGE_FAIL','Error in Password Updation.');
  define('UPLOAD_PROFILEPIC_SUCCESS','Image Uploaded Successfully.');
@@ -131,7 +131,7 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('FOLDER_BASE_URL','http://localhost/sebastian-admin-panel');
  //define('FOLDER_ICONS_URL','http://bizmoapps.com/sebastian/user_data/');
 define('FOLDER_ICONS_URL','http://localhost/sebastian-admin-panel/user_data/');
-// define('FOLDER_BASE_URL','http://bizmoapps.com/sebastian');
+ //define('FOLDER_BASE_URL','http://bizmoapps.com/sebastian');
 
 
  /*
