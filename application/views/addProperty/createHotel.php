@@ -71,7 +71,7 @@
 									</div> 
 									<div class="marginclass">
 										<label>Postal Code</label>
-										<input type="text" name="postal_code" class="form-control" id="id_sbHotelZipcode" required"/>
+										<input type="text" name="postal_code" class="form-control" id="id_sbHotelZipcode" required/>
 										<span class="error"><?php echo form_error('postal_code'); ?></span>
 									</div>
 									<div class="marginclass">

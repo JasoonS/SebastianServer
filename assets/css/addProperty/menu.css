@@ -3,7 +3,6 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  width: 12em;
 }
 #cssmenu li {
   font: 67.5% "Lucida Sans Unicode", "Bitstream Vera Sans", "Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica, sans-serif;
@@ -13,7 +12,7 @@
 }
 #cssmenu a {
   
-  border-bottom: 1px solid #393939;
+  /*border-bottom: 1px solid #393939;*/
   color: #ccc;
   display: block;
   margin: 0;
@@ -21,8 +20,8 @@
   text-decoration: none;
   font-weight: normal;
   font-size:20px;
-  width:180px;
-  margin-left:-30px;
+  width:250px;
+  margin-left:-55px;
 }
 
 #cssmenu ul li a.read{

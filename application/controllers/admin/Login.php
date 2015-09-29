@@ -67,7 +67,7 @@ class Login extends CI_Controller
 	 */	
 	public function get_password_salt()
 	{
-		$admin_password_salt = $this->User_model->authenticate_user_salt('sb_hotel_userpasswd','sb_hotel_users',array('sb_hotel_username'=>$this->input->post('username')));
+		$admin_password_salt = $this->User_model->authenticate_user_salt('sb_hotel_userpasswd','sb_hotel_users',array('sb_hotel_username'=>$this->input->post('username'),"sb_hotel_user_status"=>"1"));
 		if($admin_password_salt === FALSE)
 		{
 			$this->redirectWithErrMsg(ERR_MSG_LEVEL_1);

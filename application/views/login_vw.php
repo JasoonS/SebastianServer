@@ -2,7 +2,7 @@
   	<div class="container">
     	<div class="col-md-4 col-md-offset-8">
 	    	<div class="pull-right">
-	    		<a href="<?php echo base_url().'addProperty/Hotel';?>" class="btn btn-dark">Add Property</a>
+	    		<a href="http://localhost/join.sebastian" class="btn btn-dark">Add Property</a>
 	    	</div>  
 	    </div>
   	</div>
