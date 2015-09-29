@@ -342,12 +342,8 @@ Class HotelServices extends CI_Controller
 	
 	public function showHotelPaidServices()
 	{
-		$requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3);
-		if(!$this->acl->hasPermission($requested_mod))
-		{
-			redirect('admin/dashboard');
-		}
-		$this->data['title'] = "Hotel Services";
+		
+		$this->data['title'] = "Hotel Paid Services";
 		$this->template->load('page_tpl', 'hotel_service_list_vw',$this->data);
 	}
     /* Method To show all Hotel Menus
