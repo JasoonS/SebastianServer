@@ -38,7 +38,11 @@ class Dashboard extends CI_Controller
 		{
 			$this->data['title'] = LABEL_2;
 			$this->load->model('Guest_model');
+			$this->load->model('Services_model');
 			$this->data['visitor']=$this->Guest_model->getTotalVisitors();
+			$this->data['hotelServices']=$this->Services_model->get_hotel_unique_parent_services($this->session->userdata('logged_in_user')->sb_hotel_id);
+			$this->data['hotel_id']=$this->session->userdata('logged_in_user')->sb_hotel_id;
+			//print_r($this->data['hotelServices']);exit;
 			$this->template->load('page_tpl','hotelier_dashboard_vw',$this->data);
 		}	
 	}

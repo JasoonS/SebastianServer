@@ -38,6 +38,7 @@ class Hotelrooms_model extends CI_Model{
 		$sb_hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;	
 		$this->db->select('*');
 		$this->db->from('sb_hotel_rooms');
+		$this->db->where('sb_hotel_id', $sb_hotel_id);
 		$this->db->where_in('sb_room_number', $data2);
 		$query=$this->db->get();
 		if($query->num_rows()>0)

@@ -7,6 +7,9 @@
             </div>
         </div>
         <div class="clearfix"></div>
+           <ul class="nav navbar-right panel_toolbox">
+				<a class="btn btn-sm btn-success" href="<?php echo base_url('admin/HotelServices/showHotelPaidServices')?>">Paid Services</a>
+           </ul>
 
         <!-- Parent service widgets !-->
 
