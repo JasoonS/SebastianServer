@@ -14,8 +14,8 @@ class Hotel_service extends CI_Controller
 
 			SOF
 		*/
-		$this->load->helper('api/device_log');
-		device_log($_SERVER,$_REQUEST);
+		//$this->load->helper('api/device_log');
+		//device_log($_SERVER,$_REQUEST);
 		$this->load->library('user_agent');
 		if($this->agent->is_browser())
 		{

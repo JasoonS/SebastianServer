@@ -39,7 +39,7 @@ class Guestprofiles extends CI_Controller
 	public function guest()
 	{
 	    $requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3);
-	
+		
 		if(!$this->acl->hasPermission($requested_mod))
 		{
 			redirect('admin/dashboard');
@@ -102,8 +102,7 @@ class Guestprofiles extends CI_Controller
 			redirect('admin/dashboard');
 		}
 		$this->data['title'] = 'Guest Feedback';
-		$this->template->load('page_tpl', 'modules_vw',$this->data);
-		
+		$this->template->load('page_tpl', 'modules_vw',$this->data);		
 	}
 
 }

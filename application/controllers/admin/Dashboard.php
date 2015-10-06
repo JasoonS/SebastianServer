@@ -11,6 +11,7 @@ class Dashboard extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('User_model');
+		$this->load->model('Dashboard_model');
 		if(!$this->session->userdata('logged_in_user'))
 		{
 			redirectWithErr(ERR_MSG_LEVEL_2,'login');
@@ -66,4 +67,34 @@ class Dashboard extends CI_Controller
 		// Load the ACL library and pas it the config array
 		$this->load->library('acl',$config);
 	}*/
+
+
+	/*
+		AJAX call for Task
+		By AKSHAY
+	*/
+	public function currentTasks()
+	{
+		$sb_hotel_id = $this->input->post("hotel_id");
+		// $service_due_date = $this->input->post("service_due_date");
+		// $weekdates = $this->x_week_range($service_due_date);
+		$data =$this->Dashboard_model->weekly_tasks($sb_hotel_id);
+
+		echo json_encode($data);
+	}
+
+	public function x_week_range($date1) {
+    	/*$date = new DateTime($date1);
+  		//add one week to date
+  		$ds = $date->add(new DateInterval('P1W'))->format('Y-m-d');
+    	$weekdate = array();
+    	array_push($weekdate, $date1);
+    	array_push($weekdate, $ds);
+    	return $weekdate;*/
+
+    	$ts = strtotime($date1);
+    	$start = (date('w', $ts) == 0) ? $ts : strtotime('last sunday', $ts);
+    	return array(date('Y-m-d', $start),
+        date('Y-m-d', strtotime('next saturday', $start)));
+	}
 }//End Of Controller class

@@ -82,11 +82,12 @@ class Iospush {
 			//print_r($deviceToken);
 			for($i=0; $i<count($deviceToken); $i++)
 			{// Build the binary notification
+				sleep(1);
 				$msg = chr(0) . pack('n', 32) . pack('H*', $deviceToken[$i]) . pack('n', strlen($payload)) . $payload;
 			
 			// Send it to the server
 				//echo strlen($msg);
-				usleep(2000);
+				//usleep(2000);
 				$result = fwrite($fp, $msg, strlen($msg));
 			}
 			if (!$result)

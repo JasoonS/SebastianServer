@@ -309,8 +309,10 @@ class Hotel extends CI_Controller
 		$this->data['action']	= "admin/hotel/view_hotel/$hotel_id";
 		$this->data['hotel_id']	= $hotel_id;
 		$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
+		$this->data['hotelpictures'] = $this->Hotel_model->get_hotel_pictures($hotel_id);
 		$this->data['languagelist']=getAllLanguages();
 		$this->data['title'] ="Photos";
+		//print_r($this->data['hotelpictures']);die();
 		$this->template->load('page_tpl', 'album_vw',$this->data);	
 	}
 	/* Method render  Hotel Surroundings
@@ -327,6 +329,7 @@ class Hotel extends CI_Controller
 		$this->data['action']	= "admin/hotel/view_hotel/$hotel_id";
 		$this->data['hotel_id']	= $hotel_id;
 		$this->data['hoteldata'] = $this->Hotel_model->get_hotel_data($hotel_id); 
+
 		$this->data['languagelist']=getAllLanguages();
 		$this->data['title'] = LABEL_1;
 		$this->template->load('page_tpl', 'modules_vw',$this->data);	
