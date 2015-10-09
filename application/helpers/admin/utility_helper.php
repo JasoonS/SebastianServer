@@ -124,30 +124,60 @@ function getAvailableHotelUserTypes($format='array')
 /*
 	This function is used to Upload Image
 */
-function upload_image($folderName,$fieldName)
+	function getExtension($str) 
 	{
-		$CI = & get_instance(); 
-		$file_ext = substr(strrchr($_FILES[$fieldName]['name'],'.'),1);
-		$name= time();
-		$config = array(
-				'upload_path' => "./$folderName",
-				'allowed_types' => "jpeg|jpg|png|gif",
-				'overwrite' => TRUE,
-				'file_name' => $name.".".$file_ext
-			);
-		$CI->load->helper('file');
-		$CI->load->library('upload', $config);
-		if($CI->upload->do_upload($fieldName))
-			{
-				$data = array('upload_data' => $CI->upload->data());
-				return $data['upload_data']['file_name'];
-						//return $data['upload_data']['file_name'];
-			}
-			else
-			{
-				$error = array('error' => $CI->upload->display_errors());
-				return "";//$error;
-			}
+		$i = strrpos($str,".");
+		if (!$i) { return ""; }
+		$l = strlen($str) - $i;
+		$ext = substr($str,$i+1,$l);
+		return $ext;
+	}
+    function upload_image($folderName,$fieldName)
+	{
+		$tempFile = $_FILES[$fieldName]['tmp_name'];
+		$ext = substr(strrchr($_FILES[$fieldName]['name'],'.'),1);
+		$fileName = $folderName."_".time().".".$ext;
+		//$targetFile = $targetPath . $fileName ;
+		include('inc/s3_config.php');
+		if($s3->putObjectFile($tempFile, BUCKET, $fileName, S3::ACL_PUBLIC_READ) )
+        {
+        	unlink( $_FILES[$fieldName]['tmp_name'] );
+        	return $fileName;
+        }
+        else
+        {
+        	unlink( $_FILES[$fieldName]['tmp_name'] );
+        	return "";
+        }
+		// $CI = & get_instance(); 
+		// $file_ext = substr(strrchr($_FILES[$fieldName]['name'],'.'),1);
+		// $name= time();
+		// $config = array(
+		// 		'upload_path' => "./$folderName",
+		// 		'allowed_types' => "jpeg|jpg|png|gif",
+		// 		'overwrite' => TRUE,
+		// 		'file_name' => $name.".".$file_ext
+		// 	);
+		// $CI->load->helper('file');
+		// $CI->load->library('upload', $config);
+		// if($CI->upload->do_upload($fieldName))
+		// 	{
+		// 		$data = array('upload_data' => $CI->upload->data());
+		// 		return $data['upload_data']['file_name'];
+		// 				//return $data['upload_data']['file_name'];
+		// 	}
+		// 	else
+		// 	{
+		// 		$error = array('error' => $CI->upload->display_errors());
+		// 		return "";//$error;
+		// 	}
+	}
+
+	function delete_oldpic($oldpicname)
+	{
+		include('inc/s3_config.php');
+		$s3->deleteObject(BUCKET,$oldpicname);
+		return 1;
 	}
 
 /* Function check for password hash

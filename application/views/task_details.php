@@ -12,7 +12,7 @@
 <div class="right_col" role="main">
 	<div class="row">
 		<div class ="col-md-12">
-            <?php $task_details = $task_details[0];print_r($task_details);print_r($staff);?>
+            <?php $task_details = $task_details[0];?>
 		</div>
 	</div>
 
@@ -61,6 +61,7 @@
                         <input type="hidden" id="action" name="action">
                         <input type="hidden" id="sb_hotel_ser_start_date" name="sb_hotel_ser_start_date">
                         <input type="hidden" id="sb_hotel_ser_start_time" name="sb_hotel_ser_start_time">
+                        <?php if(count($staff)>0){?>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Staff</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
@@ -72,6 +73,20 @@
                                 </select>
                             </div>
                         </div>
+                        <?php } else {?>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Staff</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <!-- <div class="x_panel"> -->
+                                    <div class="x_content bs-example-popovers">
+                                        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                                            <strong>You dont have staff for this Service!</strong> Please click here to manage staff.
+                                        </div>
+                                    </div>
+                                <!-- </div> -->
+                            </div>
+                        </div>
+                        <?php }?>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Reject Reason</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">

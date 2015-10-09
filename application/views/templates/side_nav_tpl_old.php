@@ -36,7 +36,7 @@
                     <?php foreach($this->acl->perms as $key=>$value) {  ?>                                 
                         <li>
                             <?php if($value['is_parent'] == 'y' && $value['parent_id'] == 0 ) { $subModules = $this->acl->getSubModules($value['id']); ?>
- 
+                                <?php print_r($value)?>
                                 <a><i class="fa fa-th-large"></i> <?php echo $value['name'] ?><span class="fa fa-chevron-down"></span></a>
 
                                <?php if($subModules) { ?>

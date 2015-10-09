@@ -91,7 +91,7 @@ Class Acl
             } else {
                 $hP = false;
             }
-            $assigned_mods[$pK] = array('order'=>$order,'module_key' => $pK,'inheritted' => true,'value' => $hP,'name' => $this->getPermNameFromID($row->sb_mod_id),'id' => $row->sb_mod_id,'is_parent' => $this->getPermParentFlag($row->sb_mod_id),'parent_id'=> $this->getPermParentId($row->sb_mod_id));
+            $assigned_mods[$pK] = array('icon'=>$this->geticonFromID($row->sb_mod_id),'order'=>$order,'module_key' => $pK,'inheritted' => true,'value' => $hP,'name' => $this->getPermNameFromID($row->sb_mod_id),'id' => $row->sb_mod_id,'is_parent' => $this->getPermParentFlag($row->sb_mod_id),'parent_id'=> $this->getPermParentId($row->sb_mod_id));
        
 		
 		}
@@ -100,6 +100,15 @@ Class Acl
         return $assigned_mods;
     }
 
+    function geticonFromID($permID)
+    {
+        $this->ci->db->select('modele_icon');
+        $this->ci->db->where('sb_mod_id',floatval($permID));
+        $sql = $this->ci->db->get('sb_modules',1);
+        $data = $sql->result();
+        //print_r($data);
+        return $data[0]->modele_icon;
+    }
     /* Method returns permission key
      * @param int
      * return string
@@ -169,7 +178,7 @@ Class Acl
                 $hP = false;
             }
 			//$hP = true;
-            $assigned_mods[$pK] = array('order'=>$order,'module_key' => $pK,'inheritted' => false,'value' => $hP,'name' => $this->getPermNameFromID($row->sb_mod_id),'id' => $row->sb_mod_id,'is_parent' => $this->getPermParentFlag($row->sb_mod_id),'parent_id'=> $this->getPermParentId($row->sb_mod_id));
+            $assigned_mods[$pK] = array('icon'=>$this->geticonFromID($row->sb_mod_id),'order'=>$order,'module_key' => $pK,'inheritted' => false,'value' => $hP,'name' => $this->getPermNameFromID($row->sb_mod_id),'id' => $row->sb_mod_id,'is_parent' => $this->getPermParentFlag($row->sb_mod_id),'parent_id'=> $this->getPermParentId($row->sb_mod_id));
         }
         return $assigned_mods;
     }

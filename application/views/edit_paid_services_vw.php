@@ -84,10 +84,12 @@
                                         </div>	
 										<div id="id_filePreview" class="col-xs-6">
 										    <?php if($action_type =="edit"){ ?>
-												<img id="id_uploadImage" style="width:100%;height:100%" src="<?php  echo base_url(SUBCHILD_SERVICE_PIC."/".$hotel_id."/".$serviceinfo['sb_sub_child_service_image'])?>" alt="your image" />
+												<img id="id_uploadImage" style="width:100%;height:100%" src="<?php  echo SUBCHILD_SERVICE_PIC.$serviceinfo['sb_sub_child_service_image']?>" alt="your image" />
+												<!-- <input name="oldpicname" type="hidden" value="<?php echo $serviceinfo['sb_sub_child_service_image'];?>"> -->
 											<?php } else { ?>
 												<img id="id_uploadImage" style="width:100%;height:100%" src="#" alt="your image" />
 										    <?php } ?>
+
 										</div>
 																			
 									</div>

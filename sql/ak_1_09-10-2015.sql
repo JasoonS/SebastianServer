@@ -1,0 +1,1 @@
+ALTER TABLE `sb_modules` ADD `modele_icon` VARCHAR(200) NOT NULL ;

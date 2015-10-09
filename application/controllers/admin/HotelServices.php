@@ -82,7 +82,8 @@ Class HotelServices extends CI_Controller
 		$data["sb_parent_service_image"]="";
 		if(!empty($_FILES['sb_service_pic']['name']))
 				{
-					$folderName=PARENT_SERVICE_PIC;
+					//$folderName=PARENT_SERVICE_PIC;
+					$folderName= "parentservice";
 					$pic1 = upload_image($folderName,"sb_service_pic");
 					if($pic1 != 0)
 					{
@@ -105,7 +106,8 @@ Class HotelServices extends CI_Controller
 		//$data["sb_parent_service_image"]="";
 		if(!empty($_FILES['sb_service_pic']['name']))
 				{
-					$folderName=PARENT_SERVICE_PIC;
+					//$folderName=PARENT_SERVICE_PIC;
+					$folderName= "parentservice";
 					$pic1 = upload_image($folderName,"sb_service_pic");
 					if($pic1 != 0)
 					{
@@ -141,8 +143,8 @@ Class HotelServices extends CI_Controller
 					$child_service_image="";
 					if(!empty($_FILES['sb_child_service_pic'.$i]['name']))
 					{
-						$folderName=CHILD_SERVICE_PIC;
-						
+						//$folderName=CHILD_SERVICE_PIC;
+						$folderName= "childservice";
 						$pic1 = upload_image($folderName,"sb_child_service_pic".$i);
 						if($pic1 != 0)
 						{
@@ -179,7 +181,8 @@ Class HotelServices extends CI_Controller
 		$data=array();
 		if(!empty($_FILES['sb_service_pic']['name']))
 				{
-					$folderName=CHILD_SERVICE_PIC;
+					//$folderName=CHILD_SERVICE_PIC;
+					$folderName= "childservice";
 					$pic1 = upload_image($folderName,"sb_service_pic");
 					if($pic1 != 0)
 					{
@@ -212,8 +215,8 @@ Class HotelServices extends CI_Controller
 					$child_service_image="";
 					if(!empty($_FILES['sb_child_service_pic'.$i]['name']))
 					{
-						$folderName=SUBCHILD_SERVICE_PIC;
-						
+						//$folderName=SUBCHILD_SERVICE_PIC;
+						$folderName= "subchildservice";
 						$pic1 = upload_image($folderName,"sb_child_service_pic".$i);
 						if($pic1 != 0)
 						{
@@ -251,7 +254,8 @@ Class HotelServices extends CI_Controller
 		$data=array();
 		if(!empty($_FILES['sb_service_pic']['name']))
 				{
-					$folderName=SUBCHILD_SERVICE_PIC;
+					//$folderName=SUBCHILD_SERVICE_PIC;
+					$folderName= "subchildservice";
 					$pic1 = upload_image($folderName,"sb_service_pic");
 					if($pic1 != 0)
 					{
@@ -308,14 +312,15 @@ Class HotelServices extends CI_Controller
 			$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
 			//$hotel_name=	$this->Hotel_model->get_hotel_name($hotel_id)[0]['sb_hotel_name'];
 			
-			$dirpath=SUBCHILD_SERVICE_PIC."/";
-			if (!is_dir($dirpath.$hotel_id)) {
-					mkdir('./'.$dirpath.$hotel_id, 0777, TRUE);
-			}
+			// $dirpath=SUBCHILD_SERVICE_PIC."/";
+			// if (!is_dir($dirpath.$hotel_id)) {
+			// 		mkdir('./'.$dirpath.$hotel_id, 0777, TRUE);
+			// }
 			$data["sb_sub_child_service_image"] = "";
 					if(!empty($_FILES['sb_sub_child_service_image']['name']))
 					{
-						$folderName=SUBCHILD_SERVICE_PIC."/".$hotel_id;
+						//$folderName=SUBCHILD_SERVICE_PIC."/".$hotel_id;
+						$folderName= $hotel_id."_paidServices";
 						$pic1 = upload_image($folderName,"sb_sub_child_service_image");
 						if($pic1 != 0)
 						{
@@ -412,13 +417,14 @@ Class HotelServices extends CI_Controller
 			$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
 			$hotel_name=	$this->Hotel_model->get_hotel_name($hotel_id)[0]['sb_hotel_name'];
 			
-			$dirpath=SUBCHILD_SERVICE_PIC."/";
-			if (!is_dir($dirpath.$hotel_id)) {
-					mkdir('./'.$dirpath.$hotel_id, 0777, TRUE);
-			}
+			// $dirpath=SUBCHILD_SERVICE_PIC."/";
+			// if (!is_dir($dirpath.$hotel_id)) {
+			// 		mkdir('./'.$dirpath.$hotel_id, 0777, TRUE);
+			// }
 			 if(!empty($_FILES['sb_sub_child_service_image']['name']))
 					{
-						$folderName=SUBCHILD_SERVICE_PIC."/".$hotel_id;
+						//$folderName=SUBCHILD_SERVICE_PIC."/".$hotel_id;
+						$folderName=$hotel_id."_subchild";
 						$pic1 = upload_image($folderName,"sb_sub_child_service_image");
 						if($pic1 != 0)
 						{

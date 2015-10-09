@@ -14,7 +14,7 @@
         <!-- menu prile quick info -->
         <div class="profile">
             <div class="profile_pic">
-                <img src="<?php echo base_url(HOTEL_USER_PIC).'/'.$this->session->logged_in_user->sb_hotel_user_pic; ?>" alt="" class="img-circle profile_img">
+                <img src="<?php echo HOTEL_USER_PIC.$this->session->logged_in_user->sb_hotel_user_pic; ?>" alt="" class="img-circle profile_img">
             </div>
             <div class="profile_info">
                 <span>Welcome,</span>
@@ -47,13 +47,14 @@
                         <li>
                             <?php if($value['is_parent'] == 'y' && $value['parent_id'] == 0 ) { 
 							           // echo $value['module_key'];
+                                  //print_r($value['icon']);
 										if(trim($value['module_key'])=="dashboard"){?>
 											
-										   <a href="<?php echo base_url('admin/'.$value['module_key']); ?>"><i class="fa fa-th-large"></i> <?php echo $value['name'] ?><span class="fa fa-chevron-down"></span></a>
+										   <a href="<?php echo base_url('admin/'.$value['module_key']); ?>"><i class="<?php echo $value['icon'];?>"></i> <?php echo $value['name'] ?><span class="fa fa-chevron-down"></span></a>
 								
 										<?php  }
 										 else{?>
-											<a><i class="fa fa-th-large"></i> <?php echo $value['name'] ?><span class="fa fa-chevron-down"></span></a>
+											<a><i class="<?php echo $value['icon'];?>"></i> <?php echo $value['name'] ?><span class="fa fa-chevron-down"></span></a>
 								
 										<?php }?>
 							  <?php $subModules = $this->acl->getSubModules($value['id']); ?>

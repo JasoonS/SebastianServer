@@ -34,30 +34,59 @@ class Uploadprofilepic extends CI_Controller
 
 	public function uploadPic()
     { 
+    	//include('inc/s3_config.php');
+		//$bucket = 'akshaytestbucket';
+		$old_pic_name = $this->input->post('pic_name');
+		$sb_hotel_user_id=$this->session->userdata('logged_in_user')->sb_hotel_user_id;
 	    if(!empty($_FILES['sb_hotel_user_pic']['name']))
-				{
-					$folderName=HOTEL_USER_PIC;
-					$pic1 = upload_image($folderName,"sb_hotel_user_pic");
-					if($pic1 != 0)
-					{
-						$data["sb_hotel_user_pic"] = $pic1;
-						$edit= array(
-							'sb_hotel_user_pic'=>$pic1
-						);
-						
-						$this->uploadprofilepic_model->uploadPic($edit);
-					}	
-				} 
+		{
+			// $tempFile = $_FILES['sb_hotel_user_pic']['tmp_name'];
+			// $ext = $this->getExtension($_FILES['sb_hotel_user_pic']['name']);
+			// $fileName = $sb_hotel_user_id."_profilepic_".time().".".$ext;
+			// $targetFile = $targetPath . $fileName ;
+			
+			// if($s3->putObjectFile($tempFile, BUCKET, $fileName, S3::ACL_PUBLIC_READ) )
+   //          {
+   //          	if($old_pic_name !="")
+   //          		$result = $s3->deleteObject(BUCKET,$old_pic_name);
+            	
+   //          	$edit= array(
+			// 		'sb_hotel_user_pic'=>$fileName
+			// 	);
+		
+			// 	$this->uploadprofilepic_model->uploadPic($edit,$sb_hotel_user_id);
+   //          }
+           
+			//$folderName=HOTEL_USER_PIC;
+			$folderName = $sb_hotel_user_id."_profilepic_";
+			$pic1 = upload_image($folderName,"sb_hotel_user_pic");
+			if($pic1 != 0)
+			{
+				if($old_pic_name !="")
+					$one = delete_oldpic($old_pic_name);
+				$data["sb_hotel_user_pic"] = $pic1;
+				$edit= array(
+					'sb_hotel_user_pic'=>$pic1
+				);
+		
+				$this->uploadprofilepic_model->uploadPic($edit,$sb_hotel_user_id);
+			}	
+		} 
 		
 			      
-			$this->session->userdata('logged_in_user')->sb_hotel_user_pic=$edit['sb_hotel_user_pic'];      
-			$this->session->set_flashdata('UPLOAD_PROFILEPIC_SUCCESS', UPLOAD_PROFILEPIC_SUCCESS);
-			redirect('admin/uploadprofilepic');
+		$this->session->userdata('logged_in_user')->sb_hotel_user_pic=$edit['sb_hotel_user_pic'];      
+		$this->session->set_flashdata('UPLOAD_PROFILEPIC_SUCCESS', UPLOAD_PROFILEPIC_SUCCESS);
+		redirect('admin/uploadprofilepic');
 	}
-	/* Method render Uplaod Image After submission Of uploadProfilePic_form
-	* @param image_name
-	* return void
-	*/
+	
+	function getExtension($str) 
+	{
+		$i = strrpos($str,".");
+		if (!$i) { return ""; }
+		$l = strlen($str) - $i;
+		$ext = substr($str,$i+1,$l);
+		return $ext;
+	}
 
 }
 

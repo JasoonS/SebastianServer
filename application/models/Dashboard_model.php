@@ -22,6 +22,7 @@ Class Dashboard_model extends CI_Model
 				ON hrs.sb_hotel_guest_booking_id = b.sb_hotel_guest_booking_id
 				WHERE hrs.sb_hotel_id = '$sb_hotel_id'
 				AND hss.sb_hotel_service_status = 'pending'
+				OR  hss.sb_hotel_service_status = 'accepted'
 				ORDER BY hss.sb_hotel_ser_start_date ASC, hss.sb_hotel_ser_start_time ASC;";
 		
 		$query = $this->db->query($qry);

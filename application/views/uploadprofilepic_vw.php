@@ -54,8 +54,8 @@
 								    <button id='btn-upload'>Upload</button>
                                 </div>	
 								<div id="id_filePreview" class="col-xs-6">
-									<img id="id_uploadImage" style="width:100%;height:100%" src="<?php echo base_url(HOTEL_USER_PIC).'/'.$this->session->logged_in_user->sb_hotel_user_pic; ?>" alt="your image" />
-									
+									<img id="id_uploadImage" style="width:100%;height:100%" src="<?php echo HOTEL_USER_PIC.$this->session->logged_in_user->sb_hotel_user_pic; ?>" alt="your image" />
+									<input name="pic_name" type="hidden" value="<?php echo $this->session->logged_in_user->sb_hotel_user_pic; ?>">	
 								</div>							    
 								</div>
 							
