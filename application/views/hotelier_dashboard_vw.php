@@ -141,7 +141,7 @@
                     </div>
                 </div>
                 <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                    <div class="tile-stats">
+                    
                         <div id="myCarousel" class="carousel slide" data-ride="carousel">
                         <!-- Indicators -->
                        <!--  <ol class="carousel-indicators">
@@ -192,7 +192,7 @@
                           <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                           <span class="sr-only">Next</span>
                         </a> -->
-                      </div>
+                      
                     </div>
                 </div>
                 <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -502,8 +502,8 @@ function getLocation() {
 
 function showPosition(position) {
     
-    var API = "http://api.openweathermap.org/data/2.5/forecast/daily?lat="+ position.coords.latitude +"&lon=" + position.coords.longitude+"&cnt=3&mode=json";
-    console.log(API);
+    var API = "http://api.openweathermap.org/data/2.5/forecast/daily?lat="+ position.coords.latitude +"&lon=" + position.coords.longitude+"&cnt=3&mode=json&APPID=79eaea6da847dd6943e9b63374fa8dfa";
+    //console.log(API);
     //var API = "http://api.openweathermap.org/data/2.5/forecast/daily?q=Pune&cnt=3&mode=json";
     //var API = "http://api.openweathermap.org/data/2.5/weather?q=Pune"
     $.ajax({

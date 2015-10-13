@@ -1,13 +1,4 @@
-<link href="<?php echo THEME_ASSETS;?>css/bootstrap.min.css" rel="stylesheet">
-<script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
 <script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
-<link href="<?php echo THEME_ASSETS;?>css/email/fonts/css/font-awesome.min.css" rel="stylesheet">
-<link href="<?php echo THEME_ASSETS; ?>css/custom.css" rel="stylesheet" type="text/css">
-<link href="<?php echo THEME_ASSETS;?>css/animate.min.css" rel="stylesheet">
-<link href="<?php echo THEME_ASSETS;?>css/email/custom.css" rel="stylesheet">
-<script src="<?php echo THEME_ASSETS?>js/nicescroll/jquery.nicescroll.min.js"></script>
-<link href="<?php echo THEME_ASSETS;?>css/email/icheck/flat/green.css" rel="stylesheet">	
-<script src="<?php echo THEME_ASSETS;?>/js/email.js"></script>
 <div class="right_col" role="main"  id="email">
 	<div class="clearfix"></div>
 		<div class="row">

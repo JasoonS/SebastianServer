@@ -1,14 +1,5 @@
-<link href="<?php echo THEME_ASSETS;?>css/bootstrap.min.css" rel="stylesheet">
-<script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
 <script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
-<link href="<?php echo THEME_ASSETS;?>css/email/fonts/css/font-awesome.min.css" rel="stylesheet">
-<link href="<?php echo THEME_ASSETS; ?>css/custom.css" rel="stylesheet" type="text/css">
-<link href="<?php echo THEME_ASSETS;?>css/animate.min.css" rel="stylesheet">
-<link href="<?php echo THEME_ASSETS;?>css/email/custom.css" rel="stylesheet">
-<script src="<?php echo THEME_ASSETS?>js/nicescroll/jquery.nicescroll.min.js"></script>
-<link href="<?php echo THEME_ASSETS;?>css/email/icheck/flat/green.css" rel="stylesheet">	
-<script src="<?php echo THEME_ASSETS;?>/js/email.js"></script>
-<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+
 <link href="<?php echo THEME_ASSETS;?>css/editor/index.css" rel="stylesheet">
  <script src="<?php echo THEME_ASSETS;?>js/editor/bootstrap-wysiwyg.js"></script>
  <script src="<?php echo THEME_ASSETS;?>js/editor/external/jquery.hotkeys.js"></script>
