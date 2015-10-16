@@ -65,11 +65,11 @@
 							<div class="form-group">
 								<label class="col-md-4 col-xs-4 control-label" for="sb_hotel_note_time">Note Time</label>
 								<div class="col-md-4 col-xs-4">
-									<input type="text" class="form-control" id="idNoteEventDay" name="note_event_day" required>
+									<input type="text" class="form-control" id="idNoteEventDay" name="note_event_day">
 								</div>    
 								<div class="col-md-4 col-xs-4">
 									<div class="input-append bootstrap-timepicker">
-											<input id="sb_hotel_note_time" name="sb_hotel_note_time" type="text" class="form-control timepicker input-small" required>
+											<input id="sb_hotel_note_time" name="sb_hotel_note_time" type="text" class="form-control timepicker input-small">
 											<span class="add-on"><i class="icon-time"></i></span>
 									</div>
 								</div>

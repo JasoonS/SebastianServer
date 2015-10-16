@@ -20,10 +20,10 @@
 		function index()
 		{
 			$data = array();
-			if($this->input->post())
+			if($this->input->post('submit'))
 			{
-				//$this->load->library('form_validation');
-				//$this->load->helper('form');
+				$this->load->library('form_validation');
+				$this->load->helper('form');
 				$this->form_validation->set_rules('email', 'User Email', 'trim|required|valid_email');
 				$this->form_validation->set_rules('name', 'User Name', 'trim|required|callback_user_name');
 				if ($this->form_validation->run() == FALSE)
@@ -34,21 +34,11 @@
 				{
 					// Usage example
 					$randstr = $this->randStrGen(10);
-					//$randstr;
+					$randstr;
 					$pwd = createHashAndSalt($randstr); 
 					$to = $this->input->post('email');
-					
-					$message = "<div style='padding-left:20px;font: \"MisoRegular\";letter-spacing: 2px;font-size:12px;'>
-				        		Hi there,<br><br>
-				        		We got forgot new hotel admin request from <b>$to</b>. Please note your login credentials for 'Sebastian Admin'.<br>
-				        		User Name :-'<b>".$his->input->post('name')."</b>' (please skip quotes).<br>
-				        		Password :- '<b>$newpassword</b>' (please skip quotes).<br><br>
-				        		Sebastian Team
-				        		</div>
-				        		";
 					$subject = "Your credentials for Sabastian";
-					//$message = "User Name:".$this->input->post('name')."<br> Password:".$randstr;
-					
+					$message = "User Name:".$this->input->post('name')."<br> Password:".$randstr;
 					$mail=sendMail("",$to,$subject,$message); 
 						
 					$postdata=$this->input->post();

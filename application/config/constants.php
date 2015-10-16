@@ -146,13 +146,15 @@ define('FOLDER_ICONS_URL','http://localhost/sebastian-admin-panel/user_data/');
 //https://s3-us-west-2.amazonaws.com/akshaytestbucket/1444023191.jpg
  //FOLDER NAMES FOR IMAGE UPLOAD
  //define('HOTEL_USER_PIC',"user_data/hotel_user_pic");
- define('BUCKET','akshaytestbucket');
- define('HOTEL_USER_PIC',"https://s3-us-west-2.amazonaws.com/".BUCKET."/");
- define('HOTEL_PIC',"https://s3-us-west-2.amazonaws.com/".BUCKET."/");
- define('SUBCHILD_SERVICE_PIC',"https://s3-us-west-2.amazonaws.com/".BUCKET."/");
- define('PARENT_SERVICE_PIC',"https://s3-us-west-2.amazonaws.com/".BUCKET."/");
- define('CHILD_SERVICE_PIC',"https://s3-us-west-2.amazonaws.com/".BUCKET."/");
- define('RESTAURANT_PIC',"https://s3-us-west-2.amazonaws.com/".BUCKET."/");
+ //define('BUCKET','akshaytestbucket');
+ define('BUCKET','thesebastian');
+  
+ define('HOTEL_USER_PIC',"https://s3.amazonaws.com/".BUCKET."/");
+ define('HOTEL_PIC',"https://s3.amazonaws.com/".BUCKET."/");
+ define('SUBCHILD_SERVICE_PIC',"https://s3.amazonaws.com/".BUCKET."/");
+ define('PARENT_SERVICE_PIC',"https://s3.amazonaws.com/".BUCKET."/");
+ define('CHILD_SERVICE_PIC',"https://s3.amazonaws.com/".BUCKET."/");
+ define('RESTAURANT_PIC',"https://s3.amazonaws.com/".BUCKET."/");
  
  //define('PARENT_SERVICE_PIC',"user_data/parent_service_pic");
  //define('CHILD_SERVICE_PIC',"user_data/child_service_pic");

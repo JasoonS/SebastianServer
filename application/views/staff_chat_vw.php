@@ -138,6 +138,8 @@ function makeActive(user_id,name)
 {
 	hotel_user_id=user_id;
 	hotelUserName=name;
+	console.log("We need to get populate right panel now..");
+	console.log(hotel_user_id);
 	if(hotel_user_id == ""){
 		$(".view-mail").html("<h1>Please Select Staff From Left Panel to Read Message.</h1>");
 		

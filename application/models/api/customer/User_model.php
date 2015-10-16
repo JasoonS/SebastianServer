@@ -41,7 +41,7 @@ class User_model extends CI_Model
 			/*$sql1 = "SELECT * FROM `sb_hotel_parent_services` WHERE `sb_parent_service_id` 
 					in(SELECT distinct(`sb_parent_service_id`) FROM `sb_hotel_service_map` WHERE `sb_hotel_id` = '$sb_hotel_id')";
 			*/
-			$IMP_PATH = base_url().PARENT_SERVICE_PIC."/";
+			$IMP_PATH = PARENT_SERVICE_PIC;
 			$sql1 = "SELECT `sb_parent_service_id`,`sb_parent_service_name`,
 					CONCAT('$IMP_PATH',`sb_parent_service_image`) as `sb_parent_service_image`,`sb_parent_service_color`,
 					`sb_parent_service_created_on` 
@@ -57,7 +57,7 @@ class User_model extends CI_Model
 			{
 				$service = $services;
 			}
-			$IMP_PATH = base_url().HOTEL_PIC."/";
+			$IMP_PATH = HOTEL_PIC;
 			$sql1 = "SELECT `sb_hotel_id`,`sb_hotel_name`,`sb_hotel_country`,sb_hotel_description,
 				`sb_hotel_city`,`sb_hotel_state`, `sb_hotel_zipcode`,
 				`sb_hotel_address`,`sb_hotel_phone`,`sb_hotel_star`,
@@ -130,12 +130,12 @@ class User_model extends CI_Model
 	{
 		if ($sb_hotel_name == '') 
 		{
-			$this->db->select('sb_hotel_id, sb_hotel_name');
-			$query = $this->db->get('sb_hotels');
+			$qry = "Select sb_hotel_id, sb_hotel_name from sb_hotels where is_active='1';";
+			$query = $this->db->query($qry);
 		}
 		else
 		{
-			$qry = "Select sb_hotel_id, sb_hotel_name from sb_hotels where sb_hotel_name LIKE '%$sb_hotel_name%'";
+			$qry = "Select sb_hotel_id, sb_hotel_name from sb_hotels where sb_hotel_name LIKE '%$sb_hotel_name%' AND  is_active='1';";
 			$query = $this->db->query($qry);
 		}
 		
@@ -179,7 +179,7 @@ class User_model extends CI_Model
 	{
 		//$sb_hotel_id =$new_visitor['sb_hotel_id'];
 
-		$IMP_PATH = base_url().PARENT_SERVICE_PIC."/";
+		$IMP_PATH = PARENT_SERVICE_PIC;
 		
 		$sql1 = "SELECT `sb_parent_service_id`,`sb_parent_service_name`,
 					CONCAT('$IMP_PATH',`sb_parent_service_image`) as `sb_parent_service_image`,`sb_parent_service_color`,
@@ -197,7 +197,7 @@ class User_model extends CI_Model
 			$service = $services;
 		}
 		
-		$IMP_PATH = base_url().HOTEL_PIC."/";
+		$IMP_PATH = HOTEL_PIC;
 		$sql1 = "SELECT `sb_hotel_id`,`sb_hotel_name`,`sb_hotel_country`,sb_hotel_description,
 				`sb_hotel_city`,`sb_hotel_state`, `sb_hotel_zipcode`,
 				`sb_hotel_address`,`sb_hotel_phone`,`sb_hotel_star`,

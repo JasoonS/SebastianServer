@@ -49,6 +49,12 @@
     font-size:10px;
     font-weight:normal;
 }
+#myajax i{
+    color: #1995DC;
+}
+#myGuest a{
+    color: #1995DC;
+}
 </style>
 
 <div class="right_col" role="main">
@@ -140,17 +146,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <!-- <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     
                         <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                        <!-- Indicators -->
+                        <!-- Indicators --
                        <!--  <ol class="carousel-indicators">
                           <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                           <li data-target="#myCarousel" data-slide-to="1"></li>
                           <li data-target="#myCarousel" data-slide-to="2"></li>
-                        </ol> -->
+                        </ol> --
 
-                        <!-- Wrapper for slides -->
+                        <!-- Wrapper for slides --
                         <div class="carousel-inner" role="listbox">
                           <div class="item active">
                             <div class="tile-stats">
@@ -183,7 +189,7 @@
                           </div>
                         </div>
 
-                        <!-- Left and right controls -->
+                        <!-- Left and right controls --
                         <!-- <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
                           <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                           <span class="sr-only">Previous</span>
@@ -191,9 +197,38 @@
                         <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
                           <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                           <span class="sr-only">Next</span>
-                        </a> -->
+                        </a> --
                       
                     </div>
+                </div> -->
+                <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="tile-stats">
+                        <h3>Currency Converter</h3>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-4"><input id ="from" type="text" class="form-control"></div>
+                            <div class="col-md-4">
+                                <select id="from_currency" class="form-control" onchange="getRate()">
+                                    <option value="TRY">Lira</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="USD">USD</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-4"><input id ="to" type="text" class="form-control"></div>
+                            <div class="col-md-4">
+                                <select id="to_currency" class="form-control" onchange="getRate()">
+                                    <option value="TRY">Lira</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="USD">USD</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <div class="tile-stats">
@@ -232,7 +267,7 @@
 		</div>
 
 		<div class ="col-md-6">
-			<div class ="x_panel">
+			
                 <div class="x_panel">
                 <div class="x_title">
                     <h2>Guest</h2>
@@ -241,7 +276,7 @@
                 <div class="x_content">
 
                     <div class="">
-                        <ul class="to_do">
+                        <ul class="to_do" id="myGuest">
                             
                         </ul>
                     </div>
@@ -251,7 +286,7 @@
                     <button type="button" class="btn btn-block btn-default">More Info</button>
                 </div>
             </div>
-			</div>
+			
 		</div>
 	</div>
 </div>
@@ -265,15 +300,86 @@
 <script src="<?php echo THEME_ASSETS;  ?>js/velocity.ui.js"></script>
 
 <script type="text/javascript">
+function getRate(){
+    var to = document.getElementById('to').value;
+    var from = document.getElementById('from').value;
+    var to_currency = document.getElementById('to_currency').value;
+    var from_currency = document.getElementById('from_currency').value;
+
+    $.ajax({
+        url: 'https://currency-api.appspot.com/api/'+from_currency+'/'+to_currency+'.jsonp',
+        dataType: "jsonp",
+        data: {amount: from},
+        success: function(response) {
+
+            if (response.success) {
+                //console.log(parseFloat(response.rate).toFixed(2));
+                document.getElementById('to').value = parseFloat(from).toFixed(2)*parseFloat(response.rate).toFixed(2);
+                //alert('1 USD is worth ' + parseFloat(response.rate).toFixed(2) + ' EUR');
+            }
+        }
+    });
+}
 setInterval(function() {
   $(".shakeme").velocity("callout.shake");
 }, 2000);
 tasks();
+guest();
 // function getFormattedPartTime(partTime){
 //         if (partTime<10)
 //            return "0"+partTime;
 //         return partTime;
 // }
+function guest() {
+    var fullDate = new Date();
+    var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) : '0' + (fullDate.getMonth()+1);
+    var currentDate =fullDate.getFullYear()+"-"+ twoDigitMonth + "-" +fullDate.getDate();
+    hotel_id1 = <?php echo $this->session->userdata('logged_in_user')->sb_hotel_id?>;
+    $.ajax({
+        type:'post',
+        //contentType: 'application/json; charset=utf-8',
+        data: { hotel_id: hotel_id1, currentDate:currentDate },// service_due_date : currentDate},
+        url: '<?php echo base_url()?>'+"admin/Dashboard/currentGuest",
+        success: function (data) {
+            console.log(data);
+            $('#myGuest').empty();
+            var appenddata1 = "";
+            var obj  = JSON.parse(data);
+            if(obj.length > 0)
+            {
+                
+                for(var i = 0; i < obj.length; i++)
+                {
+                    console.log(obj[i].flag);
+                    if(obj[i].flag == 1)
+                    {
+                        appenddata1 += "<li><p>"+obj[i].sb_guest_firstName+" "+obj[i].sb_guest_lastName+" Have visited</p></li>";
+                    }
+                    else
+                    {
+                        appenddata1 += "<li><p>"+obj[i].sb_guest_firstName+" "+obj[i].sb_guest_lastName+" <span style='float:right;'> ";
+                        if(obj[i].room_no != "")
+                            appenddata1 += " Room No : "+obj[i].room_no+"</span></p></li>";
+                        else
+                        {
+                            var addroomurl= '<?php echo base_url()?>'+"admin/HotelRooms/Roomcheckin/"+obj[i].sb_hotel_guest_booking_id+"/"+obj[i].sb_guest_rooms_alloted;
+                            appenddata1 += " <a href='"+addroomurl+"'>Please check for rooms</a></span></p></li>";
+                        }
+                    }
+                }
+            }
+            else
+            {
+                appenddata1 += "<li><p>No new Guest</p></li>";
+            }
+            $("#myGuest").append(appenddata1);
+      }
+        
+    }).done(function (){
+        setTimeout(tasks, 5400);    
+    }); 
+
+}
 function tasks() {
 	hotel_id1 = <?php echo $this->session->userdata('logged_in_user')->sb_hotel_id?>;
 	//var date = new Date();
@@ -290,7 +396,7 @@ function tasks() {
 	  	data: { hotel_id: hotel_id1 },// service_due_date : currentDate},
 	    url: '<?php echo base_url()?>'+"admin/Dashboard/currentTasks",
 	    success: function (data) {
-	   		console.log(data);
+	   		//console.log(data);
 	   		$('#myajax').empty();
 			var appenddata1 = "";
 	        var obj  = JSON.parse(data);
@@ -451,7 +557,7 @@ $('.bxslider').bxSlider({
 </script>
 
 <script type="text/javascript">
-
+/*
 var API = "http://api.fixer.io/latest?base=USD&symbols=TRY";
 $.ajax({
     type: "get",
@@ -487,7 +593,7 @@ $.ajax({
     //console.log(msg.rates.TRY);
     document.getElementById('inr').innerHTML = msg.rates.TRY + " TRY equals to 1₹.";
 });
-
+*/
 </script>
 
 <script>

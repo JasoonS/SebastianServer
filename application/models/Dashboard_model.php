@@ -138,4 +138,44 @@ Class Dashboard_model extends CI_Model
 		$query = $this->db->query($qry);
 		return $query->result_array();
 	}
+
+
+	public function currentGuest($sb_hotel_id,$currentDate)
+	{
+		$qry = "SELECT *,false as flag FROM `sb_hotel_guest_bookings` WHERE `sb_hotel_id` = '$sb_hotel_id' AND `is_checkedout` = '0'";
+		$query = $this->db->query($qry);
+		$users = $query->result_array();
+		
+		for ($i=0; $i < count($users); $i++) { 
+			$sb_guest_reservation_code = $users[$i]['sb_guest_reservation_code'];
+			$qry = "SELECT `sb_guest_allocated_room_no` FROM `sb_hotel_guest_reservation_attributes` 
+					WHERE `sb_guest_reservation_code` = '$sb_guest_reservation_code' AND `sb_guest_actual_check_out` = '0000-00-00 00:00:00'";
+			$query = $this->db->query($qry);
+			$room = $query->result_array();
+			$rooms = array();
+			for ($j=0; $j < count($room) ; $j++) { 
+				array_push($rooms, $room[$j]['sb_guest_allocated_room_no']);
+			}
+			$users[$i]['room_no'] = implode(",", $rooms);
+		}
+
+		$qry = "SELECT `visitor_firstName` as sb_guest_firstName,`visitor_lastName` as sb_guest_lastName,
+				DATE(`updated_on`)as sb_guest_check_in_date, true as flag FROM `sb_visitor` HAVING sb_guest_check_in_date <= '$currentDate'";
+		$query = $this->db->query($qry);
+		$visitor = $query->result_array();
+		$finaldata = array_merge($users,$visitor);
+		for ($i=0; $i < count($finaldata); $i++) { 
+			for ($j=0; $j < count($finaldata) ; $j++) { 
+				//echo $finaldata[$i]['sb_guest_check_in_date']."==".$finaldata[$j]['sb_guest_check_in_date'];
+				if($finaldata[$i]['sb_guest_check_in_date'] > $finaldata[$j]['sb_guest_check_in_date'])
+				{
+					$temp = $finaldata[$i];
+					$finaldata[$i] = $finaldata[$j];
+					$finaldata[$j] = $temp;
+				}
+			}
+		}
+		//print_r($finaldata);die;
+		return $finaldata;
+	}
 }//End Of Common Model

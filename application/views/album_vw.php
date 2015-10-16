@@ -36,7 +36,8 @@
 											$i = 0 ;
 											while($i<count($hotelpictures))
 											{
-											    $image_url = HOTEL_PIC .$hotelpictures[$i]['sb_hotel_pic'];
+											     $image_url = HOTEL_PIC.$hotelpictures[$i]['sb_hotel_pic'];
+                                                //$image_url = base_url().HOTEL_PIC ."/".$hotel_id."/" .$hotelpictures[$i]['sb_hotel_pic'];
 												if($i == 0)
 												{
 												   //$image_url = base_url().HOTEL_PIC ."/".$hotel_id."/" .$hotelpictures[$i]['sb_hotel_pic'];
@@ -50,11 +51,13 @@
 																		<div class="tools tools-bottom">
 																			<a href="#"><i class="fa fa-link"></i></a>
 																			<a href="#"><i class="fa fa-pencil"></i></a>
-																			<a href="showRemoveConfirmation('.$hotelpictures[$i]['ab_album_id'].",".$hotelpictures[$i]['sb_hotel_pic'].')"><i class="fa fa-times"></i></a>
+																			<a href="#"><i class="fa fa-times"></i></a>
 																		</div>
 																	</div>
 																</div>
-																
+																<div class="caption">
+                                                    <p>Snow and Ice Incoming for the South</p>
+                                                </div>
 															</div>
 														</div>';
 												}
@@ -71,16 +74,18 @@
 																		<div class="tools tools-bottom">
 																			<a href="#"><i class="fa fa-link"></i></a>
 																			<a href="#"><i class="fa fa-pencil"></i></a>
-																			<a href="showRemoveConfirmation('.$hotelpictures[$i]['ab_album_id'].",".$hotelpictures[$i]['sb_hotel_pic'].')"><i class="fa fa-times"></i></a>
+																			<a href="#"><i class="fa fa-times"></i></a>
 																		</div>
 																	</div>
 																</div>
-																
+																<div class="caption">
+                                                    <p>Snow and Ice Incoming for the South</p>
+                                                </div>
 															</div>
 														</div>';
 													}
 													else{
-													$image_url = base_url().HOTEL_PIC ."/".$hotel_id."/" .$hotelpictures[$i]['sb_hotel_pic'];
+													//$image_url = base_url().HOTEL_PIC ."/".$hotel_id."/" .$hotelpictures[$i]['sb_hotel_pic'];
 												
 														echo '<div class="col-md-55">
 															<div class="thumbnail">
@@ -91,11 +96,13 @@
 																		<div class="tools tools-bottom">
 																			<a href="#"><i class="fa fa-link"></i></a>
 																			<a href="#"><i class="fa fa-pencil"></i></a>
-																			<a href="showRemoveConfirmation('.$hotelpictures[$i]['ab_album_id'].",".$hotelpictures[$i]['sb_hotel_pic'].')"><i class="fa fa-times"></i></a>
+																			<a href="#"><i class="fa fa-times"></i></a>
 																		</div>
 																	</div>
 																</div>
-																
+																<div class="caption">
+                                                    <p>Snow and Ice Incoming for the South</p>
+                                                </div>
 															</div>
 														</div>';
 													}
@@ -104,7 +111,195 @@
 											}
                                      
 										?>				
-                                     
+                                        <!--<div class="col-md-55">
+                                            <div class="thumbnail">
+                                                <div class="image view view-first">
+                                                    <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                                                    <div class="mask">
+                                                        <p>Your Text</p>
+                                                        <div class="tools tools-bottom">
+                                                            <a href="#"><i class="fa fa-link"></i></a>
+                                                            <a href="#"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#"><i class="fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="caption">
+                                                    <p>Snow and Ice Incoming for the South</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-55">
+                                            <div class="thumbnail">
+                                                <div class="image view view-first">
+                                                    <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                                                    <div class="mask">
+                                                        <p>Your Text</p>
+                                                        <div class="tools tools-bottom">
+                                                            <a href="#"><i class="fa fa-link"></i></a>
+                                                            <a href="#"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#"><i class="fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="caption">
+                                                    <p>Snow and Ice Incoming for the South</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-55">
+                                            <div class="thumbnail">
+                                                <div class="image view view-first">
+                                                    <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                                                    <div class="mask">
+                                                        <p>Your Text</p>
+                                                        <div class="tools tools-bottom">
+                                                            <a href="#"><i class="fa fa-link"></i></a>
+                                                            <a href="#"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#"><i class="fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="caption">
+                                                    <p>Snow and Ice Incoming for the South</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-55">
+                                            <div class="thumbnail">
+                                                <div class="image view view-first">
+                                                    <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                                                    <div class="mask">
+                                                        <p>Your Text</p>
+                                                        <div class="tools tools-bottom">
+                                                            <a href="#"><i class="fa fa-link"></i></a>
+                                                            <a href="#"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#"><i class="fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="caption">
+                                                    <p>Snow and Ice Incoming for the South</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-55">
+                                            <div class="thumbnail">
+                                                <div class="image view view-first">
+                                                    <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                                                    <div class="mask">
+                                                        <p>Your Text</p>
+                                                        <div class="tools tools-bottom">
+                                                            <a href="#"><i class="fa fa-link"></i></a>
+                                                            <a href="#"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#"><i class="fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="caption">
+                                                    <p>Snow and Ice Incoming for the South</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-55">
+                                            <div class="thumbnail">
+                                                <div class="image view view-first">
+                                                    <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                                                    <div class="mask no-caption">
+                                                        <div class="tools tools-bottom">
+                                                            <a href="#"><i class="fa fa-link"></i></a>
+                                                            <a href="#"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#"><i class="fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="caption">
+                                                    <p><strong>Image Name</strong>
+                                                    </p>
+                                                    <p>Snow and Ice Incoming</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-55">
+                                            <div class="thumbnail">
+                                                <div class="image view view-first">
+                                                    <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                                                    <div class="mask no-caption">
+                                                        <div class="tools tools-bottom">
+                                                            <a href="#"><i class="fa fa-link"></i></a>
+                                                            <a href="#"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#"><i class="fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="caption">
+                                                    <p><strong>Image Name</strong>
+                                                    </p>
+                                                    <p>Snow and Ice Incoming</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-55">
+                                            <div class="thumbnail">
+                                                <div class="image view view-first">
+                                                    <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                                                    <div class="mask no-caption">
+                                                        <div class="tools tools-bottom">
+                                                            <a href="#"><i class="fa fa-link"></i></a>
+                                                            <a href="#"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#"><i class="fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="caption">
+                                                    <p><strong>Image Name</strong>
+                                                    </p>
+                                                    <p>Snow and Ice Incoming</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-55">
+                                            <div class="thumbnail">
+                                                <div class="image view view-first">
+                                                    <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                                                    <div class="mask no-caption">
+                                                        <div class="tools tools-bottom">
+                                                            <a href="#"><i class="fa fa-link"></i></a>
+                                                            <a href="#"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#"><i class="fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="caption">
+                                                    <p><strong>Image Name</strong>
+                                                    </p>
+                                                    <p>Snow and Ice Incoming</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-55">
+                                            <div class="thumbnail">
+                                                <div class="image view view-first">
+                                                    <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                                                    <div class="mask no-caption">
+                                                        <div class="tools tools-bottom">
+                                                            <a href="#"><i class="fa fa-link"></i></a>
+                                                            <a href="#"><i class="fa fa-pencil"></i></a>
+                                                            <a href="#"><i class="fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="caption">
+                                                    <p><strong>Image Name</strong>
+                                                    </p>
+                                                    <p>Snow and Ice Incoming</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>-->
 
                                 </div>
                             </div>
@@ -118,11 +313,3 @@
 							<div class="clearfix"></div>
 						</footer>
                     </div>
-<script type="text/javascript">
-function showRemoveConfirmation(album_id,image)
-{
-	alert(album_id);
-	alert(image);
-}
-
-</script>

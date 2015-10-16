@@ -22,7 +22,6 @@
 	<link href="<?php echo THEME_ASSETS;  ?>css/custom.css" rel="stylesheet">
 	<link href="<?php echo THEME_ASSETS;  ?>css/icheck/flat/green.css" rel="stylesheet">
 	<link href="<?php echo THEME_ASSETS;  ?>css/style.css" rel="stylesheet">
-	<script src="<?php echo THEME_ASSETS;  ?>js/nicescroll/jquery.nicescroll.min.js"></script>
 
 	<script src="<?php echo THEME_ASSETS;  ?>js/jquery.min.js"></script>
     <script src="<?php echo THEME_ASSETS;  ?>js/customjs/constants.js"></script>

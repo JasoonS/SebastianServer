@@ -740,7 +740,7 @@ body.nav-md ul.nav.child_menu li:after {
 }
 
 li.current-page {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgb(133, 210, 255);
 }
 
 .nav.side-menu> li.active > a {

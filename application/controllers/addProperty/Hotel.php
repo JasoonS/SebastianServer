@@ -8,10 +8,6 @@
 			$this->load->model('Services_model');
 		} 
 		
-		public function index()
-		{
-			$this->load->view('addProperty/home');
-		}
 		/*
 		 * Method have hotel creation code
 		 * image upload code
@@ -19,7 +15,7 @@
 		 * input void
 		 * output view
 		 */
-		function index1()
+		function index()
 		{
 			$data = array();
 			$this->load->helper('admin/utility');
@@ -27,8 +23,8 @@
 			$data['languagelist']=getAllLanguages();	
 			if($this->input->post('insert'))
 			{
-				//$this->load->library('form_validation');
-				//$this->load->helper('form');
+				$this->load->library('form_validation');
+				$this->load->helper('form');
 				$this->form_validation->set_rules('hotel_name', 'Hotel Name', 'required');
 		    	$this->form_validation->set_rules('email','Hotel Email','required|valid_email');
 				$this->form_validation->set_rules('address','Address','required','text-danger');

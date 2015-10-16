@@ -109,7 +109,8 @@ Class HotelServices extends CI_Controller
 					//$folderName=PARENT_SERVICE_PIC;
 					$folderName= "parentservice";
 					$pic1 = upload_image($folderName,"sb_service_pic");
-					if($pic1 != 0)
+					//print_r($pic1);die();
+					//if($pic1 != 0)
 					{
 						$data["sb_parent_service_image"] = $pic1;
 					}	
@@ -117,6 +118,7 @@ Class HotelServices extends CI_Controller
 		$data['sb_parent_service_name']=$this->input->post('sb_service_name');
 		$data['sb_parent_service_color']=$this->input->post('sb_service_color');
 		$tablename="sb_hotel_parent_services";
+		//print_r($data);die;
 		$sb_parent_service_id=$this->input->post('sb_service_id');
 		$this->Services_model->edit_service($data,$tablename,$sb_parent_service_id);
 		$this->session->set_flashdata('success_msg', PARENT_SERVICE_UPDATION_SUCCESS);

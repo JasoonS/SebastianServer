@@ -376,5 +376,22 @@ class Guest_model extends CI_Model
 	
 		return $query->result_array();
 		
-    } 	
+    } 
+    
+	/* Method return Guest Feedback
+	 * 
+	 * @param int
+	 * return array
+	 */
+	function getFeedbacks($hotel_id)
+	{
+		$this->db->select('*');
+		$this->db->from('sb_feedback');
+		$this->db->join('sb_hotel_guest_bookings','sb_feedback.guest_booking_id = sb_hotel_guest_bookings.sb_hotel_guest_booking_id');
+		$this->db->where('sb_feedback.hotel_id',$hotel_id);
+		$this->db->order_by('feedback_id','desc');
+		$query = $this->db->get();
+		return $query->result_array();
+	} 
+	
 }

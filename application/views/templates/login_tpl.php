@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="<?php echo THEME_ASSETS; ?>images/favicon.ico">
-    <title><?php echo $title;?></title>
+    <title>Login - Sebastian Admin Panel</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="<?php echo THEME_ASSETS;  ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" />

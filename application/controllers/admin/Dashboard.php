@@ -83,6 +83,20 @@ class Dashboard extends CI_Controller
 		echo json_encode($data);
 	}
 
+	/*
+		AJAX call for currentGuest
+		By AKSHAY
+	*/
+	public function currentGuest()
+	{
+		$sb_hotel_id = $this->input->post("hotel_id");
+		$currentDate = $this->input->post("currentDate");
+		// $weekdates = $this->x_week_range($service_due_date);
+		$data = $this->Dashboard_model->currentGuest($sb_hotel_id,$currentDate);
+
+		echo json_encode($data);
+	}
+
 	public function x_week_range($date1) {
     	/*$date = new DateTime($date1);
   		//add one week to date

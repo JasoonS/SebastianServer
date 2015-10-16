@@ -1,5 +1,13 @@
 <!-- page content -->
+<style type="text/css">
+    .btn-default {
+    background-color: #284C79;
+    border-color: #ccc;
+}
+    
+</style>
 <div class="right_col" role="main">
+
     <div class="">
     	<div class="page-title">
             <div class="title_left">
@@ -23,7 +31,7 @@
 
                                 <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 classParentServicePanel">
                                     <div class = "card">
-                                        <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
+                                        <!-- <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas> -->
                                         <div class="avatar">
                                             <img src="" alt="" />
                                         </div>
@@ -50,7 +58,7 @@
 
         <!-- Storing image data soruce !-->
         <?php foreach($parent_services as $parent_service) { ?>
-            <img class="src-image"src="<?php echo base_url(PARENT_SERVICE_PIC); ?><?php echo "/".$parent_service['sb_parent_service_image']; ?>" />
+            <img class="src-image"src="<?php echo PARENT_SERVICE_PIC; ?><?php echo $parent_service['sb_parent_service_image']; ?>" />
         <?php } ?>
     </div>
     <footer>

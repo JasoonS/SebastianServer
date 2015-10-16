@@ -73,6 +73,7 @@ Class Acl
             //$roleSQL = "SELECT * FROM `".DB_PREFIX."role_perms` WHERE `roleID` = " . floatval($role) . " ORDER BY `ID` ASC";
             $this->ci->db->where(array('sb_roleid'=>floatval($role)));
         }
+
         $this->ci->db->order_by('sb_role_mod_id','asc');
         $sql = $this->ci->db->get('sb_roles_mod'); //$this->db->select($roleSQL);
 		//echo $this->ci->db->last_query();exit;
@@ -118,10 +119,14 @@ Class Acl
         //$strSQL = "SELECT `permKey` FROM `".DB_PREFIX."permissions` WHERE `ID` = " . floatval($permID) . " LIMIT 1";
         $this->ci->db->select('sb_mod_key');
         $this->ci->db->where('sb_mod_id',floatval($permID));
+        $this->ci->db->where('sb_mod_status','1');
         $sql = $this->ci->db->get('sb_modules',1);
         $data = $sql->result();
 		//print_r($data);
+        if(count($data)>0)
         return $data[0]->sb_mod_key;
+        else
+            return '';
     }
 	function getOrderKeyFromID($permID) 
     {
