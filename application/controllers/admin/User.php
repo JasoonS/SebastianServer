@@ -209,7 +209,7 @@ class User extends CI_Controller
 		$data =$this->input->post();
 		$this->validation_rules = array(
 		    array('field'=>'sb_hotel_username','label'=>'Hotel User','rules'=>'required|callback_validate_hoteluser','class'=>'text-danger'),
-		    array('field'=>'sb_hotel_useremail','label'=>'Hotel User Email','rules'=>'required|valid_email','class'=>'text-danger'),
+		    array('field'=>'sb_hotel_useremail','label'=>'Hotel User Email','rules'=>'required|callback_validate_hoteluseremail','class'=>'text-danger'),
 		    array('field'=>'sb_hotel_user_shift_from','label'=>'Hotel User Shift From','rules'=>'required','class'=>'text-danger'),
 		    array('field'=>'sb_hotel_user_shift_to','label'=>'Hotel User Shift To','rules'=>'required','class'=>'text-danger'),
 			
@@ -217,7 +217,7 @@ class User extends CI_Controller
 		$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
 		$this->form_validation->set_rules($this->validation_rules);
 		$this->form_validation->set_message('validate_hoteluser','Hotel User with this name is already Exists.');
-		//$this->form_validation->set_message('validate_hoteluseremail','Hotel User with this email is already Exists.');
+		$this->form_validation->set_message('validate_hoteluseremail','Hotel User with this email is already Exists.');
 		$this->form_validation->set_message('valid_email','Please Enter Valid Email.');
 		if ($this->form_validation->run() == FALSE)
 		{

@@ -316,12 +316,16 @@ class Guest_model extends CI_Model
 	 */
 	function get_customer_chat_history($booking_id)
 	{
+		//sb_hotel_guest_bookings
 		$this->db->select('*');
-		$this->db->where('sb_hotel_guest_booking_id',$booking_id);
+		$this->db->where('sb_forum.sb_hotel_guest_booking_id',$booking_id);
 		$this->db->from('sb_forum');
 		$this->db->join('sb_hotel_users','sb_hotel_users.sb_hotel_user_id = sb_forum.hotel_user_id','left');
+		$this->db->join('sb_hotel_guest_bookings','sb_hotel_guest_bookings.sb_hotel_guest_booking_id = sb_forum.sb_hotel_guest_booking_id','left');
 		$this->db->order_by('sb_forum.created_on','asc');
+
 		$query = $this->db->get();
+		//echo $this->db->last_query();
 		return $query->result();
 	}	
 		

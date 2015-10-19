@@ -406,8 +406,15 @@ function tasks() {
     	        {
     	     		var sb_hotel_requst_ser_id = obj[i].sb_hotel_requst_ser_id;
     	     		var sb_guest_allocated_room_no = obj[i].sb_guest_allocated_room_no;
-    	     		var sb_child_servcie_name = obj[i].sb_child_servcie_name;
-    	     		var service_due_date = obj[i].service_due_date;
+                    var service_type = obj[i].service_type;
+                    if(service_type == 'order')
+                    {
+                        var sb_child_servcie_name = obj[i].orderDetails[0].sb_sub_child_service_name;
+                    }
+                    else
+                    {    
+    	     		    var sb_child_servcie_name = obj[i].sb_child_servcie_name;
+    	     		}var service_due_date = obj[i].service_due_date;
                     var service_due_time = obj[i].service_due_time;
                     var datetime = service_due_date+" "+service_due_time;
                     var status = obj[i].sb_hotel_service_status;

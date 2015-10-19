@@ -193,6 +193,7 @@
 											   ?> 
 											</select>
 										</div>
+										<input type="hidden" id="sb_staff_designation_id" name="sb_staff_designation_id" value="<?php if(count($parent_services)>0)echo $parent_services[0]['sb_parent_service_id'];?>">
 								</div>
 					
 								<div class="form-group" id="child_services_control" style="display:none;" >
@@ -276,6 +277,8 @@ $(function() {
 	});*/
 	function callToChildServices()
 		{
+			var myId = document.getElementById('sb_parent_service_id').value;
+			document.getElementById('sb_staff_designation_id').value = myId;
 			hideShowElements();
 			populateChildServices('<?php echo $user_type;?>','<?php echo $user_id ?>','<?php echo $hotel_id?>','1');
         } 
