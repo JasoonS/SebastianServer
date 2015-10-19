@@ -1,3 +1,13 @@
+<div class="row" style="margin-top:20px;">
+  	<div class="container">
+    	<div class="col-md-4 col-md-offset-8">
+	    	<div class="pull-right">
+	    		<a href="http://bizmoapps.com/join.sebastian" class="btn btn-dark">Add Property</a>
+	    	</div>  
+	    </div>
+  	</div>
+</div>
+
 <div id="wrapper">
 	<div id="login" class="animate form">
 	    <section class="login_content">

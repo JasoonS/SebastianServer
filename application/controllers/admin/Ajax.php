@@ -451,7 +451,8 @@ class Ajax extends CI_Controller
 		$hotel_id 			= $this->session->logged_in_user->sb_hotel_id;
 		$temp_date			= explode('-',$this->input->post('inoutdates'));
 		
-		$booking_array  = array('sb_hotel_id' 			=> $hotel_id,
+		$booking_array  = array(
+						   'sb_hotel_id' 			=> $hotel_id,
 						   'sb_guest_firstName' 		=> $this->input->post('firstname'),
 						   'sb_guest_lastName'			=> $this->input->post('lastname'),
 						   'sb_guest_email'				=> $this->input->post('email'),
@@ -515,8 +516,7 @@ class Ajax extends CI_Controller
 			$row[]				='<span class="label label-warning"><a href="javascript:void(0)">'. $guest->sb_guest_reservation_code.'</a></span>';
 			$row[] 				= $guest->sb_guest_rooms_alloted;
 			$reservation_code	= $guest->sb_hotel_guest_booking_id;   
-			$guestalloted		= $guest->sb_guest_rooms_alloted;	
-			//onclick="allocateRoom(\''.$guest->sb_guest_reservation_code.'\','.$guest->sb_guest_rooms_alloted.');" 
+			$guestalloted		= $guest->sb_guest_rooms_alloted;	 
 			$row[]				='<a id="allocate" href="'.base_url("admin/HotelRooms/Roomcheckin/$reservation_code/$guestalloted").'"  title="Allocate Rooms" ><img src="'.FOLDER_ICONS_URL."Allocate.png".'" /></a>'." ".
 								  '<a href="'.base_url("admin/HotelRooms/Roomcheckout/$reservation_code").'"  title="View" ><img src="'.FOLDER_ICONS_URL."View-Details.png".'" /></a>';
 			$data[] = $row;
@@ -552,7 +552,8 @@ class Ajax extends CI_Controller
 			$row[] 				= $guest->sb_guest_contact_no;
 			$row[]				='<span class="label label-warning"><a href="javascript:void(0)">'. $guest->sb_guest_reservation_code.'</a></span>';
 			$row[] 				= $guest->sb_guest_rooms_alloted;
-			$reservation_code	= $guest->sb_hotel_guest_booking_id;   
+			$reservation_code	= $guest->sb_hotel_guest_booking_id; 
+			$guestalloted = $guest->sb_guest_rooms_alloted;	
 			//$row[]				='<a id="allocate" href="#" onclick="allocateRoom(\''.$guest->sb_guest_reservation_code.'\','.$guest->sb_guest_rooms_alloted.');"  title="Allocate Rooms" ><img src="'.FOLDER_ICONS_URL."Allocate.png".'" /></a>'." ".
 				//				  '<a href="'.base_url("admin/HotelRooms/Roomcheckout/$reservation_code").'"  title="View" ><img src="'.FOLDER_ICONS_URL."View-Details.png".'" /></a>';
 			$row[]				='<a id="allocate" href="'.base_url("admin/HotelRooms/Roomcheckin/$reservation_code/$guestalloted").'"  title="Allocate Rooms" ><img src="'.FOLDER_ICONS_URL."Allocate.png".'" /></a>'." ".

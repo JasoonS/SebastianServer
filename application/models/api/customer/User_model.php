@@ -17,22 +17,31 @@ class User_model extends CI_Model
 		$qry = "SELECT * FROM `sb_hotel_guest_bookings` 
 				JOIN `sb_hotel_guest_reservation_attributes`
 				ON `sb_hotel_guest_reservation_attributes`.`sb_guest_reservation_code` = `sb_hotel_guest_bookings`.`sb_guest_reservation_code`
-				where `sb_hotel_guest_bookings`.`sb_guest_reservation_code` = '$sb_guest_reservation_code'
-				AND `sb_hotel_guest_reservation_attributes`.sb_guest_actual_check_out ='0000-00-00 00:00:00'";
+				where `sb_hotel_guest_bookings`.`sb_guest_reservation_code` = '$sb_guest_reservation_code'";
+				//AND `sb_hotel_guest_reservation_attributes`.sb_guest_actual_check_out ='0000-00-00 00:00:00'";
 		$query = $this->db->query($qry);
 		$custData = $query->result_array();
-		$roomNumbers = array();
+		/*$roomNumbers = array();
 		for ($i=0; $i < count($custData); $i++) { 
 			array_push($roomNumbers,$custData[$i]['sb_guest_allocated_room_no']);
-		}
+		}*/
 		if(count($custData)>0)
 		{
 			$sb_hotel_id =$custData[0]['sb_hotel_id'];
-
+			$roomNumbers = array();
+			$sql4 = "SELECT `sb_guest_allocated_room_no` 
+					FROM `sb_hotel_guest_reservation_attributes` 
+					WHERE `sb_guest_reservation_code` = '$sb_guest_reservation_code' 
+					AND sb_guest_actual_check_out ='0000-00-00 00:00:00'";
+			$query4 = $this->db->query($sql4);
+			$roomData = $query4->result_array();
+			for ($i=0; $i < count($roomData); $i++) { 
+				array_push($roomNumbers,$roomData[$i]['sb_guest_allocated_room_no']);
+			}
 			/*$sql1 = "SELECT * FROM `sb_hotel_parent_services` WHERE `sb_parent_service_id` 
 					in(SELECT distinct(`sb_parent_service_id`) FROM `sb_hotel_service_map` WHERE `sb_hotel_id` = '$sb_hotel_id')";
 			*/
-			$IMP_PATH = base_url().PARENT_SERVICE_PIC."/";
+			$IMP_PATH = PARENT_SERVICE_PIC;
 			$sql1 = "SELECT `sb_parent_service_id`,`sb_parent_service_name`,
 					CONCAT('$IMP_PATH',`sb_parent_service_image`) as `sb_parent_service_image`,`sb_parent_service_color`,
 					`sb_parent_service_created_on` 
@@ -48,7 +57,7 @@ class User_model extends CI_Model
 			{
 				$service = $services;
 			}
-			$IMP_PATH = base_url().HOTEL_PIC."/";
+			$IMP_PATH = HOTEL_PIC;
 			$sql1 = "SELECT `sb_hotel_id`,`sb_hotel_name`,`sb_hotel_country`,sb_hotel_description,
 				`sb_hotel_city`,`sb_hotel_state`, `sb_hotel_zipcode`,
 				`sb_hotel_address`,`sb_hotel_phone`,`sb_hotel_star`,
@@ -121,12 +130,12 @@ class User_model extends CI_Model
 	{
 		if ($sb_hotel_name == '') 
 		{
-			$this->db->select('sb_hotel_id, sb_hotel_name');
-			$query = $this->db->get('sb_hotels');
+			$qry = "Select sb_hotel_id, sb_hotel_name from sb_hotels where is_active='1';";
+			$query = $this->db->query($qry);
 		}
 		else
 		{
-			$qry = "Select sb_hotel_id, sb_hotel_name from sb_hotels where sb_hotel_name LIKE '%$sb_hotel_name%'";
+			$qry = "Select sb_hotel_id, sb_hotel_name from sb_hotels where sb_hotel_name LIKE '%$sb_hotel_name%' AND  is_active='1';";
 			$query = $this->db->query($qry);
 		}
 		
@@ -170,7 +179,7 @@ class User_model extends CI_Model
 	{
 		//$sb_hotel_id =$new_visitor['sb_hotel_id'];
 
-		$IMP_PATH = base_url().PARENT_SERVICE_PIC."/";
+		$IMP_PATH = PARENT_SERVICE_PIC;
 		
 		$sql1 = "SELECT `sb_parent_service_id`,`sb_parent_service_name`,
 					CONCAT('$IMP_PATH',`sb_parent_service_image`) as `sb_parent_service_image`,`sb_parent_service_color`,
@@ -188,7 +197,7 @@ class User_model extends CI_Model
 			$service = $services;
 		}
 		
-		$IMP_PATH = base_url().HOTEL_PIC."/";
+		$IMP_PATH = HOTEL_PIC;
 		$sql1 = "SELECT `sb_hotel_id`,`sb_hotel_name`,`sb_hotel_country`,sb_hotel_description,
 				`sb_hotel_city`,`sb_hotel_state`, `sb_hotel_zipcode`,
 				`sb_hotel_address`,`sb_hotel_phone`,`sb_hotel_star`,

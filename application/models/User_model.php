@@ -153,6 +153,17 @@ Class User_model extends CI_Model
 		$query=$this->db->get('sb_hotel_users');
 		return $query->result_array();
 	}
+	/* Method Get User Information according to its Username
+	 * @param string
+	 * return array
+	 */
+	function get_user_by_name($user_name)
+	{
+		$this->db->select('sb_hotel_user_id,sb_hotel_username,sb_hotel_useremail');
+		$this->db->where('sb_hotel_username',$user_name);
+		$query=$this->db->get('sb_hotel_users');
+		return $query->result_array();
+	}
 	/* Method return user name
 	 * to hotleir
 	 * @param int
@@ -226,4 +237,56 @@ Class User_model extends CI_Model
 		else
 			return FALSE;
 	}
+	/* Method return user hotel id
+	 * to hotleir
+	 * @param int
+	 * return array on success , false on failure
+	 */
+	function get_staff($service_id)
+	{
+		$sb_hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->db->select('sb_hotel_users.sb_hotel_user_id,sb_hotel_username');
+		$this->db->join('sb_hotel_user_service_access_map','sb_hotel_user_service_access_map.sb_hotel_user_id=sb_hotel_users.sb_hotel_user_id','left');
+	    $this->db->from('sb_hotel_users');
+		$this->db->where('sb_hotel_user_type','s');
+		$this->db->where('sb_parent_service_id',$service_id);
+		$this->db->where('sb_hotel_user_status','1');
+		$this->db->group_by('sb_hotel_users.sb_hotel_user_id');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	/* Method return user hotel id
+	 * to hotleir
+	 * @param int
+	 * return array on success , false on failure
+	 */
+	function get_staff_list($service_id=0)
+	{
+		$sb_hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->db->select('*');
+		$this->db->join('sb_hotel_user_service_access_map','sb_hotel_user_service_access_map.sb_hotel_user_id=sb_hotel_users.sb_hotel_user_id','left');
+	    $this->db->join('sb_hotel_parent_services','sb_hotel_parent_services.sb_parent_service_id=sb_hotel_user_service_access_map.sb_parent_service_id');
+	    $this->db->from('sb_hotel_users');
+		$this->db->where('sb_hotel_user_type','s');
+		if($service_id != 0){
+			$this->db->where('sb_hotel_user_service_access_map.sb_parent_service_id',$service_id);
+		}
+		$this->db->where('sb_hotel_user_status','1');
+		$this->db->group_by('sb_hotel_users.sb_hotel_user_id');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	/* Method Get All Superadministrators
+	 * @param string
+	 * return array
+	 */
+	function get_all_active_superadministrators()
+	{
+		$this->db->select('sb_hotel_useremail');
+		$this->db->where('sb_hotel_user_type','u');
+		$query=$this->db->get('sb_hotel_users');
+		return $query->result_array();
+	}
+	
+	
 }//End Of Model

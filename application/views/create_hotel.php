@@ -202,6 +202,7 @@
 		
 		</fieldset>
 		<fieldset>
+			<?php //print_r($languagelist);?>
 			<?php
 					$i=0;
 					while($i<count($languagelist))

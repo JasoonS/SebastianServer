@@ -53,7 +53,7 @@ Class Hoteluser_model extends CI_Model
 			}
 			else
 			{
-				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='s' AND sb_hotel_users.sb_hotel_user_id <> '".$this->user_id."')", NULL, FALSE);
+				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type IN('m','s') AND sb_hotel_users.sb_hotel_user_id <> '".$this->user_id."')", NULL, FALSE);
 			}
 		}
 		
@@ -113,7 +113,7 @@ Class Hoteluser_model extends CI_Model
 			}
 			else
 			{
-				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type='s' AND sb_hotel_users.sb_hotel_user_id <> '".$this->user_id."')", NULL, FALSE);
+				$this->db->where("(sb_hotel_id='$hotel_id' AND sb_hotel_user_type IN('m','s') AND sb_hotel_users.sb_hotel_user_id <> '".$this->user_id."')", NULL, FALSE);
 			}
 		}
 		if($type == 'm')

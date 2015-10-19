@@ -165,6 +165,7 @@ Class Services_model extends CI_Model
 		$this->db->join('sb_hotel_child_services','sb_hotel_child_services.sb_child_service_id = sb_hotel_service_map.sb_child_service_id');
 		$this->db->group_by('sb_hotel_child_services.sb_child_service_id');
 		$query = $this->db->get();
+		
 		return $query->result_array();
 	}
 	/* Method Remove Previous services assignment and make new services assignment for hotel user
@@ -362,6 +363,7 @@ Class Services_model extends CI_Model
 		$this->db->update($tablename,$data);
 		return 1;
 	}
+
    /* Method To get no of child services with given name(For validation)
 	* @params string,int
     * return int
@@ -497,6 +499,35 @@ Class Services_model extends CI_Model
 		$result=$query->result_array();
 		return $result;
 	}
-	
+	/* Method To Assign Task To Staff
+	* @params array
+    * return 1
+	*/
+	public function assign_task($data,$task_id){
+		$this->db->where('sb_hotel_requst_ser_id',$task_id);
+		$this->db->update('sb_hotel_services_status',$data);
+		return 1;
+	}
+	/* Method To Get Latest guest requests top 10
+	* @params int
+    * return array
+	*/
+	public function get_guest_latest_requests($service_id){
+		$sb_hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
+		$this->db->select('*');
+		//$this->db->select('sb_hotel_ser_reqstd_on');
+		$this->db->from('sb_hotel_request_service');
+		$this->db->join('sb_hotel_guest_bookings','sb_hotel_guest_bookings.sb_hotel_guest_booking_id = sb_hotel_request_service.sb_hotel_guest_booking_id');
+		$this->db->join('sb_hotel_services_status','sb_hotel_services_status.sb_hotel_requst_ser_id = sb_hotel_request_service.sb_hotel_requst_ser_id');
+		$this->db->join('sb_hotel_users','sb_hotel_users.sb_hotel_user_id = sb_hotel_services_status.sb_hotel_ser_assgnd_to_user_id','left');
+
+		$this->db->where('sb_parent_service_id',$service_id);
+		$this->db->where('sb_hotel_request_service.sb_hotel_id',$sb_hotel_id);
+		$this->db->order_by("sb_hotel_request_service.sb_hotel_requst_ser_id","desc");
+		$this->db->limit(0,5);
+		$query=$this->db->get();
+		return $query->result_array();
+		
+	}
 }
 ?>

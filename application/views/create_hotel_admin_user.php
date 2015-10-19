@@ -107,7 +107,8 @@
 								<label class="col-md-4 col-xs-4 control-label" for="sb_hotel_user_type">User Type</label>
 								<div class="col-md-8 col-xs-8">
 									<select id="sb_hotel_user_type" name="sb_hotel_user_type" class="form-control"  onchange="callToChildServices();">
-										<?php
+										<option value="s">Hotel Staff</option>
+										<?php /*
 										foreach($hotelusertypes as $key=>$usertype)
 										{
 										    if($usertype == 'u')
@@ -137,12 +138,12 @@
 													echo "<option value='".$usertype."'>".$label."</option>";
 												}
 											}
-										}
+										}*/
 									   ?> 
 									</select>
 								</div>
 							</div>
-							<?php if($user_type !='u'){?>
+							<?php /*if($user_type !='u'){?>
 								<div class="form-group">
 									<label class="col-md-4 col-xs-4 control-label" for="sb_staff_designation_id">User Designation</label>
 									<div class="col-md-8 col-xs-8">
@@ -153,6 +154,7 @@
 												{
 													echo "<option value='".$value['designation_id']."'>".$value['designation_name']."</option>";
 												}
+
 											}
 											else{
 											  
@@ -171,11 +173,11 @@
 										</select>
 									</div>
 							    </div>
-							<?php }?>
+							<?php }*/?>
 							<?php //print_r($userinfo);?>
 							<?php if($user_type == 'a' || $user_type == 'm' ){?>
 								<div class="form-group">
-									<label class="col-md-4 col-xs-4 control-label" for="sb_parent_service_id">User Parent Service</label>
+									<label class="col-md-4 col-xs-4 control-label" for="sb_parent_service_id">User Designation</label>
 										<div class="col-md-8 col-xs-8">
 											<select id="sb_parent_service_id" name="sb_parent_service_id" class="form-control" onchange="callToChildServices();">
 												<?php
@@ -305,7 +307,7 @@ $(function() {
 								
 							},
 					error:function(msg){
-						alert("failure");
+						console.log("failure");
 					}
 				}).done(function (){
 

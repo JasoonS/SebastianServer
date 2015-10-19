@@ -82,7 +82,8 @@ Class HotelServices extends CI_Controller
 		$data["sb_parent_service_image"]="";
 		if(!empty($_FILES['sb_service_pic']['name']))
 				{
-					$folderName=PARENT_SERVICE_PIC;
+					//$folderName=PARENT_SERVICE_PIC;
+					$folderName= "parentservice";
 					$pic1 = upload_image($folderName,"sb_service_pic");
 					if($pic1 != 0)
 					{
@@ -105,9 +106,11 @@ Class HotelServices extends CI_Controller
 		//$data["sb_parent_service_image"]="";
 		if(!empty($_FILES['sb_service_pic']['name']))
 				{
-					$folderName=PARENT_SERVICE_PIC;
+					//$folderName=PARENT_SERVICE_PIC;
+					$folderName= "parentservice";
 					$pic1 = upload_image($folderName,"sb_service_pic");
-					if($pic1 != 0)
+					//print_r($pic1);die();
+					//if($pic1 != 0)
 					{
 						$data["sb_parent_service_image"] = $pic1;
 					}	
@@ -115,6 +118,7 @@ Class HotelServices extends CI_Controller
 		$data['sb_parent_service_name']=$this->input->post('sb_service_name');
 		$data['sb_parent_service_color']=$this->input->post('sb_service_color');
 		$tablename="sb_hotel_parent_services";
+		//print_r($data);die;
 		$sb_parent_service_id=$this->input->post('sb_service_id');
 		$this->Services_model->edit_service($data,$tablename,$sb_parent_service_id);
 		$this->session->set_flashdata('success_msg', PARENT_SERVICE_UPDATION_SUCCESS);
@@ -141,8 +145,8 @@ Class HotelServices extends CI_Controller
 					$child_service_image="";
 					if(!empty($_FILES['sb_child_service_pic'.$i]['name']))
 					{
-						$folderName=CHILD_SERVICE_PIC;
-						
+						//$folderName=CHILD_SERVICE_PIC;
+						$folderName= "childservice";
 						$pic1 = upload_image($folderName,"sb_child_service_pic".$i);
 						if($pic1 != 0)
 						{
@@ -179,7 +183,8 @@ Class HotelServices extends CI_Controller
 		$data=array();
 		if(!empty($_FILES['sb_service_pic']['name']))
 				{
-					$folderName=CHILD_SERVICE_PIC;
+					//$folderName=CHILD_SERVICE_PIC;
+					$folderName= "childservice";
 					$pic1 = upload_image($folderName,"sb_service_pic");
 					if($pic1 != 0)
 					{
@@ -212,8 +217,8 @@ Class HotelServices extends CI_Controller
 					$child_service_image="";
 					if(!empty($_FILES['sb_child_service_pic'.$i]['name']))
 					{
-						$folderName=SUBCHILD_SERVICE_PIC;
-						
+						//$folderName=SUBCHILD_SERVICE_PIC;
+						$folderName= "subchildservice";
 						$pic1 = upload_image($folderName,"sb_child_service_pic".$i);
 						if($pic1 != 0)
 						{
@@ -251,7 +256,8 @@ Class HotelServices extends CI_Controller
 		$data=array();
 		if(!empty($_FILES['sb_service_pic']['name']))
 				{
-					$folderName=SUBCHILD_SERVICE_PIC;
+					//$folderName=SUBCHILD_SERVICE_PIC;
+					$folderName= "subchildservice";
 					$pic1 = upload_image($folderName,"sb_service_pic");
 					if($pic1 != 0)
 					{
@@ -289,11 +295,12 @@ Class HotelServices extends CI_Controller
 	    
 		$data =$this->input->post();
 		$this->validation_rules = array(
-		    array('field'=>'sb_sub_child_service_name','label'=>'Service Name','rules'=>'required','class'=>'text-danger'),
+		    array('field'=>'sb_sub_child_service_name','label'=>'Service Name','rules'=>'required|callback_validate_paid_service','class'=>'text-danger'),
 			array('field'=>'sb_sub_child_price','label'=>'Service Price','rules'=>'required|numeric','class'=>'text-danger')
 		);
 		$this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
 		$this->form_validation->set_rules($this->validation_rules);
+		$this->form_validation->set_message('validate_paid_service','This service is already exists.');
 		if ($this->form_validation->run() == FALSE)
 		{
 			$this->data['title'] 				= 'Hotel Services';
@@ -307,14 +314,15 @@ Class HotelServices extends CI_Controller
 			$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
 			//$hotel_name=	$this->Hotel_model->get_hotel_name($hotel_id)[0]['sb_hotel_name'];
 			
-			$dirpath=SUBCHILD_SERVICE_PIC."/";
-			if (!is_dir($dirpath.$hotel_id)) {
-					mkdir('./'.$dirpath.$hotel_id, 0777, TRUE);
-			}
+			// $dirpath=SUBCHILD_SERVICE_PIC."/";
+			// if (!is_dir($dirpath.$hotel_id)) {
+			// 		mkdir('./'.$dirpath.$hotel_id, 0777, TRUE);
+			// }
 			$data["sb_sub_child_service_image"] = "";
 					if(!empty($_FILES['sb_sub_child_service_image']['name']))
 					{
-						$folderName=SUBCHILD_SERVICE_PIC."/".$hotel_id;
+						//$folderName=SUBCHILD_SERVICE_PIC."/".$hotel_id;
+						$folderName= $hotel_id."_paidServices";
 						$pic1 = upload_image($folderName,"sb_sub_child_service_image");
 						if($pic1 != 0)
 						{
@@ -341,12 +349,8 @@ Class HotelServices extends CI_Controller
 	
 	public function showHotelPaidServices()
 	{
-		$requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3);
-		if(!$this->acl->hasPermission($requested_mod))
-		{
-			redirect('admin/dashboard');
-		}
-		$this->data['title'] = "Hotel Services";
+		
+		$this->data['title'] = "Hotel Paid Services";
 		$this->template->load('page_tpl', 'hotel_service_list_vw',$this->data);
 	}
     /* Method To show all Hotel Menus
@@ -411,16 +415,18 @@ Class HotelServices extends CI_Controller
 			$this->template->load('page_tpl', 'edit_paid_services_vw',$this->data);
 		}
 		else{
+		             
 			$hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
 			$hotel_name=	$this->Hotel_model->get_hotel_name($hotel_id)[0]['sb_hotel_name'];
 			
-			$dirpath=SUBCHILD_SERVICE_PIC."/";
-			if (!is_dir($dirpath.$hotel_id)) {
-					mkdir('./'.$dirpath.$hotel_id, 0777, TRUE);
-			}
+			// $dirpath=SUBCHILD_SERVICE_PIC."/";
+			// if (!is_dir($dirpath.$hotel_id)) {
+			// 		mkdir('./'.$dirpath.$hotel_id, 0777, TRUE);
+			// }
 			 if(!empty($_FILES['sb_sub_child_service_image']['name']))
 					{
-						$folderName=SUBCHILD_SERVICE_PIC."/".$hotel_id;
+						//$folderName=SUBCHILD_SERVICE_PIC."/".$hotel_id;
+						$folderName=$hotel_id."_subchild";
 						$pic1 = upload_image($folderName,"sb_sub_child_service_image");
 						if($pic1 != 0)
 						{
@@ -441,6 +447,20 @@ Class HotelServices extends CI_Controller
 			redirect($url);
 		}
 	}
-	
-   
+	/* Method Validate Hotel Paid Service
+    * input - String
+    * output - boolean
+	*/
+    function validate_paid_service($fieldvalue)
+	{
+	    $this->load->model('PaidServices_model');
+		$result=$this->PaidServices_model->get_paid_service($fieldvalue);
+		if($result[0]['count']>0){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+    	
 }

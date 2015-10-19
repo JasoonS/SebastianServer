@@ -149,7 +149,7 @@ class User extends CI_Controller
 	public function get_hotel_names()
 	{
 		$sb_hotel_name = '';
-		if (!empty($_POST)) 
+		if (!empty($this->input->post())) 
 		{
 			$sb_hotel_name = $this->input->post('sb_hotel_name');
 		}

@@ -108,7 +108,7 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('HOTEL_CREATION_SUCCESS','Hotel Created Successfully.');
  define('HOTEL_CREATION_FAIL','Error in Hotel Creation.');
  define('ROOMS_CREATION_SUCCESS','Rooms Created Successfully.');
- define('ROOMS_CREATION_FAIL','Error in Rooms Creation.');
+ define('ROOMS_CREATION_FAIL','Room with same number is already present.');
  define('PASSWORD_CHANGE_SUCCESS','Password Changed Successfully.');
  define('PASSWORD_CHANGE_FAIL','Error in Password Updation.');
  define('UPLOAD_PROFILEPIC_SUCCESS','Image Uploaded Successfully.');
@@ -131,7 +131,7 @@ define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
  define('FOLDER_BASE_URL','http://localhost/sebastian-admin-panel');
  //define('FOLDER_ICONS_URL','http://bizmoapps.com/sebastian/user_data/');
 define('FOLDER_ICONS_URL','http://localhost/sebastian-admin-panel/user_data/');
-// define('FOLDER_BASE_URL','http://bizmoapps.com/sebastian');
+ //define('FOLDER_BASE_URL','http://bizmoapps.com/sebastian');
 
 
  /*
@@ -143,12 +143,21 @@ define('FOLDER_ICONS_URL','http://localhost/sebastian-admin-panel/user_data/');
  define('LABEL_1','Admin Dashboard');
  define('LABEL_2','Hotelier Dashboard');
 
-
+//https://s3-us-west-2.amazonaws.com/akshaytestbucket/1444023191.jpg
  //FOLDER NAMES FOR IMAGE UPLOAD
- define('HOTEL_USER_PIC',"user_data/hotel_user_pic");
- define('HOTEL_PIC',"user_data/hotel_pic");
- define('PARENT_SERVICE_PIC',"user_data/parent_service_pic");
- define('CHILD_SERVICE_PIC',"user_data/child_service_pic");
- define('SUBCHILD_SERVICE_PIC',"user_data/sub_child_service_pic");
- define('RESTAURANT_PIC',"user_data/restaurant_pic");
+ //define('HOTEL_USER_PIC',"user_data/hotel_user_pic");
+ //define('BUCKET','akshaytestbucket');
+ define('BUCKET','thesebastian');
+  
+ define('HOTEL_USER_PIC',"https://s3.amazonaws.com/".BUCKET."/");
+ define('HOTEL_PIC',"https://s3.amazonaws.com/".BUCKET."/");
+ define('SUBCHILD_SERVICE_PIC',"https://s3.amazonaws.com/".BUCKET."/");
+ define('PARENT_SERVICE_PIC',"https://s3.amazonaws.com/".BUCKET."/");
+ define('CHILD_SERVICE_PIC',"https://s3.amazonaws.com/".BUCKET."/");
+ define('RESTAURANT_PIC',"https://s3.amazonaws.com/".BUCKET."/");
+ 
+ //define('PARENT_SERVICE_PIC',"user_data/parent_service_pic");
+ //define('CHILD_SERVICE_PIC',"user_data/child_service_pic");
+ //define('SUBCHILD_SERVICE_PIC',"user_data/sub_child_service_pic");
+ //define('RESTAURANT_PIC',"user_data/restaurant_pic");
   

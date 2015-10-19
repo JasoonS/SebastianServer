@@ -119,45 +119,49 @@
 	<!-- footer content -->
     <footer>
 		<div class="">
-			<p class="pull-right">Gentelella Alela! a Bootstrap 3 template by <a>Kimlabs</a>. |
-                <span class="lead"> <i class="fa fa-paw"></i> Gentelella Alela!</span>
-            </p>
-        </div>
-        <div class="clearfix"></div>
-    </footer>
+		    <p class="pull-right">Sebastian Admin |
+		        <span class="lead"> <i class="fa fa-paw"></i></span>
+		    </p>
+		</div>
+		<div class="clearfix"></div>
+	</footer>
     <!-- /footer content -->
     <div id="fc_create" data-toggle="modal" data-target="#CalenderModalNew"></div>
     <div id="fc_edit" data-toggle="modal" data-target="#CalenderModalEdit"></div>
 	
-	<!-- Start Calender modal -->
-    <div id="CalenderModalNew" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<!-- Start Calender modal To Assign Task To Staff.-->
+    <div id="idAssignTask" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
 				<div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myModalLabel">New Calender Entry</h4>
+                    <h4 class="modal-title" id="myModalLabel">Assign Task</h4>
+					<div id="successMessage" style="display:none"></div>
                 </div>
             <div class="modal-body">
                 <div id="testmodal" style="padding: 5px 20px;">
 					<form id="antoform" class="form-horizontal calender" role="form">
                         <div class="form-group">
-                        <label class="col-sm-3 control-label">Title</label>
+                        <label class="col-sm-3 control-label">Assign To</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" id="title" name="title">
+								<select id="sb_hotel_user_id" name="sb_hotel_user_id" class="form-control" >
+										<?php
+										foreach($other_staff as $key=>$value)
+										{
+										   echo "<option value='".$value['sb_hotel_user_id']."'>".$value['sb_hotel_username']."</option>";
+										}
+									   ?> 
+								</select>
                             </div>
+							<input type="hidden" id="req_id" name="req_id" />
                         </div>
-                        <div class="form-group">
-                        <label class="col-sm-3 control-label">Description</label>
-                            <div class="col-sm-9">
-								<textarea class="form-control" style="height:55px;" id="descr" name="descr"></textarea>
-                            </div>
-                        </div>
+                        
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default antoclose" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary antosubmit">Save changes</button>
+                <button type="button" class="btn btn-default antoclose" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary antosubmit" onclick="assignRequest()">Proceed</button>
             </div>
             </div>
         </div>
@@ -168,6 +172,7 @@
 				<div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title" id="myModalLabel2">Edit Calender Entry</h4>
+					
                 </div>
                 <div class="modal-body">
 					<div id="testmodal2" style="padding: 5px 20px;">
@@ -189,7 +194,7 @@
                     </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default antoclose2" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary antosubmit2">Save changes</button>
+                    <button type="button" class="btn btn-primary antosubmit2" onclick="assignRequest();">Save changes</button>
                 </div>
             </div>
         </div>
@@ -215,27 +220,17 @@
                         right: 'month,agendaWeek,agendaDay'
                     },
 					defaultView: 'agendaDay',
-					 eventLimit: true, // for all non-agenda views
-  
-	 views: {
-        basic: {
-            // options apply to basicWeek and basicDay views
-        },
-        agenda: {
-            // options apply to agendaWeek and agendaDay views
-			 eventLimit: 2,
-			  eventLimit: true
-        },
-        week: {
-            // options apply to basicWeek and agendaWeek views
-			 eventLimit: 2,
-			  eventLimit: true
-        },
-        day: {
-            // options apply to basicDay and agendaDay views
-			 eventLimit: 2,
-			  eventLimit: true
-        }
+					eventLimit: true, // for all non-agenda views
+                    default:true, 
+					views: {
+						
+						agenda: {
+							// options apply to agendaWeek and agendaDay views
+							eventLimit: 2,
+							default:true
+							
+						},
+						
     },
 	   
 					//slotMinutes: 60,
@@ -278,7 +273,9 @@
                     },
                     eventClick: function (calEvent, jsEvent, view) {
                         //alert(calEvent.title, jsEvent, view);
-
+                         $("#successMessage").hide();
+						 $("#req_id").val(calEvent.id);
+						 $("#idAssignTask").modal('show');
                        /* $('#fc_edit').click();
                         $('#title2').val(calEvent.title);
                         categoryClass = $("#event_type").val();
@@ -352,4 +349,29 @@
                   
                 });
             });
-        </script>
+ 
+function assignRequest()
+{
+	var hotel_staff_id=$("#sb_hotel_user_id").val();
+	var req_id=$("#req_id").val();
+	$.ajax({
+		url: request_url,
+		type:"post",
+		data:{"hotel_staff_id":hotel_staff_id,"req_id":req_id,"flag":18},
+		dataType:"json",
+		async: false,
+		success:function(data){
+			console.log(data);
+			$("#calendar").fullCalendar("refetchEvents");
+			$("#successMessage").html("This request is assigned to particular staff successfully.");
+			$("#successMessage").show();
+			
+		},
+		error:function(){
+				alert("Error");
+			}
+		});
+	
+} 
+			
+ </script>

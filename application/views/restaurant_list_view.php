@@ -77,7 +77,7 @@
 <!-- This Dialog is used to add Or Edit Restaurants -->
 <div class="modal fade" id="add-edit" role="dialog"  tabindex="-1"  
    aria-labelledby="myModalLabel" aria-hidden="true" >
-    <form class="form-horizontal" action="<?php echo base_url()?>admin/Restaurants/insert_restaurant" method="post" onsubmit = "return add()" enctype="multipart/form-data"> -->
+    <form class="form-horizontal" action="<?php echo base_url()?>admin/Restaurants/insert_restaurant" method="post" onsubmit="return validate();" enctype="multipart/form-data">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -92,7 +92,7 @@
 			        <label class="col-md-4 col-xs-4 control-label" for="sb_rest_name">Restaurants Name :</label>
 						<div class="col-md-8 col-xs-8">
 							<input id="sb_rest_name" name="sb_rest_name" type="text" class="form-control" value="" >
-							<div id="sb_rest_name" class="errorclass" style="display:none"></div>
+							<div id="sb_rest_name_error" class="errorclass" style="display:none"></div>
 						</div>
 			    </div>
 
@@ -100,7 +100,7 @@
 					<label class="col-md-4 col-xs-4 control-label" for="sb_rest_desc"> Restaurants Description :</label>	
 						<div class="col-md-8 col-xs-8">
 							<textarea id="sb_rest_desc" name="sb_rest_desc" class="form-control"></textarea>		  
-							<div id="sb_rest_desc" class="errorclass" style="display:none"></div>		
+							<div id="sb_rest_desc_error" class="errorclass" style="display:none"></div>		
 						</div>
 			    </div>
 
@@ -151,7 +151,61 @@
 <link href="<?php echo THEME_ASSETS; ?>css/custom.css" rel="stylesheet" type="text/css">
 
 <script>
-
+function validate(){
+   
+	var sb_hotel_id =  $("#sb_hotel_id").val();
+	var sb_rest_name = $("#sb_rest_name").val();
+	var sb_rest_desc = $("#sb_rest_desc").val();
+	// var sb_rest_img=$("#sb_rest_img").val();
+    var retflag=true; 
+		if(sb_rest_desc == "")
+		{
+			$("#sb_rest_desc_error").html("Restaurant Description is compulsory.");
+			$("#sb_rest_desc_error").show();
+			return false ;
+		}
+		if(sb_rest_name == "")
+		{
+			$("#sb_rest_name_error").html("Restaurant Name is compulsory.");
+			$("#sb_rest_name_error").show();
+			
+			return false ;
+		}
+		else{
+			
+			$.ajax({
+						url: request_url,
+						type:"post",
+						data:{flag:'26',"sb_rest_name":sb_rest_name},
+						dataType:"json",
+						success:function(msg)
+						{
+						    
+						   if($("#submit").val() == "Add Restaurant"){
+								if(msg[0].count > 0){
+									$("#sb_rest_name_error").html("This restaurant is already present");
+									$("#sb_rest_name_error").show();
+									retflag =false;
+									return retflag;
+								}
+								else{
+									retflag=true;
+								}
+							}
+							else{
+							  
+								retflag=true;
+								
+							}
+							
+							
+						}
+					});
+					
+			return retflag;
+		}
+	
+}
 function createTable(){
 		$('#idVendors').dataTable({
         "processing": true, //Feature control the processing indicator.
@@ -237,7 +291,6 @@ function edit(sb_hotel_restaurant_id, sb_hotel_restaurant_name, sb_hotel_restaur
 
 function changestatus(id,vendorstatus)
 {
-	
     $.ajax({
         url: "<?php echo site_url('admin/Restaurants/status_change');?>",
         type:"post",
@@ -335,7 +388,7 @@ function editVendor(sb_hotel_restaurant_id,sb_hotel_restaurant_name)
 
 function add()
 {
-	// alert("samrat");
+	
 	var sb_hotel_id =  $("#sb_hotel_id").val();
 	var sb_rest_name = $("#sb_rest_name").val();
 	var sb_rest_desc = $("#sb_rest_desc").val();
@@ -347,7 +400,21 @@ function add()
 		{
 			$("#sb_rest_name").html("Restaurant Name is compulsory.");
 			$("#sb_rest_name").show();
+			
 			return false ;
+		}
+		else{
+			$.ajax({
+						url: request_url,
+						type:"post",
+						data:{flag:'25',"sb_rest_name":sb_rest_name},
+						dataType:"json",
+						success:function(msg)
+						{
+							console.log(msg);
+						}
+					});
+			return false;
 		}
 		if(sb_rest_desc == "")
 		{
@@ -361,6 +428,7 @@ function add()
 	{
 		return true;
 	}
+	
 } 
 
 function readURL(input) {
