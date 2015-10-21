@@ -1,14 +1,13 @@
 <!-- Theme specfic js!-->
-<link href="<?php echo THEME_ASSETS;  ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
-<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>
-<link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
+<!--<link href="<?php echo THEME_ASSETS;  ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+-->
+<!--<link href="<?php echo THEME_ASSETS; ?>css/jquery-ui.css" rel="stylesheet" type="text/css">
 <link href="<?php echo THEME_ASSETS; ?>css/custom.css" rel="stylesheet" type="text/css">
-<!--<link href="<?php echo THEME_ASSETS?>css/calendar/fullcalendar.css" rel="stylesheet">
+<link href="<?php echo THEME_ASSETS?>css/calendar/fullcalendar.css" rel="stylesheet">
 <link href="<?php echo THEME_ASSETS?>css/calendar/fullcalendar.print.css" rel="stylesheet" media="print">
-<script src="<?php echo THEME_ASSETS?>js/moment.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/moment.min.js"></script>-->
 <script src="<?php echo THEME_ASSETS?>js/nicescroll/jquery.nicescroll.min.js"></script>
-<script src="<?php echo THEME_ASSETS?>js/calendar/fullcalendar.min.js"></script>-->
+<!--<script src="<?php echo THEME_ASSETS?>js/calendar/fullcalendar.min.js"></script>-->
         <style>
         	.row{
         		margin-right: 0px;
@@ -240,7 +239,7 @@
                 element = element + '<div class="popup-head">';
                 element = element + '<div class="popup-head-left">'+ name +'</div>';
                 element = element + '<div class="popup-head-right"><a href="javascript:close_popup(\''+ id +'\');">&#10005;</a></div>';
-                element = element + '<div style="clear: both"></div></div><div id="'+id+'_id"  class="popup-messages"></div><div style="padding-top:10px;" class="row"><div class="col-md-9"><input class="form-control" type="text"></div><div class="col-md-3"><button class="btn btn-primary btn-block">Send</button></div></div>';
+                element = element + '<div style="clear: both"></div></div><div id="'+id+'_id"  class="popup-messages"></div><div style="padding-top:10px;" class="row"><div class="col-md-9"><input class="form-control" id="'+id+'_msg"  type="text"></div><div class="col-md-3"><button class="btn btn-primary btn-block" onclick="postAnswer('+ id +');">Send</button></div></div>';
                 
                 document.getElementsByTagName("body")[0].innerHTML = document.getElementsByTagName("body")[0].innerHTML + element;  
         
@@ -274,6 +273,7 @@
             window.addEventListener("load", calculate_popups);
             
         </script>
+
 <div class="right_col" role="main">
                 <div class="">
 					<div class="page-title">
@@ -357,7 +357,7 @@ window.setInterval(function(){
 
 function function_name() {
 	for (var i = popups.length - 1; i >= 0; i--) {
-		console.log(popups[i]);
+		//console.log(popups[i]);
 		var guestName=$("#"+popups[i] + "_id").html();
 		makeActive(popups[i],guestName);
 	};
@@ -368,14 +368,16 @@ var guest_booking_id="";
 var guestName="";
 updateLeftPanel();
 
-function postAnswer()
+function postAnswer(guest_booking_id)
 {
-    var postMessage=$("#idPostMessage").val();
-	if((guest_booking_id == "")||(postMessage == "")){
-		console.log("Nothing To Submit");
+    //var postMessage=$("#idPostMessage").val();
+    var msgId = guest_booking_id+"_msg";
+	var postMessage= document.getElementById(msgId).value;
+    if((guest_booking_id == "")||(postMessage == "")){
+		//console.log("Nothing To Submit");
 	}
 	else{
-		console.log("Submit Message via ajax.");
+		//console.log("Submit Message via ajax.");
 		  $.ajax({
 					url: request_url,
 					type:"post",
@@ -384,15 +386,16 @@ function postAnswer()
 					async: "false",
 					success:function(msg){
 								var data = msg;
-								$("#idPostMessage").val("");
-								makeActive(guest_booking_id,guestName);
+								//$("#idPostMessage").val("");
+                                document.getElementById(msgId).value = "";
+								makeActive(guest_booking_id,"");
 							},
 					error:function(msg){
 						console.log("failuer");
 					}
 				});	
-		$("#idPostMessage").val("");
-		  $(".view-mail").scrollTop = $(".view-mail").scrollHeight;
+		//$("#idPostMessage").val("");
+		//$(".view-mail").scrollTop = $(".view-mail").scrollHeight;
 	}
 }
 function formatdate(date)
@@ -424,8 +427,8 @@ function makeActive(booking_id,name)
 	guestName=name;
 
 	//guestName=$("#"+booking_id+" .popup-head-left").html();
-	console.log("We need to get populate right panel now..");
-	console.log(guest_booking_id);
+	//console.log("We need to get populate right panel now..");
+	//console.log(guest_booking_id);
 	if(guest_booking_id == ""){
 		//$(".view-mail").html("<h1>Please Select Customer From Left Panel to Read Query.</h1>");
 		
@@ -441,7 +444,7 @@ function makeActive(booking_id,name)
 								var data = msg;
 								var html="";
 								$.each(data, function() {
-								console.log(data);
+								//console.log(data);
 									if(this.sender_type == "customer")
 									{
 										//html= html + "<div class='row'><div class='col-md-6 pull-left'>"+"<div style='width:30%;display:inline;float:left'> <b><br>"+guestName+"</b></div><div style='width:70%;float:right'><p class='triangle-right left'>"+this.forum_msg+"</p></div></div></div>";
@@ -455,7 +458,7 @@ function makeActive(booking_id,name)
 				          		});
 								$("#"+booking_id+">.popup-messages").html(html);
 								var scrollId = guest_booking_id+"_id";
-								console.log(scrollId);
+								//console.log(scrollId);
 								var objDiv = document.getElementById(scrollId);
 								//var objDiv =guestName=$("#"+booking_id+"_id");
 								objDiv.scrollTop = objDiv.scrollHeight;
@@ -522,3 +525,5 @@ function updateLeftPanel()
 
 	}
 </script>	
+<script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
+<script src="<?php echo THEME_ASSETS?>js/custom.js"></script>

@@ -229,6 +229,13 @@ class User_model extends CI_Model
 	}
 
 
+	public function logout($sb_hotel_guest_booking_id,$cdt_macid,$updateData)
+	{
+		$this->db->where('sb_hotel_guest_booking_id', $sb_hotel_guest_booking_id);
+		$this->db->where('cdt_macid', $cdt_macid);
+		$this->db->update('sb_guest_devicetoken', $updateData); 
+		return 1;
+	}
 
 }
 ?>	

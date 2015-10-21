@@ -2,7 +2,12 @@
     <div class="left_col scroll-view">
 
         <div class="navbar nav_title" style="border: 0;">
-            <a href="<?php echo site_url('admin/dashboard'); ?>" class="site_title"><i class="fa fa-paw"></i> <span><?php if(isset($title)) {echo $title;} ?></span></a>
+            <a href="<?php echo site_url('admin/dashboard'); ?>" class="site_title">
+                <!-- <i class="fa fa-paw"></i> -->
+                <img class="user-profile" src="<?php echo HOTEL_USER_PIC.'sebastian_logo.png';?>" height="50px" width="50px" style="
+                    border: 2px solid #FDF8F8; border-radius: 50%;
+                ">
+                <span><?php if(isset($title)) {echo $title;} ?></span></a>
         </div>
         <div class="clearfix"></div>
 		

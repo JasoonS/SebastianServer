@@ -69,7 +69,7 @@ class Chat_model extends CI_Model
 		}
 		else
 		{
-			$qry = "SELECT `cdt_token` AS sdt_token,`cdt_deviceType` AS sdt_deviceType FROM `sb_guest_devicetoken` WHERE `sb_hotel_guest_booking_id`= '$id' ";
+			$qry = "SELECT `cdt_token` AS sdt_token,`cdt_deviceType` AS sdt_deviceType FROM `sb_guest_devicetoken` WHERE `sb_hotel_guest_booking_id`= '$id' AND dnd = '0'";
 			// $qry = "SELECT `sdt_token`,`sdt_deviceType` FROM `sb_staff_devicetoken` WHERE `sb_hotel_user_id` = '$id'";
 		}
 

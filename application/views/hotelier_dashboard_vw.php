@@ -353,7 +353,7 @@ function guest() {
                     console.log(obj[i].flag);
                     if(obj[i].flag == 1)
                     {
-                        appenddata1 += "<li><p>"+obj[i].sb_guest_firstName+" "+obj[i].sb_guest_lastName+" Have visited</p></li>";
+                        appenddata1 += "<li><p>"+obj[i].sb_guest_firstName+" "+obj[i].sb_guest_lastName+" visited</p></li>";
                     }
                     else
                     {
@@ -396,7 +396,7 @@ function tasks() {
 	  	data: { hotel_id: hotel_id1 },// service_due_date : currentDate},
 	    url: '<?php echo base_url()?>'+"admin/Dashboard/currentTasks",
 	    success: function (data) {
-	   		//console.log(data);
+	   		console.log(data);
 	   		$('#myajax').empty();
 			var appenddata1 = "";
 	        var obj  = JSON.parse(data);

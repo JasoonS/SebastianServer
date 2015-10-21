@@ -237,5 +237,24 @@ class User extends CI_Controller
 		}
 	}
 
+	public function logout()
+	{
+		$sb_hotel_guest_booking_id 	= 	$this->input->post('sb_hotel_guest_booking_id');
+		$cdt_macid 		= 	$this->input->post('cdt_macid');
+
+		if($cdt_macid == '' || $sb_hotel_guest_booking_id == '')
+		{
+			response_fail("Please insert all the fields");
+		}
+		else
+		{
+			$updateData = array(
+					"cdt_token" => "",				
+				);
+			$data = $this->User_model->logout($sb_hotel_guest_booking_id,$cdt_macid,$updateData);
+			response_ok();
+		}
+	}
+
 	
 }	

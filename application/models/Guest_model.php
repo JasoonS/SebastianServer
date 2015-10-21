@@ -256,6 +256,7 @@ class Guest_model extends CI_Model
     {
 		$this->db->select('cdt_token,cdt_deviceType');
 		$this->db->where('sb_hotel_guest_booking_id',$booking_id);
+		$this->db->where('dnd', '0');
 		$query=$this->db->get('sb_guest_devicetoken');
 		return $query->result_array();
 		

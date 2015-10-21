@@ -438,7 +438,7 @@ class User extends CI_Controller
 				else{
 					$message = $this->load->view('email/accountcreation',$data,TRUE);
 				}	
-				sendMail('no-reply@sebastian.com',$data[sb_hotel_useremail],"Administrator Account Creation",$message);
+				sendMail('no-reply@sebastian.com',$data["sb_hotel_useremail"],"Administrator Account Creation",$message);
 				//For Time being we are sending an email to developer.
 				//sendMail('no-reply@sebastian.com',"kalyani.joshi@eeshana.com","Administrator Account Creation",$message);
 				if($result > '0')

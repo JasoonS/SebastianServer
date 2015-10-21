@@ -34,7 +34,7 @@ class Feedback extends CI_Controller
 		$service_feedback = $this->input->post('service_feedback');
 		$special_info = $this->input->post('special_info');
 		$sb_hotel_id = $this->input->post('sb_hotel_id');
-		$guest_booking_id = $this->input->post('guest_booking_id');
+		$guest_booking_id = $this->input->post('sb_hotel_guest_booking_id');
 		if($sb_hotel_id == '' || $guest_booking_id == '')
 		{
 			response_fail("Hotel id or Guest Booking ID is missing");
