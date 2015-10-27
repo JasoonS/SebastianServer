@@ -384,9 +384,39 @@ Class Services_model extends CI_Model
     * return int
 	*/
 	public function create_child_services($data){
-		$this->db->insert_batch('sb_hotel_child_services',$data);
+		//print_r($data);die();
+		$ids = array();
+		for ($i=0; $i < count($data) ; $i++) { 
+			$this->db->insert('sb_hotel_child_services',$data[$i]);
+			array_push($ids, $this->db->insert_id());
+		}
+		$hotel_ids = $this->getallhotels();
+		$hotel_services_relation = array();
+		$sb_parent_service_id = $data[0]['sb_parent_service_id'];
+		for ($i=0; $i < count($hotel_ids); $i++) { 
+			for ($j=0; $j < count($ids); $j++) { 
+				$tmp = array(
+					"sb_hotel_id" => $hotel_ids[$i]['sb_hotel_id'],
+					"sb_child_service_id" => $ids[$j],
+					"sb_parent_service_id" => $sb_parent_service_id,
+					"sb_is_service_in_use" => 1
+					);
+				array_push($hotel_services_relation, $tmp);
+			}
+		}
+		//print_r($hotel_services_relation);
+		$this->db->insert_batch('sb_hotel_service_map',$hotel_services_relation);
+		
 		return 1;
 	}
+
+	public function getallhotels()
+	{
+		$qry = "SELECT `sb_hotel_id` FROM `sb_hotels`";
+		$query = $this->db->query($qry);
+		return $query->result_array();
+	}
+
 	/* Method To get no of sub child services with given name(For validation)
 	* @params string,int
     * return int

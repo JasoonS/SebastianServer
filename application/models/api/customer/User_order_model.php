@@ -22,7 +22,7 @@ class User_order_model extends CI_Model
 				for ($i=0; $i < count($data) ; $i++)
 				 { 
 				 	$sb_hotel_id = $data[$i]['sb_hotel_id'];
-				 	$IMP_PATH = base_url().SUBCHILD_SERVICE_PIC."/$sb_hotel_id/";
+				 	$IMP_PATH = SUBCHILD_SERVICE_PIC;
 				 	$sb_hotel_requst_ser_id = $data[$i]['sb_hotel_requst_ser_id'];
 					$sql = "SELECT a.`order_placed_id`, a.`sb_child_service_id`, 
 							a.`sub_child_services_id`, a.`quantity`, a.`price`,
