@@ -256,5 +256,55 @@ class User extends CI_Controller
 		}
 	}
 
+	public function hotel_customer()
+	{
+		// print_r($_POST); die();	
+		$sb_guest_firstName = 	$this->input->post('sb_guest_firstName');
+		$sb_guest_lastName 	= 	$this->input->post('sb_guest_lastName');
+		$sb_guest_email 	= 	$this->input->post('sb_guest_email');
+		$sb_hotel_id 		= 	$this->input->post('sb_hotel_id');
+
+		if($sb_hotel_id == '' || $sb_guest_email == '')
+		{
+			response_fail("Please insert all the fields");
+		}
+
+		$cdt_token			= 	$this->input->post('cdt_token');
+		$cdt_deviceType		=   $this->input->post('cdt_deviceType');
+		$cdt_macid			= 	$this->input->post('cdt_macid');
+
+		$check_reservation =  $this->User_model->check_reservation($sb_guest_email, $sb_hotel_id);
+		if(count($check_reservation)>0)
+		{
+			$sb_guest_reservation_code = $check_reservation[0]['sb_guest_reservation_code'];
+			$this->login($sb_guest_reservation_code,$cdt_token,$cdt_deviceType,$cdt_macid);
+		}
+		else
+		{
+			$date = date_create();
+		 	$sb_guest_reservation_code = $sb_hotel_id.date_timestamp_get($date).rand();
+		 	$insert_arr = array(
+				"sb_guest_firstName" =>$sb_guest_firstName,
+				"sb_guest_lastName"=>$sb_guest_lastName,
+				"sb_guest_email" =>$sb_guest_email,
+				"sb_hotel_id" =>$sb_hotel_id,
+				"sb_guest_reservation_code" =>$sb_guest_reservation_code
+				);
+			$sb_hotel_guest_booking_id = $this->User_model->register_visitor($insert_arr);
+			
+			
+			if($sb_hotel_guest_booking_id != 0)
+			{
+				$data = $this->login($sb_guest_reservation_code,$cdt_token,$cdt_deviceType,$cdt_macid);
+				response_ok($data);
+			}
+			else
+			{
+				response_fail("ErrorCode#2,Something Went Wrong");
+			}
+		}
+		
+	}
+
 	
 }	

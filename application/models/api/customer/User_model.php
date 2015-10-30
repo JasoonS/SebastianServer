@@ -15,7 +15,7 @@ class User_model extends CI_Model
 	function login($sb_guest_reservation_code , $cdt_token, $cdt_deviceType ,$cdt_macid)
 	{
 		$qry = "SELECT * FROM `sb_hotel_guest_bookings` 
-				JOIN `sb_hotel_guest_reservation_attributes`
+				LEFT JOIN `sb_hotel_guest_reservation_attributes`
 				ON `sb_hotel_guest_reservation_attributes`.`sb_guest_reservation_code` = `sb_hotel_guest_bookings`.`sb_guest_reservation_code`
 				where `sb_hotel_guest_bookings`.`sb_guest_reservation_code` = '$sb_guest_reservation_code'";
 				//AND `sb_hotel_guest_reservation_attributes`.sb_guest_actual_check_out ='0000-00-00 00:00:00'";
@@ -25,6 +25,7 @@ class User_model extends CI_Model
 		for ($i=0; $i < count($custData); $i++) { 
 			array_push($roomNumbers,$custData[$i]['sb_guest_allocated_room_no']);
 		}*/
+		
 		if(count($custData)>0)
 		{
 			$sb_hotel_id =$custData[0]['sb_hotel_id'];
@@ -78,13 +79,24 @@ class User_model extends CI_Model
 			}
 			$this->guest_deviceToken($cdt_token, $cdt_deviceType ,$cdt_macid, $custData[0]['sb_hotel_guest_booking_id']);
 			unset($custData[0]['sb_guest_terms']);
-			$custData[0]['sb_guest_allocated_room_no'] = $roomNumbers;
-			$result = array(
-				"userInfo" => $custData[0],
-				"services" => $service,
-				"hotelInfo" => $hotelInfo,
-				"hasBooked" => "1"
-				);
+			if(count($roomNumbers)>0)
+			{
+				$custData[0]['sb_guest_allocated_room_no'] = $roomNumbers;
+				$result = array(
+					"userInfo" => $custData[0],
+					"services" => $service,
+					"hotelInfo" => $hotelInfo,
+					"hasBooked" => "1"
+					);
+			}
+			else
+			{
+				$result = array(
+					"services" => $service,
+					"hotelInfo" => $hotelInfo,
+					"hasBooked" => "0"
+					);
+			}
 			return $result;
 		}
 		else
@@ -237,5 +249,18 @@ class User_model extends CI_Model
 		return 1;
 	}
 
+	public function register_visitor($insert_arr)
+	{
+		$val = $this->db->insert('sb_hotel_guest_bookings',$insert_arr);
+		if ($val) 
+		{
+			$sb_hotel_guest_booking_id = $this->db->insert_id();
+			return $sb_hotel_guest_booking_id;
+		}
+		else
+		{
+			return 0;
+		}
+	}
 }
 ?>	
