@@ -58,7 +58,7 @@ class Tasks_model extends CI_Model
 				ON hrs.sb_hotel_guest_booking_id = b.sb_hotel_guest_booking_id
 				WHERE hrs.sb_hotel_id = '$sb_hotel_id'
 				AND hss.sb_hotel_service_status != 'completed'
-				AND hrs.sb_parent_service_id ='$sb_parent_service_id'
+				AND hrs.sb_parent_service_id IN ($sb_parent_service_id)
 				AND hss.sb_hotel_ser_start_date BETWEEN '$weekdates[0]' AND '$weekdates[1]'
 				ORDER BY hss.sb_hotel_ser_start_date DESC, hss.sb_hotel_ser_start_time DESC;";
 		

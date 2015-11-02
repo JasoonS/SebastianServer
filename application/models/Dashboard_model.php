@@ -10,7 +10,7 @@ Class Dashboard_model extends CI_Model
 	
 	public function weekly_tasks($sb_hotel_id)
 	{
-		$qry = "SELECT hrs.sb_hotel_requst_ser_id,hrs.sb_guest_allocated_room_no,hrs.sb_hotel_ser_reqstd_on, 
+		$qry = "SELECT distinct(hrs.sb_hotel_requst_ser_id),hrs.sb_guest_allocated_room_no,hrs.sb_hotel_ser_reqstd_on, 
 				hss.sb_hotel_ser_assgnd_to_user_id, hss.sb_hotel_ser_start_date as service_due_date,  hss.sb_hotel_ser_start_time as service_due_time,
 				hss.sb_hotel_ser_finished_date as service_done_date,  hss.sb_hotel_ser_finished_time as service_done_time,
 				hss.sb_hotel_service_status, IF(hrs.order_details = '0','request', 'order') as service_type,
@@ -24,7 +24,7 @@ Class Dashboard_model extends CI_Model
 				AND hss.sb_hotel_service_status = 'pending'
 				OR  hss.sb_hotel_service_status = 'accepted'
 				ORDER BY hss.sb_hotel_ser_start_date ASC, hss.sb_hotel_ser_start_time ASC;";
-		
+		//echo $qry;die;
 		$query = $this->db->query($qry);
 		$data = $query->result_array();
 		
@@ -159,10 +159,11 @@ Class Dashboard_model extends CI_Model
 			$users[$i]['room_no'] = implode(",", $rooms);
 		}
 
-		$qry = "SELECT `visitor_firstName` as sb_guest_firstName,`visitor_lastName` as sb_guest_lastName,
+		/*$qry = "SELECT `visitor_firstName` as sb_guest_firstName,`visitor_lastName` as sb_guest_lastName,
 				DATE(`updated_on`)as sb_guest_check_in_date, true as flag FROM `sb_visitor` HAVING sb_guest_check_in_date <= '$currentDate'";
 		$query = $this->db->query($qry);
-		$visitor = $query->result_array();
+		$visitor = $query->result_array();*/
+		$visitor = array();
 		$finaldata = array_merge($users,$visitor);
 		for ($i=0; $i < count($finaldata); $i++) { 
 			for ($j=0; $j < count($finaldata) ; $j++) { 

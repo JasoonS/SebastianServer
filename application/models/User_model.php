@@ -70,9 +70,9 @@ Class User_model extends CI_Model
 	 */
 	function get_user_info($user_id)
 	{
-		$this->db->select('sb_hotel_users.sb_hotel_user_id,sb_hotel_users.sb_hotel_id,sb_hotel_username,sb_hotel_name');
+		$this->db->select('distinct(sb_hotel_user_service_access_map.sb_parent_service_id),sb_hotel_users.sb_hotel_user_id,sb_hotel_users.sb_hotel_id,sb_hotel_username,sb_hotel_name');
 		$this->db->select('sb_hotel_useremail,sb_hotel_user_pic,sb_hotel_user_type');
-		$this->db->select('sb_hotel_user_shift_from,sb_hotel_user_shift_to,sb_staff_designation_name,sb_parent_service_name,sb_hotel_user_service_access_map.sb_parent_service_id');
+		$this->db->select('sb_hotel_user_shift_from,sb_hotel_user_shift_to,sb_staff_designation_name,sb_parent_service_name');
 		$this->db->from('sb_hotel_users');
 		$this->db->join('sb_hotels','sb_hotels.sb_hotel_id=sb_hotel_users.sb_hotel_id','left');
 		$this->db->join('sb_hotel_staff_designation','sb_hotel_staff_designation.sb_staff_designation_id=sb_hotel_users.sb_staff_designation_id','left');
@@ -81,8 +81,9 @@ Class User_model extends CI_Model
 		
 		$this->db->where('sb_hotel_users.sb_hotel_user_id',$user_id);
 		$query = $this->db->get();
+		//echo $this->db->last_query();die;
 		if($query->num_rows() > 0)
-			return $row = $query->row();
+			return $row = $query->result();
 		else
 			return FALSE;
 	}

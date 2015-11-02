@@ -55,6 +55,14 @@
 #myGuest a{
     color: #1995DC;
 }
+
+#roommember {
+    cursor:pointer;
+    cursor:hand;
+}
+#roommember:hover {
+        background-color: #E4E4E4;
+}
 </style>
 
 <div class="right_col" role="main">
@@ -97,110 +105,11 @@
                                     <p class="temp">...</p>
                                     <p class="wind">...</p>
                                   </div>
-                              </li><!--
-                                <li id="col-3">
-                                  <div class="col-a">
-                                    <p class="img"></p>
-                                    <p class="description">...</p>
-                                  </div>
-                                  <div class="col-b">
-                                    <p class="sysdt">...</p>
-                                    <p class="temp">...</p>
-                                    <p class="wind">...</p>
-                                  </div>
                               </li>
-                                <li id="col-4">
-                                  <div class="col-a">
-                                    <p class="img"></p>
-                                    <p class="description">...</p>
-                                  </div>
-                                  <div class="col-b">
-                                    <p class="sysdt">...</p>
-                                    <p class="temp">...</p>
-                                    <p class="wind">...</p>
-                                  </div>
-                              </li>
-                                <li id="col-5">
-                                  <div class="col-a">
-                                    <p class="img"></p>
-                                    <p class="description">...</p>
-                                  </div>
-                                  <div class="col-b">
-                                    <p class="sysdt">...</p>
-                                    <p class="temp">...</p>
-                                    <p class="wind">...</p>
-                                  </div>
-                              </li>
-                                <li id="col-6">
-                                  <div class="col-a">
-                                    <p class="img"></p>
-                                    <p class="description">...</p>
-                                  </div>
-                                  <div class="col-b">
-                                    <p class="sysdt">...</p>
-                                    <p class="temp">...</p>
-                                    <p class="wind">...</p>
-                                  </div>
-                              </li>-->
                               </ul>
                         </div>
                     </div>
                 </div>
-                <!-- <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                    
-                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                        <!-- Indicators --
-                       <!--  <ol class="carousel-indicators">
-                          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                          <li data-target="#myCarousel" data-slide-to="1"></li>
-                          <li data-target="#myCarousel" data-slide-to="2"></li>
-                        </ol> --
-
-                        <!-- Wrapper for slides --
-                        <div class="carousel-inner" role="listbox">
-                          <div class="item active">
-                            <div class="tile-stats">
-                                
-                                <div class="count">$</div>
-
-                                <h3>CURRENCY</h3>
-                                <p id="usd"></p>
-                            </div>
-                          </div>
-
-                          <div class="item">
-                            <div class="tile-stats">
-                                
-                                <div class="count">£</div>
-
-                                <h3>CURRENCY</h3>
-                                <p id="gbp"></p>
-                            </div>
-                          </div>
-                        
-                          <div class="item">
-                            <div class="tile-stats">
-                                
-                                <div class="count">₹</div>
-
-                                <h3>CURRENCY</h3>
-                                <p id="inr"></p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Left and right controls --
-                        <!-- <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                          <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                          <span class="sr-only">Next</span>
-                        </a> --
-                      
-                    </div>
-                </div> -->
                 <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <div class="tile-stats">
                         <h3>Currency Converter</h3>
@@ -291,6 +200,94 @@
 	</div>
 </div>
 
+
+<div class="edit_elementName">
+    <div id="room_pop" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="width:35%;">
+            <!-- Modal content-->
+            <div class="modal-content">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                          <h4>Allocate Roomnumber</h4><hr>
+                            <input type="hidden" id='allote_sb_hotel_guest_booking_id' name='allote_sb_hotel_guest_booking_id' value=''>
+                            <div class="row">
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                  <label for="no_rooms">Number of Rooms to allote</label>
+                                  <select class="form-control" id="no_rooms" name="no_rooms" onchange="no_rooms_change()">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div id="roomrow" class="row">
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                  <label for="room_1">Room 1</label>
+                                  <input required type="text" class="form-control myroom" id="room_1" name="room_1" onkeydown="return event.keyCode!=32">
+                                </div>
+                              </div>
+                            </div>
+                            <hr>
+                            <div id="roomrow" class="row">
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                     <button type="submit" onclick="submit_room()" id="submit_room" class="btn btn-block btn-primary">Allote</button>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                   
+                    function submit_room(){
+                            document.getElementById("submit_room").disabled = true;
+                            var sb_hotel_guest_booking_id = document.getElementById('allote_sb_hotel_guest_booking_id').value;
+                            var no_rooms = document.getElementById('no_rooms').value;
+                            var room_names = [];
+                            var empty_value = 0;
+                            for (var i = 1; i <= no_rooms; i++) {
+                                var r_name = document.getElementById("room_"+i+"").value;
+                                if(r_name == "")
+                                    empty_value++;
+                                room_names.push(r_name);
+                            };
+                            //console.log(room_names);
+                            if(empty_value == 0)
+                            {
+                                $.ajax({
+                                    url: '<?php echo base_url()?>'+"admin/HotelRooms/room_allocate",
+                                    //dataType: "jsonp",
+                                    type:'post',
+                                    data: {sb_hotel_guest_booking_id: sb_hotel_guest_booking_id,room_names:room_names},
+                                    success: function(response) {
+                                        
+                                        if (response == 1) {
+                                            guest();
+                                            alert("Rooms Allocated successfully");
+                                            $('#room_pop').modal('hide');
+                                        }
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                alert("Please Enter Room Number(s)");
+                                document.getElementById("submit_room").disabled = false;
+                            }
+                        }
+                    </script>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- bootstrap progress js -->
 <script src="<?php echo THEME_ASSETS;  ?>js/progressbar/bootstrap-progressbar.min.js"></script>
 <script src="<?php echo THEME_ASSETS;  ?>js/nicescroll/jquery.nicescroll.min.js"></script>
@@ -300,6 +297,39 @@
 <script src="<?php echo THEME_ASSETS;  ?>js/velocity.ui.js"></script>
 
 <script type="text/javascript">
+
+var sb_hotel_guest_booking_id;
+function allote_rooms(sb_hotel_guest_booking_id)
+{
+    document.getElementById('allote_sb_hotel_guest_booking_id').value = sb_hotel_guest_booking_id;
+    document.getElementById('no_rooms').value = '1';
+    document.getElementById("submit_room").disabled = false;
+    no_rooms_change();
+    $('#room_pop').modal('show');
+    
+}
+
+function getInvoice(sb_hotel_guest_booking_id) {
+    //alert(sb_hotel_guest_booking_id);
+    url = '<?php echo base_url()?>'+"admin/HotelRooms/details/"+sb_hotel_guest_booking_id;
+    window.location = url;
+    ///admin/HotelRooms/details/10
+}
+
+function no_rooms_change () {
+    var rooms = document.getElementById('no_rooms').value;
+    $('#roomrow').empty();
+    var add_room = '';
+    for (var i = 1; i <= rooms; i++) {
+        add_room += "<div class='col-md-4'><div class='form-group'><label for='room_"+i+"'>Room "+i+"</label><input onkeydown='return event.keyCode!=32' required type='text' class='form-control myroom' id='room_"+i+"' name='room_"+i+"'></div></div>";   
+    }
+    $("#roomrow").append(add_room);
+}
+
+/*$( "#no_rooms" ).change(function() {
+    
+});*/
+
 function getRate(){
     var to = document.getElementById('to').value;
     var from = document.getElementById('from').value;
@@ -325,12 +355,12 @@ setInterval(function() {
 }, 2000);
 tasks();
 guest();
-// function getFormattedPartTime(partTime){
-//         if (partTime<10)
-//            return "0"+partTime;
-//         return partTime;
-// }
+window.setInterval(function(){
+  /// call your function here
+  guest();
+}, 5400);
 function guest() {
+
     var fullDate = new Date();
     var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) : '0' + (fullDate.getMonth()+1);
     var currentDate =fullDate.getFullYear()+"-"+ twoDigitMonth + "-" +fullDate.getDate();
@@ -341,29 +371,34 @@ function guest() {
         data: { hotel_id: hotel_id1, currentDate:currentDate },// service_due_date : currentDate},
         url: '<?php echo base_url()?>'+"admin/Dashboard/currentGuest",
         success: function (data) {
-            console.log(data);
+            //alert("Hi");
+            //console.log(data);
             $('#myGuest').empty();
             var appenddata1 = "";
             var obj  = JSON.parse(data);
             if(obj.length > 0)
             {
-                
+                //console.log("update");
                 for(var i = 0; i < obj.length; i++)
                 {
-                    console.log(obj[i].flag);
+                    //console.log(obj[i].flag);
                     if(obj[i].flag == 1)
                     {
                         appenddata1 += "<li><p>"+obj[i].sb_guest_firstName+" "+obj[i].sb_guest_lastName+" visited</p></li>";
                     }
                     else
                     {
-                        appenddata1 += "<li><p>"+obj[i].sb_guest_firstName+" "+obj[i].sb_guest_lastName+" <span style='float:right;'> ";
+                        //appenddata1 += "<li><p>"+obj[i].sb_guest_firstName+" "+obj[i].sb_guest_lastName+" <span style='float:right;'> ";
                         if(obj[i].room_no != "")
+                        {
+                            appenddata1 += "<li id='roommember' onclick='getInvoice("+obj[i].sb_hotel_guest_booking_id+")'><p>"+obj[i].sb_guest_firstName+" "+obj[i].sb_guest_lastName+" <span style='float:right;'> ";
                             appenddata1 += " Room No : "+obj[i].room_no+"</span></p></li>";
+                        }
                         else
                         {
-                            var addroomurl= '<?php echo base_url()?>'+"admin/HotelRooms/Roomcheckin/"+obj[i].sb_hotel_guest_booking_id+"/"+obj[i].sb_guest_rooms_alloted;
-                            appenddata1 += " <a href='"+addroomurl+"'>Please check for rooms</a></span></p></li>";
+                            appenddata1 += "<li><p>"+obj[i].sb_guest_firstName+" "+obj[i].sb_guest_lastName+" <span style='float:right;'> ";
+                            //var addroomurl= '<?php echo base_url()?>'+"admin/HotelRooms/Roomcheckin/"+obj[i].sb_hotel_guest_booking_id+"/"+obj[i].sb_guest_rooms_alloted;
+                            appenddata1 += " <a onclick='allote_rooms("+obj[i].sb_hotel_guest_booking_id+")'>Please check for rooms</a></span></p></li>";
                         }
                     }
                 }
@@ -382,21 +417,15 @@ function guest() {
 }
 function tasks() {
 	hotel_id1 = <?php echo $this->session->userdata('logged_in_user')->sb_hotel_id?>;
-	//var date = new Date();
-    //var currentDate = date.getFullYear() + "-" + getFormattedPartTime(date.getMonth()) + "-" + getFormattedPartTime(date.getDate()) + " " +  getFormattedPartTime(date.getHours()) + ":" + getFormattedPartTime(date.getMinutes()) + ":" + getFormattedPartTime(date.getSeconds());
-
-	// var fullDate = new Date();
-	// var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) : '0' + (fullDate.getMonth()+1);
-	// var currentDate =fullDate.getFullYear()+"-"+ twoDigitMonth + "-" +fullDate.getDate();
-	//alert(hotel_id1);
-	//formData = {hotel_id:"ravi"}; //Array 
+	
 	$.ajax({
 	    type:'post',
 	    //contentType: 'application/json; charset=utf-8',
 	  	data: { hotel_id: hotel_id1 },// service_due_date : currentDate},
 	    url: '<?php echo base_url()?>'+"admin/Dashboard/currentTasks",
 	    success: function (data) {
-	   		console.log(data);
+	   		//console.log(data);
+             //alert("Akshay");
 	   		$('#myajax').empty();
 			var appenddata1 = "";
 	        var obj  = JSON.parse(data);
@@ -439,7 +468,8 @@ function tasks() {
                     if(status=="accepted")
                     {
                         appenddata1 += "<p>Accepted by : "+obj[i].accepted_by;
-                        appenddata1 +="</p></p></li>";
+                        //appenddata1 +="</p>";//</p></li>";
+                        appenddata1 +="<span style='float:right;'><a onclick='action("+sb_hotel_requst_ser_id+")'><i class='fa fa-binoculars'></i></a></span></p></li>";
                     }
                     else
                     {
@@ -500,62 +530,6 @@ month[9] = "October";
 month[10] = "November";
 month[11] = "December";
 
-/*
-var API = "http://api.openweathermap.org/data/2.5/weather?q=Pune";
-//var API = "http://api.openweathermap.org/data/2.5/weather?q=Pune"
-$.ajax({
-    type: "get",
-    enctype: 'multipart/form-data',
-    contentType: false,
-    processData: false,         
-    url: API,
-}).done(function(msg){
-
-    temp = msg.main.temp - 272.15;  
-    temp_min = msg.main.temp_min - 272.15;
-    temp_max = msg.main.temp_max - 272.15;
-    
-    sysdt = new Date(msg.dt * 1000);
-    sunrise = new Date( msg.sys.sunrise * 1000);
-    sunset = new Date( msg.sys.sunset * 1000);
-    
-    $("#col-0 .img").html("<img src=images/64x64/"+msg.weather[0].icon+".png>");
-    $("#col-0 .wind").html("Wind "+msg.wind.speed +"m/s " + msg.wind.deg + "&deg;");    
-    $("#col-0 .description").html(msg.weather[0].description);
-    $("#col-0 .temp").html(Math.round(temp) + "&deg;C");
-    $("#col-0 .sysdt").html(sysdt.getDate() + " " +month[sysdt.getMonth()]);
-});
-*/
-// var API = "http://api.openweathermap.org/data/2.5/forecast/daily?q=Pune&cnt=3&mode=json";
-// //var API = "http://api.openweathermap.org/data/2.5/weather?q=Pune"
-// $.ajax({
-//     type: "get",
-//     enctype: 'multipart/form-data',
-//     contentType: false,
-//     processData: false,         
-//     url: API,
-// }).done(function(msg){
-//     var weather_description = new Array();
-
-//     var i = 0;
-//     while(i <= 3){
-//         temp_min = msg.list[i].temp.min - 272.15;
-//         temp_max = msg.list[i].temp.max - 272.15;
-//         temp = msg.list[i].temp.day - 272.15;
-//         //console.log(msg.list[i].weather[0].icon);
-
-//         sysdt = new Date(msg.list[i].dt * 1000);
-        
-//         $("#col-"+(i)+" .sysdt").html(sysdt.getDate()+ " "+ month[sysdt.getMonth()]);
-//         $("#col-"+(i)+" .temp").html(Math.round(temp) + "&deg;C");      
-//         $("#col-"+(i)+" .temp-min").html(Math.round(temp_min));
-//         $("#col-"+(i)+" .description").html(msg.list[i].weather[0].description.toLowerCase());
-//         $("#col-"+(i)+" .img").html("<img src=\"../assets/images/64x64/"+msg.list[i].weather[0].icon+".png\">");
-//         $("#col-"+(i)+" .wind").html(" wind "+msg.list[i].speed + "m/s "+ msg.list[i].deg + "&deg;");
-        
-//         i++;
-//     }
-// });
 
 $('.bxslider').bxSlider({
   auto: true,
@@ -564,43 +538,7 @@ $('.bxslider').bxSlider({
 </script>
 
 <script type="text/javascript">
-/*
-var API = "http://api.fixer.io/latest?base=USD&symbols=TRY";
-$.ajax({
-    type: "get",
-    enctype: 'multipart/form-data',
-    contentType: false,
-    processData: false,         
-    url: API,
-}).done(function(msg){
-    //console.log(msg.rates.TRY);
-    document.getElementById('usd').innerHTML = msg.rates.TRY + " TRY equals  to 1$.";
-});
 
-var API = "http://api.fixer.io/latest?base=GBP&symbols=TRY";
-$.ajax({
-    type: "get",
-    enctype: 'multipart/form-data',
-    contentType: false,
-    processData: false,         
-    url: API,
-}).done(function(msg){
-    //console.log(msg.rates.TRY);
-    document.getElementById('gbp').innerHTML = msg.rates.TRY + " TRY equals  to 1£.";
-});
-
-var API = "http://api.fixer.io/latest?base=INR&symbols=TRY";
-$.ajax({
-    type: "get",
-    enctype: 'multipart/form-data',
-    contentType: false,
-    processData: false,         
-    url: API,
-}).done(function(msg){
-    //console.log(msg.rates.TRY);
-    document.getElementById('inr').innerHTML = msg.rates.TRY + " TRY equals to 1₹.";
-});
-*/
 </script>
 
 <script>
@@ -616,9 +554,7 @@ function getLocation() {
 function showPosition(position) {
     
     var API = "http://api.openweathermap.org/data/2.5/forecast/daily?lat="+ position.coords.latitude +"&lon=" + position.coords.longitude+"&cnt=3&mode=json&APPID=79eaea6da847dd6943e9b63374fa8dfa";
-    //console.log(API);
-    //var API = "http://api.openweathermap.org/data/2.5/forecast/daily?q=Pune&cnt=3&mode=json";
-    //var API = "http://api.openweathermap.org/data/2.5/weather?q=Pune"
+   
     $.ajax({
         type: "get",
         enctype: 'multipart/form-data',
@@ -651,12 +587,3 @@ function showPosition(position) {
     // "<br>Longitude: " + position.coords.longitude;  
 }
 </script>
-
-<!-- <footer>
-    <div class="">
-        <p class="pull-right"><?php echo $title; ?> from <a>Eeshana</a>. |
-            <span class="lead"> <i class="fa fa-paw"></i> <?php echo $title; ?></span>
-	    </p>
-    </div>
-    <div class="clearfix"></div>
-</footer>

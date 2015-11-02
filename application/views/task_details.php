@@ -15,7 +15,7 @@
             <?php $task_details = $task_details[0];?>
 		</div>
 	</div>
-
+    
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
@@ -68,7 +68,7 @@
                                 <select name="sb_hotel_ser_assgnd_to_user_id" id="sb_hotel_ser_assgnd_to_user_id" class="form-control">
                                     <option value="0">Select</option>
                                     <?php for ($i=0; $i <count($staff); $i++) { ?>
-                                    <option value="<?php echo $staff[$i]['sb_hotel_user_id']?>"><?php echo $staff[$i]['sb_hotel_username']?></option>
+                                    <option <?php if($task_details['sb_hotel_ser_assgnd_to_user_id'] == $staff[$i]['sb_hotel_user_id']) echo "selected";?> value="<?php echo $staff[$i]['sb_hotel_user_id']?>"><?php echo $staff[$i]['sb_hotel_username']?></option>
                                     <?php }?>
                                 </select>
                             </div>
@@ -80,7 +80,7 @@
                                 <!-- <div class="x_panel"> -->
                                     <div class="x_content bs-example-popovers">
                                         <div class="alert alert-danger alert-dismissible fade in" role="alert">
-                                            <strong>You dont have staff for this Service!</strong> Please click here to manage staff.
+                                            <strong>You dont have staff for this Service!</strong> <a href="<?php echo base_url()?>admin/user/type/hotel-admin">Please click here to manage staff</a>.
                                         </div>
                                     </div>
                                 <!-- </div> -->
@@ -96,8 +96,9 @@
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                <button type="button" class="btn btn-success" onclick="accept()">Submit</button>
+                                <button <?php if($task_details['sb_hotel_service_status'] == 'accepted') echo "disabled"?> type="button" class="btn btn-success" onclick="accept()">Accept</button>
                                 <button type="button" class="btn btn-warning" onclick="reject()">Reject</button>
+                                <button <?php if($task_details['sb_hotel_service_status'] != 'accepted') echo "disabled"?> type="button" class="btn btn-warning" onclick="complete()">Complete</button>
                                 <button type="button" class="btn btn-primary" onclick="back()">Back</button>                                
                             </div>
                         </div>
@@ -144,6 +145,29 @@
             document.getElementById("sb_hotel_ser_start_time").value = currentTime;
             document.getElementById("sb_hotel_ser_start_date").value = currentDate;
             document.getElementById("action").value = "accept";
+            document.getElementById("task_form").submit();
+        }
+        else
+        {
+            alert("Please select Staff");
+            $('#sb_hotel_ser_assgnd_to_user_id').addClass('parsley-error');
+            document.getElementById("sb_hotel_ser_assgnd_to_user_id").focus();
+            document.getElementById("sb_hotel_ser_assgnd_to_user_id").select();
+        }
+    }
+
+    function complete() {
+        var sb_hotel_ser_assgnd_to_user_id = $('#sb_hotel_ser_assgnd_to_user_id').val();
+        if(sb_hotel_ser_assgnd_to_user_id != '0' && sb_hotel_ser_assgnd_to_user_id > 0)
+        {
+            //var d = new Date();
+            //var currentTime = moment(d).format('hh:mm:ss');
+            //var currentDate = moment().format("YYYY-MM-DD");
+
+
+            //document.getElementById("sb_hotel_ser_start_time").value = currentTime;
+            //document.getElementById("sb_hotel_ser_start_date").value = currentDate;
+            document.getElementById("action").value = "complete";
             document.getElementById("task_form").submit();
         }
         else

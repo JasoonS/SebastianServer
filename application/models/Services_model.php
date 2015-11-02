@@ -158,14 +158,15 @@ Class Services_model extends CI_Model
 	 */
 	function get_hotel_child_services_by_parent_service($hotel_id,$sb_parent_service_id)
 	{
-		$this->db->select('sb_hotel_child_services.sb_child_service_id,sb_child_servcie_name,sb_is_service_in_use,sb_hotel_service_map_id');
+		$this->db->select('sb_hotel_child_services.sb_child_service_id,sb_hotel_child_services.sb_parent_service_id,sb_child_servcie_name,sb_is_service_in_use,sb_hotel_service_map_id');
 		$this->db->where('sb_hotel_id',$hotel_id);
-		$this->db->where('sb_hotel_child_services.sb_parent_service_id',$sb_parent_service_id);
+		//$this->db->where('sb_hotel_child_services.sb_parent_service_id',$sb_parent_service_id);
+		$this->db->where_in('sb_hotel_child_services.sb_parent_service_id',$sb_parent_service_id);
 		$this->db->from('sb_hotel_service_map');
 		$this->db->join('sb_hotel_child_services','sb_hotel_child_services.sb_child_service_id = sb_hotel_service_map.sb_child_service_id');
 		$this->db->group_by('sb_hotel_child_services.sb_child_service_id');
 		$query = $this->db->get();
-		
+		// /echo $this->db->last_query();
 		return $query->result_array();
 	}
 	/* Method Remove Previous services assignment and make new services assignment for hotel user

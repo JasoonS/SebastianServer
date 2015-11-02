@@ -74,6 +74,13 @@ class User extends CI_Controller {
 					}
 					else
 					{
+						//for(user_info)
+						$servises = array();
+						for ($i=0; $i <count($user_info) ; $i++) { 
+							array_push($servises, $user_info[$i]['sb_parent_service_id']);
+						}
+						$servises = implode(',', $servises);
+						$user_info[0]['sb_parent_service_id'] = $servises;
 						$resp = array(
 			   			'result' =>$user_info[0]
 				  		);

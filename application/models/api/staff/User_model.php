@@ -12,8 +12,8 @@ class User_model extends CI_Model
 	}
 	public function login($sb_hotel_useremail, $sdt_token, $sdt_deviceType ,$sdt_macid)
 	{
-		$IMP_PATH = base_url().HOTEL_USER_PIC."/";
-		$qry = "SELECT hu.sb_hotel_user_id,hu.sb_hotel_id,hu.sb_hotel_username,usam.sb_parent_service_id, 
+		$IMP_PATH = HOTEL_USER_PIC;
+		$qry = "SELECT distinct(usam.sb_parent_service_id),hu.sb_hotel_user_id,hu.sb_hotel_id,hu.sb_hotel_username, 
 				concat('$IMP_PATH',hu.sb_hotel_user_pic) as sb_hotel_user_pic,
 				 hu.sb_hotel_user_shift_from,hu.sb_hotel_user_shift_to,d.sb_staff_designation_name FROM `sb_hotel_users` as hu
 				JOIN `sb_hotel_staff_designation` as d
@@ -23,7 +23,7 @@ class User_model extends CI_Model
 				WHERE hu.sb_hotel_useremail = '$sb_hotel_useremail' 
 				AND hu.sb_hotel_user_status = '1' AND hu.sb_hotel_user_type != 'a'
 				";
-		// echo($qry); die();
+		//echo($qry); die();
 		$query = $this->db->query($qry);
 		$result_array = $query->result_array();
 		if(count($result_array)>0)

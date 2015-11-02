@@ -4,7 +4,7 @@ class Hotel_service_model extends CI_Model
 
 	function get_submenu($sb_hotel_id, $sb_parent_service_id)
 	{
-		$IMP_PATH = base_url().CHILD_SERVICE_PIC."/";
+		$IMP_PATH = CHILD_SERVICE_PIC;
 		$qry =  "SELECT DISTINCT m.sb_child_service_id,
 				c.`sb_child_service_id`,c.`sb_parent_service_id`,
 				c.`sb_child_servcie_name`,c.`sb_child_servcie_detail`,
@@ -26,7 +26,7 @@ class Hotel_service_model extends CI_Model
 				$id = $data[$i]['sb_child_service_id'];
 				if($sb_parent_service_id == 3 || $sb_parent_service_id == 6)
 				{
-					$IMP_PATH = base_url().SUBCHILD_SERVICE_PIC."/$sb_hotel_id/";
+					$IMP_PATH = SUBCHILD_SERVICE_PIC;
 					$qry1 = "SELECT `sub_child_services_id`,`sb_hotel_id`,
 					`sb_child_service_id`,`sb_sub_child_service_name`,`sb_sub_child_service_details`,
 					concat('$IMP_PATH',sb_sub_child_service_image) as `sb_sub_child_service_image`,
@@ -42,7 +42,7 @@ class Hotel_service_model extends CI_Model
 							AND m.`sb_parent_service_id` = '$sb_parent_service_id' 
 							AND m.`sb_child_service_id` = '$id'
 							AND sb_is_service_in_use = '1'";*/
-					$IMP_PATH = base_url().SUBCHILD_SERVICE_PIC."/";
+					$IMP_PATH = SUBCHILD_SERVICE_PIC;
 					$qry1 = "SELECT `sub_child_services_id`,`sb_child_service_id`,
 					`sb_sub_child_service_name`,`sb_sub_child_service_details`,`created_on`,
 					concat('$IMP_PATH',sb_sub_child_service_image) as `sb_sub_child_service_image` 
@@ -160,7 +160,7 @@ class Hotel_service_model extends CI_Model
 
 	function get_request_info($sb_hotel_guest_booking_id)
 	{
-		$IMP_PATH = base_url().CHILD_SERVICE_PIC."/";
+		$IMP_PATH = CHILD_SERVICE_PIC;
 		$qry = "SELECT r.sb_hotel_requst_ser_id , h.sb_hotel_service_assigned, h.sb_hotel_ser_start_date, r.sb_hotel_ser_reqstd_on, 
 				h.sb_hotel_ser_start_time, h.sb_hotel_ser_finished_date , h.sb_hotel_ser_finished_time,h.sb_hotel_ser_assgnd_to_user_id,
 				h.sb_hotel_service_status, r.sb_service_log,c.sb_child_servcie_name, 

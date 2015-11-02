@@ -340,4 +340,102 @@ class HotelRooms extends CI_Controller
 		redirect("admin/HotelRooms/Roomcheckin/$booking_id/$alloted_rooms");
     }
 
+
+    public function room_allocate()
+    {
+    	$this->load->model('Guest_model');
+    	$sb_hotel_guest_booking_id=$this->input->post('sb_hotel_guest_booking_id');
+    	$room_names=$this->input->post('room_names');
+    	$reservation = $this->Guest_model->get_guest($sb_hotel_guest_booking_id);
+    	if(count($reservation)>0)
+    	{
+			$i=0;
+			$Roomdata =array();
+			while($i<count($room_names)){
+				$single_array=array(
+										'sb_guest_actual_check_in'=>date('Y-m-d h:i:s'),
+										'sb_guest_reservation_code'=>$reservation[0]['sb_guest_reservation_code'],
+										'sb_guest_allocated_room_no'=>$room_names[$i],
+										'sb_guest_terms'=>'1'
+									);	
+				array_push($Roomdata,$single_array);					
+				$i++;
+			}
+			$this->Guest_model->allocate_rooms($Roomdata);
+			$this->Guest_model->allocate_ttlrooms(count($room_names),$sb_hotel_guest_booking_id);
+
+			/*Push Notification*/
+			//$id = $this->Chat_model->get_ids($sb_hotel_requst_ser_id , $sb_sender_type);
+			$this->load->model('api/Chat_model');
+			$id= $sb_hotel_guest_booking_id;	
+			$sb_sender_type =0;	
+			if($id)
+			{
+				$token = $this->Chat_model->get_token($id , $sb_sender_type);
+				//print_r($token); die();
+
+				if (count($token) > 0)
+				{
+					//$user_name = $this->Chat_model->get_name($id , $sb_sender_type);
+					//print_r($user_name); die();
+					$title = "Message";// from : ".$user_name ;
+					$message = array(
+						"type" => 'room',
+						"message" => "You have been alloted room(s).",
+						"title" => $title,
+						"id" => 0
+						);
+					$android_token = array();
+					$ios_token = array();
+					for ($i=0; $i < count($token); $i++) 
+					{ 
+						if($token[$i]['sdt_deviceType'] == 'android' AND $token[$i]['sdt_token'] != NULL AND $token[$i]['sdt_token'] != (null))
+						{
+							array_push($android_token,$token[$i]['sdt_token']);
+						}
+						else
+						{
+							if($token[$i]['sdt_token'] != "" AND $token[$i]['sdt_token'] != NULL AND $token[$i]['sdt_token'] != (null))
+							{
+								array_push($ios_token,$token[$i]['sdt_token']);
+							}	
+						}	
+					}
+					if($sb_sender_type==1)
+						$userType = "staff";
+					else
+						$userType = "customer";
+					if(count($ios_token)>0)
+					{
+						$ipushdata  = array('deviceToken'=> $ios_token,
+									'user'=> $userType,
+									'message' => $message
+									);
+						$this->load->library('api/Iospush');
+						$val = $this->iospush->iospush_notification($ipushdata);
+					}
+								
+					// array for android
+					if(count($android_token)>0)
+					{
+						$pushdata = array(
+							'message'=> $message,
+							'deviceTokens'=> $android_token,
+							'user'=> $userType
+							);
+						$this->load->library('api/Android_push');
+						$val1 = $this->android_push->push_notification($pushdata);
+					}
+					
+				}
+				//response_ok();
+			}
+			/*EOF*/
+			echo "1";
+		}
+		else
+		{
+			echo "0";
+		}
+    }
 }

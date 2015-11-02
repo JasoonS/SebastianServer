@@ -152,7 +152,7 @@ $(document).ready(function(){
         });
     }
 	$('a[id^="idParentService"]').on('click',function(){
-
+        //alert("Hi");
 		jsTmpArr           = this.id.split('_');
         jsParentId         = jsTmpArr[1];
         jsParentName       = jsTmpArr[2];
@@ -165,6 +165,7 @@ $(document).ready(function(){
 
         jqXHR.done(function(data)
         {
+            console.log(data);
             //var container = appendTo("#idFrmSelectChildService");
             $("#idLineModalLabel").html(jsParentName);
 

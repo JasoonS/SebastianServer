@@ -398,7 +398,7 @@ class User extends CI_Controller
 						$singlearray=array(
 											'sb_hotel_service_map_id'=>$child_services[$i]['sb_hotel_service_map_id'],
 											'sb_hotel_user_id'=>$result,
-											'sb_parent_service_id'=>$data['sb_parent_service_id'],
+											'sb_parent_service_id'=>$child_services[$i]['sb_parent_service_id'],//$data['sb_parent_service_id'],
 											'sb_service_rel_status'=>'1'
 										);
 						array_push($insert_user_services,$singlearray);
@@ -419,7 +419,7 @@ class User extends CI_Controller
 						$singlearray=array(
 											'sb_hotel_service_map_id'=>$child_services[$i]['sb_hotel_service_map_id'],
 											'sb_hotel_user_id'=>$result,
-											'sb_parent_service_id'=>$data['sb_parent_service_id'],
+											'sb_parent_service_id'=>$child_services[$i]['sb_parent_service_id'],//$data['sb_parent_service_id'],
 											'sb_service_rel_status'=>'1'
 										);
 						array_push($insert_user_services,$singlearray);

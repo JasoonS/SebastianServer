@@ -79,6 +79,12 @@ class Tasks extends CI_Controller
 			$update_data['sb_hotel_service_assigned']='y';
 			$update_data['sb_hotel_service_status']='accepted';
 		}
+		else if($update_data['action']=='complete')
+		{
+			unset($update_data['action']);
+			$update_data['sb_hotel_service_assigned']='y';
+			$update_data['sb_hotel_service_status']='completed';
+		}
 		else
 		{
 			unset($update_data['action']);

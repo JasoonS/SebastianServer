@@ -26,44 +26,44 @@
 					<tbody>
 						<tr>
 							<td>Hotel Name</td>
-							<td><?php echo $userinfo->sb_hotel_name;?></td>
+							<td><?php echo $userinfo[0]->sb_hotel_name;?></td>
 						</tr>
 						<tr>
 							<td>User Name</td>
-							<td><?php echo $userinfo->sb_hotel_username;?></td>
+							<td><?php echo $userinfo[0]->sb_hotel_username;?></td>
 						</tr>
 						<tr>
 							<td>User Email</td>
-							<td><?php echo $userinfo->sb_hotel_useremail;?></td>
+							<td><?php echo $userinfo[0]->sb_hotel_useremail;?></td>
 						</tr>
 						<tr>
 							<td>User Picture</td>
-							<td><img src='<?php echo FOLDER_BASE_URL."/".HOTEL_USER_PIC."/".$userinfo->sb_hotel_user_pic;?>' height="100px" width="100px"/></td>
+							<td><img src='<?php echo FOLDER_BASE_URL."/".HOTEL_USER_PIC."/".$userinfo[0]->sb_hotel_user_pic;?>' height="100px" width="100px"/></td>
 						</tr>
 						
-					    <?php if(($userinfo->sb_hotel_user_type == 's')||($userinfo->sb_hotel_user_type == 'm')) {?>
+					    <?php if(($userinfo[0]->sb_hotel_user_type == 's')||($userinfo[0]->sb_hotel_user_type == 'm')) {?>
 						<tr>
 							<td>User Shift From</td>
-							<td><?php echo date("g:i A",strtotime($userinfo->sb_hotel_user_shift_from));?></td>
+							<td><?php echo date("g:i A",strtotime($userinfo[0]->sb_hotel_user_shift_from));?></td>
 						</tr>
 						<tr>
 							<td>User Shift To</td>
-							<td><?php echo date("g:i A",strtotime($userinfo->sb_hotel_user_shift_to));?></td>
+							<td><?php echo date("g:i A",strtotime($userinfo[0]->sb_hotel_user_shift_to));?></td>
 						</tr>
 						<tr>
 							<td>Designation</td>
-							<td><?php echo $userinfo->sb_staff_designation_name;?></td>
+							<td><?php echo $userinfo[0]->sb_staff_designation_name;?></td>
 						</tr>
 						<tr>
 							<td>Service</td>
-							<td><?php echo $userinfo->sb_parent_service_name;?></td>
+							<td><?php for($i=0;$i<count($userinfo);$i++) {echo $userinfo[$i]->sb_parent_service_name.' ,';}?></td>
 						</tr>
 						<?php }?>
 						<tr>
 							<td>Hotel User Type</td>
 							<td>
 							<?php 
-									switch($userinfo->sb_hotel_user_type)
+									switch($userinfo[0]->sb_hotel_user_type)
 									{
 										case 'u': {
 													echo "Super Administrator";

@@ -24,6 +24,23 @@ class Guest_model extends CI_Model
 		return $query->result();
 	}
 
+	public function get_guest($sb_hotel_guest_booking_id)
+	{
+		$qry = "SELECT * FROM `sb_hotel_guest_bookings` WHERE `sb_hotel_guest_booking_id`='$sb_hotel_guest_booking_id'";
+		$query = $this->db->query($qry);
+		return $query->result_array();
+	}
+	public function allocate_ttlrooms($rooms,$sb_hotel_guest_booking_id)
+	{
+		$data = array(
+               'sb_guest_rooms_alloted' => $rooms
+            );
+
+		$this->db->where('sb_hotel_guest_booking_id', $sb_hotel_guest_booking_id);
+		$this->db->update('sb_hotel_guest_bookings', $data); 
+		return 1;
+	}
+
 	/* Method insert guest booking in `sb_hotel_guest_bookings`
 	 * @param array
 	 * return integer

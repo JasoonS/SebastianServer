@@ -107,38 +107,45 @@
 								<label class="col-md-4 col-xs-4 control-label" for="sb_hotel_user_type">User Type</label>
 								<div class="col-md-8 col-xs-8">
 									<select id="sb_hotel_user_type" name="sb_hotel_user_type" class="form-control"  onchange="callToChildServices();">
-										<option value="s">Hotel Staff</option>
-										<?php /*
-										foreach($hotelusertypes as $key=>$usertype)
+										
+										<?php 
+										if($this->session->get_userdata('logged_in_user')['logged_in_user']->sb_hotel_id == 0)
 										{
-										    if($usertype == 'u')
+											foreach($hotelusertypes as $key=>$usertype)
 											{
-												$label = "Super Admin";
-										    }
-											if($usertype == 'a')
-											{
-												$label = "Hotel Admin";
-											}
-											if($usertype == 'm')
-											{
-												$label = "Hotel Manager";
-											}
-											if($usertype == 's')
-											{
-												$label = "Hotel Staff";
-											}
-						                    if($action_type != "edit"){
-												echo "<option value='".$usertype."'>".$label."</option>";
-											}
-											else{
-												if($userinfo->sb_hotel_user_type==$usertype){
-													echo "<option value='".$usertype."' selected>".$label."</option>";
+											    if($usertype == 'u')
+												{
+													$label = "Super Admin";
+											    }
+												if($usertype == 'a')
+												{
+													$label = "Hotel Admin";
 												}
-												else{
+												if($usertype == 'm')
+												{
+													$label = "Hotel Manager";
+												}
+												if($usertype == 's')
+												{
+													$label = "Hotel Staff";
+												}
+							                    if($action_type != "edit"){
 													echo "<option value='".$usertype."'>".$label."</option>";
 												}
+												else{
+													if($userinfo->sb_hotel_user_type==$usertype){
+														echo "<option value='".$usertype."' selected>".$label."</option>";
+													}
+													else{
+														echo "<option value='".$usertype."'>".$label."</option>";
+													}
+												}
 											}
-										}*/
+										}
+										else
+										{
+											echo '<option value="s">Hotel Staff</option>';
+										}
 									   ?> 
 									</select>
 								</div>
@@ -179,7 +186,7 @@
 								<div class="form-group">
 									<label class="col-md-4 col-xs-4 control-label" for="sb_parent_service_id">User Designation</label>
 										<div class="col-md-8 col-xs-8">
-											<select id="sb_parent_service_id" name="sb_parent_service_id" class="form-control" onchange="callToChildServices();">
+											<select multiple id="sb_parent_service_id" name="sb_parent_service_id[]" class="form-control" onchange="callToChildServices();">
 												<?php
 												foreach($parent_services as $key=>$value)
 												{
