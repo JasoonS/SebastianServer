@@ -157,7 +157,7 @@ class Guest_model extends CI_Model
 	function get_hotel_guest_orders($booking_id,$room_no)
 	{
 	    $this->db->select('*');
-		$sub_child_service_image_url=base_url(SUBCHILD_SERVICE_PIC)."/";
+		$sub_child_service_image_url=SUBCHILD_SERVICE_PIC;
 		$this->db->select('sb_customer_order_placed.sub_child_services_id as subchildservice',false);
 		$this->db->select('(SELECT sb_sub_child_service_name from sb_paid_services WHERE sub_child_services_id = subchildservice ) as service_name');
 		$this->db->select('(SELECT CONCAT("'.$sub_child_service_image_url.'", `sb_hotel_id` ,"/", `sb_sub_child_service_image`) from sb_paid_services WHERE sub_child_services_id = subchildservice ) as service_image',false);	
@@ -168,6 +168,7 @@ class Guest_model extends CI_Model
 		$this->db->where('order_details','1');
 		$this->db->where('is_temp_delete','0');
 		$query = $this->db->get();
+		
 		return $query->result();
 	}
 	/* Method to get guest general data

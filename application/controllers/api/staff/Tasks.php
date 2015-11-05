@@ -195,6 +195,12 @@ class Tasks extends CI_Controller {
 			               'sb_hotel_service_status'=> 'rejected',
 			            );
 				 	$val = $this->Tasks_model->update_status($sb_hotel_requst_ser_id,$data);
+				 	
+				 	$data1 = array(
+							"is_temp_delete" => "1"
+						);
+				 	$val1 = $this->Tasks_model->update_itemstatus($sb_hotel_requst_ser_id,$data1);		
+
 				 	if($val)
 				 	{
 				 		response_ok();

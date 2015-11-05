@@ -130,7 +130,7 @@ class Tasks_model extends CI_Model
 				ON hss.sb_hotel_ser_assgnd_to_user_id = hu.sb_hotel_user_id
 				WHERE hss.sb_hotel_service_status = 'completed'
 				AND hrs.sb_hotel_id = '$sb_hotel_id'
-				AND hrs.sb_parent_service_id ='$sb_parent_service_id'
+				AND hrs.sb_parent_service_id IN ($sb_parent_service_id)
 				AND hss.sb_hotel_ser_start_date BETWEEN '$weekdates[0]' AND '$weekdates[1]'
 				ORDER BY hss.sb_hotel_ser_start_date DESC, hss.sb_hotel_ser_start_time DESC;";
 		$query = $this->db->query($qry);
@@ -162,7 +162,12 @@ class Tasks_model extends CI_Model
 		$val = $this->db->update('sb_hotel_services_status', $data); 
 		return $val;
 	}
-
+	public function update_itemstatus($sb_hotel_requst_ser_id,$data)
+	{
+		$this->db->where('sb_hotel_requst_ser_id', $sb_hotel_requst_ser_id);
+		$this->db->update('sb_customer_order_placed', $data1); 
+		return 1;
+	}
 	/**
 	 * This model will provide childs and sub-childs for a requested service.
 	 * return type- 
