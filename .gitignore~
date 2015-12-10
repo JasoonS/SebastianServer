@@ -42,10 +42,10 @@ local.properties
 *.pnproj
 
 #ignoring some specific files
-application/config/*
+application/config
 
 #ignoring log files
-application/logs/*
+application/logs
 
 #ignoring user data
 user_data/*
