@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $host = "localhost";
-$config['base_url'] = 'http://'.$host.'/sebastian-admin-panel/';
+$config['base_url'] = 'http://'.$host.'/sebastian-admin-panel/index.php/';
 
 /*
 |--------------------------------------------------------------------------
@@ -363,6 +363,10 @@ $config['sess_save_path'] = 'ci_sessions';
 $config['sess_match_ip'] = FALSE;	
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
+// from: http://stackoverflow.com/a/2006044/3103033
+// $config['sess_encrypt_cookie'] = TRUE;
+// $config['sess_use_database']   = TRUE;
+// $config['sess_table_name']     = 'sessions';
 
 /*
 |--------------------------------------------------------------------------

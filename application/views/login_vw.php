@@ -35,6 +35,8 @@
 					<input type="password" class="form-control" id="idPassword" name="password" value="<?php echo set_value('password');?>" placeholder="Password" required="" />
 					<?php echo form_error('password'); ?>
 				</div>
+				
+				<input type="hidden" name="site" value="admin"> 
 
 	            <div class="classLoginFrmFields">
 					<input type="submit" id="idSignIn" value="Sign In" name="sign_in" class="btn btn-dark">                    

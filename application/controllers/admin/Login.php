@@ -105,7 +105,9 @@ class Login extends CI_Controller
 	private function register_user_session()
 	{
 		$this->session->set_userdata('logged_in_user',$this->logged_in_user_meta);
-		redirect('admin/dashboard');
+		if ($this->input->post('site') != 'api') {
+			redirect('admin/dashboard');
+		}
 	}
 
 	/* Method redirect user if auhorization
@@ -116,7 +118,9 @@ class Login extends CI_Controller
 	private function redirectWithErrMsg($err_level)
 	{
 		$this->session->set_flashdata('AuthMsg', $err_level);
-		redirect('admin/login');
+		if ($this->input->post('site') != 'api') {
+			redirect('admin/login');
+		}
 	}
 
 	/* Method destroy logged in
@@ -128,7 +132,9 @@ class Login extends CI_Controller
 	{
 		$this->session->unset_userdata('logged_in_user');
 		$this->session->set_flashdata('SuccMsg',SUC_MSG_LEVEL_1);
-		redirect('admin/login');
+		if ($this->input->post('site') != 'api') {
+			redirect('admin/login');
+		}
 	}
 }//End Of Controller Class.
 

@@ -200,4 +200,16 @@ Class Hotel_model extends CI_Model
 		$query=$this->db->get('sb_hotel_album');
 		return $query->result_array();
 	}
+	
+	/* Method get List of Hotels
+	 * inside system 
+	 * return array
+	 */
+	function get_hotel_list()
+	{
+		$this->db->select('sb_hotel_name', 'sb_hotel_id');
+		// $this->db->where('hotel_id',$hotel_id);
+		$query=$this->db->get('sb_hotels');
+		return $query->result_array();
+	}
 }//End Of Hotel Model	

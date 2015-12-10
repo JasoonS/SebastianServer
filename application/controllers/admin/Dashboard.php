@@ -14,6 +14,7 @@ class Dashboard extends CI_Controller
 		$this->load->model('Dashboard_model');
 		if(!$this->session->userdata('logged_in_user'))
 		{
+			log_message('error', 'you are not logged in suckerrrr!!!!');
 			redirectWithErr(ERR_MSG_LEVEL_2,'login');
 		}else
 		{
@@ -63,6 +64,9 @@ class Dashboard extends CI_Controller
 	*/
 	public function currentTasks()
 	{
+		log_message('error', $this->input->post("hotel_id"));
+		log_message('error', "the above is from the currentTasks() post hotel ID");
+		
 		$sb_hotel_id = $this->input->post("hotel_id");
 		// $service_due_date = $this->input->post("service_due_date");
 		// $weekdates = $this->x_week_range($service_due_date);
@@ -77,6 +81,9 @@ class Dashboard extends CI_Controller
 	*/
 	public function currentGuest()
 	{
+		log_message('error', $this->input->post("hotel_id"));
+		log_message('error', $this->input->post("currentDate"));
+		log_message('error', "the above is from the currentGuest() post hotel ID and currentDate");	
 		$sb_hotel_id = $this->input->post("hotel_id");
 		$currentDate = $this->input->post("currentDate");
 		// $weekdates = $this->x_week_range($service_due_date);

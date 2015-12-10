@@ -109,7 +109,7 @@ Class Dashboard_model extends CI_Model
 			$qry = "SELECT sb_sub_child_service_name from sb_sub_child_services where sub_child_services_id = '$sub_child_services_id' ";
 			$query = $this->db->query($qry);
 			$result = $query->result_array();
-			if(count($name)>0)
+			if(count($result)>0)
 			{
 				$result[0]['sb_child_servcie_name'] = $result[0]['sb_sub_child_service_name'];
 				$result[0]['sb_sub_child_service_name'] = '';

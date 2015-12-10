@@ -42,7 +42,7 @@ local.properties
 *.pnproj
 
 #ignoring some specific files
-application/config/database.php
+application/config/*
 
 #ignoring log files
 application/logs/*

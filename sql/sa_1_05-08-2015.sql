@@ -1,1 +1,0 @@
-ALTER TABLE  `sb_hotel_request_service` ADD  `sub_child_services_id` INT NOT NULL DEFAULT  '0' AFTER  `sb_parent_service_id` ;

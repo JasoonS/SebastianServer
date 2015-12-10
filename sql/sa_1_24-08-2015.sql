@@ -1,1 +1,0 @@
-ALTER TABLE `sb_hotel_restaurant` ADD `sb_rest_image` VARCHAR(255) NOT NULL AFTER `sb_hotel_restaurant_details`;

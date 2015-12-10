@@ -1,1 +1,0 @@
-ALTER TABLE `sb_hotel_users` CHANGE `sb_hotel_user_id` `sb_hotel_user_id` INT(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key', CHANGE `sb_hotel_id` `sb_hotel_id` INT(10) NOT NULL COMMENT 'FK(sb_hotels)';

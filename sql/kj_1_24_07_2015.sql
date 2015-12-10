@@ -1,1 +1,0 @@
-ALTER TABLE `sb_hotel_child_services` ADD `sb_parent_service_id` INT NOT NULL COMMENT 'parent ID of child' AFTER `sb_child_service_id`
