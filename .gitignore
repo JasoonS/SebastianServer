@@ -41,11 +41,7 @@ local.properties
 # programmers notepad
 *.pnproj
 
-#ignoring some specific files
-application/config
 
-#ignoring log files
-application/logs
 
 #ignoring user data
 user_data/*
