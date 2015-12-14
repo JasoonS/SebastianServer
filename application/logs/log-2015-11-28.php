@@ -1,0 +1,29 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2015-11-28 00:12:10 --> 404 Page Not Found: Sitemapxml/index
+ERROR - 2015-11-28 02:05:28 --> 404 Page Not Found: Web-console/ServerInfo.jsp
+ERROR - 2015-11-28 02:05:41 --> 404 Page Not Found: Jmx-console/HtmlAdaptor
+ERROR - 2015-11-28 02:05:53 --> 404 Page Not Found: Invoker/JMXInvokerServlet
+ERROR - 2015-11-28 03:14:46 --> 404 Page Not Found: Httptestphp/index
+ERROR - 2015-11-28 03:47:23 --> 404 Page Not Found: Httptestphp/index
+ERROR - 2015-11-28 05:34:31 --> 404 Page Not Found: Testproxyphp/index
+ERROR - 2015-11-28 05:39:24 --> 404 Page Not Found: Httptestphp/index
+ERROR - 2015-11-28 06:14:51 --> 404 Page Not Found: Faviconico/index
+ERROR - 2015-11-28 08:00:47 --> 404 Page Not Found: Httptestphp/index
+ERROR - 2015-11-28 11:52:33 --> 404 Page Not Found: Httptestphp/index
+ERROR - 2015-11-28 12:09:06 --> 404 Page Not Found: Phpmyadmin/scripts
+ERROR - 2015-11-28 14:27:21 --> 404 Page Not Found: Httptestphp/index
+ERROR - 2015-11-28 14:30:33 --> 404 Page Not Found: Httptestphp/index
+ERROR - 2015-11-28 17:40:25 --> 404 Page Not Found: Httptestphp/index
+ERROR - 2015-11-28 18:13:32 --> 404 Page Not Found: Httptestphp/index
+ERROR - 2015-11-28 19:10:59 --> 404 Page Not Found: Httptestphp/index
+ERROR - 2015-11-28 21:59:10 --> 404 Page Not Found: Httptestphp/index
+ERROR - 2015-11-28 22:34:21 --> 404 Page Not Found: Httptestphp/index
+ERROR - 2015-11-28 22:38:26 --> 404 Page Not Found: Faviconico/index
+ERROR - 2015-11-28 22:38:53 --> 404 Page Not Found: Faviconico/index
+ERROR - 2015-11-28 22:39:19 --> 404 Page Not Found: Faviconico/index
+ERROR - 2015-11-28 22:39:21 --> 404 Page Not Found: Assets/css
+ERROR - 2015-11-28 23:20:45 --> 404 Page Not Found: Muieblackcat/index
+ERROR - 2015-11-28 23:20:46 --> 404 Page Not Found: PhpMyAdmin/scripts
+ERROR - 2015-11-28 23:20:46 --> 404 Page Not Found: Phpmyadmin/scripts
+ERROR - 2015-11-28 23:20:49 --> 404 Page Not Found: Myadmin/scripts
