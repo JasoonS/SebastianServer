@@ -22,7 +22,7 @@ class Hotel extends CI_Controller
 	/* Get the names of all the hotels
 	 * return string
 	 */
-	public function listall()
+	public function get_hotel_names()
 	{
 		header('Access-Control-Allow-Origin: *');
 		

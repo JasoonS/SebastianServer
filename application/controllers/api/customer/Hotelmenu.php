@@ -36,6 +36,8 @@ class Hotelmenu extends CI_Controller
 	 */
 	function gethotelmenu()
 	{
+		header('Access-Control-Allow-Origin: *');	
+			
 		$sb_hotel_id = $this->input->post('sb_hotel_id');
 		
 		if($sb_hotel_id == '')
@@ -46,7 +48,6 @@ class Hotelmenu extends CI_Controller
 		{
 			$result = $this->Hotelmenu_model->gethotelmenu($sb_hotel_id);
 			response_ok($result);
-			
 		}
 	}
 	

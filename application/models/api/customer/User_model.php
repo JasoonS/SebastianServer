@@ -154,6 +154,19 @@ class User_model extends CI_Model
 		return $query->result_array();
 
 	}
+	
+	/* Method get Hotel Name
+	 * inside system 
+	 * @param @string
+	 * return @string on success and False on Fail
+	 */
+	public function get_hotel_name($hotel_id)
+	{
+		$this->db->select('sb_hotel_name');
+		$this->db->where('sb_hotel_id',$hotel_id);
+		$query=$this->db->get('sb_hotels');
+		return $query->result_array();
+	}
 
 	function check_reservation($sb_guest_email, $sb_hotel_id)
 	{

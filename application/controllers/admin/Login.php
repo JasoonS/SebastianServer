@@ -37,6 +37,8 @@ class Login extends CI_Controller
 	 */
 	public function verify_user()
 	{
+		header('Access-Control-Allow-Origin: *');
+		
 		//Setting up validation rules for form inputs
 		$this->validation_rules = array(
 		array('field'=>'username','label'=>'Username','rules'=>'required','class'=>'text-danger'),

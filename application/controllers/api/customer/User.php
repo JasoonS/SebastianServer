@@ -7,8 +7,10 @@ class User extends CI_Controller
 {
 	function __construct()
 	{
+		header('Access-Control-Allow-Origin: *');
+			
 		parent::__construct();
-
+		
 		/*
 			this code is to maintain all hits log
 			as well as to restrict API to any devices not browsers
@@ -147,7 +149,7 @@ class User extends CI_Controller
 
 
 	public function get_hotel_names()
-	{
+	{					
 		$sb_hotel_name = '';
 		if (!empty($this->input->post())) 
 		{
@@ -166,7 +168,23 @@ class User extends CI_Controller
 		{
 			response_fail("No Hotel Exists");
 		}
+	}
+	
+	public function get_hotel_name_from_id() 
+	{
+		// add imput sanitization (ie post must have hotel_id property otherwise error)
+		$sb_hotel_id = $this->input->post("sb_hotel_id");
+
+		$result = $this->User_model->get_hotel_name($sb_hotel_id);
 		
+		if (!empty($result)) 
+		{
+			response_ok($result[0]);
+		}
+		else
+		{
+			response_fail("No Hotel Exists");
+		}
 	}
 
 

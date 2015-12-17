@@ -207,7 +207,7 @@ Class Hotel_model extends CI_Model
 	 */
 	function get_hotel_list()
 	{
-		$this->db->select('sb_hotel_name', 'sb_hotel_id');
+		$this->db->select('sb_hotel_name, sb_hotel_id');
 		// $this->db->where('hotel_id',$hotel_id);
 		$query=$this->db->get('sb_hotels');
 		return $query->result_array();

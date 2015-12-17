@@ -7,6 +7,8 @@ class Hotel_service extends CI_Controller
 {
 	function __construct()
 	{
+		header('Access-Control-Allow-Origin: *');
+			
 		parent::__construct();
 		/*
 			this code is to maintain all hits log
