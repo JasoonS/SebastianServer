@@ -1,4 +1,4 @@
-<?php 
+<?php
 //   THIS IS API FOR HOTEL USERS(CUSTOMERS). THIS IS CUSTOMER SIDE API.THIS API WILL FOCUS ON LOGIN/LOGOUT/CHANGE PASSWORD/FORGOT PASSWORD/NOTIFICATIONS FOR HOTEL USER(CUSTOMER).
 
 if( ! defined('BASEPATH')) exit('No direct script access allowed');
@@ -8,9 +8,9 @@ class User extends CI_Controller
 	function __construct()
 	{
 		header('Access-Control-Allow-Origin: *');
-			
+
 		parent::__construct();
-		
+
 		/*
 			this code is to maintain all hits log
 			as well as to restrict API to any devices not browsers
@@ -32,49 +32,66 @@ class User extends CI_Controller
 	/**
 	 * This function will take reservation id and device token etc. check for reservation id updates
 	 * device token and return User details as well as hotel's services list etc
-	 * return type- 
+	 * return type-
 	 * created on - 20th July 2015;
-	 * updated on - 
+	 * updated on -
 	 * update 	  -
 	 * created by - Akshay Patil;
 	 */
 	function login($sb_guest_reservation_code,$cdt_token,$cdt_deviceType,$cdt_macid)
 	{
-		// $sb_guest_reservation_code = 	$this->input->post('sb_guest_reservation_code');
+    // $sb_guest_reservation_code = 	$this->input->post('sb_guest_reservation_code');
 		// $cdt_token				= 	$this->input->post('cdt_token');
 		// $cdt_deviceType		    =   $this->input->post('cdt_deviceType');
 		// $cdt_macid 				= 	$this->input->post('cdt_macid');
-		
-		if($cdt_token == '(null)' || $cdt_token == 'null' || $cdt_token == null || $cdt_token == '')
-			$cdt_token = '';
-		if(strlen($cdt_token) < '10')
-			$cdt_token = '';
-
-		if($sb_guest_reservation_code == '' ||  $cdt_deviceType == ''|| $cdt_macid=='' )
+		if( null == $cdt_token )
 		{
-			response_fail("Please Insert All data correctly");
-
-		}
-		else
-		{
-			$user_info = $this->User_model->login($sb_guest_reservation_code , $cdt_token, $cdt_deviceType ,$cdt_macid);
+			log_message('ERROR', 'User didnt supply a cdt_token');
+			$user_info = $this->User_model->loginNotoken($sb_guest_reservation_code);
 			if($user_info == 0)
 			{
+				log_message('ERROR', 'The user was not found');
 				response_fail("User Not Found");
 			}
 			else
 			{
+				log_message('ERROR', 'The user was found, info returned.');
 				response_ok($user_info);
+			}
+		}
+		else
+		{
+			if($cdt_token == '(null)' || $cdt_token == 'null' || $cdt_token == null || $cdt_token == '')
+				$cdt_token = '';
+			if(strlen($cdt_token) < '10')
+				$cdt_token = '';
+
+			if($sb_guest_reservation_code == '' ||  $cdt_deviceType == ''|| $cdt_macid=='' )
+			{
+				response_fail("Please Insert All data correctly");
+
+			}
+			else
+			{
+				$user_info = $this->User_model->login($sb_guest_reservation_code , $cdt_token, $cdt_deviceType ,$cdt_macid);
+				if($user_info == 0)
+				{
+					response_fail("User Not Found");
+				}
+				else
+				{
+					response_ok($user_info);
+				}
 			}
 		}
 	}
 
 	/**
-	 * This function will take reservation id, check for reservation id 
+	 * This function will take reservation id, check for reservation id
 	 * and return User details etc
-	 * return type- 
+	 * return type-
 	 * created on - 20th July 2015;
-	 * updated on - 
+	 * updated on -
 	 * created by - Akshay Patil;
 	 */
 	function get_userDetails()
@@ -105,27 +122,35 @@ class User extends CI_Controller
 
 	/**
 	 * This function is for forgot Reservation code.
-	 * return type- 
+	 * return type-
 	 * created on - 21th July 2015;
-	 * updated on - 
+	 * updated on -
 	 * created by - Samrat Aher;
 	 */
 	function forgot()
 	{
-		$sb_guest_firstName = $this->input->post('sb_guest_firstName');
+    log_message('ERROR', 'forgot(): ');
+    $postParams = $this->input->post();
+    $string = '';
+    foreach ($postParams as $key => $val) {
+        $string .= ' key:'.$key.', value:'.$val.';';
+    }
+    log_message('ERROR', $string);
+    log_message('ERROR', 'forgot() done:');
+    $sb_guest_firstName = $this->input->post('sb_guest_firstName');
 		$sb_guest_lastName = $this->input->post('sb_guest_lastName');
 		$sb_guest_email = $this->input->post('sb_guest_email');
 		$sb_hotel_name = $this->input->post('sb_hotel_name');
 		$sb_guest_contact_no = $this->input->post('sb_guest_contact_no');
 
-		if ($sb_guest_firstName == '' || $sb_guest_lastName == '' || $sb_guest_email == '' || $sb_hotel_name == '' || $sb_guest_contact_no == '' ) 
+		if ($sb_guest_firstName == '' || $sb_guest_lastName == '' || $sb_guest_email == '' || $sb_hotel_name == '' || $sb_guest_contact_no == '' )
 		{
 			response_fail("Please insert all the fields");
 		}
 		else
 		{
 			$resp = $this->User_model->get_reservation($sb_guest_firstName, $sb_guest_lastName , $sb_guest_email, $sb_hotel_name , $sb_guest_contact_no);
-			
+
 			if (empty($resp))
 			{
 				response_fail("No such user exist");
@@ -143,21 +168,21 @@ class User extends CI_Controller
 				$this->load->helper('admin/utility_helper');
 				sendMail('',$sb_guest_email,"Reservation code",$body);
 				response_ok();
-			}				
+			}
 		}
 	}
 
 
 	public function get_hotel_names()
-	{					
+	{
 		$sb_hotel_name = '';
-		if (!empty($this->input->post())) 
+		if (!empty($this->input->post()))
 		{
 			$sb_hotel_name = $this->input->post('sb_hotel_name');
 		}
 
 		$result = $this->User_model->get_hotel($sb_hotel_name);
-		if (!empty($result)) 
+		if (!empty($result))
 		{
 			$resp = array(
 	    	        'result' =>$result
@@ -169,15 +194,15 @@ class User extends CI_Controller
 			response_fail("No Hotel Exists");
 		}
 	}
-	
-	public function get_hotel_name_from_id() 
+
+	public function get_hotel_name_from_id()
 	{
 		// add imput sanitization (ie post must have hotel_id property otherwise error)
 		$sb_hotel_id = $this->input->post("sb_hotel_id");
 
 		$result = $this->User_model->get_hotel_name($sb_hotel_id);
-		
-		if (!empty($result)) 
+
+		if (!empty($result))
 		{
 			response_ok($result[0]);
 		}
@@ -190,14 +215,22 @@ class User extends CI_Controller
 
 	/**
 	 * This function is for new Signup/login process.
-	 * return type- 
+	 * return type-
 	 * created on - 08th Sept 2015;
-	 * updated on - 
+	 * updated on -
 	 * created by - Akshay PAtil;
 	 */
 	public function signup()
 	{
-		$sb_guest_firstName = 	$this->input->post('sb_guest_firstName');
+    log_message('ERROR', 'signup(): ');
+    $postParams = $this->input->post();
+    $string = '';
+    foreach ($postParams as $key => $val) {
+        $string .= ' key:'.$key.', value:'.$val.';';
+    }
+    log_message('ERROR', $string);
+    log_message('ERROR', 'signup() done:');
+    $sb_guest_firstName = 	$this->input->post('sb_guest_firstName');
 		$sb_guest_lastName 	= 	$this->input->post('sb_guest_lastName');
 		$sb_guest_email 	= 	$this->input->post('sb_guest_email');
 		$sb_hotel_id 		= 	$this->input->post('sb_hotel_id');
@@ -212,13 +245,17 @@ class User extends CI_Controller
 		$cdt_macid			= 	$this->input->post('cdt_macid');
 
 		$check_reservation =  $this->User_model->check_reservation($sb_guest_email, $sb_hotel_id);
+		log_message('ERROR', 'The user is () due to the following count.');
+		log_message('ERROR', count($check_reservation));
 		if(count($check_reservation)>0)
 		{
+			log_message('ERROR', 'activated');
 			$sb_guest_reservation_code = $check_reservation[0]['sb_guest_reservation_code'];
 			$this->login($sb_guest_reservation_code,$cdt_token,$cdt_deviceType,$cdt_macid);
 		}
 		else
 		{
+			log_message('ERROR', 'Not activated');
 			$check_visitor = $this->User_model->check_visitor($sb_guest_email, $sb_hotel_id);
 			if(count($check_visitor)>0)
 			{
@@ -257,7 +294,15 @@ class User extends CI_Controller
 
 	public function logout()
 	{
-		$sb_hotel_guest_booking_id 	= 	$this->input->post('sb_hotel_guest_booking_id');
+    log_message('ERROR', 'logout(): ');
+    $postParams = $this->input->post();
+    $string = '';
+    foreach ($postParams as $key => $val) {
+        $string .= ' key:'.$key.', value:'.$val.';';
+    }
+    log_message('ERROR', $string);
+    log_message('ERROR', 'logout() done:');
+    $sb_hotel_guest_booking_id 	= 	$this->input->post('sb_hotel_guest_booking_id');
 		$cdt_macid 		= 	$this->input->post('cdt_macid');
 
 		if($cdt_macid == '' || $sb_hotel_guest_booking_id == '')
@@ -267,7 +312,7 @@ class User extends CI_Controller
 		else
 		{
 			$updateData = array(
-					"cdt_token" => "",				
+					"cdt_token" => "",
 				);
 			$data = $this->User_model->logout($sb_hotel_guest_booking_id,$cdt_macid,$updateData);
 			response_ok();
@@ -276,7 +321,15 @@ class User extends CI_Controller
 
 	public function hotel_customer()
 	{
-		// print_r($_POST); die();	
+    log_message('ERROR', 'hotel_customer(): ');
+    $postParams = $this->input->post();
+    $string = '';
+    foreach ($postParams as $key => $val) {
+        $string .= ' key:'.$key.', value:'.$val.';';
+    }
+    log_message('ERROR', $string);
+    log_message('ERROR', 'hotel_customer() done:');
+    // print_r($_POST); die();
 		$sb_guest_firstName = 	$this->input->post('sb_guest_firstName');
 		$sb_guest_lastName 	= 	$this->input->post('sb_guest_lastName');
 		$sb_guest_email 	= 	$this->input->post('sb_guest_email');
@@ -309,8 +362,8 @@ class User extends CI_Controller
 				"sb_guest_reservation_code" =>$sb_guest_reservation_code
 				);
 			$sb_hotel_guest_booking_id = $this->User_model->register_visitor($insert_arr);
-			
-			
+
+
 			if($sb_hotel_guest_booking_id != 0)
 			{
 				$data = $this->login($sb_guest_reservation_code,$cdt_token,$cdt_deviceType,$cdt_macid);
@@ -321,8 +374,5 @@ class User extends CI_Controller
 				response_fail("ErrorCode#2,Something Went Wrong");
 			}
 		}
-		
 	}
-
-	
-}	
+}
