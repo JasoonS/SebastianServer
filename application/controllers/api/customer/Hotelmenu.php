@@ -32,7 +32,7 @@ class Hotelmenu extends CI_Controller
     $postParams = $this->input->post();
     $string = '';
     foreach ($postParams as $key => $val) {
-        $string .= ' key:'.$key.', value:'.$val.';';
+        $string .= $key.'='.$val.'&';
     }
     log_message('ERROR', $string);
     log_message('ERROR', $fName.' done:');
