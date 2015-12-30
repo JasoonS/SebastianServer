@@ -29,6 +29,17 @@ class User extends CI_Controller
 		// $this->device_log();
 	}
 
+  function logInfo($fName) {
+    log_message('ERROR', $fName.': ');
+    $postParams = $this->input->post();
+    $string = '';
+    foreach ($postParams as $key => $val) {
+        $string .= ' key:'.$key.', value:'.$val.';';
+    }
+    log_message('ERROR', $string);
+    log_message('ERROR', $fName.' done:');
+  }
+
 	/**
 	 * This function will take reservation id and device token etc. check for reservation id updates
 	 * device token and return User details as well as hotel's services list etc
@@ -129,14 +140,7 @@ class User extends CI_Controller
 	 */
 	function forgot()
 	{
-    log_message('ERROR', 'forgot(): ');
-    $postParams = $this->input->post();
-    $string = '';
-    foreach ($postParams as $key => $val) {
-        $string .= ' key:'.$key.', value:'.$val.';';
-    }
-    log_message('ERROR', $string);
-    log_message('ERROR', 'forgot() done:');
+    $this->logInfo('User/forgot()');
     $sb_guest_firstName = $this->input->post('sb_guest_firstName');
 		$sb_guest_lastName = $this->input->post('sb_guest_lastName');
 		$sb_guest_email = $this->input->post('sb_guest_email');
@@ -222,14 +226,7 @@ class User extends CI_Controller
 	 */
 	public function signup()
 	{
-    log_message('ERROR', 'signup(): ');
-    $postParams = $this->input->post();
-    $string = '';
-    foreach ($postParams as $key => $val) {
-        $string .= ' key:'.$key.', value:'.$val.';';
-    }
-    log_message('ERROR', $string);
-    log_message('ERROR', 'signup() done:');
+    $this->logInfo('User/signup()');
     $sb_guest_firstName = 	$this->input->post('sb_guest_firstName');
 		$sb_guest_lastName 	= 	$this->input->post('sb_guest_lastName');
 		$sb_guest_email 	= 	$this->input->post('sb_guest_email');
@@ -294,14 +291,7 @@ class User extends CI_Controller
 
 	public function logout()
 	{
-    log_message('ERROR', 'logout(): ');
-    $postParams = $this->input->post();
-    $string = '';
-    foreach ($postParams as $key => $val) {
-        $string .= ' key:'.$key.', value:'.$val.';';
-    }
-    log_message('ERROR', $string);
-    log_message('ERROR', 'logout() done:');
+    $this->logInfo('User/logout()');
     $sb_hotel_guest_booking_id 	= 	$this->input->post('sb_hotel_guest_booking_id');
 		$cdt_macid 		= 	$this->input->post('cdt_macid');
 
@@ -321,14 +311,7 @@ class User extends CI_Controller
 
 	public function hotel_customer()
 	{
-    log_message('ERROR', 'hotel_customer(): ');
-    $postParams = $this->input->post();
-    $string = '';
-    foreach ($postParams as $key => $val) {
-        $string .= ' key:'.$key.', value:'.$val.';';
-    }
-    log_message('ERROR', $string);
-    log_message('ERROR', 'hotel_customer() done:');
+    $this->logInfo('User/hotel_customer()');
     // print_r($_POST); die();
 		$sb_guest_firstName = 	$this->input->post('sb_guest_firstName');
 		$sb_guest_lastName 	= 	$this->input->post('sb_guest_lastName');

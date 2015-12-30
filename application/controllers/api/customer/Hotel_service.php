@@ -1,4 +1,4 @@
-<?php 
+<?php
 //   THIS IS API FOR HOTEL SERVICES. THIS IS CUSTOMER SIDE API.
 
 if( ! defined('BASEPATH')) exit('No direct script access allowed');
@@ -8,7 +8,7 @@ class Hotel_service extends CI_Controller
 	function __construct()
 	{
 		header('Access-Control-Allow-Origin: *');
-			
+
 		parent::__construct();
 		/*
 			this code is to maintain all hits log
@@ -28,19 +28,31 @@ class Hotel_service extends CI_Controller
 		$this->load->model('api/customer/User_order_model');
 	}
 
+  function logInfo($fName) {
+    log_message('ERROR', $fName.': ');
+    $postParams = $this->input->post();
+    $string = '';
+    foreach ($postParams as $key => $val) {
+        $string .= ' key:'.$key.', value:'.$val.';';
+    }
+    log_message('ERROR', $string);
+    log_message('ERROR', $fName.' done:');
+  }
+
 	/**
 	 * This function will fetch the submenus after the user clicks on the specific menu button
-	 * return type- 
+	 * return type-
 	 * created on - 20th July 2015;
-	 * updated on - 
+	 * updated on -
 	 * created by - Samrat Aher;
 	 */
 
 	function get_submenu()
 	{
+    $this->logInfo('Hotel_service/get_submenu()');
 		$sb_hotel_id = $this->input->post('sb_hotel_id');
 		$sb_parent_service_id = $this->input->post('sb_parent_service_id');
-		if ($sb_hotel_id == ''  || $sb_parent_service_id == '') 
+		if ($sb_hotel_id == ''  || $sb_parent_service_id == '')
 		{
 			response_fail("Please Insert Reservation Id");
 		}
@@ -63,7 +75,7 @@ class Hotel_service extends CI_Controller
 
 	/**
 	 * This function will allow all types of service requests
-	 * return type- 
+	 * return type-
 	 * created on - 22nd July 2015;
 	 * updated on -  7th Aug 2015
 	 * created by - Akshay Patil;
@@ -72,7 +84,8 @@ class Hotel_service extends CI_Controller
 
 	function place_service()
 	{
-		$inputArray = $this->input->post();
+    $this->logInfo('Hotel_service/place_service()');
+    $inputArray = $this->input->post();
 		//print_r($inputArray);die;
 		if(array_key_exists("room_details",$inputArray))
 		{
@@ -99,7 +112,7 @@ class Hotel_service extends CI_Controller
 						response_fail("Wrong Room Number",$result);
 					}
 
-					
+
 					if(array_key_exists("quantity",$temp))
 					{
 						$inputArray['quantity'] = $temp['quantity'];
@@ -137,7 +150,7 @@ class Hotel_service extends CI_Controller
 	function place_service1($inputArray)
 	{
 		//$inputArray = $this->input->post();
-		
+
 		// $rooms = $this->Hotel_service_model->get_guest_rooms($inputArray['sb_hotel_guest_booking_id']);
 		// if (!in_array($inputArray['guest_room_number'], $rooms))
 		// {
@@ -205,7 +218,7 @@ class Hotel_service extends CI_Controller
 			$hrs['sub_child_services_id'] = 0;
 			$hrscnt++;
 		}
-		
+
 		if(array_key_exists("service_due_date",$inputArray))
 		{
 			$hss['sb_hotel_ser_start_date'] = $inputArray['service_due_date'];
@@ -240,11 +253,11 @@ class Hotel_service extends CI_Controller
 		$data = $this->Hotel_service_model->place_service($hrs, $hss);
 		if ($data != 0)
 		{
-			
- 			//code for push notification	
+
+ 			//code for push notification
 
 			$token = $sb_hotel_user = $this->Hotel_service_model->get_staff_ids($hrs['sb_hotel_id'],$hrs['sb_parent_service_id']);
-			
+
 			if (count($token)>0)
 			{
 				$msg = "New service requested from room no : ".$hrs['sb_guest_allocated_room_no'] ;
@@ -256,8 +269,8 @@ class Hotel_service extends CI_Controller
 					);
 				$android_token = array();
 				$ios_token = array();
-				for ($i=0; $i < count($token); $i++) 
-				{ 
+				for ($i=0; $i < count($token); $i++)
+				{
 					if($token[$i]['sdt_deviceType'] == 'android' AND $token[$i]['sdt_token'] != NULL AND $token[$i]['sdt_token'] != (null))
 					{
 						array_push($android_token,$token[$i]['sdt_token']);
@@ -267,11 +280,11 @@ class Hotel_service extends CI_Controller
 						if($token[$i]['sdt_token'] != "" AND $token[$i]['sdt_token'] != NULL AND $token[$i]['sdt_token'] != (null))
 						{
 							array_push($ios_token,$token[$i]['sdt_token']);
-						}	
-					}	
+						}
+					}
 				}
 
-				
+
 				if(count($ios_token)>0)
 				{
 					$ipushdata  = array('deviceToken'=> $ios_token,
@@ -281,7 +294,7 @@ class Hotel_service extends CI_Controller
 					$this->load->library('api/Iospush');
 					$val = $this->iospush->iospush_notification($ipushdata);
 				}
-							
+
 				// array for android
 				if(count($android_token)>0)
 				{
@@ -293,9 +306,9 @@ class Hotel_service extends CI_Controller
 					$this->load->library('api/Android_push');
 					$val1 = $this->android_push->push_notification($pushdata);
 				}
-				
+
 			}
-			
+
 			return 1;
 			//response_ok();
 		}
@@ -308,16 +321,17 @@ class Hotel_service extends CI_Controller
 
 	/**
 	 * This function will will show all the requests placed by the user.
-	 * return type- 
+	 * return type-
 	 * created on -28th July 2015
-	 * updated on - 
+	 * updated on -
 	 * created by - Samrat Aher;
 	 */
 
 	function get_request()
 	{
-		$sb_hotel_guest_booking_id	 = $this->input->post('sb_hotel_guest_booking_id');
-		if ($sb_hotel_guest_booking_id == '') 
+    $this->logInfo('Hotel_service/get_request()');
+    $sb_hotel_guest_booking_id	 = $this->input->post('sb_hotel_guest_booking_id');
+		if ($sb_hotel_guest_booking_id == '')
 		{
 			response_fail("Please send the valid Guest Bookin Id, Guest Bookin Id  is empty");
 		}
@@ -325,7 +339,7 @@ class Hotel_service extends CI_Controller
 		{
 			$service = $this->Hotel_service_model->get_request_info($sb_hotel_guest_booking_id);
 			if ($service != 0)
-			{	
+			{
 				$result = array(
 				'result' => $service
 				);
@@ -336,7 +350,7 @@ class Hotel_service extends CI_Controller
 				response_fail("Sorry, No request from you.");
 			}
 
-		}	
+		}
 	}
 
-}	
+}

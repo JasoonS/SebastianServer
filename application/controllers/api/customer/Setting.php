@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 if( ! defined('BASEPATH')) exit('No direct script access allowed');
 
@@ -26,21 +26,33 @@ class Setting extends CI_Controller
 		// $this->device_log();
 	}
 
+  function logInfo($fName) {
+    log_message('ERROR', $fName.': ');
+    $postParams = $this->input->post();
+    $string = '';
+    foreach ($postParams as $key => $val) {
+        $string .= ' key:'.$key.', value:'.$val.';';
+    }
+    log_message('ERROR', $string);
+    log_message('ERROR', $fName.' done:');
+  }
+
 	/**
 	 * this API is for posting msg into forum
-	 * return type- 
+	 * return type-
 	 * created on - 21Th Oct 2015;
-	 * updated on - 
+	 * updated on -
 	 * update 	  -
 	 * created by - Akshay Patil;
 	 */
 	function update_setting()
 	{
-		$flag = $this->input->post('flag');
+    $this->logInfo('Setting/update_setting()');
+    $flag = $this->input->post('flag');
 		$action = $this->input->post('action');
 		$sb_hotel_guest_booking_id = $this->input->post('sb_hotel_guest_booking_id');
-		
-		
+
+
 		if($sb_hotel_guest_booking_id == '' || $flag == "" || $action == '')
 		{
 			response_fail("Please Insert All data correctly");
@@ -50,15 +62,15 @@ class Setting extends CI_Controller
 			if($flag == "dnd")
 			{
 				$updateData = array(
-					"dnd" => $action,				
+					"dnd" => $action,
 				);
 			}
-			
+
 			$clr = $this->Setting_model->remove_devicetokens($updateData,$sb_hotel_guest_booking_id);
 			$result = $this->Setting_model->update_setting($updateData,$sb_hotel_guest_booking_id);
 			if($result == 1)
 			{
-				
+
 				response_ok();
 			}
 			else
@@ -69,17 +81,18 @@ class Setting extends CI_Controller
 	}
 
 	/**
-	 * API to retrieve 
-	 * return type- 
+	 * API to retrieve
+	 * return type-
 	 * created on - 09Th Sept 2015;
-	 * updated on - 
+	 * updated on -
 	 * update 	  -
 	 * created by - Akshay Patil;
 	 */
 	function get_forum()
 	{
-		$sb_hotel_guest_booking_id = $this->input->post('sb_hotel_guest_booking_id');
-		
+    $this->logInfo('Setting/get_forum()');
+    $sb_hotel_guest_booking_id = $this->input->post('sb_hotel_guest_booking_id');
+
 		if($sb_hotel_guest_booking_id == '')
 		{
 			response_fail("Please Insert All data correctly");
@@ -93,5 +106,5 @@ class Setting extends CI_Controller
 			response_ok($result);
 		}
 	}
-	
-}	
+
+}

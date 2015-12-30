@@ -1,4 +1,4 @@
-<?php 
+<?php
 //   THIS IS API FOR HOTEL USERS(CUSTOMERS). THIS IS CUSTOMER SIDE API.THIS API WILL FOCUS feedback of user.
 
 if( ! defined('BASEPATH')) exit('No direct script access allowed');
@@ -26,9 +26,21 @@ class Feedback extends CI_Controller
 		$this->load->model('api/customer/Feedback_model');
 		// $this->device_log();
 	}
+
+  function logInfo($fName) {
+    log_message('ERROR', $fName.': ');
+    $postParams = $this->input->post();
+    $string = '';
+    foreach ($postParams as $key => $val) {
+        $string .= ' key:'.$key.', value:'.$val.';';
+    }
+    log_message('ERROR', $string);
+    log_message('ERROR', $fName.' done:');
+  }
+
 	public function insert_feedback()
 	{
-		// print_r($this->input->post());
+    $this->logInfo('Feedback/insert_feedback()');
 		$rate_stay = $this->input->post('rate_stay');
 		$improve_feedback = $this->input->post('improve_feedback');
 		$service_feedback = $this->input->post('service_feedback');
@@ -49,8 +61,8 @@ class Feedback extends CI_Controller
 							"guest_booking_id" => $guest_booking_id);
 			// print_r($insert_arr); die();
 
-			$result = $this->Feedback_model->insert_feedbck($insert_arr);					
-			if ($result == 0) 
+			$result = $this->Feedback_model->insert_feedbck($insert_arr);
+			if ($result == 0)
 			{
 				response_fail("Some error occoured.. Please try again");
 			}

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 if( ! defined('BASEPATH')) exit('No direct script access allowed');
 
@@ -26,20 +26,32 @@ class Forum extends CI_Controller
 		// $this->device_log();
 	}
 
+  function logInfo($fName) {
+    log_message('ERROR', $fName.': ');
+    $postParams = $this->input->post();
+    $string = '';
+    foreach ($postParams as $key => $val) {
+        $string .= ' key:'.$key.', value:'.$val.';';
+    }
+    log_message('ERROR', $string);
+    log_message('ERROR', $fName.' done:');
+  }
+
 	/**
 	 * this API is for posting msg into forum
-	 * return type- 
+	 * return type-
 	 * created on - 09Th Sept 2015;
-	 * updated on - 
+	 * updated on -
 	 * update 	  -
 	 * created by - Akshay Patil;
 	 */
 	function post_forum()
 	{
-		$sb_hotel_id = $this->input->post('sb_hotel_id');
+    $this->logInfo('Forum/post_forum()');
+    $sb_hotel_id = $this->input->post('sb_hotel_id');
 		$sb_hotel_guest_booking_id = $this->input->post('sb_hotel_guest_booking_id');
 		$msg 				= 	$this->input->post('msg');
-		
+
 		if($sb_hotel_guest_booking_id == '' ||  $sb_hotel_id == ''|| $msg=='' )
 		{
 			response_fail("Please Insert All data correctly");
@@ -65,17 +77,18 @@ class Forum extends CI_Controller
 	}
 
 	/**
-	 * API to retrieve 
-	 * return type- 
+	 * API to retrieve
+	 * return type-
 	 * created on - 09Th Sept 2015;
-	 * updated on - 
+	 * updated on -
 	 * update 	  -
 	 * created by - Akshay Patil;
 	 */
 	function get_forum()
 	{
+    $this->logInfo('Forum/get_forum()');
 		$sb_hotel_guest_booking_id = $this->input->post('sb_hotel_guest_booking_id');
-		
+
 		if($sb_hotel_guest_booking_id == '')
 		{
 			response_fail("Please Insert All data correctly");
@@ -89,5 +102,5 @@ class Forum extends CI_Controller
 			response_ok($result);
 		}
 	}
-	
-}	
+
+}

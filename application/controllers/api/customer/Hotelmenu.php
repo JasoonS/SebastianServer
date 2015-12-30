@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 if( ! defined('BASEPATH')) exit('No direct script access allowed');
 
@@ -8,6 +8,7 @@ class Hotelmenu extends CI_Controller
 	{
 		parent::__construct();
 
+    header('Access-Control-Allow-Origin: *');
 		/*
 			this code is to maintain all hits log
 			as well as to restrict API to any devices not browsers
@@ -26,20 +27,30 @@ class Hotelmenu extends CI_Controller
 		// $this->device_log();
 	}
 
+  function logInfo($fName) {
+    log_message('ERROR', $fName.': ');
+    $postParams = $this->input->post();
+    $string = '';
+    foreach ($postParams as $key => $val) {
+        $string .= ' key:'.$key.', value:'.$val.';';
+    }
+    log_message('ERROR', $string);
+    log_message('ERROR', $fName.' done:');
+  }
+
 	/**
 	 * this API is to get hotel menu
-	 * return type- 
+	 * return type-
 	 * created on - 16th Oct 2015;
-	 * updated on - 
+	 * updated on -
 	 * update 	  -
 	 * created by - Akshay Patil;
 	 */
 	function gethotelmenu()
 	{
-		header('Access-Control-Allow-Origin: *');	
-			
+		$this->logInfo('Hotelmenu/gethotelmenu()');
 		$sb_hotel_id = $this->input->post('sb_hotel_id');
-		
+
 		if($sb_hotel_id == '')
 		{
 			response_fail("Please Insert All data correctly");
@@ -50,5 +61,5 @@ class Hotelmenu extends CI_Controller
 			response_ok($result);
 		}
 	}
-	
-}	
+
+}
