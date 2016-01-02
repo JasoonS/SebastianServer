@@ -37,7 +37,7 @@ class Guest_model extends CI_Model
             );
 
 		$this->db->where('sb_hotel_guest_booking_id', $sb_hotel_guest_booking_id);
-		$this->db->update('sb_hotel_guest_bookings', $data); 
+		$this->db->update('sb_hotel_guest_bookings', $data);
 		return 1;
 	}
 
@@ -77,9 +77,9 @@ class Guest_model extends CI_Model
 		$data = array('sb_guest_reservation_code'=>$confirmation_code);
 		$this->db->where('sb_hotel_guest_booking_id', $last_booking_id);
 		$this->db->update('sb_hotel_guest_bookings', $data);
-		return $this->db->affected_rows(); 
+		return $this->db->affected_rows();
 	}
-	/* Method get allocated rooms 
+	/* Method get allocated rooms
 	 * in sb_hotel_guest_reservation_attributes
 	 * @param string
 	 * return int
@@ -90,8 +90,8 @@ class Guest_model extends CI_Model
 		$this->db->where('sb_guest_reservation_code',$reservation_code);
 		$query=$this->db->get('sb_hotel_guest_reservation_attributes');
 		return $query->result_array();
-	}	
-	/* Method get if room is present 
+	}
+	/* Method get if room is present
 	 * @param string
 	 * return int
 	 */
@@ -106,8 +106,8 @@ class Guest_model extends CI_Model
 		$this->db->where('is_available','1');
 		$query=$this->db->get();
 		return $query->result_array();
-		
-	}	
+
+	}
 	/* Method to allocate rooms
 	 * @param array
 	 * return 1
@@ -117,7 +117,7 @@ class Guest_model extends CI_Model
 		$this->db->insert_batch('sb_hotel_guest_reservation_attributes',$data);
 		return 1;
 	}
-	
+
 	/* Method to make rooms unavailable
 	 * @param array
 	 * return 1
@@ -130,7 +130,7 @@ class Guest_model extends CI_Model
 	    $hotel_id=$this->session->userdata('logged_in_user')->sb_hotel_id;
 	    $this->db->where('sb_hotel_id',$hotel_id);
 		$this->db->where_in('sb_room_number',$data);
-		$this->db->update('sb_hotel_rooms', $update_data); 
+		$this->db->update('sb_hotel_rooms', $update_data);
 		return 1;
 	}
 	/* Method get guest data by rooms
@@ -160,7 +160,7 @@ class Guest_model extends CI_Model
 		$sub_child_service_image_url=SUBCHILD_SERVICE_PIC;
 		$this->db->select('sb_customer_order_placed.sub_child_services_id as subchildservice',false);
 		$this->db->select('(SELECT sb_sub_child_service_name from sb_paid_services WHERE sub_child_services_id = subchildservice ) as service_name');
-		$this->db->select('(SELECT CONCAT("'.$sub_child_service_image_url.'", `sb_hotel_id` ,"/", `sb_sub_child_service_image`) from sb_paid_services WHERE sub_child_services_id = subchildservice ) as service_image',false);	
+		$this->db->select('(SELECT CONCAT("'.$sub_child_service_image_url.'", `sb_hotel_id` ,"/", `sb_sub_child_service_image`) from sb_paid_services WHERE sub_child_services_id = subchildservice ) as service_image',false);
 		$this->db->from('sb_hotel_request_service');
 		$this->db->join('sb_customer_order_placed','sb_hotel_request_service.sb_hotel_requst_ser_id = sb_customer_order_placed.sb_hotel_requst_ser_id');
 		$this->db->where('sb_hotel_guest_booking_id',$booking_id);
@@ -168,7 +168,7 @@ class Guest_model extends CI_Model
 		$this->db->where('order_details','1');
 		$this->db->where('is_temp_delete','0');
 		$query = $this->db->get();
-		
+
 		return $query->result();
 	}
 	/* Method to get guest general data
@@ -192,9 +192,9 @@ class Guest_model extends CI_Model
 	    $date=date('y-m-d h:i:s');
 		$update_data=array(
 		            'sb_guest_actual_check_out'=>$date
-					);   
+					);
 		$this->db->where('sb_guest_reservation_code',$reservation_code);
-		$this->db->where('sb_guest_allocated_room_no',$room_no);	
+		$this->db->where('sb_guest_allocated_room_no',$room_no);
 		$this->db->update('sb_hotel_guest_reservation_attributes',$update_data);
 		$room_data=array(
 					'is_available'=>'1'
@@ -226,9 +226,9 @@ class Guest_model extends CI_Model
 	    $date=date('y-m-d h:i:s');
 		$update_data=array(
 		            'sb_guest_actual_check_out'=>$date
-					);   
+					);
 		$this->db->where('sb_guest_reservation_code',$reservation_code);
-		$this->db->where_in('sb_guest_allocated_room_no',$room_nos);	
+		$this->db->where_in('sb_guest_allocated_room_no',$room_nos);
 		$this->db->update('sb_hotel_guest_reservation_attributes',$update_data);
 		$room_data=array(
 					'is_available'=>'1'
@@ -252,7 +252,7 @@ class Guest_model extends CI_Model
 		$this->db->update('sb_hotel_guest_bookings',$guest_booking_data);
 		return true;
 	}
-   
+
    /* Method to get booking_id from reservation_code
     * @param string
 	* return int
@@ -264,8 +264,8 @@ class Guest_model extends CI_Model
 		$this->db->where('sb_hotel_id',$hotel_id);
 		$query=$this->db->get('sb_hotel_guest_bookings');
 		return $query->result_array();
-		
-    } 
+
+    }
    /* Method to get device token for guest
     * @param string
 	* return int
@@ -277,7 +277,7 @@ class Guest_model extends CI_Model
 		$this->db->where('dnd', '0');
 		$query=$this->db->get('sb_guest_devicetoken');
 		return $query->result_array();
-		
+
     }
     /* Method To get Total Hotel Visitor Users
 	 * for passed hotel id
@@ -302,7 +302,7 @@ class Guest_model extends CI_Model
 	function getAllVisitors()
 	{
 		$this->db->select_sum('visit_cout');
-		$this->db->from('sb_visitor');	
+		$this->db->from('sb_visitor');
 		$query = $this->db->get();
 		return $query->row()->visit_cout;
 	}
@@ -324,10 +324,10 @@ class Guest_model extends CI_Model
 		$this->db->where('is_checkedout','0');
 		$this->db->where('sb_guest_firstName<>','');
 		$this->db->group_by('sb_hotel_guest_bookings.sb_hotel_guest_booking_id');
-		$this->db->order_by('sb_forum.created_on','desc');	
+		$this->db->order_by('sb_forum.created_on','desc');
 		$query = $this->db->get();
 		return $query->result();
-	}	
+	}
 	/* Method return customer chat history
 	 * for passed booking_id
 	 * @param void
@@ -346,8 +346,8 @@ class Guest_model extends CI_Model
 		$query = $this->db->get();
 		//echo $this->db->last_query();
 		return $query->result();
-	}	
-		
+	}
+
 	/* Method make messages as read
 	 * for passed booking_id
 	 * @param void
@@ -357,13 +357,13 @@ class Guest_model extends CI_Model
 	{
 		$update_data=array(
 		            'read_status'=>'1'
-					);   
+					);
 		$this->db->where('sb_hotel_guest_booking_id',$booking_id);
 		$this->db->where('sender_type',"customer");
 		$this->db->update('sb_forum',$update_data);
 		return 1;
-		
-	}	
+
+	}
     /* Method add Admin Post in forum
 	 * for passed booking_id
 	 * @param void
@@ -377,14 +377,14 @@ class Guest_model extends CI_Model
 		            'sb_hotel_id'=>$hotel_id,
 					'sb_hotel_guest_booking_id'=>$booking_id,
 					'forum_msg'=>$postMessage,
-					'sender_type'=>"hoteladmin",
+					'sender_type'=>"hotel",
 					'read_status'=>'0',
 					'hotel_user_id'=>$hotel_user_id
-					);   
-		
+					);
+
 		$this->db->insert('sb_forum',$insert_data);
 		return 1;
-		
+
 	}
    /* Method to get booking_id from reservation_code
     * @param string
@@ -396,13 +396,13 @@ class Guest_model extends CI_Model
 		$this->db->where('sb_guest_reservation_code',$reservation_code);
 		//$this->db->where('sb_hotel_id',$this->session->userdata('logged_in_user')->sb_hotel_id);
 		$query=$this->db->get('sb_hotel_guest_bookings');
-	
+
 		return $query->result_array();
-		
-    } 
-    
+
+    }
+
 	/* Method return Guest Feedback
-	 * 
+	 *
 	 * @param int
 	 * return array
 	 */
@@ -415,6 +415,6 @@ class Guest_model extends CI_Model
 		$this->db->order_by('feedback_id','desc');
 		$query = $this->db->get();
 		return $query->result_array();
-	} 
-	
+	}
+
 }
