@@ -1,5 +1,5 @@
 <?php
-/* Class responsible for managing guest 
+/* Class responsible for managing guest
  * profiles added in a hotel
  * admin can access all guest profile corresponding to a hotel
  * hotel users can access only guest inside their hotel
@@ -32,14 +32,26 @@ class Guestprofiles extends CI_Controller
 		$this->load->helper('admin/utility_helper');
 	}
 
+  function logInfo($fName) {
+    log_message('ERROR', $fName.': ');
+    $postParams = $this->input->post();
+    log_message('ERROR', 'got params '.$fName);
+    $string = '';
+    foreach ($postParams as $key => $val) {
+        $string .= $key.'='.implode(",", $val).'&';
+    }
+    log_message('ERROR', $string);
+    log_message('ERROR', $fName.' done:');
+  }
+
 	/* Method is to get Guest Listing
 	 * input -void
 	 * output -view render
 	 */
 	public function guest()
 	{
-	    $requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3);
-		
+	  $requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3);
+
 		if(!$this->acl->hasPermission($requested_mod))
 		{
 			redirect('admin/dashboard');
@@ -52,7 +64,7 @@ class Guestprofiles extends CI_Controller
 			$this->template->load('page_tpl', 'hotel_guest_list_vw',$this->data);
 		}
 	}
-	
+
 	/* Method is to get Guest Listing
 	 * input -void
 	 * output -view render
@@ -60,7 +72,7 @@ class Guestprofiles extends CI_Controller
 	public function guest_arrivals()
 	{
 	    $requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3);
-	
+
 		if(!$this->acl->hasPermission($requested_mod))
 		{
 			redirect('admin/dashboard');
@@ -80,14 +92,14 @@ class Guestprofiles extends CI_Controller
 	public function guest_history()
 	{
 	    $requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3);
-	
+
 		if(!$this->acl->hasPermission($requested_mod))
 		{
 			redirect('admin/dashboard');
 		}
 		$this->data['title'] = 'Guest History';
 		$this->template->load('page_tpl', 'modules_vw',$this->data);
-		
+
 	}
 	/* Method is to get Guest Feedback
 	 * input -void
@@ -96,14 +108,29 @@ class Guestprofiles extends CI_Controller
 	public function feedback()
 	{
 	    $requested_mod = $this->uri->segment(2).'/'.$this->uri->segment(3);
-	
+
 		if(!$this->acl->hasPermission($requested_mod))
 		{
 			redirect('admin/dashboard');
 		}
 		$this->data['title'] = 'Guest Feedback';
-		$this->template->load('page_tpl', 'modules_vw',$this->data);		
+		$this->template->load('page_tpl', 'feedback_vw',$this->data);
 	}
 
+  function get_feedback()
+	{
+		$this->logInfo('Guestprofiles/get_feedback()');
+		// $sb_hotel_id = $this->input->post('sb_hotel_id');
+    //
+		// if($sb_hotel_id == '')
+		// {
+		// 	response_fail("Please Insert All data correctly");
+		// }
+		// else
+		// {
+			// $result = $this->Hotelmenu_model->gethotelmenu($sb_hotel_id);
+			response_ok('happy Jason');
+		// }
+	}
 }
 ?>

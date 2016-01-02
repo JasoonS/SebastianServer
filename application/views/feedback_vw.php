@@ -1,6 +1,6 @@
 <!-- Theme specfic js !-->
 <script src="<?php echo THEME_ASSETS?>js/bootstrap.min.js"></script>
-<link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">	
+<link href="<?php echo THEME_ASSETS; ?>css/star-rating.css" rel="stylesheet" type="text/css">
 <!-- chart js -->
 <script src="<?php echo THEME_ASSETS?>js/chartjs/chart.min.js"></script>
 <!-- bootstrap progress js -->
@@ -15,7 +15,7 @@
 <script src="<?php echo THEME_ASSETS ?>js/customjs/utility.js"></script>
 <script src="<?php echo THEME_ASSETS ?>js/star-rating.js"></script>
 <link href="<?php echo THEME_ASSETS; ?>css/custom.css" rel="stylesheet" type="text/css">
-	
+
 <div class="right_col" role="main">
  <!-- This is for Success Message.-->
 		<?php if ($this->session->flashdata('rooms_success')) { ?>
@@ -33,7 +33,7 @@
             </div>
         </div>
 		<?php
-			//print_r($guest_feedbacks);	
+			//print_r($guest_feedbacks);
 		?>
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
@@ -45,7 +45,7 @@
                         </ul>-->
                         <div class="clearfix"></div>
                     </div>
-                    
+
                     <div class="table-responsive x_content">
                         <table id="feedback" class="table table-striped responsive-utilities jambo_table">
                             <thead>
@@ -54,19 +54,19 @@
 									<th>Guest Last Name</th>
 									<th>Special Hotel Person</th>
 									<th>Suggestion</th>
-                                    <th>Feedback</th> 
-                                    <th>Sent On</th>						
+                                    <th>Feedback</th>
+                                    <th>Sent On</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-							  
-								
+
+
                             </tbody>
                         </table>
                     </div>
                 </div>
-            </div>	
+            </div>
 		</div>
 	</div>
 	 <footer>
@@ -76,30 +76,30 @@
 		    </p>
 		</div>
 		<div class="clearfix"></div>
-	</footer>	
+	</footer>
 </div>
 <script type="text/javascript">
 function createTable(){
 		$('#feedback').dataTable({
         "processing": true, //Feature control the processing indicator.
         "serverSide": true, //Feature control DataTables' server-side processing mode.
-		"bDestroy":true,	
+        "bDestroy":true,
         "ajax": {
             "url": "<?php echo site_url('admin/Guestprofiles/get_feedback');?>",
             "data":{tablename:'sb_feedback',orderkey: 'feedback_id',orderdir:'desc'},
             "type": "POST",
-         
+
         },
         "order": [[ 1, "desc" ]],
 
         "aoColumnDefs": [
-           
+
 		],
         "sPaginationType": "full_numbers",
         "dom": 'T<"clear">lfrtip',
     });
     $("tfoot input").keyup(function () {
-        
+
         oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
     });
     $("tfoot input").each(function (i) {
@@ -123,8 +123,6 @@ function createTable(){
 $(document).ready(function () {
 
     createTable();
-    
+
 });
 </script>
-
-	
