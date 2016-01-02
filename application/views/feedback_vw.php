@@ -88,7 +88,7 @@ function createTable(){
             "url": "<?php echo site_url('admin/Guestprofiles/get_feedback');?>",
             "data":{tablename:'sb_feedback',orderkey: 'feedback_id',orderdir:'desc'},
             "type": "POST",
-
+// draw=&columns=Array,Array,Array,Array,Array,Array&order=Array&start=&length=&search=,false&tablename=&orderkey=&orderdir=&
         },
         "order": [[ 1, "desc" ]],
 
@@ -98,6 +98,7 @@ function createTable(){
         "sPaginationType": "full_numbers",
         "dom": 'T<"clear">lfrtip',
     });
+
     $("tfoot input").keyup(function () {
 
         oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));

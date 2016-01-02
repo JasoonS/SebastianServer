@@ -32,18 +32,6 @@ class Guestprofiles extends CI_Controller
 		$this->load->helper('admin/utility_helper');
 	}
 
-  function logInfo($fName) {
-    log_message('ERROR', $fName.': ');
-    $postParams = $this->input->post();
-    log_message('ERROR', 'got params '.$fName);
-    $string = '';
-    foreach ($postParams as $key => $val) {
-        $string .= $key.'='.implode(",", $val).'&';
-    }
-    log_message('ERROR', $string);
-    log_message('ERROR', $fName.' done:');
-  }
-
 	/* Method is to get Guest Listing
 	 * input -void
 	 * output -view render
@@ -119,18 +107,7 @@ class Guestprofiles extends CI_Controller
 
   function get_feedback()
 	{
-		$this->logInfo('Guestprofiles/get_feedback()');
-		// $sb_hotel_id = $this->input->post('sb_hotel_id');
-    //
-		// if($sb_hotel_id == '')
-		// {
-		// 	response_fail("Please Insert All data correctly");
-		// }
-		// else
-		// {
-			// $result = $this->Hotelmenu_model->gethotelmenu($sb_hotel_id);
-			response_ok('happy Jason');
-		// }
+		response_ok();
 	}
 }
 ?>
