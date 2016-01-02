@@ -80,7 +80,7 @@ class User_order extends CI_Controller
 	 */
 	function place_order()
 	{
-    $this->logInfo('User_order/get_order_record()');
+    $this->logInfo('User_order/place_order()');
     $sb_hotel_guest_booking_id = $this->input->post('sb_hotel_guest_booking_id');
 		$sb_hotel_id = $this->input->post('sb_hotel_id');
 		$rooms = $this->Hotel_service_model->get_guest_rooms($sb_hotel_guest_booking_id);
