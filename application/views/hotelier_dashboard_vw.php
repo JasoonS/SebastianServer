@@ -164,7 +164,7 @@
 
                     <div class="">
                         <ul class="to_do"  id="myajax">
-                            
+
                         </ul>
                     </div>
                 </div>
@@ -176,7 +176,7 @@
 		</div>
 
 		<div class ="col-md-6">
-			
+
                 <div class="x_panel">
                 <div class="x_title">
                     <h2>Guest</h2>
@@ -186,7 +186,7 @@
 
                     <div class="">
                         <ul class="to_do" id="myGuest">
-                            
+
                         </ul>
                     </div>
                 </div>
@@ -195,7 +195,7 @@
                     <button type="button" class="btn btn-block btn-default">More Info</button>
                 </div>
             </div>
-			
+
 		</div>
 	</div>
 </div>
@@ -244,7 +244,7 @@
                         </div>
                     </div>
                     <script>
-                   
+
                     function submit_room(){
                             document.getElementById("submit_room").disabled = true;
                             var sb_hotel_guest_booking_id = document.getElementById('allote_sb_hotel_guest_booking_id').value;
@@ -266,7 +266,7 @@
                                     type:'post',
                                     data: {sb_hotel_guest_booking_id: sb_hotel_guest_booking_id,room_names:room_names},
                                     success: function(response) {
-                                        
+
                                         if (response == 1) {
                                             guest();
                                             alert("Rooms Allocated successfully");
@@ -306,7 +306,7 @@ function allote_rooms(sb_hotel_guest_booking_id)
     document.getElementById("submit_room").disabled = false;
     no_rooms_change();
     $('#room_pop').modal('show');
-    
+
 }
 
 function getInvoice(sb_hotel_guest_booking_id) {
@@ -321,13 +321,13 @@ function no_rooms_change () {
     $('#roomrow').empty();
     var add_room = '';
     for (var i = 1; i <= rooms; i++) {
-        add_room += "<div class='col-md-4'><div class='form-group'><label for='room_"+i+"'>Room "+i+"</label><input onkeydown='return event.keyCode!=32' required type='text' class='form-control myroom' id='room_"+i+"' name='room_"+i+"'></div></div>";   
+        add_room += "<div class='col-md-4'><div class='form-group'><label for='room_"+i+"'>Room "+i+"</label><input onkeydown='return event.keyCode!=32' required type='text' class='form-control myroom' id='room_"+i+"' name='room_"+i+"'></div></div>";
     }
     $("#roomrow").append(add_room);
 }
 
 /*$( "#no_rooms" ).change(function() {
-    
+
 });*/
 
 function getRate(){
@@ -353,10 +353,11 @@ function getRate(){
 setInterval(function() {
   $(".shakeme").velocity("callout.shake");
 }, 2000);
-tasks();
-guest();
+// tasks();
+// guest();
 window.setInterval(function(){
   /// call your function here
+  tasks();
   guest();
 }, 5400);
 function guest() {
@@ -409,15 +410,15 @@ function guest() {
             }
             $("#myGuest").append(appenddata1);
       }
-        
+
     }).done(function (){
-        setTimeout(tasks, 5400);    
-    }); 
+        // setTimeout(tasks, 5400);
+    });
 
 }
 function tasks() {
 	hotel_id1 = <?php echo $this->session->userdata('logged_in_user')->sb_hotel_id?>;
-	
+
 	$.ajax({
 	    type:'post',
 	    //contentType: 'application/json; charset=utf-8',
@@ -441,7 +442,7 @@ function tasks() {
                         var sb_child_servcie_name = obj[i].orderDetails[0].sb_sub_child_service_name;
                     }
                     else
-                    {    
+                    {
     	     		    var sb_child_servcie_name = obj[i].sb_child_servcie_name;
     	     		}var service_due_date = obj[i].service_due_date;
                     var service_due_time = obj[i].service_due_time;
@@ -483,10 +484,10 @@ function tasks() {
             }
             $("#myajax").append(appenddata1);
 	  }
-		
+
 	}).done(function (){
-		setTimeout(tasks, 5400);	
-	}); 
+		// setTimeout(tasks, 54000);
+	});
 }
 
 function action(sb_hotel_requst_ser_id) {
@@ -506,7 +507,7 @@ function action(sb_hotel_requst_ser_id) {
     hiddenField.setAttribute("name", 'sb_hotel_requst_ser_id');
     hiddenField.setAttribute("value", sb_hotel_requst_ser_id);
     form.appendChild(hiddenField);
-    
+
     document.body.appendChild(form);
     form.submit();
 }
@@ -546,20 +547,20 @@ getLocation();
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
-    } else { 
+    } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
 }
 
 function showPosition(position) {
-    
+
     var API = "http://api.openweathermap.org/data/2.5/forecast/daily?lat="+ position.coords.latitude +"&lon=" + position.coords.longitude+"&cnt=3&mode=json&APPID=79eaea6da847dd6943e9b63374fa8dfa";
-   
+
     $.ajax({
         type: "get",
         enctype: 'multipart/form-data',
         contentType: false,
-        processData: false,         
+        processData: false,
         url: API,
     }).done(function(msg){
         var weather_description = new Array();
@@ -572,18 +573,18 @@ function showPosition(position) {
             //console.log(msg.list[i].weather[0].icon);
 
             sysdt = new Date(msg.list[i].dt * 1000);
-            
+
             $("#col-"+(i)+" .sysdt").html(sysdt.getDate()+ " "+ month[sysdt.getMonth()]);
-            $("#col-"+(i)+" .temp").html(Math.round(temp) + "&deg;C");      
+            $("#col-"+(i)+" .temp").html(Math.round(temp) + "&deg;C");
             $("#col-"+(i)+" .temp-min").html(Math.round(temp_min));
             $("#col-"+(i)+" .description").html(msg.list[i].weather[0].description.toLowerCase());
             $("#col-"+(i)+" .img").html("<img src=\"../assets/images/64x64/"+msg.list[i].weather[0].icon+".png\">");
             $("#col-"+(i)+" .wind").html(" wind "+msg.list[i].speed + "m/s "+ msg.list[i].deg + "&deg;");
-            
+
             i++;
         }
     });
-    // x.innerHTML = "Latitude: " + position.coords.latitude + 
-    // "<br>Longitude: " + position.coords.longitude;  
+    // x.innerHTML = "Latitude: " + position.coords.latitude +
+    // "<br>Longitude: " + position.coords.longitude;
 }
 </script>

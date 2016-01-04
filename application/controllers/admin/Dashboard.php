@@ -63,24 +63,34 @@ class Dashboard extends CI_Controller
 	*/
 	public function currentTasks()
 	{
-		$sb_hotel_id = $this->input->post("hotel_id");
-		// $service_due_date = $this->input->post("service_due_date");
-		// $weekdates = $this->x_week_range($service_due_date);
-		$data =$this->Dashboard_model->weekly_tasks($sb_hotel_id);
-
-		echo json_encode($data);
-	}
-
-  /*
-		AJAX call for New Tasks only. To make data more stable client side.
-		By JASON - adapted from currentTasks()
-	*/
-  public function newTasks()
-  {
+	// 	$sb_hotel_id = $this->input->post("hotel_id");
+	// 	// $service_due_date = $this->input->post("service_due_date");
+	// 	// $weekdates = $this->x_week_range($service_due_date);
+	// 	$data =$this->Dashboard_model->weekly_tasks($sb_hotel_id);
+  //
+	// 	echo json_encode($data);
+	// }
+  //
+  // /*
+	// 	AJAX call for New Tasks only. To make data more stable client side.
+	// 	By JASON - adapted from currentTasks()
+	// */
+  // public function pendingTasks()
+  // {
+  //   $sb_hotel_id = $this->input->post("hotel_id");
+  //   // $service_due_date = $this->input->post("service_due_date");
+  //   // $weekdates = $this->x_week_range($service_due_date);
+  //   $data =$this->Dashboard_model->pending_tasks($sb_hotel_id);
+  //
+  //   echo json_encode($data);
+  // }
+  //
+  // public function acceptedTasks()
+  // {
     $sb_hotel_id = $this->input->post("hotel_id");
     // $service_due_date = $this->input->post("service_due_date");
     // $weekdates = $this->x_week_range($service_due_date);
-    $data =$this->Dashboard_model->new_weekly_tasks($sb_hotel_id);
+    $data =$this->Dashboard_model->accepted_tasks($sb_hotel_id);
 
     echo json_encode($data);
   }
