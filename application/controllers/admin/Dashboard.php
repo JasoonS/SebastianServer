@@ -3,7 +3,7 @@
  * according to inheriated/assigned access levels
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Dashboard extends CI_Controller 
+class Dashboard extends CI_Controller
 {
 	public $user_acl = array();
 	public $data	 = array();
@@ -26,9 +26,9 @@ class Dashboard extends CI_Controller
     /*This method decides which dashboard to show according to user is Hotel Administrator or Super Administrator
 	 * params void
 	 * return void
-     */	 
+     */
 	public function index()
-	{	
+	{
 		if($this->session->userdata('logged_in_user')->sb_hotel_user_type == 'u')
 		{
 			$this->data['title'] = LABEL_1;
@@ -45,11 +45,11 @@ class Dashboard extends CI_Controller
 			$this->data['hotel_id']=$this->session->userdata('logged_in_user')->sb_hotel_id;
 			//print_r($this->data['hotelServices']);exit;
 			$this->template->load('page_tpl','hotelier_dashboard_vw',$this->data);
-		}	
+		}
 	}
 	/* Call To Render dashboard view through method
 	 *
-     */	 
+     */
 	public function permission()
 	{
 		$this->index();
@@ -71,6 +71,19 @@ class Dashboard extends CI_Controller
 		echo json_encode($data);
 	}
 
+  /*
+		AJAX call for New Tasks only. To make data more stable client side.
+		By JASON - adapted from currentTasks()
+	*/
+  public function newTasks()
+  {
+    $sb_hotel_id = $this->input->post("hotel_id");
+    // $service_due_date = $this->input->post("service_due_date");
+    // $weekdates = $this->x_week_range($service_due_date);
+    $data =$this->Dashboard_model->new_weekly_tasks($sb_hotel_id);
+
+    echo json_encode($data);
+  }
 	/*
 		AJAX call for currentGuest
 		By AKSHAY
